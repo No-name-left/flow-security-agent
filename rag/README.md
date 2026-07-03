@@ -83,7 +83,9 @@ deterministic query from session card
 + top-k ordinary snippets
 ```
 
-Exact protocol names, port numbers, Zeek fields, behavior indicators, and tshark fields should remain strong keyword signals. Vector or hybrid retrieval may be added later, but it is optional and not a current dependency.
+This is deliberately not embedding vector-similarity retrieval. A standard vector RAG would embed the query and each chunk, then rank chunks by cosine similarity, dot product, or another vector distance. The current retriever instead scores exact phrase hits, title/keyword/body token overlap, metadata bonuses, signature bonuses, and feature-triggered boundary document IDs.
+
+Exact protocol names, port numbers, Zeek fields, behavior indicators, and tshark fields should remain strong keyword signals. This matters because records contain precise evidence such as `MS17-010`, `port 445`, `conn_state`, `failed_login_count`, `tls_sni`, `TA43_01`, scanner User-Agent hints, and beacon timing fields. Keyword and metadata retrieval is deterministic, auditable, offline-friendly, and aligned with the closed-set competition boundary cards. Vector or hybrid retrieval may be added later as supplemental fuzzy recall, but it is optional and not a current dependency.
 
 Current boundary-oriented triggers prioritize these hard Phase-1 distinctions:
 

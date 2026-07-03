@@ -74,11 +74,12 @@ The requested files `docs/bastion_day1_operation_checklist.md`, `docs/local_open
 
 ## Read these first next time
 
-1. `docs/current_project_status_for_assistant.md`
-2. `docs/official_code_data_rag_sft_small_test_summary.md`
-3. `docs/project_cleanup_summary.md`
-4. `docs/project_mainline_manifest.md`
-5. `datasets/metadata/official_code_data_coverage_audit.md`
-6. `rag/reports/official_code_rag_coverage_audit.md`
-7. `docs/sft_candidate_review_report.md`
-8. `README.md`
+1. `docs/method_selection_notes.md`
+2. `docs/current_project_status_for_assistant.md`
+3. `docs/official_code_data_rag_sft_small_test_summary.md`
+4. `docs/project_cleanup_summary.md`
+5. `docs/project_mainline_manifest.md`
+6. `datasets/metadata/official_code_data_coverage_audit.md`
+7. `rag/reports/official_code_rag_coverage_audit.md`
+8. `docs/sft_candidate_review_report.md`
+9. `README.md`

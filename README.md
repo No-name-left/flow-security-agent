@@ -17,6 +17,8 @@ PCAP
 
 Core scripts live in `scripts/`. Runtime configuration is in `configs/`. RAG knowledge and indexes live in `rag/`. Lightweight data/eval metadata live in `datasets/metadata/`, `outputs/eval_sets/`, and `data/sft_candidates/`.
 
+Several mainline choices intentionally differ from common default AI/RAG pipelines. The most important one is that RAG uses deterministic keyword/metadata retrieval plus feature-triggered boundary cards, not embedding vector-similarity matching. See `docs/method_selection_notes.md` and `rag/README.md` for the rationale and the other deliberate method choices.
+
 Phase-1 stable defaults are anchored to `8b6d3bb Refine PCAP-level evidence profiles and boundary scoring`. The later calibration experiment `32da70c` is not part of the default inference path: safe calibration is not enabled by default, and the runner uses the stable candidate scoring, prompt, RAG, and inference behavior. `main` is the long-term stable branch; `phase1-vm-runner` is retained as the competition VM validation/freeze branch.
 
 ## Official Codes
@@ -144,6 +146,7 @@ Real API execution is additionally gated by a passing readiness report, `RUN_REA
 
 ## Important Documents
 
+- `docs/method_selection_notes.md`
 - `docs/current_project_status_for_assistant.md`
 - `docs/project_mainline_manifest.md`
 - `docs/official_code_data_rag_sft_small_test_summary.md`
