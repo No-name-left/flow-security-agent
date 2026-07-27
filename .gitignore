@@ -17,8 +17,8 @@ venv/
 !.env.example
 
 # Research data, model state and generated artifacts
-data/
-artifacts/
+/data/
+/artifacts/
 outputs/
 checkpoints/
 models/

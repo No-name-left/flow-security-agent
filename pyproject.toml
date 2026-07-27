@@ -15,6 +15,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+data = [
+  "numpy>=1.26.0",
+  "pyarrow>=19.0.0",
+]
 test = [
   "pytest>=8.0.0",
 ]
