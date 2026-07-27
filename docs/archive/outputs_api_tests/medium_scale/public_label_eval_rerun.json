@@ -1,8 +1,0 @@
-{
-  "not_official_competition_evaluation": true,
-  "api_actually_run": false,
-  "evaluated_records": 0,
-  "accuracy": null,
-  "confusion_counts": {},
-  "blocking_condition": "RUN_API is not 1"
-}

@@ -1,4 +1,0 @@
-{
-  "new_pcaps_parsed": 0,
-  "reason": "No additional reliable small public PCAP was downloaded in this run; Zeek rebuild parsed the existing CTU and controlled portscan PCAPs."
-}

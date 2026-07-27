@@ -1,8 +1,0 @@
-{
-  "source_page": "https://wiki.wireshark.org/SampleCaptures",
-  "download_url": "https://wiki.wireshark.org/uploads/__moin_import__/attachments/SampleCaptures/NMap-Captures.zip",
-  "download_success": false,
-  "size_bytes": 0,
-  "sha256": "",
-  "failure_reason": "TLS/proxy EOF against GitLab-backed official attachment; HTTP fallback returned 502."
-}

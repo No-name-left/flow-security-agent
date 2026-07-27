@@ -1,130 +1,38 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.egg-info/
 .pytest_cache/
-.mypy_cache/
+.test-tmp/
 .ruff_cache/
+.mypy_cache/
 .coverage
 htmlcov/
-
-# Virtual environments and local tooling
 .venv/
 venv/
-env/
-.idea/
-.vscode/
 
-# Local environment and secrets
+# Secrets and local runtime settings
 .env
 .env.*
 !.env.example
-*.pem
-*.key
-*.p12
-*.pfx
-*.crt
-*.token
-*.secret
-*.xlsx
-*.xls
-*结果对照表*
-*answer_key*
-*ground_truth*
 
-# Generated runtime artifacts
-outputs/*
-!outputs/README.md
-!outputs/.gitkeep
-!outputs/eval_sets/
-!outputs/eval_sets/*.json
-!outputs/eval_sets/*.csv
-!outputs/eval_sets/*.md
-!outputs/tool_checks/
-!outputs/tool_checks/*.json
-!outputs/tool_checks/*.md
-!outputs/zeek_rebuild/
-!outputs/zeek_rebuild/*summary*.json
-!outputs/zeek_rebuild/*summary*.md
-!outputs/zeek_rebuild/*comparison*.json
-!outputs/zeek_rebuild/*comparison*.md
-outputs/zeek_rebuild/classification_records/*
-!outputs/zeek_rebuild/classification_records/*_report.md
-outputs/zeek_rebuild/session_cards/*
-!outputs/zeek_rebuild/session_cards/*_report.md
-outputs/zeek_rebuild/parsed/
-outputs/parsed/
-outputs/session_cards/
-outputs/submissions/
-outputs/api_tests/**/raw/
-outputs/api_tests/**/parsed/
-outputs/**/prompts*/
-outputs/**/results*/raw/
-outputs/**/results*/parsed/
-outputs/**/submissions/*.csv
-outputs/zeek_logs/
-outputs/suricata_logs/
-outputs/**/*.response.json
-outputs/**/*raw_response*
-outputs/**/*api_raw*
-phase1_predictions.csv
-predictions.jsonl
-failed_records.jsonl
-parse_errors.jsonl
-run_state.json
-
-# Raw packet captures and downloaded datasets stay local.
-datasets/raw/
-datasets/public/**/*.pcap
-datasets/public/**/*.pcapng
-datasets/public/**/*.cap
-datasets/public/**/*.binetflow
-datasets/public/**/*.binetflow.*
-datasets/public/**/*.csv
-!datasets/metadata/*.csv
-!datasets/public/**/metadata/*.csv
-*.pcap
-*.pcapng
-*.cap
-*.pcap.zip
-*.zip
-*.tar.gz
-*.pt
-*.pth
-*.bin
-*.safetensors
-*.ckpt
-adapter_model*
-lora_adapter*/
+# Research data, model state and generated artifacts
+data/
+artifacts/
+outputs/
 checkpoints/
 models/
-model_weights/
-wandb/
-mlruns/
-*.sqlite
-*.db
-*HF_TOKEN*
-*LLM_API_KEY*
-*TOKEN*
-*token*
+adapters/
+*.parquet
+*.arrow
+*.feather
+*.safetensors
+*.ckpt
+*.pt
+*.pth
 
-# Micro-test generated artifacts and local captures
-微型test_v1/
-微型test_v2/outputs/
-微型test_v2/pcaps/
-微型test_v2/zeek_logs/
-
-# Legacy archive contents are local-only, but keep manifests trackable.
-_non_mainline_archive/*
-!_non_mainline_archive/archive_manifest.md
-!_non_mainline_archive/archive_manifest.json
-!_non_mainline_archive/dry_run_candidates.md
-!_non_mainline_archive/dry_run_candidates.json
-
-# Logs and temporary files
-*.log
-*.tmp
-*.bak
-*.swp
-Thumbs.db
+# Editors and operating systems
+.idea/
+.vscode/
 .DS_Store
+Thumbs.db

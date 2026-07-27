@@ -1,7 +1,0 @@
-record_id,old_code,action,new_evidence_tier,reason
-realapi_record_007,TA01_01,remove_from_strict,weak_auth_evidence,"Flow-only row lacks endpoint identity, repeated attempts, USER/PASS, and explicit authentication failures."
-realapi_record_008,TA01_01,remove_from_strict,weak_auth_evidence,"Flow-only row lacks endpoint identity, repeated attempts, USER/PASS, and explicit authentication failures."
-realapi_record_009,TA01_01,remove_from_strict,weak_auth_evidence,"Flow-only row lacks endpoint identity, repeated attempts, USER/PASS, and explicit authentication failures."
-realapi_record_019,TA11_02,replace_with_group,session_label_granularity_mismatch,Single Google Update/WPAD/DNS session lacks callback evidence despite broad From-Botnet source labeling.
-realapi_record_020,TA11_02,replace_with_group,session_label_granularity_mismatch,Single Google Update/WPAD/DNS session lacks callback evidence despite broad From-Botnet source labeling.
-realapi_record_021,TA11_02,replace_with_group,session_label_granularity_mismatch,Single Google Update/WPAD/DNS session lacks callback evidence despite broad From-Botnet source labeling.

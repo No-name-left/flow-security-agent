@@ -1,5 +1,0 @@
-{
-  "status": "not_run",
-  "reason": "Stopped after successful 50-record expansion plus targeted scan_group check to avoid HF Router latency/time-cost risk.",
-  "max_allowed_calls": 96
-}

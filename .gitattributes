@@ -1,19 +1,18 @@
 * text=auto
 
 *.py text eol=lf
-*.md text eol=lf
+*.sh text eol=lf
 *.yaml text eol=lf
 *.yml text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
 *.json text eol=lf
 *.jsonl text eol=lf
-*.csv text eol=lf
-*.txt text eol=lf
-.env.example text eol=lf
-.gitattributes text eol=lf
-.gitignore text eol=lf
 
-*.pcap binary
-*.pcapng binary
-*.cap binary
-*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
 *.pdf binary
+*.parquet binary
+*.safetensors binary

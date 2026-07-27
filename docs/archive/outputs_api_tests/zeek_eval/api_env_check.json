@@ -1,8 +1,0 @@
-{
-  "run_api_is_1": true,
-  "base_url_host": "router.huggingface.co",
-  "model_name": "Qwen/Qwen3.5-27B:novita",
-  "key_exists": true,
-  "key_length": 37,
-  "api_ready": true
-}

@@ -1,9 +1,0 @@
-{
-  "gate": "PASS",
-  "source_documents": 94,
-  "chunk_count": 98,
-  "index_chunk_count": 98,
-  "token_count": 1513,
-  "chunks_output": "rag/chunks/rag_chunks.jsonl",
-  "index_output": "rag/index/keyword_index.json"
-}

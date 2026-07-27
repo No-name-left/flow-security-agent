@@ -1,0 +1,31 @@
+schema_version: 1
+
+profiles:
+  qwen_local:
+    base_url: http://127.0.0.1:8000/v1
+    base_url_env: QWEN_BASE_URL
+    model: Qwen3.5-9B
+    model_env: QWEN_MODEL
+    api_key_env: QWEN_API_KEY
+    local_api_key_default: EMPTY
+    request_timeout_seconds: 180
+    max_context_tokens: 8192
+    max_output_tokens: 512
+    enable_thinking: false
+    max_workers: 2
+    max_retries: 2
+    retry_delay_seconds: 2
+
+  deepseek_remote:
+    base_url: https://api.example.invalid/v1
+    base_url_env: DEEPSEEK_BASE_URL
+    model: replace-with-approved-model
+    model_env: DEEPSEEK_MODEL
+    api_key_env: DEEPSEEK_API_KEY
+    request_timeout_seconds: 180
+    max_context_tokens: 8192
+    max_output_tokens: 512
+    enable_thinking: false
+    max_workers: 2
+    max_retries: 2
+    retry_delay_seconds: 2
