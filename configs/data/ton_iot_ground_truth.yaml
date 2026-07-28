@@ -1,0 +1,35 @@
+status: acquisition_blocked
+publisher: University of New South Wales Canberra
+dataset: TON_IoT datasets
+official_landing_page: https://research.unsw.edu.au/projects/toniot-datasets
+official_sharepoint_object: https://unsw-my.sharepoint.com/:f:/g/personal/z5025758_ad_unsw_edu_au/EvBTaetotpdGnW7rJQ8fCvYBh8063CNeY9W33MpRsarJaQ?e=yZlnxW
+target_directory_name: SecuityEvents_GroundTruth_datasets
+local_raw_directory: data/raw/ton_iot_ground_truth
+download_date: null
+files: []
+
+# Do not populate these mappings from papers or guesses. Freeze them only after
+# the official files have been downloaded and inspected locally.
+schema_mapping: null
+timestamp_unit: null
+timezone: null
+direction_rule: null
+wildcard_values: null
+
+group_id_usage:
+  allowed:
+    - dataset_split
+    - oof_fold_assignment
+    - leakage_prevention
+    - group_aware_statistics
+  forbidden:
+    - model_feature
+    - lightgbm_input
+    - evidence_card
+    - qwen_prompt
+    - reviewer_output
+
+acquisition_blocker: >-
+  The official UNSW landing page and SharePoint folder were verified on
+  2026-07-28, but automated access to the Ground Truth subfolder was blocked by
+  the browser security policy. No third-party mirror was used.

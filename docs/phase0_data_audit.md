@@ -324,3 +324,135 @@ Grouping candidates evaluated on all 27,520,260 flows.
 Final split not frozen pending grouping decision.
 No downstream experiment has started.
 ```
+
+## 11. Phase 0b: Original Ground Truth Recovery
+
+### 11.1 Ground Truth provenance
+
+**Official facts.** UNSW Canberra 的 [TON_IoT 官方数据页](https://research.unsw.edu.au/projects/toniot-datasets)
+明确列出 `SecurityEvents_GroundTruth_datasets`，并说明其中保存四类数据源中的攻击安全事件及时间戳；数据标签依据攻击机
+`192.168.159.30-39` 与相应时间戳生成。网络数据论文也将
+`SecurityEvents_GroundTruth_datasets/Security Events_Network_datasets` 描述为网络流量标注所用的 Ground Truth 表，记录攻击系统
+IP 与攻击时间戳。官方数据页指向 UNSW SharePoint 公开对象：
+
+```text
+https://unsw-my.sharepoint.com/:f:/g/personal/z5025758_ad_unsw_edu_au/
+EvBTaetotpdGnW7rJQ8fCvYBh8063CNeY9W33MpRsarJaQ?e=yZlnxW
+```
+
+2026-07-28 实际访问该对象时，可看到官方目录中的
+`SecuityEvents_GroundTruth_datasets`（官方界面使用这一拼写），但进入该子目录和自动下载被当前浏览器安全策略阻止。未使用来源不明的镜像；作者的公开
+[TON_IoT-Network-dataset 代码仓库](https://github.com/Nour-Moustafa/TON_IoT-Network-dataset)
+不包含这些 Ground Truth 数据文件。
+
+**Observed local results.** `data/raw/ton_iot_ground_truth/` 中当前没有官方文件。因此无法记录文件名、精确字节数、SHA-256
+或下载日期，亦不能声称完成了 Ground Truth 获取。`scripts/audit_ton_iot_ground_truth.py` 会在目录为空时明确失败，不会推断 Schema
+或生成伪匹配结果。
+
+### 11.2 Ground Truth files and schema
+
+**Official facts.** 官方说明只确认相关目录包含攻击安全事件及时间戳，并用于网络数据标注。
+
+**Observed local results.** 尚无本地文件，因而以下项目全部为未观测：文件数量与组织、格式、列名、记录数、时间格式与时区、攻击标签、攻击者/受害者
+IP、协议、端口、event/scenario/capture 标识、通配规则及事件行之间的聚合语义。SharePoint 页面显示的“4 个项目”只是远程目录界面信息，不能等同于
+4 个文件或 4 个攻击事件。
+
+**Methodological assumption.** 新增的标准化接口要求显式配置起止时间、源/目的 IP 和标签字段；协议、端口、event ID 与 scenario ID
+只有在真实文件提供时才映射。若只有开始时间，必须由官方说明支持一个明确的持续时间规则，否则解析失败。若无官方 event ID，可对经确认的事件语义字段生成稳定哈希
+ID，但该哈希只是技术标识，不证明一行就是一次真实独立攻击活动。
+
+### 11.3 Time/IP/protocol alignment
+
+**Official facts.** NF-v3 的本地时间范围是 2019-04-23 14:09:50.618 UTC 至 2019-04-29 14:45:55.861
+UTC；官方网页指出标签使用攻击机 `192.168.159.30-39` 和时间戳。
+
+**Unresolved decision.** Ground Truth 的日期、时区、精度、可能的固定偏移、攻击者/受害者方向、端口和协议编码均未取得，故目前不能确认其与
+NF-v3 位于相同时间和地址空间。取得文件后必须先验证这些条件；任何一项不能可靠对齐时，不得声称恢复了真实攻击事件。
+
+### 11.4 Event matching rules
+
+已实现但尚未应用于真实数据的匹配骨架遵循标签无关顺序：
+
+```text
+UTC date + protocol/wildcard + source/destination IP
+→ time interval overlap
+→ source/destination port or documented wildcard
+→ optional configured reverse direction
+→ unique / ambiguous / unmatched
+→ only then use NF-v3 Attack to check label agreement
+```
+
+规则类型区分 `exact_5tuple_time`、`reverse_direction_time` 和 `wildcard_port_time`。事件先按日期、协议和端点建立索引，再做区间与端口判断，
+不设计 2752 万 Flow 与 Ground Truth 的笛卡尔积，也不依赖原始行号。方向、通配与时区规则在真实 Schema 未确认前不得冻结。
+
+### 11.5 Overall matching diagnostics
+
+**Observed local results.** 未运行真实匹配。恶意 Flow 总数仍为 10,728,046，但 unique、ambiguous、unmatched、标签一致和标签不一致的真实数量及比例
+均为不可用，而不是零。没有生成大型匹配产物或 candidate event ID。
+
+### 11.6 Per-class matching diagnostics
+
+Backdoor、DoS、DDoS、Injection、MITM、Password、Ransomware、Scanning 和 XSS 的 unique、ambiguous、unmatched
+及 label agreement 均未观测。尤其不能用总体覆盖率替代 MITM、Ransomware 和 Backdoor 的后续逐类检查。
+
+### 11.7 Event count and size distribution
+
+尚不能报告 Ground Truth 事件总数、逐类事件数、每事件 Flow 数、持续时间、端点数或标签纯度，也不能判断官方事件是否解决当前候选中最大
+1,817,955 Flow 的超大 group。Ground Truth 记录数即使取得，也不会在验证聚合语义前直接解释为独立攻击活动数。
+
+### 11.8 Benign grouping analysis
+
+尚未找到能将 NF-v3 Flow 映射回真实 capture、session、原始 PCAP 文件或 collection period 的元数据。因此 Candidate A
+所需的真实 Benign 采集边界尚不可用。若后续 Ground Truth 只能恢复恶意事件，Benign 仍需在有向端点时间段、采集日/连续时间块或端点分量时间段之间比较确定性近似；本轮不冻结选择。
+
+### 11.9 Duplicate must-link handling
+
+新增 `duplicate_signature` 对除 `source_row`、`row_index`、`sample_id`、`group_id`、`split` 和 `fold`
+等派生谱系字段外的完整记录做规范化 JSON SHA-256。相同原始内容因此得到稳定签名，并在正式划分时形成 must-link 约束。若同一签名匹配不同事件，
+必须先检查匹配与缺失元数据，最终不得跨 split。本轮不自动去重，也不修改原始 CSV。
+
+### 11.10 Comparison with endpoint-temporal heuristic
+
+官方事件方案尚无本地匹配结果，无法与“有向源—目的 IP 对 + 60 秒 gap”做实证优劣比较。后者仍是已运行于全量数据、可复现但语义近似的
+fallback；其 1,817,955 Flow 超大 group 风险没有因本轮工作而得到解决。
+
+### 11.11 Candidate A/B/C recommendation
+
+| 候选 | 当前可行性 | 判定 |
+| --- | --- | --- |
+| A：恶意官方事件 + Benign 真实 capture/session | 当前不可行 | 两类真实边界均未取得 |
+| B：恶意官方事件 + Benign 确定性近似 | 待验证 | 取得并可靠匹配官方网络 Ground Truth 后可能成为首选 |
+| C：全体有向端点对 + 60 秒 gap | 可运行的 fallback | 已全量评估，但存在超大 group 和事件语义不确定性 |
+
+当前不采用按类别混合的 B2，因为尚无任何类别的官方匹配证据。最终推荐暂时保持 **Candidate C 作为可执行 fallback，Candidate B
+作为优先待验证目标**；这不是正式分组冻结。
+
+### 11.12 Remaining methodological risks
+
+- 官方 Ground Truth 可能只含攻击机 IP 和时间，而不含结束时间、端口、协议或真实 event ID；
+- 原始 ToN-IoT 网络数据与 2025 年重新生成的 NF-v3 版本可能存在方向、超时、时间精度或数据覆盖差异；
+- 同期攻击可能产生歧义，弱时间/IP 匹配不能与严格 5-tuple 匹配合并报告；
+- 官方一行可能是标注区间而非独立活动，反之一个活动也可能由多行构成；
+- Benign 真实采集边界可能无法恢复；
+- 少数类事件数、三路划分能力与 Train 内 5-fold OOF 支持均未验证；
+- exact duplicate must-link 可能连接多个候选事件，需要在正式划分前解析冲突。
+
+`group_id` 仅允许用于 dataset split、OOF fold、leakage prevention 和 group-aware statistics；不得进入
+`model_feature`、LightGBM、Evidence Card、Qwen Prompt 或 Reviewer 输出。
+
+### 11.13 Current Phase 0 status
+
+本轮完成了官方来源与目标目录存在性的验证、获取阻塞诊断、严格 Schema 失败机制、可扩展匹配骨架、匹配指纹和 duplicate must-link
+设计，以及 10 项合成测试；没有得到可用于真实匹配的官方本地文件，因此没有伪造文件 Schema、event 数或匹配统计。
+
+```text
+Phase 0b completed: official Ground Truth location verified, acquisition blocked.
+Final grouping strategy pending review.
+Split not frozen.
+No downstream experiment has started.
+```
+
+**Unresolved decision.** 需要人工从上述 UNSW 官方 SharePoint 的
+`SecuityEvents_GroundTruth_datasets/Security Events_Network_datasets` 下载小型 Ground Truth 与必要说明文件，原样放入
+`data/raw/ton_iot_ground_truth/`。文件到位后应重新运行 Phase 0b 的本地审计与真实匹配；在此之前不进入正式 split、60 秒上下文、LightGBM、
+OOF、Qwen、SFT 或 Agent。
