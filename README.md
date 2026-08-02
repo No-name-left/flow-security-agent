@@ -1,18 +1,20 @@
 # Flow Security Agent
 
-Flow Security Agent is a research framework for **Flow-based malicious traffic analysis**. The project studies how a fast tabular classifier and a security-focused language-model reviewer can cooperate under static and agentic orchestration.
+Flow Security Agent is a research framework for **Flow-based malicious traffic analysis**. The current research studies open-set recognition, evidence-grounded ATT&CK candidate attribution and few-shot onboarding of Flow-observable attack techniques.
 
 ## Research direction
 
 ```text
 Flow / NetFlow
-→ causal historical context
-→ LightGBM
-→ Qwen Security Reviewer
-→ Static / Agentic workflow
+→ audited raw record / label unit / model sample
+→ anchor behavior + past-only behavior-coherent Flow context
+→ Qwen3.5-9B supervised and structural adaptation
+→ Known / Unknown
+→ evidence-grounded Top-k ATT&CK candidates
+→ data-dependent few-shot onboarding
 ```
 
-The language model is intended to review selected difficult records rather than replace the tabular classifier for every Flow.
+The multi-Flow episode is a hypothesis to be audited and compared with anchor-only, single-Flow and fixed-window baselines. It is not assumed to be a native or automatically correct label unit.
 
 ## Implemented foundation
 
@@ -32,12 +34,28 @@ These components are engineering infrastructure, not claimed paper contributions
 
 The following research components remain future work:
 
-- public Flow dataset adapters and leakage-aware data splits;
-- 60-second causal context construction;
+- public Flow dataset adapters and leakage-aware splits;
+- label-unit audit and anchor-plus-past-context sample construction;
 - LightGBM training, calibration and group-aware out-of-fold predictions;
-- Qwen reviewer data construction, QLoRA-SFT and preference optimization;
-- DeepSeek orchestration or any agent workflow;
+- Qwen3.5-9B Stage A/SFT/few-shot training and independent checkpoints;
+- DPO and gated RLAIF experiments;
 - formal experiments and paper metrics.
+
+## Research Plan and Change Control
+
+The canonical research plan is stored in:
+
+- [Detailed research and implementation specification](docs/research_plan/research_plan_detailed.md) — the single authoritative source;
+- [Timeline and stage-control view](docs/research_plan/research_plan_and_timeline.md);
+- [Brief research overview](docs/research_plan/research_plan_brief.md).
+
+Developers and agents must read the detailed specification before changing dataset roles, data splits, label definitions, sample or episode construction, model structure, trainable parameters, training stages, losses, SFT/DPO/RLAIF, Known/Unknown/few-shot protocols, calibration, external tests, or anything that may change the paper's conclusions.
+
+If a code change intentionally deviates from the plan and changes research meaning, comparability or conclusions, the same PR or commit must update the detailed specification and record the previous decision, new decision, reason, affected data/stages/metrics and a `Confirmed`, `Provisional` or `Experimental` status. Update the timeline or brief when their scope is affected.
+
+Ordinary engineering changes normally do not require a plan update when semantics and experiment protocols are unchanged, including refactoring, logging improvements, variable renaming, unit-test fixes, path compatibility and performance optimization with unchanged inputs and outputs.
+
+Agents must not tune on frozen test data or independently change frozen dataset roles, data permissions or final evaluation protocols. Do not retroactively rewrite research goals to match an implementation or leave a material code/plan divergence undocumented.
 
 ## Development
 
@@ -67,6 +85,7 @@ configs/             non-secret runtime examples
 scripts/             small command-line entry points
 tests/               infrastructure tests without dataset dependencies
 docs/                engineering contracts and migration notes
+docs/research_plan/  canonical research specification and derived views
 ```
 
 Dataset files, model checkpoints and generated artifacts are intentionally outside version control.
