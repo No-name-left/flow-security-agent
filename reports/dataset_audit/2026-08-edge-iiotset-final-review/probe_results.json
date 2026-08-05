@@ -1,0 +1,2615 @@
+{
+  "scope": "official author-Kaggle subset plus local ML selected CSV",
+  "data_dir": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset",
+  "files": {
+    "Backdoor_attack.csv": {
+      "bytes": 17889603,
+      "sha256": "a3da7bfd919c5f238e5c721cbd0e24a0b2b717d7f231c87c3bc9bc083582295b"
+    },
+    "Backdoor_attack.pcap": {
+      "bytes": 6694092,
+      "sha256": "2f22c751442017f745397d517df9837da378362f670ad238faeac0decd58e3e9"
+    },
+    "DDoS HTTP Flood Attacks.pcap": {
+      "bytes": 28307602,
+      "sha256": "2fb2558d51defd1704a54a7a76df787048e9281d2efd8177703d66a7f78620ba"
+    },
+    "DDoS_HTTP_Flood_attack.csv": {
+      "bytes": 95709749,
+      "sha256": "526ef4221d74c046d35db948e7aa534f2660270321510726f312409d6036ca33"
+    },
+    "Edge_IIoTset__DatasetFL.pdf": {
+      "bytes": 5445952,
+      "sha256": "8c21d1339ecdc4dfa59ffbec408c6c8ff3b148a255c53e67fe3c5ad1a1397a39"
+    },
+    "Heart_Rate.csv": {
+      "bytes": 52569102,
+      "sha256": "f5104511c7b67988ec67fc2f8262913b4ad6d4285db047500a04307491f4b9d5"
+    },
+    "Heart_Rate.pcap": {
+      "bytes": 12840229,
+      "sha256": "45af68c5dc56f1e135102069ee6d86a62e5d2b14dd23cac0bee39dcc40e832fb"
+    },
+    "MITM%20(ARP%20spoofing%20+%20DNS)%20Attack.pcap": {
+      "bytes": 127852,
+      "sha256": "ef952aff57dd30f04a98511cae2f34f642a64720fcde31df8b2f6dcf0351d536"
+    },
+    "MITM_attack.csv": {
+      "bytes": 329947,
+      "sha256": "c4fd9f0d33c1bcbf37a0c4e0cc378157d6af650300e657340ae3d86b40cfd498"
+    },
+    "ML-EdgeIIoT-dataset.csv": {
+      "bytes": 82184390,
+      "sha256": "53101fad091af20bee815860962a5016b802ee45d456a141042f6183094c3c1a"
+    },
+    "Port Scanning attack.pcap": {
+      "bytes": 1801807,
+      "sha256": "9fa4c8527951c2ea935b1ae5e932063c1b7fb8cc1e2b0f24defbe3a7b99058d9"
+    },
+    "Port_Scanning_attack.csv": {
+      "bytes": 7335171,
+      "sha256": "26f7f094254daa23e85ec7df1b7ad9352cf208d9ee9b55d7d7928d3415c793ad"
+    },
+    "Ransomware attack.pcap": {
+      "bytes": 2842688,
+      "sha256": "f38a731096f61391384adad975537de2de6cea89f38e1c1421e5b328f4b17116"
+    },
+    "Ransomware_attack.csv": {
+      "bytes": 7592169,
+      "sha256": "60fa5257c73f0eef6736a56953c7afe6a99e08942a32c3b9716a64abd2be0c7a"
+    },
+    "Readme.txt": {
+      "bytes": 7348,
+      "sha256": "c4afd342e8d5b9ca38ad1832ebb483c421ddbb736255a1b18d0d571c6bce6fb6"
+    },
+    "SQL injection attack.pcap": {
+      "bytes": 8173215,
+      "sha256": "374b06418c3dddd831561a8b5521c18a47bd1cd9bfa83f83e33b70d134517491"
+    },
+    "SQL_injection_attack.csv": {
+      "bytes": 26933868,
+      "sha256": "59d62ccfab6b708ce1c437a33b4c285e20e614e612edcd86260d4e5c2461c63d"
+    }
+  },
+  "pairs": {
+    "Normal_Heart_Rate": {
+      "expected_label": "Normal",
+      "csv_file": "Heart_Rate.csv",
+      "pcap_file": "Heart_Rate.pcap",
+      "csv": {
+        "rows": 165319,
+        "columns": 63,
+        "attack_type_counts": {
+          "Normal": 165319
+        },
+        "attack_label_counts": {
+          "0": 165319
+        },
+        "sample_exact_duplicate_rows": 0,
+        "sample_rows": 50000,
+        "timestamp_parse_rate": 1.0,
+        "unique_src_sample": 4,
+        "unique_dst_sample": 6,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.99782,
+          "tcp.dstport": 0.99782,
+          "udp.port": 0.0,
+          "tcp.flags": 0.99782,
+          "tcp.len": 0.23844,
+          "tcp.payload": 0.23844,
+          "http.file_data": 0.0,
+          "http.request.full_uri": 0.0,
+          "mqtt.msg": 0.0596
+        }
+      },
+      "pcap_packets": 170435,
+      "pcap_protocol_counts": {
+        "TCP": 165006,
+        "UDP": 5116,
+        "ARP": 172,
+        "IGMP": 42,
+        "IP_0": 99
+      },
+      "pcap_first_ts": 1640655579.986982,
+      "pcap_last_ts": 1640657417.376946,
+      "pcap_chronological": false,
+      "packet_count_difference": -5116,
+      "alignment": {
+        "sequential_rows_checked": 5000,
+        "address_checked": 4992,
+        "address_match_rate": 0.49138621794871795,
+        "port_checked": 4978,
+        "port_match_rate": 0.09602249899558056,
+        "timestamp_rows_checked": 5000,
+        "median_clock_offset_seconds": -3600.5563240202246,
+        "timestamp_residual_p95_seconds": 0.5562529619961424
+      }
+    },
+    "Scanning_Port": {
+      "expected_label": "Port_Scanning",
+      "csv_file": "Port_Scanning_attack.csv",
+      "pcap_file": "Port Scanning attack.pcap",
+      "csv": {
+        "rows": 22564,
+        "columns": 63,
+        "attack_type_counts": {
+          "Port_Scanning": 22564
+        },
+        "attack_label_counts": {
+          "1": 22564
+        },
+        "sample_exact_duplicate_rows": 0,
+        "sample_rows": 22564,
+        "timestamp_parse_rate": 1.0,
+        "unique_src_sample": 4,
+        "unique_dst_sample": 5,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.8852153873426697,
+          "tcp.dstport": 0.8852153873426697,
+          "udp.port": 0.0,
+          "tcp.flags": 0.8852153873426697,
+          "tcp.len": 0.0,
+          "tcp.payload": 0.0,
+          "http.file_data": 0.0,
+          "http.request.full_uri": 0.0,
+          "mqtt.msg": 0.0
+        }
+      },
+      "pcap_packets": 23329,
+      "pcap_protocol_counts": {
+        "TCP": 19974,
+        "UDP": 695,
+        "ARP": 1746,
+        "IGMP": 160,
+        "IP_0": 657,
+        "ICMPv6": 62,
+        "ICMP": 35
+      },
+      "pcap_first_ts": 1637766209.475073,
+      "pcap_last_ts": 1637776209.194016,
+      "pcap_chronological": false,
+      "packet_count_difference": -765,
+      "alignment": {
+        "sequential_rows_checked": 5000,
+        "address_checked": 4203,
+        "address_match_rate": 0.5039257673090649,
+        "port_checked": 3572,
+        "port_match_rate": 0.0016797312430011197,
+        "timestamp_rows_checked": 5000,
+        "median_clock_offset_seconds": -3620.6828124991516,
+        "timestamp_residual_p95_seconds": 16.84541678610986
+      }
+    },
+    "Injection_SQL": {
+      "expected_label": "SQL_injection",
+      "csv_file": "SQL_injection_attack.csv",
+      "pcap_file": "SQL injection attack.pcap",
+      "csv": {
+        "rows": 51203,
+        "columns": 63,
+        "attack_type_counts": {
+          "SQL_injection": 51203
+        },
+        "attack_label_counts": {
+          "1": 51203
+        },
+        "sample_exact_duplicate_rows": 0,
+        "sample_rows": 50000,
+        "timestamp_parse_rate": 1.0,
+        "unique_src_sample": 4,
+        "unique_dst_sample": 6,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.99888,
+          "tcp.dstport": 0.99888,
+          "udp.port": 0.0,
+          "tcp.flags": 0.99888,
+          "tcp.len": 0.17076,
+          "tcp.payload": 0.17076,
+          "http.file_data": 0.0,
+          "http.request.full_uri": 0.08556,
+          "mqtt.msg": 0.0
+        }
+      },
+      "pcap_packets": 51228,
+      "pcap_protocol_counts": {
+        "ARP": 15,
+        "TCP": 51146,
+        "UDP": 25,
+        "IGMP": 12,
+        "IP_0": 30
+      },
+      "pcap_first_ts": 1638218118.238171,
+      "pcap_last_ts": 1638218623.68852,
+      "pcap_chronological": false,
+      "packet_count_difference": -25,
+      "alignment": {
+        "sequential_rows_checked": 5000,
+        "address_checked": 4998,
+        "address_match_rate": 0.9279711884753902,
+        "port_checked": 4998,
+        "port_match_rate": 0.8661464585834334,
+        "timestamp_rows_checked": 5000,
+        "median_clock_offset_seconds": -3600.000000025422,
+        "timestamp_residual_p95_seconds": 0.012775897581741446
+      }
+    },
+    "MITM": {
+      "expected_label": "MITM",
+      "csv_file": "MITM_attack.csv",
+      "pcap_file": "MITM%20(ARP%20spoofing%20+%20DNS)%20Attack.pcap",
+      "csv": {
+        "rows": 1229,
+        "columns": 63,
+        "attack_type_counts": {
+          "MITM": 1229
+        },
+        "attack_label_counts": {
+          "1": 1229
+        },
+        "sample_exact_duplicate_rows": 1135,
+        "sample_rows": 1229,
+        "timestamp_parse_rate": 0.0,
+        "unique_src_sample": 7,
+        "unique_dst_sample": 1,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.305939788445891,
+          "tcp.dstport": 0.004882017900732303,
+          "udp.port": 0.305939788445891,
+          "tcp.flags": 0.004882017900732303,
+          "tcp.len": 0.3270951993490643,
+          "tcp.payload": 0.323026851098454,
+          "http.file_data": 0.0,
+          "http.request.full_uri": 0.004882017900732303,
+          "mqtt.msg": 0.0
+        }
+      },
+      "pcap_packets": 1229,
+      "pcap_protocol_counts": {
+        "UDP": 402,
+        "ARP": 341,
+        "IGMP": 30,
+        "IP_0": 331,
+        "TCP": 6,
+        "ICMPv6": 119
+      },
+      "pcap_first_ts": 1638035454.178322,
+      "pcap_last_ts": 1638036647.816351,
+      "pcap_chronological": true,
+      "packet_count_difference": 0,
+      "alignment": {
+        "sequential_rows_checked": 1229,
+        "address_checked": 0,
+        "address_match_rate": null,
+        "port_checked": 367,
+        "port_match_rate": 0.0,
+        "timestamp_rows_checked": 0,
+        "median_clock_offset_seconds": null,
+        "timestamp_residual_p95_seconds": null
+      }
+    },
+    "Malware_Backdoor": {
+      "expected_label": "Backdoor",
+      "csv_file": "Backdoor_attack.csv",
+      "pcap_file": "Backdoor_attack.pcap",
+      "csv": {
+        "rows": 24862,
+        "columns": 63,
+        "attack_type_counts": {
+          "Backdoor": 24862
+        },
+        "attack_label_counts": {
+          "1": 24862
+        },
+        "sample_exact_duplicate_rows": 0,
+        "sample_rows": 24862,
+        "timestamp_parse_rate": 1.0,
+        "unique_src_sample": 4,
+        "unique_dst_sample": 7,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.9667363848443408,
+          "tcp.dstport": 0.9667363848443408,
+          "udp.port": 0.0,
+          "tcp.flags": 0.9667363848443408,
+          "tcp.len": 0.45937575416297965,
+          "tcp.payload": 0.45937575416297965,
+          "http.file_data": 0.0,
+          "http.request.full_uri": 0.0,
+          "mqtt.msg": 0.0
+        }
+      },
+      "pcap_packets": 24914,
+      "pcap_protocol_counts": {
+        "TCP": 24035,
+        "IP_0": 365,
+        "UDP": 52,
+        "IGMP": 137,
+        "ARP": 324,
+        "ICMPv6": 1
+      },
+      "pcap_first_ts": 1638723503.150209,
+      "pcap_last_ts": 1638734821.118175,
+      "pcap_chronological": true,
+      "packet_count_difference": -52,
+      "alignment": {
+        "sequential_rows_checked": 5000,
+        "address_checked": 4869,
+        "address_match_rate": 0.5317313616759088,
+        "port_checked": 4712,
+        "port_match_rate": 0.48132427843803055,
+        "timestamp_rows_checked": 5000,
+        "median_clock_offset_seconds": -3601.0143559853677,
+        "timestamp_residual_p95_seconds": 0.9978423144933913
+      }
+    },
+    "Malware_Ransomware": {
+      "expected_label": "Ransomware",
+      "csv_file": "Ransomware_attack.csv",
+      "pcap_file": "Ransomware attack.pcap",
+      "csv": {
+        "rows": 10925,
+        "columns": 63,
+        "attack_type_counts": {
+          "Ransomware": 10925
+        },
+        "attack_label_counts": {
+          "1": 10925
+        },
+        "sample_exact_duplicate_rows": 0,
+        "sample_rows": 10925,
+        "timestamp_parse_rate": 1.0,
+        "unique_src_sample": 4,
+        "unique_dst_sample": 7,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.8870480549199085,
+          "tcp.dstport": 0.8870480549199085,
+          "udp.port": 0.0,
+          "tcp.flags": 0.8870480549199085,
+          "tcp.len": 0.39441647597254004,
+          "tcp.payload": 0.39441647597254004,
+          "http.file_data": 0.0,
+          "http.request.full_uri": 0.0,
+          "mqtt.msg": 0.0
+        }
+      },
+      "pcap_packets": 11030,
+      "pcap_protocol_counts": {
+        "TCP": 9691,
+        "UDP": 105,
+        "ARP": 505,
+        "IGMP": 195,
+        "IP_0": 529,
+        "ICMPv6": 5
+      },
+      "pcap_first_ts": 1638457327.998055,
+      "pcap_last_ts": 1638573878.441645,
+      "pcap_chronological": true,
+      "packet_count_difference": -105,
+      "alignment": {
+        "sequential_rows_checked": 5000,
+        "address_checked": 4472,
+        "address_match_rate": 0.43559928443649376,
+        "port_checked": 3836,
+        "port_match_rate": 0.43326381647549533,
+        "timestamp_rows_checked": 5000,
+        "median_clock_offset_seconds": -3619.2089199804286,
+        "timestamp_residual_p95_seconds": 37.41527357569285
+      }
+    },
+    "DDoS_HTTP": {
+      "expected_label": "DDoS_HTTP",
+      "csv_file": "DDoS_HTTP_Flood_attack.csv",
+      "pcap_file": "DDoS HTTP Flood Attacks.pcap",
+      "csv": {
+        "rows": 229022,
+        "columns": 63,
+        "attack_type_counts": {
+          "DDoS_HTTP": 229022
+        },
+        "attack_label_counts": {
+          "1": 229022
+        },
+        "sample_exact_duplicate_rows": 0,
+        "sample_rows": 50000,
+        "timestamp_parse_rate": 1.0,
+        "unique_src_sample": 5,
+        "unique_dst_sample": 6,
+        "observable_rates_sample": {
+          "tcp.srcport": 0.99976,
+          "tcp.dstport": 0.99976,
+          "udp.port": 0.0,
+          "tcp.flags": 0.99976,
+          "tcp.len": 0.36408,
+          "tcp.payload": 0.36408,
+          "http.file_data": 0.0132,
+          "http.request.full_uri": 0.00012,
+          "mqtt.msg": 0.0
+        }
+      },
+      "pcap_packets": 229142,
+      "pcap_protocol_counts": {
+        "TCP": 228999,
+        "UDP": 103,
+        "ARP": 20,
+        "IGMP": 4,
+        "IP_0": 16
+      },
+      "pcap_first_ts": 1637836529.350784,
+      "pcap_last_ts": 1637836801.284354,
+      "pcap_chronological": false,
+      "packet_count_difference": -120,
+      "alignment": {
+        "sequential_rows_checked": 5000,
+        "address_checked": 5000,
+        "address_match_rate": 0.5446,
+        "port_checked": 5000,
+        "port_match_rate": 0.0134,
+        "timestamp_rows_checked": 5000,
+        "median_clock_offset_seconds": -3600.0000269329903,
+        "timestamp_residual_p95_seconds": 0.016994764149421845
+      }
+    }
+  },
+  "session_statistics": [
+    {
+      "capture": "Normal_Heart_Rate",
+      "label": "Normal",
+      "idle_seconds": 30,
+      "sessions": 10632,
+      "packets": 170435,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 15.0,
+        "median": 18.0,
+        "p75": 18.0,
+        "p95": 18.0,
+        "max": 203.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.03260397911071777,
+        "median": 0.03461861610412598,
+        "p75": 0.0366213321685791,
+        "p95": 0.04696109294891338,
+        "max": 1010.1077280044556
+      },
+      "bidirectional_ratio": 0.9851392024078255,
+      "coverage_ge_8": 0.9799661399548533,
+      "coverage_ge_16": 0.6856659142212189,
+      "coverage_ge_32": 0.00018811136192626034,
+      "incomplete_handshake_ratio": 0.0,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.018717080511662904
+    },
+    {
+      "capture": "Normal_Heart_Rate",
+      "label": "Normal",
+      "idle_seconds": 60,
+      "sessions": 10575,
+      "packets": 170435,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 15.0,
+        "median": 18.0,
+        "p75": 18.0,
+        "p95": 18.0,
+        "max": 203.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.03262448310852051,
+        "median": 0.03462815284729004,
+        "p75": 0.0366215705871582,
+        "p95": 0.046435570716857895,
+        "max": 1010.1077280044556
+      },
+      "bidirectional_ratio": 0.9851536643026004,
+      "coverage_ge_8": 0.985531914893617,
+      "coverage_ge_16": 0.6895508274231679,
+      "coverage_ge_32": 0.0003782505910165485,
+      "incomplete_handshake_ratio": 0.0,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.013522458628841608
+    },
+    {
+      "capture": "Scanning_Port",
+      "label": "Port_Scanning",
+      "idle_seconds": 30,
+      "sessions": 11065,
+      "packets": 23329,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 2.0,
+        "median": 2.0,
+        "p75": 2.0,
+        "p95": 2.0,
+        "max": 329.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 4.410743713378906e-05,
+        "median": 4.696846008300781e-05,
+        "p75": 7.581710815429688e-05,
+        "p95": 9.069442749023385e-05,
+        "max": 2247.069398164749
+      },
+      "bidirectional_ratio": 0.9201988251242657,
+      "coverage_ge_8": 0.004066877541798464,
+      "coverage_ge_16": 0.002169001355625847,
+      "coverage_ge_32": 0.0016267510167193855,
+      "incomplete_handshake_ratio": 0.9025756891098057,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.0859466787166742
+    },
+    {
+      "capture": "Scanning_Port",
+      "label": "Port_Scanning",
+      "idle_seconds": 60,
+      "sessions": 10943,
+      "packets": 23329,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 2.0,
+        "median": 2.0,
+        "p75": 2.0,
+        "p95": 2.0,
+        "max": 1157.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 4.410743713378906e-05,
+        "median": 4.696846008300781e-05,
+        "p75": 7.414817810058594e-05,
+        "p95": 8.893013000488281e-05,
+        "max": 9960.924124002457
+      },
+      "bidirectional_ratio": 0.9221420085899662,
+      "coverage_ge_8": 0.0020104176185689483,
+      "coverage_ge_16": 0.001279356666362058,
+      "coverage_ge_32": 0.0009138261902586129,
+      "incomplete_handshake_ratio": 0.9126382162112766,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.07831490450516312
+    },
+    {
+      "capture": "Injection_SQL",
+      "label": "SQL_injection",
+      "idle_seconds": 30,
+      "sessions": 4442,
+      "packets": 51228,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 11.0,
+        "median": 11.0,
+        "p75": 12.0,
+        "p95": 14.0,
+        "max": 19.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.041120827198028564,
+        "median": 0.0560835599899292,
+        "p75": 0.07153850793838501,
+        "p95": 0.17162023782730096,
+        "max": 24.71146512031555
+      },
+      "bidirectional_ratio": 0.9891940567312022,
+      "coverage_ge_8": 0.979963980189104,
+      "coverage_ge_16": 0.0036019810895992796,
+      "coverage_ge_32": 0.0,
+      "incomplete_handshake_ratio": 0.0,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.01125619090499775
+    },
+    {
+      "capture": "Injection_SQL",
+      "label": "SQL_injection",
+      "idle_seconds": 60,
+      "sessions": 4439,
+      "packets": 51228,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 11.0,
+        "median": 11.0,
+        "p75": 12.0,
+        "p95": 14.0,
+        "max": 19.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.041179537773132324,
+        "median": 0.05612921714782715,
+        "p75": 0.07157003879547119,
+        "p95": 0.17242217063903645,
+        "max": 32.63526678085327
+      },
+      "bidirectional_ratio": 0.9894120297364272,
+      "coverage_ge_8": 0.9806262671772922,
+      "coverage_ge_16": 0.003604415408875873,
+      "coverage_ge_32": 0.0,
+      "incomplete_handshake_ratio": 0.0,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.010813246226627618
+    },
+    {
+      "capture": "MITM",
+      "label": "MITM",
+      "idle_seconds": 30,
+      "sessions": 286,
+      "packets": 1229,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 1.0,
+        "p75": 2.0,
+        "p95": 17.75,
+        "max": 120.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 0.0037584900856018066,
+        "p95": 109.60054451227188,
+        "max": 1193.6311910152435
+      },
+      "bidirectional_ratio": 0.04195804195804196,
+      "coverage_ge_8": 0.1048951048951049,
+      "coverage_ge_16": 0.06993006993006994,
+      "coverage_ge_32": 0.027972027972027972,
+      "incomplete_handshake_ratio": 0.0,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.6223776223776224
+    },
+    {
+      "capture": "MITM",
+      "label": "MITM",
+      "idle_seconds": 60,
+      "sessions": 245,
+      "packets": 1229,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 1.0,
+        "p75": 1.0,
+        "p95": 22.0,
+        "max": 120.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 0.0,
+        "p95": 146.19286193847654,
+        "max": 1193.6311910152435
+      },
+      "bidirectional_ratio": 0.04897959183673469,
+      "coverage_ge_8": 0.11836734693877551,
+      "coverage_ge_16": 0.08979591836734693,
+      "coverage_ge_32": 0.0326530612244898,
+      "incomplete_handshake_ratio": 0.0,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.5836734693877551
+    },
+    {
+      "capture": "Malware_Backdoor",
+      "label": "Backdoor",
+      "idle_seconds": 30,
+      "sessions": 1532,
+      "packets": 24914,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 2.0,
+        "p75": 2.0,
+        "p95": 2.0,
+        "max": 12411.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0032880306243896484,
+        "p75": 0.00397181510925293,
+        "p95": 0.07620229721069341,
+        "max": 3145.7887189388275
+      },
+      "bidirectional_ratio": 0.6409921671018277,
+      "coverage_ge_8": 0.0045691906005221935,
+      "coverage_ge_16": 0.0026109660574412533,
+      "coverage_ge_32": 0.0019582245430809398,
+      "incomplete_handshake_ratio": 0.5398172323759791,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.39882506527415146
+    },
+    {
+      "capture": "Malware_Backdoor",
+      "label": "Backdoor",
+      "idle_seconds": 60,
+      "sessions": 1455,
+      "packets": 24914,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 2.0,
+        "p75": 2.0,
+        "p95": 2.0,
+        "max": 12411.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0033550262451171875,
+        "p75": 0.0040885210037231445,
+        "p95": 0.09759893417358398,
+        "max": 3145.7887189388275
+      },
+      "bidirectional_ratio": 0.6219931271477663,
+      "coverage_ge_8": 0.004123711340206186,
+      "coverage_ge_16": 0.0027491408934707906,
+      "coverage_ge_32": 0.002061855670103093,
+      "incomplete_handshake_ratio": 0.5683848797250859,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.3670103092783505
+    },
+    {
+      "capture": "Malware_Ransomware",
+      "label": "Ransomware",
+      "idle_seconds": 30,
+      "sessions": 1546,
+      "packets": 11030,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 2.0,
+        "p75": 2.0,
+        "p95": 2.0,
+        "max": 5963.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 3.4809112548828125e-05,
+        "p75": 0.004384219646453857,
+        "p95": 0.1307605504989624,
+        "max": 5754.960698843002
+      },
+      "bidirectional_ratio": 0.4935316946959897,
+      "coverage_ge_8": 0.00646830530401035,
+      "coverage_ge_16": 0.004527813712807244,
+      "coverage_ge_32": 0.00129366106080207,
+      "incomplete_handshake_ratio": 0.36869340232858994,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.5892626131953428
+    },
+    {
+      "capture": "Malware_Ransomware",
+      "label": "Ransomware",
+      "idle_seconds": 60,
+      "sessions": 1386,
+      "packets": 11030,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 1.0,
+        "p75": 2.0,
+        "p95": 2.0,
+        "max": 5963.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 0.004748344421386719,
+        "p95": 0.13391226530075073,
+        "max": 5754.960698843002
+      },
+      "bidirectional_ratio": 0.43506493506493504,
+      "coverage_ge_8": 0.0036075036075036075,
+      "coverage_ge_16": 0.0036075036075036075,
+      "coverage_ge_32": 0.0036075036075036075,
+      "incomplete_handshake_ratio": 0.41125541125541126,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.5418470418470418
+    },
+    {
+      "capture": "DDoS_HTTP",
+      "label": "DDoS_HTTP",
+      "idle_seconds": 30,
+      "sessions": 18747,
+      "packets": 229142,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 1.0,
+        "median": 6.0,
+        "p75": 6.0,
+        "p95": 59.0,
+        "max": 89.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 0.0,
+        "median": 31.389512062072754,
+        "p75": 31.582880973815918,
+        "p95": 73.60403447151185,
+        "max": 270.1088662147522
+      },
+      "bidirectional_ratio": 0.30794260414999736,
+      "coverage_ge_8": 0.24622606283672055,
+      "coverage_ge_16": 0.21443430948951833,
+      "coverage_ge_32": 0.12748706459700218,
+      "incomplete_handshake_ratio": 0.6835226969648477,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.0013868885688376807
+    },
+    {
+      "capture": "DDoS_HTTP",
+      "label": "DDoS_HTTP",
+      "idle_seconds": 60,
+      "sessions": 12147,
+      "packets": 229142,
+      "packet_count": {
+        "min": 1.0,
+        "p25": 7.0,
+        "median": 7.0,
+        "p75": 21.0,
+        "p95": 62.0,
+        "max": 89.0
+      },
+      "duration_seconds": {
+        "min": 0.0,
+        "p25": 31.592065453529358,
+        "median": 64.4802360534668,
+        "p75": 66.76094496250153,
+        "p95": 102.15081076622009,
+        "max": 270.1088662147522
+      },
+      "bidirectional_ratio": 0.3815756977031366,
+      "coverage_ge_8": 0.37943525150242857,
+      "coverage_ge_16": 0.3560549930023874,
+      "coverage_ge_32": 0.19683872561126203,
+      "incomplete_handshake_ratio": 0.6163661809500288,
+      "missing_initiator_ratio": 0.0,
+      "missing_target_port_ratio": 0.0018111467852144562
+    }
+  ],
+  "temporal": {
+    "Normal_Heart_Rate": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 10575,
+        "anchors_with_history_ratio": 0.9995271867612293,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 184.0,
+          "median": 215.0,
+          "p75": 240.0,
+          "p95": 249.0,
+          "max": 255.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 161.0,
+          "median": 199.0,
+          "p75": 229.0,
+          "p95": 233.0,
+          "max": 237.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 2.0,
+          "p75": 7.0,
+          "p95": 11.0,
+          "max": 12.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 2.0,
+          "p75": 2.0,
+          "p95": 3.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 161.0,
+          "median": 199.0,
+          "p75": 229.0,
+          "p95": 233.0,
+          "max": 237.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 2961.0,
+          "median": 3504.0,
+          "p75": 3920.0,
+          "p95": 3998.0,
+          "max": 4108.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 175446.0,
+          "median": 207376.0,
+          "p75": 231726.0,
+          "p95": 236256.0,
+          "max": 242676.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "same_source_interval": {
+          "min": 3.1948089599609375e-05,
+          "p25": 0.018591880798339844,
+          "median": 0.02432703971862793,
+          "p75": 0.24186205863952637,
+          "p95": 0.3354197978973389,
+          "max": 250.87003993988037
+        },
+        "periodicity_cv": {
+          "min": 0.003053754444676846,
+          "p25": 0.7184363770669318,
+          "median": 0.8439626480699444,
+          "p75": 1.0197469634600347,
+          "p95": 1.0985954683360943,
+          "max": 1.997098612870056
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 10575,
+        "anchors_with_history_ratio": 0.9998108747044917,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 334.0,
+          "median": 408.0,
+          "p75": 457.0,
+          "p95": 489.0,
+          "max": 498.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 269.0,
+          "median": 373.0,
+          "p75": 430.0,
+          "p95": 463.0,
+          "max": 469.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 6.0,
+          "p75": 11.0,
+          "p95": 12.0,
+          "max": 12.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 2.0,
+          "p75": 3.0,
+          "p95": 4.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 268.0,
+          "median": 373.0,
+          "p75": 430.0,
+          "p95": 463.0,
+          "max": 469.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 5384.0,
+          "median": 6613.0,
+          "p75": 7405.0,
+          "p95": 7938.0,
+          "max": 8054.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 319464.5,
+          "median": 391427.0,
+          "p75": 438100.0,
+          "p95": 469137.0,
+          "max": 475996.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "same_source_interval": {
+          "min": 3.1948089599609375e-05,
+          "p25": 0.018591880798339844,
+          "median": 0.02432703971862793,
+          "p75": 0.24186205863952637,
+          "p95": 0.3354197978973389,
+          "max": 250.87003993988037
+        },
+        "periodicity_cv": {
+          "min": 0.003053754444676846,
+          "p25": 0.7191630309159451,
+          "median": 0.9357972417592635,
+          "p75": 1.027473230274718,
+          "p95": 1.1804838490388228,
+          "max": 1.9978791936112976
+        }
+      }
+    },
+    "Scanning_Port": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 10943,
+        "anchors_with_history_ratio": 0.9999086173809741,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 29.0,
+          "median": 30.0,
+          "p75": 35.0,
+          "p95": 40.0,
+          "max": 50.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 29.0,
+          "median": 29.0,
+          "p75": 29.0,
+          "p95": 30.0,
+          "max": 30.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 2.0,
+          "p75": 6.0,
+          "p95": 11.0,
+          "max": 15.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 2.0,
+          "p95": 2.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 29.0,
+          "median": 29.0,
+          "p75": 29.0,
+          "p95": 30.0,
+          "max": 30.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 58.0,
+          "median": 60.0,
+          "p75": 66.0,
+          "p95": 73.0,
+          "max": 1267.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 3306.0,
+          "median": 3484.0,
+          "p75": 3942.0,
+          "p95": 4498.0,
+          "max": 76948.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.8333333333333334,
+          "median": 0.9666666666666667,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "same_source_interval": {
+          "min": 3.910064697265625e-05,
+          "p25": 1.000322937965393,
+          "median": 1.0011069774627686,
+          "p75": 1.0030255317687988,
+          "p95": 42.69317555427551,
+          "max": 3714.6992921829224
+        },
+        "periodicity_cv": {
+          "min": 7.400249278801778e-05,
+          "p25": 0.0009081393781569624,
+          "median": 0.001412215048082003,
+          "p75": 0.002687247211882336,
+          "p95": 0.04564565719213961,
+          "max": 1.3850052617359172
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 10943,
+        "anchors_with_history_ratio": 0.9999086173809741,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 60.0,
+          "median": 64.0,
+          "p75": 69.0,
+          "p95": 72.0,
+          "max": 81.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 59.0,
+          "median": 59.0,
+          "p75": 59.0,
+          "p95": 59.0,
+          "max": 60.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 6.0,
+          "p75": 11.0,
+          "p95": 12.0,
+          "max": 15.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 2.0,
+          "p95": 2.0,
+          "max": 5.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 59.0,
+          "median": 59.0,
+          "p75": 59.0,
+          "p95": 59.0,
+          "max": 60.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 120.0,
+          "median": 126.0,
+          "p75": 130.0,
+          "p95": 143.89999999999964,
+          "max": 1327.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 6858.0,
+          "median": 7352.0,
+          "p75": 7597.5,
+          "p95": 10287.0,
+          "max": 88534.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.855072463768116,
+          "median": 0.921875,
+          "p75": 0.9833333333333333,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "same_source_interval": {
+          "min": 3.910064697265625e-05,
+          "p25": 1.000322937965393,
+          "median": 1.0011069774627686,
+          "p75": 1.0030255317687988,
+          "p95": 42.69317555427551,
+          "max": 3714.6992921829224
+        },
+        "periodicity_cv": {
+          "min": 7.400249278801778e-05,
+          "p25": 0.0009086711892541867,
+          "median": 0.0014137738522349398,
+          "p75": 0.0027009114522795184,
+          "p95": 0.04591001316138903,
+          "max": 1.4186042557907876
+        }
+      }
+    },
+    "Injection_SQL": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 4439,
+        "anchors_with_history_ratio": 0.9995494480738906,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 223.0,
+          "median": 312.0,
+          "p75": 351.0,
+          "p95": 386.0,
+          "max": 433.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 213.0,
+          "median": 307.0,
+          "p75": 348.5,
+          "p95": 385.0,
+          "max": 432.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 2.0,
+          "p75": 4.0,
+          "p95": 11.0,
+          "max": 12.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 2.0,
+          "p95": 2.0,
+          "max": 3.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 213.0,
+          "median": 307.0,
+          "p75": 348.5,
+          "p95": 385.0,
+          "max": 432.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 2553.0,
+          "median": 3600.0,
+          "p75": 4076.0,
+          "p95": 4496.099999999999,
+          "max": 5049.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 366611.0,
+          "median": 516109.0,
+          "p75": 586195.5,
+          "p95": 647626.4999999999,
+          "max": 727427.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "same_source_interval": {
+          "min": 8.106231689453125e-06,
+          "p25": 0.020697951316833496,
+          "median": 0.044072866439819336,
+          "p75": 0.06595849990844727,
+          "p95": 0.17080950736999512,
+          "max": 126.41013193130493
+        },
+        "periodicity_cv": {
+          "min": 0.004171561567907844,
+          "p25": 0.420282632978259,
+          "median": 0.5305255150952997,
+          "p75": 0.6726585544954422,
+          "p95": 1.621628414188737,
+          "max": 1.9642162621829837
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 4439,
+        "anchors_with_history_ratio": 0.9997747240369452,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 442.0,
+          "median": 534.0,
+          "p75": 658.0,
+          "p95": 715.0,
+          "max": 743.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 430.0,
+          "median": 522.0,
+          "p75": 652.0,
+          "p95": 711.0,
+          "max": 731.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 3.0,
+          "median": 4.0,
+          "p75": 11.0,
+          "p95": 13.0,
+          "max": 14.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 2.0,
+          "p75": 2.0,
+          "p95": 3.0,
+          "max": 3.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 430.0,
+          "median": 522.0,
+          "p75": 652.0,
+          "p95": 711.0,
+          "max": 731.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 5111.0,
+          "median": 6171.0,
+          "p75": 7617.5,
+          "p95": 8278.0,
+          "max": 8540.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 735310.5,
+          "median": 885667.0,
+          "p75": 1092785.0,
+          "p95": 1191178.7,
+          "max": 1228229.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "same_source_interval": {
+          "min": 8.106231689453125e-06,
+          "p25": 0.020697951316833496,
+          "median": 0.044072866439819336,
+          "p75": 0.06595849990844727,
+          "p95": 0.17080950736999512,
+          "max": 126.41013193130493
+        },
+        "periodicity_cv": {
+          "min": 0.004171561567907844,
+          "p25": 0.4202743717536909,
+          "median": 0.5303830127999443,
+          "p75": 0.6726622968430961,
+          "p95": 1.6220474025315716,
+          "max": 1.975307517202471
+        }
+      }
+    },
+    "MITM": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 245,
+        "anchors_with_history_ratio": 0.9469387755102041,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 4.0,
+          "median": 8.0,
+          "p75": 11.0,
+          "p95": 16.799999999999983,
+          "max": 22.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 1.0,
+          "p75": 3.0,
+          "p95": 5.0,
+          "max": 8.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 3.0,
+          "median": 5.0,
+          "p75": 8.0,
+          "p95": 11.0,
+          "max": 13.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 1.0,
+          "p75": 2.0,
+          "p95": 4.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 1.0,
+          "p95": 4.0,
+          "max": 5.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 5.0,
+          "median": 9.0,
+          "p75": 17.0,
+          "p95": 238.39999999999995,
+          "max": 367.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 390.0,
+          "median": 822.0,
+          "p75": 2933.0,
+          "p95": 22898.399999999998,
+          "max": 32781.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "same_source_interval": {
+          "min": 3.2901763916015625e-05,
+          "p25": 0.3770095109939575,
+          "median": 5.599998950958252,
+          "p75": 65.34509897232056,
+          "p95": 125.44197204113007,
+          "max": 512.2597501277924
+        },
+        "periodicity_cv": {
+          "min": 0.007953989740981725,
+          "p25": 0.8245466646387398,
+          "median": 0.9998353977632192,
+          "p75": 1.3370755138468882,
+          "p95": 1.824950391232074,
+          "max": 1.9958731825340121
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 245,
+        "anchors_with_history_ratio": 0.9795918367346939,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 8.0,
+          "median": 15.0,
+          "p75": 20.0,
+          "p95": 28.0,
+          "max": 35.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 2.0,
+          "p75": 5.0,
+          "p95": 9.0,
+          "max": 13.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 5.0,
+          "median": 9.0,
+          "p75": 11.0,
+          "p95": 14.0,
+          "max": 15.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 2.0,
+          "p75": 3.0,
+          "p95": 4.799999999999983,
+          "max": 5.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 1.0,
+          "p95": 7.0,
+          "max": 9.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 10.0,
+          "median": 22.0,
+          "p75": 165.0,
+          "p95": 370.1999999999998,
+          "max": 386.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 794.0,
+          "median": 2782.0,
+          "p75": 15364.0,
+          "p95": 33193.0,
+          "max": 34631.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        },
+        "same_source_interval": {
+          "min": 3.2901763916015625e-05,
+          "p25": 0.3770095109939575,
+          "median": 5.599998950958252,
+          "p75": 65.34509897232056,
+          "p95": 125.44197204113007,
+          "max": 512.2597501277924
+        },
+        "periodicity_cv": {
+          "min": 0.007340978738254992,
+          "p25": 0.9172373050877081,
+          "median": 1.193842276538128,
+          "p75": 1.494525225119854,
+          "p95": 1.9283561398738285,
+          "max": 1.9958731825340121
+        }
+      }
+    },
+    "Malware_Backdoor": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 1455,
+        "anchors_with_history_ratio": 0.9951890034364261,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 5.0,
+          "median": 6.0,
+          "p75": 12.0,
+          "p95": 16.0,
+          "max": 19.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 4.0,
+          "p75": 5.0,
+          "p95": 7.0,
+          "max": 9.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 3.0,
+          "p75": 8.0,
+          "p95": 11.0,
+          "max": 13.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 2.0,
+          "p95": 3.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 2.0,
+          "p75": 5.0,
+          "p95": 5.0,
+          "max": 6.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 10.0,
+          "median": 12.0,
+          "p75": 18.0,
+          "p95": 22.0,
+          "max": 9839.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 670.0,
+          "median": 872.0,
+          "p75": 1364.0,
+          "p95": 2831.999999999998,
+          "max": 2831717.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.3333333333333333,
+          "median": 0.6,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "same_source_interval": {
+          "min": 3.695487976074219e-05,
+          "p25": 1.3330401182174683,
+          "median": 8.789123058319092,
+          "p75": 10.01359498500824,
+          "p95": 125.43005719184876,
+          "max": 6383.28076505661
+        },
+        "periodicity_cv": {
+          "min": 2.298444052221649e-06,
+          "p25": 0.7243935882059741,
+          "median": 0.8049785160854668,
+          "p75": 0.918126860971427,
+          "p95": 1.0989532427047275,
+          "max": 1.4775970404043772
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 1455,
+        "anchors_with_history_ratio": 0.9986254295532646,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 11.0,
+          "median": 15.0,
+          "p75": 20.0,
+          "p95": 23.0,
+          "max": 26.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 7.0,
+          "p75": 12.0,
+          "p95": 14.0,
+          "max": 16.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 6.0,
+          "p75": 11.0,
+          "p95": 12.0,
+          "max": 14.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 2.0,
+          "p75": 2.0,
+          "p95": 3.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 5.0,
+          "p75": 11.0,
+          "p95": 11.0,
+          "max": 12.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 22.0,
+          "median": 26.0,
+          "p75": 32.0,
+          "p95": 36.0,
+          "max": 12414.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 1474.0,
+          "median": 1928.0,
+          "p75": 2300.0,
+          "p95": 3898.0,
+          "max": 3260210.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.46153846153846156,
+          "median": 0.6,
+          "p75": 0.8333333333333334,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "same_source_interval": {
+          "min": 3.695487976074219e-05,
+          "p25": 1.3330401182174683,
+          "median": 8.789123058319092,
+          "p75": 10.01359498500824,
+          "p95": 125.43005719184876,
+          "max": 6383.28076505661
+        },
+        "periodicity_cv": {
+          "min": 4.801337500485534e-06,
+          "p25": 0.5332769496576314,
+          "median": 0.7233539522452396,
+          "p75": 0.9205194592399992,
+          "p95": 1.1073607441274373,
+          "max": 1.4775970404043772
+        }
+      }
+    },
+    "Malware_Ransomware": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 1386,
+        "anchors_with_history_ratio": 0.9797979797979798,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 6.0,
+          "p75": 10.0,
+          "p95": 14.0,
+          "max": 18.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 2.0,
+          "p75": 3.0,
+          "p95": 4.75,
+          "max": 9.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 4.0,
+          "p75": 8.0,
+          "p95": 11.0,
+          "max": 16.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 4.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 2.0,
+          "p95": 2.0,
+          "max": 3.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 4.0,
+          "median": 8.0,
+          "p75": 13.0,
+          "p95": 17.0,
+          "max": 6281.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 268.0,
+          "median": 572.0,
+          "p75": 964.0,
+          "p95": 1342.0,
+          "max": 1757360.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.17647058823529413,
+          "median": 0.375,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "same_source_interval": {
+          "min": 3.1948089599609375e-05,
+          "p25": 3.7600350379943848,
+          "median": 10.01432740688324,
+          "p75": 79.30374747514725,
+          "p95": 125.43603140115738,
+          "max": 110112.81310987473
+        },
+        "periodicity_cv": {
+          "min": 3.6903907842894683e-06,
+          "p25": 0.22573689686906717,
+          "median": 0.5072878772752516,
+          "p75": 0.7143682253678041,
+          "p95": 1.0236516741110522,
+          "max": 1.570971967999931
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 1386,
+        "anchors_with_history_ratio": 0.9877344877344877,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 6.0,
+          "median": 10.0,
+          "p75": 15.0,
+          "p95": 18.0,
+          "max": 25.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 5.0,
+          "p75": 7.0,
+          "p95": 9.0,
+          "max": 15.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 6.0,
+          "p75": 10.0,
+          "p95": 12.0,
+          "max": 16.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 5.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 1.0,
+          "p95": 1.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 5.0,
+          "p95": 5.0,
+          "max": 6.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 10.0,
+          "median": 16.0,
+          "p75": 21.0,
+          "p95": 32.0,
+          "max": 6300.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 676.0,
+          "median": 1126.0,
+          "p75": 1498.0,
+          "p95": 2463.25,
+          "max": 1758785.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.29411764705882354,
+          "median": 0.42857142857142855,
+          "p75": 0.75,
+          "p95": 1.0,
+          "max": 1.0
+        },
+        "same_source_interval": {
+          "min": 3.1948089599609375e-05,
+          "p25": 3.7600350379943848,
+          "median": 10.01432740688324,
+          "p75": 79.30374747514725,
+          "p95": 125.43603140115738,
+          "max": 110112.81310987473
+        },
+        "periodicity_cv": {
+          "min": 2.1534175908027105e-05,
+          "p25": 0.0004998724381303184,
+          "median": 0.3192062673783982,
+          "p75": 0.5628798524109154,
+          "p95": 0.7807763528087535,
+          "max": 1.570971967999931
+        }
+      }
+    },
+    "DDoS_HTTP": {
+      "30s": {
+        "window_seconds": 30,
+        "anchors": 12147,
+        "anchors_with_history_ratio": 0.9999176751461266,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 1398.0,
+          "median": 1524.0,
+          "p75": 1567.0,
+          "p95": 1840.699999999999,
+          "max": 2306.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 1389.0,
+          "median": 1522.0,
+          "p75": 1564.0,
+          "p95": 1835.699999999999,
+          "max": 2302.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 2.0,
+          "median": 3.0,
+          "p75": 6.0,
+          "p95": 12.0,
+          "max": 13.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 2.0,
+          "p75": 3.0,
+          "p95": 4.0,
+          "max": 5.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 1389.0,
+          "median": 1522.0,
+          "p75": 1564.0,
+          "p95": 1835.699999999999,
+          "max": 2302.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 25129.5,
+          "median": 29231.0,
+          "p75": 33301.5,
+          "p95": 47771.899999999994,
+          "max": 58300.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 2566688.0,
+          "median": 3135147.0,
+          "p75": 3683122.5,
+          "p95": 4731283.6,
+          "max": 5908543.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.5496116130633897,
+          "median": 0.6145431145431145,
+          "p75": 0.6756685188400764,
+          "p95": 0.7427187305809198,
+          "max": 0.9814814814814815
+        },
+        "same_source_interval": {
+          "min": 2.86102294921875e-06,
+          "p25": 0.01596313714981079,
+          "median": 0.017182469367980957,
+          "p75": 0.021504640579223633,
+          "p95": 0.03310617208480835,
+          "max": 126.64766883850098
+        },
+        "periodicity_cv": {
+          "min": 0.0014969134472545822,
+          "p25": 0.07197142480728008,
+          "median": 0.162941788318672,
+          "p75": 0.33418728199247505,
+          "p95": 1.567311604407863,
+          "max": 1.9979849538980985
+        }
+      },
+      "60s": {
+        "window_seconds": 60,
+        "anchors": 12147,
+        "anchors_with_history_ratio": 0.9999176751461266,
+        "prior_sessions": {
+          "min": 0.0,
+          "p25": 2798.0,
+          "median": 2973.0,
+          "p75": 3121.0,
+          "p95": 3211.699999999999,
+          "max": 3727.0
+        },
+        "same_source_sessions": {
+          "min": 0.0,
+          "p25": 2783.0,
+          "median": 2958.0,
+          "p75": 3117.0,
+          "p95": 3198.699999999999,
+          "max": 3711.0
+        },
+        "distinct_destinations": {
+          "min": 0.0,
+          "p25": 3.0,
+          "median": 7.0,
+          "p75": 12.0,
+          "p95": 13.0,
+          "max": 14.0
+        },
+        "distinct_ports": {
+          "min": 0.0,
+          "p25": 3.0,
+          "median": 3.0,
+          "p75": 4.0,
+          "p95": 6.0,
+          "max": 6.0
+        },
+        "same_target_distinct_sources": {
+          "min": 0.0,
+          "p25": 1.0,
+          "median": 1.0,
+          "p75": 1.0,
+          "p95": 2.0,
+          "max": 2.0
+        },
+        "repeated_source_target": {
+          "min": 0.0,
+          "p25": 2783.0,
+          "median": 2958.0,
+          "p75": 3117.0,
+          "p95": 3198.699999999999,
+          "max": 3711.0
+        },
+        "prior_packets": {
+          "min": 0.0,
+          "p25": 46504.5,
+          "median": 58117.0,
+          "p75": 65194.0,
+          "p95": 78948.29999999993,
+          "max": 92485.0
+        },
+        "prior_bytes": {
+          "min": 0.0,
+          "p25": 4832231.0,
+          "median": 6228916.0,
+          "p75": 7140476.5,
+          "p95": 8342261.399999994,
+          "max": 9637586.0
+        },
+        "incomplete_ratio": {
+          "min": 0.0,
+          "p25": 0.43466931732126707,
+          "median": 0.6001348617666892,
+          "p75": 0.6765602355380222,
+          "p95": 0.7097418592852033,
+          "max": 0.8296568627450981
+        },
+        "same_source_interval": {
+          "min": 2.86102294921875e-06,
+          "p25": 0.01596313714981079,
+          "median": 0.017182469367980957,
+          "p75": 0.021504640579223633,
+          "p95": 0.03310617208480835,
+          "max": 126.64766883850098
+        },
+        "periodicity_cv": {
+          "min": 0.0014969134472545822,
+          "p25": 0.07198182217700877,
+          "median": 0.1629618667258062,
+          "p75": 0.33428609820424343,
+          "p95": 1.5672786970480186,
+          "max": 1.9979849538980985
+        }
+      }
+    }
+  },
+  "ml_dataset": {
+    "rows": 157800,
+    "columns": [
+      "frame.time",
+      "ip.src_host",
+      "ip.dst_host",
+      "arp.dst.proto_ipv4",
+      "arp.opcode",
+      "arp.hw.size",
+      "arp.src.proto_ipv4",
+      "icmp.checksum",
+      "icmp.seq_le",
+      "icmp.transmit_timestamp",
+      "icmp.unused",
+      "http.file_data",
+      "http.content_length",
+      "http.request.uri.query",
+      "http.request.method",
+      "http.referer",
+      "http.request.full_uri",
+      "http.request.version",
+      "http.response",
+      "http.tls_port",
+      "tcp.ack",
+      "tcp.ack_raw",
+      "tcp.checksum",
+      "tcp.connection.fin",
+      "tcp.connection.rst",
+      "tcp.connection.syn",
+      "tcp.connection.synack",
+      "tcp.dstport",
+      "tcp.flags",
+      "tcp.flags.ack",
+      "tcp.len",
+      "tcp.options",
+      "tcp.payload",
+      "tcp.seq",
+      "tcp.srcport",
+      "udp.port",
+      "udp.stream",
+      "udp.time_delta",
+      "dns.qry.name",
+      "dns.qry.name.len",
+      "dns.qry.qu",
+      "dns.qry.type",
+      "dns.retransmission",
+      "dns.retransmit_request",
+      "dns.retransmit_request_in",
+      "mqtt.conack.flags",
+      "mqtt.conflag.cleansess",
+      "mqtt.conflags",
+      "mqtt.hdrflags",
+      "mqtt.len",
+      "mqtt.msg_decoded_as",
+      "mqtt.msg",
+      "mqtt.msgtype",
+      "mqtt.proto_len",
+      "mqtt.protoname",
+      "mqtt.topic",
+      "mqtt.topic_len",
+      "mqtt.ver",
+      "mbtcp.len",
+      "mbtcp.trans_id",
+      "mbtcp.unit_id",
+      "Attack_label",
+      "Attack_type"
+    ],
+    "column_count": 63,
+    "attack_label_counts": {
+      "1": 133499,
+      "0": 24301
+    },
+    "attack_type_counts": {
+      "Normal": 24301,
+      "DDoS_UDP": 14498,
+      "DDoS_ICMP": 14090,
+      "Ransomware": 10925,
+      "DDoS_HTTP": 10561,
+      "SQL_injection": 10311,
+      "Uploading": 10269,
+      "DDoS_TCP": 10247,
+      "Backdoor": 10195,
+      "Vulnerability_scanner": 10076,
+      "Port_Scanning": 10071,
+      "XSS": 10052,
+      "Password": 9989,
+      "MITM": 1214,
+      "Fingerprinting": 1001
+    },
+    "exact_duplicates": 814
+  },
+  "llm_input": {
+    "sessions_sampled": 300,
+    "tokenizer": "not installed; chars/4 to chars/3 estimate",
+    "packets_8": {
+      "chars": {
+        "min": 183.0,
+        "p25": 230.0,
+        "median": 490.0,
+        "p75": 519.0,
+        "p95": 534.05,
+        "max": 539.0
+      },
+      "approx_tokens_median_range": [
+        122,
+        163
+      ]
+    },
+    "packets_16": {
+      "chars": {
+        "min": 183.0,
+        "p25": 230.0,
+        "median": 490.0,
+        "p75": 895.0,
+        "p95": 927.05,
+        "max": 950.0
+      },
+      "approx_tokens_median_range": [
+        122,
+        163
+      ]
+    },
+    "packets_32": {
+      "chars": {
+        "min": 183.0,
+        "p25": 230.0,
+        "median": 490.0,
+        "p75": 919.75,
+        "p95": 1705.05,
+        "max": 1732.0
+      },
+      "approx_tokens_median_range": [
+        122,
+        163
+      ]
+    },
+    "n16_plus_context": {
+      "chars": {
+        "min": 379.0,
+        "p25": 426.0,
+        "median": 686.0,
+        "p75": 1091.0,
+        "p95": 1123.05,
+        "max": 1146.0
+      },
+      "approx_tokens_median_range": [
+        172,
+        229
+      ]
+    },
+    "n16_context_application": {
+      "chars": {
+        "min": 616.0,
+        "p25": 663.0,
+        "median": 923.0,
+        "p75": 1328.0,
+        "p95": 1360.05,
+        "max": 1383.0
+      },
+      "approx_tokens_median_range": [
+        231,
+        308
+      ]
+    },
+    "n16_context_application_rag": {
+      "chars": {
+        "min": 2425.0,
+        "p25": 2472.0,
+        "median": 2732.0,
+        "p75": 3137.0,
+        "p95": 3169.05,
+        "max": 3192.0
+      },
+      "approx_tokens_median_range": [
+        683,
+        911
+      ]
+    }
+  },
+  "leakage": {
+    "full_rows": 157800,
+    "exact_duplicates": 814,
+    "duplicate_rate": 0.005158428390367554,
+    "diagnostic_sample_rows_after_dedup": 80000,
+    "allowed_numeric_columns": [
+      "arp.opcode",
+      "arp.hw.size",
+      "icmp.unused",
+      "http.content_length",
+      "http.response",
+      "tcp.ack",
+      "tcp.connection.fin",
+      "tcp.connection.rst",
+      "tcp.connection.syn",
+      "tcp.connection.synack",
+      "tcp.flags",
+      "tcp.flags.ack",
+      "tcp.len",
+      "dns.qry.name",
+      "dns.qry.qu",
+      "dns.qry.type",
+      "dns.retransmission",
+      "dns.retransmit_request",
+      "mqtt.conflag.cleansess",
+      "mqtt.conflags",
+      "mqtt.hdrflags",
+      "mqtt.len",
+      "mqtt.proto_len",
+      "mqtt.ver",
+      "mbtcp.len",
+      "mbtcp.unit_id"
+    ],
+    "shortcut_only_random": {
+      "train_rows": 60000,
+      "test_rows": 20000,
+      "test_classes": [
+        "Backdoor",
+        "DDoS_HTTP",
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "Fingerprinting",
+        "MITM",
+        "Normal",
+        "Password",
+        "Port_Scanning",
+        "Ransomware",
+        "SQL_injection",
+        "Uploading",
+        "Vulnerability_scanner",
+        "XSS"
+      ],
+      "accuracy": 0.99825,
+      "macro_f1": 0.9981821227879925
+    },
+    "behavior_plus_ports_random": {
+      "train_rows": 60000,
+      "test_rows": 20000,
+      "test_classes": [
+        "Backdoor",
+        "DDoS_HTTP",
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "Fingerprinting",
+        "MITM",
+        "Normal",
+        "Password",
+        "Port_Scanning",
+        "Ransomware",
+        "SQL_injection",
+        "Uploading",
+        "Vulnerability_scanner",
+        "XSS"
+      ],
+      "accuracy": 0.9411,
+      "macro_f1": 0.9053247362924758
+    },
+    "behavior_no_ports_random": {
+      "train_rows": 60000,
+      "test_rows": 20000,
+      "test_classes": [
+        "Backdoor",
+        "DDoS_HTTP",
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "Fingerprinting",
+        "MITM",
+        "Normal",
+        "Password",
+        "Port_Scanning",
+        "Ransomware",
+        "SQL_injection",
+        "Uploading",
+        "Vulnerability_scanner",
+        "XSS"
+      ],
+      "accuracy": 0.73765,
+      "macro_f1": 0.698326179363436
+    },
+    "behavior_no_ports_endpoint_group_split": {
+      "train_rows": 66455,
+      "test_rows": 13545,
+      "test_classes": [
+        "Backdoor",
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "Fingerprinting",
+        "MITM",
+        "Normal",
+        "Password",
+        "Port_Scanning",
+        "Ransomware",
+        "SQL_injection",
+        "Uploading",
+        "Vulnerability_scanner",
+        "XSS"
+      ],
+      "accuracy": 0.24282022886674048,
+      "macro_f1": 0.09100239083059197
+    },
+    "warning": "Diagnostic only. The ML CSV has no capture/run identifier, so endpoint-group split is not a substitute for capture/time-aware evaluation."
+  },
+  "ku_candidates": {
+    "near": {
+      "u_dev": [
+        "Fingerprinting",
+        "XSS"
+      ],
+      "u_final": [
+        "DDoS_HTTP",
+        "Port_Scanning",
+        "SQL_injection",
+        "Ransomware"
+      ],
+      "k_known": [
+        "Backdoor",
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "MITM",
+        "Password",
+        "Uploading",
+        "Vulnerability_scanner"
+      ],
+      "counts": {
+        "Fingerprinting": 1001,
+        "XSS": 10052,
+        "DDoS_HTTP": 10561,
+        "Port_Scanning": 10071,
+        "SQL_injection": 10311,
+        "Ransomware": 10925,
+        "Backdoor": 10195,
+        "DDoS_ICMP": 14090,
+        "DDoS_TCP": 10247,
+        "DDoS_UDP": 14498,
+        "MITM": 1214,
+        "Password": 9989,
+        "Uploading": 10269,
+        "Vulnerability_scanner": 10076
+      }
+    },
+    "far": {
+      "u_dev": [
+        "Backdoor",
+        "Uploading"
+      ],
+      "u_final": [
+        "MITM",
+        "SQL_injection",
+        "XSS",
+        "Ransomware"
+      ],
+      "k_known": [
+        "DDoS_HTTP",
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "Fingerprinting",
+        "Password",
+        "Port_Scanning",
+        "Vulnerability_scanner"
+      ],
+      "counts": {
+        "Backdoor": 10195,
+        "Uploading": 10269,
+        "MITM": 1214,
+        "SQL_injection": 10311,
+        "XSS": 10052,
+        "Ransomware": 10925,
+        "DDoS_HTTP": 10561,
+        "DDoS_ICMP": 14090,
+        "DDoS_TCP": 10247,
+        "DDoS_UDP": 14498,
+        "Fingerprinting": 1001,
+        "Password": 9989,
+        "Port_Scanning": 10071,
+        "Vulnerability_scanner": 10076
+      }
+    },
+    "mixed": {
+      "u_dev": [
+        "Fingerprinting",
+        "Backdoor"
+      ],
+      "u_final": [
+        "DDoS_HTTP",
+        "MITM",
+        "XSS",
+        "Ransomware"
+      ],
+      "k_known": [
+        "DDoS_ICMP",
+        "DDoS_TCP",
+        "DDoS_UDP",
+        "Password",
+        "Port_Scanning",
+        "SQL_injection",
+        "Uploading",
+        "Vulnerability_scanner"
+      ],
+      "counts": {
+        "Fingerprinting": 1001,
+        "Backdoor": 10195,
+        "DDoS_HTTP": 10561,
+        "MITM": 1214,
+        "XSS": 10052,
+        "Ransomware": 10925,
+        "DDoS_ICMP": 14090,
+        "DDoS_TCP": 10247,
+        "DDoS_UDP": 14498,
+        "Password": 9989,
+        "Port_Scanning": 10071,
+        "SQL_injection": 10311,
+        "Uploading": 10269,
+        "Vulnerability_scanner": 10076
+      }
+    },
+    "all_classes_ge_10_ml_rows": true,
+    "limitation": "ML rows support sample-level 1/5/10-shot. Independent run/capture query separation is not established by the selected CSV or one-PCAP-per-attack layout."
+  }
+}

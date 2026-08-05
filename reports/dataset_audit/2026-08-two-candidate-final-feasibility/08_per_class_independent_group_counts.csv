@@ -1,0 +1,71 @@
+dataset,protocol_or_source,coarse_class,fine_class,official_label_status,network_observability,independent_run_count,evidence_grade,known_20_gate,u_dev_12_gate,u_final_15_gate,notes
+DataSense,Network,DDoS,Ack Fragmentation Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Official packet and log totals are not run counts
+DataSense,Network,DDoS,Connect Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,HTTP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,ICMP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,ICMP Fragmentation Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,MQTT Publish Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,PSHACK Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,RSTFIN Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,Slowloris,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,TCP SYN Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,Synonymous IP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,TCP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,UDP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DDoS,UDP Fragmentation Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,Ack Fragmentation Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Official packet and log totals are not run counts
+DataSense,Network,DoS,Connect Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,HTTP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,ICMP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,ICMP Fragmentation Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,MQTT Publish Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,PSHACK Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,RSTFIN Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,Slowloris,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,TCP SYN Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,Synonymous IP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,TCP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,UDP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,DoS,UDP Fragmentation Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Host Discovery ARP Ping,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Host Discovery TCP ACK Ping,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Host Discovery TCP SYN Ping,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Host Discovery TCP SYN Stealth,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Host Discovery UDP Ping,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,OS Scan,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Ping Sweep,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Port Scan,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Recon,Vulnerability Scan,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Web,Backdoor Upload,CONFIRMED_B,LIMITED,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Fine semantics may require payload or host evidence
+DataSense,Network,Web,Command Injection,CONFIRMED_B,LIMITED,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Fine semantics may require payload or host evidence
+DataSense,Network,Web,SQL Injection,CONFIRMED_B,LIMITED,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Fine semantics may require payload content
+DataSense,Network,Web,Blind SQL Injection,CONFIRMED_B,LIMITED,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Fine semantics may require payload content
+DataSense,Network,Web,Cross Site Scripting,CONFIRMED_B,LIMITED,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Fine semantics may require payload content
+DataSense,Network,Bruteforce,SSH Bruteforce,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Bruteforce,Telnet Bruteforce,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,MITM,ARP Spoofing,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,MITM,Impersonation,CONFIRMED_B,LIMITED,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Observable boundary needs archive-level validation
+DataSense,Network,MITM,IP Spoofing,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or manifest
+DataSense,Network,Malware/Mirai,Syn Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Network pattern visible but Mirai provenance may be scenario-specific
+DataSense,Network,Malware/Mirai,UDP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Network pattern visible but Mirai provenance may be scenario-specific
+DataSense,Network,Benign,Benign,CONFIRMED_B,CLEAR,UNKNOWN,B,NOT_APPLICABLE,NOT_APPLICABLE,NOT_APPLICABLE,12 hours and 10-second windows do not establish 40 independent sessions
+CICIoMT2024,Wi-Fi,DDoS,SYN Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DDoS,TCP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DDoS,ICMP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DDoS,UDP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DoS,SYN Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DoS,TCP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DoS,ICMP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,DoS,UDP Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,Recon,Ping Sweep,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,Recon,Vulnerability Scan,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,Recon,OS Scan,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,Recon,Port Scan,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,Wi-Fi,Spoofing,ARP Spoofing,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No per-class PCAP or run manifest
+CICIoMT2024,MQTT,MQTT,Malformed Data,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or run manifest
+CICIoMT2024,MQTT,MQTT,DoS Connect Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or run manifest
+CICIoMT2024,MQTT,MQTT,DDoS Connect Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or run manifest
+CICIoMT2024,MQTT,MQTT,DoS Publish Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or run manifest
+CICIoMT2024,MQTT,MQTT,DDoS Publish Flood,CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,No repeated execution count or run manifest
+CICIoMT2024,BLE,DoS,BLE DoS,PROTOCOL_EXPERIMENT_CONFIRMED_B,CLEAR,UNKNOWN,B,BLOCKED,BLOCKED,BLOCKED,Relation to published 19-class task and independent repetitions unresolved
+CICIoMT2024,Profiling,Benign,Benign/Profiling,CONFIRMED_B,CLEAR,UNKNOWN,B,NOT_APPLICABLE,NOT_APPLICABLE,NOT_APPLICABLE,Two idle captures plus power active and interaction studies do not prove 40 independent sessions

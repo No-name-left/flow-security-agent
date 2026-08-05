@@ -1,0 +1,43 @@
+{
+  "audit_date": "2026-08-05",
+  "dataset": "Edge-IIoTset",
+  "official_sources": {
+    "author_kaggle": "https://www.kaggle.com/datasets/mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot",
+    "dataset_doi": "https://doi.org/10.21227/mbc1-1h68",
+    "paper_doi": "https://doi.org/10.1109/ACCESS.2022.3165809"
+  },
+  "kaggle_metadata": {
+    "owner": "mohamedamineferrag",
+    "version": 5,
+    "last_updated": "2022-03-18",
+    "license": "CC BY-NC-SA 4.0",
+    "file_count": 52,
+    "official_uncompressed_bytes": 11248814873,
+    "official_archive_bytes": 1746605436,
+    "official_archive_md5": "d0f9be0185845a1ef4ed31cc6db4a9b2"
+  },
+  "local_verification": {
+    "archive_relative_path": "data/external/edge_iiotset/edgeiiotset-cyber-security-dataset-of-iot-iiot.zip",
+    "archive_bytes": 1746605436,
+    "archive_md5": "d0f9be0185845a1ef4ed31cc6db4a9b2",
+    "archive_sha256": "42df619d4a222c5ae014a3b8ad2017536dbf49fbc2d35145349e6012a65b74ae",
+    "zip_members": 52,
+    "extracted_bytes": 11248814873,
+    "extracted_files": 52,
+    "formats": {
+      "csv": 26,
+      "pcap": 24,
+      "pdf": 1,
+      "txt": 1
+    },
+    "archive_identity": "official size and MD5 matched; ZIP central directory opened and sampled members passed CRC decompression",
+    "known_member_issue": "Edge-IIoTset dataset/Attack traffic/Vulnerability scanner attack.pcap contains a malformed/truncated packet record in the official hash-matched archive"
+  },
+  "reproducibility": {
+    "inventory": "file_inventory.csv",
+    "full_probe": "full_inventory_probe.json",
+    "minimal_probe": "probe_results.json",
+    "raw_label_probe": "raw_label_probe.json"
+  },
+  "decision_scope": "provisional review only; no dataset-lock decision recorded"
+}

@@ -1,0 +1,116 @@
+{
+  "audit_date": "2026-08-05",
+  "scope": "20-dataset dual-gate reassessment for Flow-only fine-grained malicious open recognition",
+  "dataset_count": 20,
+  "minimal_gate": {
+    "PASS_MINIMAL": {
+      "count": 6,
+      "datasets": [
+        "UWF",
+        "CICIoT2023",
+        "DataSense 2025",
+        "CICIoMT2024",
+        "X-IIoTID",
+        "Gotham 2025"
+      ]
+    },
+    "PASS_MINIMAL_NARROW": {
+      "count": 2,
+      "datasets": [
+        "NF-ToN-IoT-v3",
+        "GeNIS"
+      ]
+    },
+    "FAIL_MINIMAL": {
+      "count": 12,
+      "datasets": [
+        "NF-CSE-CIC-IDS2018-v3",
+        "NF-BoT-IoT-v3",
+        "CasinoLimit",
+        "CAM-LDS",
+        "CICAPT-IIoT2024",
+        "Multi-Source Cybersecurity Logs",
+        "Windows-APT 2025",
+        "TQH-C2",
+        "CSTNET 2023",
+        "ISCX Tor 2016",
+        "ISCX VPN 2016",
+        "APP-53 2023"
+      ]
+    },
+    "UNKNOWN_MINIMAL": {
+      "count": 0,
+      "datasets": []
+    }
+  },
+  "enhanced_gate": {
+    "PASS_ENHANCED": {
+      "count": 0,
+      "datasets": []
+    },
+    "PARTIAL_ENHANCED": {
+      "count": 8,
+      "datasets": [
+        "NF-ToN-IoT-v3",
+        "UWF",
+        "CICIoT2023",
+        "DataSense 2025",
+        "CICIoMT2024",
+        "X-IIoTID",
+        "GeNIS",
+        "Gotham 2025"
+      ]
+    },
+    "FAIL_ENHANCED": {
+      "count": 12,
+      "datasets": [
+        "NF-CSE-CIC-IDS2018-v3",
+        "NF-BoT-IoT-v3",
+        "CasinoLimit",
+        "CAM-LDS",
+        "CICAPT-IIoT2024",
+        "Multi-Source Cybersecurity Logs",
+        "Windows-APT 2025",
+        "TQH-C2",
+        "CSTNET",
+        "ISCX Tor 2016",
+        "ISCX VPN 2016",
+        "APP-53 2023"
+      ]
+    },
+    "UNKNOWN_ENHANCED": {
+      "count": 0,
+      "datasets": []
+    }
+  },
+  "recommended_main_shortlist": [
+    {
+      "rank": 1,
+      "dataset": "CICIoMT2024",
+      "next_gate": "small archive/schema/label/window probe"
+    },
+    {
+      "rank": 2,
+      "dataset": "DataSense 2025",
+      "next_gate": "registration plus small archive/schema/network-only label probe"
+    },
+    {
+      "rank": 3,
+      "dataset": "X-IIoTID",
+      "next_gate": "official file access plus network-feature whitelist and label observability audit"
+    }
+  ],
+  "priority_five_ranking": [
+    "CICIoMT2024",
+    "DataSense 2025",
+    "X-IIoTID",
+    "UWF",
+    "CICIoT2023"
+  ],
+  "cstnet_decision": "Do not continue as a malicious-Flow main-dataset candidate; official DOI metadata describes OTT/application-signature encrypted-traffic analysis.",
+  "metllm_dataset_decision": "ISCX Tor 2016, ISCX VPN 2016, APP-53 2023 and CSTNET are application/encrypted-traffic tasks rather than fine-grained attack-family datasets.",
+  "large_downloads_performed": false,
+  "models_run": false,
+  "git_operations_performed": false,
+  "protected_files_modified": false
+}

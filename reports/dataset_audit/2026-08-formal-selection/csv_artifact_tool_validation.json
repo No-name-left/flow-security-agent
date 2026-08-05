@@ -1,0 +1,215 @@
+{
+  "status": "ok",
+  "files": [
+    {
+      "file": "03_candidate_dataset_matrix.csv",
+      "bytes": 4405,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/1s6wng\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:N10\",\"address\":\"A1:N10\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "yypoep",
+          "target": {
+            "id": "wb/ydbpeb",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "06_casinolimit_instance_technique_matrix.csv",
+      "bytes": 54481,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/3911t4\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:G1643\",\"address\":\"A1:G1643\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "oebmoh",
+          "target": {
+            "id": "wb/w3yzlu",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "08_uwf_overlap_matrix.csv",
+      "bytes": 1401,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/c50ysa\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:O7\",\"address\":\"A1:O7\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "d2xmon",
+          "target": {
+            "id": "wb/gf73yy",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "09_attack_v19_1_mapping.csv",
+      "bytes": 15433,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/mo634u\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:L106\",\"address\":\"A1:L106\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "6km9rp",
+          "target": {
+            "id": "wb/dzbxku",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "10_flow_observability_audit.csv",
+      "bytes": 12373,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/pbnp2r\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:O67\",\"address\":\"A1:O67\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "wjuntq",
+          "target": {
+            "id": "wb/rbvj3g",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "11_schema_compatibility.csv",
+      "bytes": 15590,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/g4f1sn\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:F79\",\"address\":\"A1:F79\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "jm6mrn",
+          "target": {
+            "id": "wb/ckigm0",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    }
+  ]
+}

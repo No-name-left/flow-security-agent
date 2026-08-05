@@ -1,0 +1,35 @@
+{
+  "audit_id": "2026-08-main-dataset-rapid-screen",
+  "access_date": "2026-08-04",
+  "screened_candidates": 8,
+  "quick_eliminated": 4,
+  "status_counts": {
+    "FAIL_HARD_GATE": 4,
+    "INSUFFICIENT_EVIDENCE": 4,
+    "PASS_TO_FULL_AUDIT": 0
+  },
+  "decision": "NO_SINGLE_DATASET_CANDIDATE_FOUND",
+  "ranked_evidence_acquisition": [
+    {
+      "rank": 1,
+      "dataset": "DataSense: CIC IIoT Dataset 2025",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "largest_unresolved_issue": "No official per-fine independent-run counts or run/capture manifest; target-component PCAP segments may not be independent executions."
+    },
+    {
+      "rank": 2,
+      "dataset": "CICIoMT2024",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "largest_unresolved_issue": "Official train/test directories do not prove activity-disjoint splits or at least 11 independent executions for any few-shot class."
+    }
+  ],
+  "strict_independent_1_5_10_shot_candidate_found": false,
+  "recommended_for_full_audit": [],
+  "fallback_recommendation": "Fallback C: minimal controlled supplementary collection",
+  "large_dataset_download_bytes": 0,
+  "formal_model_runs": 0,
+  "plans_modified": false,
+  "handoff_modified": false,
+  "protected_test_modified": false,
+  "git_add_commit_push_executed": false
+}

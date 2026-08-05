@@ -1,0 +1,1673 @@
+{
+  "generated_at": "2026-08-05T20:28:46.580294+00:00",
+  "decision": {
+    "overall": "PASS_WITH_LIMITATIONS",
+    "edge": "PASS_WITH_LIMITATIONS",
+    "iot23": "PASS_WITH_LIMITATIONS",
+    "edge_behavior_signal": true,
+    "iot23_behavior_signal": true,
+    "no_direct_model_view_leak": true,
+    "iot23_min_pcap_log_match_rate": 0.8153846153846154
+  },
+  "edge": {
+    "captures": {
+      "Normal_Heart_Rate": {
+        "label": "Normal",
+        "role": "known",
+        "pcap_packets": 170263,
+        "sessions": 10573,
+        "assigned": {
+          "train": 5212,
+          "validation": 1854,
+          "test": 2466
+        },
+        "csv_label_counts": {
+          "Normal": 165319
+        },
+        "label_is_file_stable": true,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset\\Heart_Rate.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 170263,
+          "skipped_non_ip_or_unparseable": 172
+        },
+        "time_span_seconds": 1837.3899638652802,
+        "gap_policy": "train 0-55%; gap 5%; validation 60-75%; gap 5%; test 80-100%"
+      },
+      "Port_Scanning": {
+        "label": "Port_Scanning",
+        "role": "known",
+        "pcap_packets": 21583,
+        "sessions": 10908,
+        "assigned": {
+          "train": 5959,
+          "validation": 1640,
+          "test": 2213
+        },
+        "csv_label_counts": {
+          "Port_Scanning": 22564
+        },
+        "label_is_file_stable": true,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset\\Port Scanning attack.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 21583,
+          "skipped_non_ip_or_unparseable": 1746
+        },
+        "time_span_seconds": 9999.71894288063,
+        "gap_policy": "train 0-55%; gap 5%; validation 60-75%; gap 5%; test 80-100%"
+      },
+      "DDoS_HTTP": {
+        "label": "DDoS_HTTP",
+        "role": "known",
+        "pcap_packets": 229122,
+        "sessions": 12145,
+        "assigned": {
+          "train": 4545,
+          "validation": 336,
+          "test": 569
+        },
+        "csv_label_counts": {
+          "DDoS_HTTP": 229022
+        },
+        "label_is_file_stable": true,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset\\DDoS HTTP Flood Attacks.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 229122,
+          "skipped_non_ip_or_unparseable": 20
+        },
+        "time_span_seconds": 271.11070704460144,
+        "gap_policy": "train 0-55%; gap 5%; validation 60-75%; gap 5%; test 80-100%"
+      },
+      "Backdoor": {
+        "label": "Backdoor",
+        "role": "known",
+        "pcap_packets": 24590,
+        "sessions": 1424,
+        "assigned": {
+          "train": 541,
+          "validation": 43,
+          "test": 664
+        },
+        "csv_label_counts": {
+          "Backdoor": 24862
+        },
+        "label_is_file_stable": true,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset\\Backdoor_attack.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 24590,
+          "skipped_non_ip_or_unparseable": 324
+        },
+        "time_span_seconds": 11317.967966079712,
+        "gap_policy": "train 0-55%; gap 5%; validation 60-75%; gap 5%; test 80-100%"
+      },
+      "SQL_Injection": {
+        "label": "SQL_injection",
+        "role": "unknown_dev",
+        "pcap_packets": 51213,
+        "sessions": 4433,
+        "assigned": {
+          "unknown_dev": 4433
+        },
+        "csv_label_counts": {
+          "SQL_injection": 51203
+        },
+        "label_is_file_stable": true,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset\\SQL injection attack.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 51213,
+          "skipped_non_ip_or_unparseable": 15
+        },
+        "time_span_seconds": 505.1168930530548,
+        "gap_policy": "train 0-55%; gap 5%; validation 60-75%; gap 5%; test 80-100%"
+      },
+      "Ransomware": {
+        "label": "Ransomware",
+        "role": "unknown_final",
+        "pcap_packets": 10525,
+        "sessions": 1364,
+        "assigned": {
+          "unknown_final": 1364
+        },
+        "csv_label_counts": {
+          "Ransomware": 10925
+        },
+        "label_is_file_stable": true,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\official_subset\\Ransomware attack.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 10525,
+          "skipped_non_ip_or_unparseable": 505
+        },
+        "time_span_seconds": 116550.44358992577,
+        "gap_policy": "train 0-55%; gap 5%; validation 60-75%; gap 5%; test 80-100%"
+      }
+    },
+    "anomaly_pcap": {
+      "path": "data\\external\\edge_iiotset\\extracted\\Edge-IIoTset dataset\\Attack traffic\\Vulnerability scanner attack.pcap",
+      "exists": true,
+      "capinfos_returncode": 2,
+      "capinfos_stdout": "",
+      "capinfos_stderr": "capinfos: An error occurred after reading 265827 packets from \"C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\extracted\\Edge-IIoTset dataset\\Attack traffic\\Vulnerability scanner attack.pcap\".\ncapinfos: The file \"C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\edge_iiotset\\extracted\\Edge-IIoTset dataset\\Attack traffic\\Vulnerability scanner attack.pcap\" appears to be damaged or corrupt.\n(pcap: File has 136146411-byte packet, bigger than maximum of 262144)"
+    }
+  },
+  "iot23": {
+    "scenarios": {
+      "CTU-IoT-Malware-Capture-8-1": {
+        "split": "train",
+        "family_or_device": "Hakai",
+        "log_rows": 10403,
+        "native_fine_label_counts": {
+          "Benign": 2181,
+          "C&C": 8222
+        },
+        "coarse_label_counts": {
+          "Benign": 2181,
+          "CommandAndControl": 8222
+        },
+        "pcap_packets": 16677,
+        "matched_records": 10403,
+        "match_rate": 1.0,
+        "matched_packet_count_median": 1,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-8-1\\2018-07-31-15-15-09-192.168.100.113.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 16677,
+          "skipped_non_ip_or_unparseable": 6946
+        }
+      },
+      "CTU-IoT-Malware-Capture-20-1": {
+        "split": "validation",
+        "family_or_device": "Torii",
+        "log_rows": 3209,
+        "native_fine_label_counts": {
+          "Benign": 3193,
+          "C&C-Torii": 16
+        },
+        "coarse_label_counts": {
+          "Benign": 3193,
+          "CommandAndControl": 16
+        },
+        "pcap_packets": 41207,
+        "matched_records": 3209,
+        "match_rate": 1.0,
+        "matched_packet_count_median": 2,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-20-1\\2018-10-02-13-12-30-192.168.100.103.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 41207,
+          "skipped_non_ip_or_unparseable": 8949
+        }
+      },
+      "CTU-IoT-Malware-Capture-21-1": {
+        "split": "validation",
+        "family_or_device": "Torii",
+        "log_rows": 3286,
+        "native_fine_label_counts": {
+          "Benign": 3272,
+          "C&C-Torii": 14
+        },
+        "coarse_label_counts": {
+          "Benign": 3272,
+          "CommandAndControl": 14
+        },
+        "pcap_packets": 41131,
+        "matched_records": 3285,
+        "match_rate": 0.9996956786366403,
+        "matched_packet_count_median": 2,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-21-1\\2018-10-03-15-22-32-192.168.100.113.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 41131,
+          "skipped_non_ip_or_unparseable": 9146
+        }
+      },
+      "CTU-IoT-Malware-Capture-34-1": {
+        "split": "test",
+        "family_or_device": "Mirai",
+        "log_rows": 23145,
+        "native_fine_label_counts": {
+          "Benign": 1923,
+          "C&C": 6706,
+          "PartOfAHorizontalPortScan": 122,
+          "DDoS": 14394
+        },
+        "coarse_label_counts": {
+          "Benign": 1923,
+          "CommandAndControl": 6706,
+          "Reconnaissance": 122,
+          "Availability": 14394
+        },
+        "pcap_packets": 228469,
+        "matched_records": 23145,
+        "match_rate": 1.0,
+        "matched_packet_count_median": 147,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-34-1\\2018-12-21-15-50-14-192.168.1.195.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 228469,
+          "skipped_non_ip_or_unparseable": 5396
+        }
+      },
+      "CTU-IoT-Malware-Capture-42-1": {
+        "split": "unknown_final",
+        "family_or_device": "Trojan",
+        "log_rows": 4426,
+        "native_fine_label_counts": {
+          "FileDownload": 3,
+          "C&C-FileDownload": 3,
+          "Benign": 4420
+        },
+        "coarse_label_counts": {
+          "FileTransfer": 6,
+          "Benign": 4420
+        },
+        "pcap_packets": 22748,
+        "matched_records": 4426,
+        "match_rate": 1.0,
+        "matched_packet_count_median": 2.0,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-42-1\\2019-01-10-14-34-38-192.168.1.197.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 14,
+          "stderr": "tshark: The file \"C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-42-1\\2019-01-10-14-34-38-192.168.1.197.pcap\" appears to have been cut short in the middle of a packet.",
+          "parsed_ip_packets": 22748,
+          "skipped_non_ip_or_unparseable": 1736
+        }
+      },
+      "CTU-Honeypot-Capture-4-1": {
+        "split": "train",
+        "family_or_device": "Philips-Hue-Benign",
+        "log_rows": 452,
+        "native_fine_label_counts": {
+          "Benign": 452
+        },
+        "coarse_label_counts": {
+          "Benign": 452
+        },
+        "pcap_packets": 16921,
+        "matched_records": 452,
+        "match_rate": 1.0,
+        "matched_packet_count_median": 2.0,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-Honeypot-Capture-4-1\\2018-10-25-14-06-32-192.168.1.132.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 16921,
+          "skipped_non_ip_or_unparseable": 4743
+        }
+      },
+      "CTU-Honeypot-Capture-7-1-Somfy-01": {
+        "split": "test",
+        "family_or_device": "Somfy-Benign",
+        "log_rows": 130,
+        "native_fine_label_counts": {
+          "Benign": 130
+        },
+        "coarse_label_counts": {
+          "Benign": 130
+        },
+        "pcap_packets": 7059,
+        "matched_records": 106,
+        "match_rate": 0.8153846153846154,
+        "matched_packet_count_median": 6.0,
+        "parse": {
+          "command": [
+            "C:\\Program Files\\Wireshark\\tshark.exe",
+            "-n",
+            "-r",
+            "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\flow_security_agent\\data\\external\\iot23\\official_subset\\CTU-Honeypot-Capture-7-1\\Somfy-01\\2019-07-03-15-15-47-first_start_somfy_gateway.pcap",
+            "-T",
+            "fields",
+            "-E",
+            "separator=/t",
+            "-E",
+            "occurrence=f",
+            "-e",
+            "frame.time_epoch",
+            "-e",
+            "frame.len",
+            "-e",
+            "ip.src",
+            "-e",
+            "ipv6.src",
+            "-e",
+            "ip.dst",
+            "-e",
+            "ipv6.dst",
+            "-e",
+            "ip.proto",
+            "-e",
+            "ipv6.nxt",
+            "-e",
+            "tcp.srcport",
+            "-e",
+            "tcp.dstport",
+            "-e",
+            "udp.srcport",
+            "-e",
+            "udp.dstport",
+            "-e",
+            "tcp.flags"
+          ],
+          "returncode": 0,
+          "stderr": "",
+          "parsed_ip_packets": 7059,
+          "skipped_non_ip_or_unparseable": 1217
+        }
+      }
+    }
+  },
+  "leakage": {
+    "records_checked": 41319,
+    "future_context_violations": 0,
+    "model_view_prohibited_key_violations": [],
+    "model_view_prohibited_key_violation_count": 0,
+    "model_view_raw_identity_value_violations": [],
+    "model_view_raw_identity_value_violation_count": 0,
+    "split_overlap": {
+      "Edge-IIoTset": {
+        "captures_by_split": {
+          "train": [
+            "Backdoor",
+            "DDoS_HTTP",
+            "Normal_Heart_Rate",
+            "Port_Scanning"
+          ],
+          "validation": [
+            "Backdoor",
+            "DDoS_HTTP",
+            "Normal_Heart_Rate",
+            "Port_Scanning"
+          ],
+          "test": [
+            "Backdoor",
+            "DDoS_HTTP",
+            "Normal_Heart_Rate",
+            "Port_Scanning"
+          ],
+          "unknown_dev": [
+            "SQL_Injection"
+          ],
+          "unknown_final": [
+            "Ransomware"
+          ]
+        },
+        "capture_overlap": {
+          "test__train": [
+            "Backdoor",
+            "DDoS_HTTP",
+            "Normal_Heart_Rate",
+            "Port_Scanning"
+          ],
+          "test__unknown_dev": [],
+          "test__unknown_final": [],
+          "test__validation": [
+            "Backdoor",
+            "DDoS_HTTP",
+            "Normal_Heart_Rate",
+            "Port_Scanning"
+          ],
+          "train__unknown_dev": [],
+          "train__unknown_final": [],
+          "train__validation": [
+            "Backdoor",
+            "DDoS_HTTP",
+            "Normal_Heart_Rate",
+            "Port_Scanning"
+          ],
+          "unknown_dev__unknown_final": [],
+          "unknown_dev__validation": [],
+          "unknown_final__validation": []
+        },
+        "sample_id_overlap": {
+          "test__train": 0,
+          "test__unknown_dev": 0,
+          "test__unknown_final": 0,
+          "test__validation": 0,
+          "train__unknown_dev": 0,
+          "train__unknown_final": 0,
+          "train__validation": 0,
+          "unknown_dev__unknown_final": 0,
+          "unknown_dev__validation": 0,
+          "unknown_final__validation": 0
+        },
+        "exact_content_overlap": {
+          "test__train": 0,
+          "test__unknown_dev": 0,
+          "test__unknown_final": 0,
+          "test__validation": 0,
+          "train__unknown_dev": 0,
+          "train__unknown_final": 0,
+          "train__validation": 0,
+          "unknown_dev__unknown_final": 0,
+          "unknown_dev__validation": 0,
+          "unknown_final__validation": 0
+        },
+        "quantized_feature_overlap": {
+          "test__train": 32,
+          "test__unknown_dev": 0,
+          "test__unknown_final": 4,
+          "test__validation": 7,
+          "train__unknown_dev": 0,
+          "train__unknown_final": 1,
+          "train__validation": 6,
+          "unknown_dev__unknown_final": 0,
+          "unknown_dev__validation": 0,
+          "unknown_final__validation": 1
+        },
+        "unordered_endpoint_key_overlap": {
+          "test__train": 2,
+          "test__unknown_dev": 0,
+          "test__unknown_final": 0,
+          "test__validation": 2,
+          "train__unknown_dev": 74,
+          "train__unknown_final": 0,
+          "train__validation": 4,
+          "unknown_dev__unknown_final": 0,
+          "unknown_dev__validation": 317,
+          "unknown_final__validation": 0
+        }
+      },
+      "IoT-23": {
+        "captures_by_split": {
+          "train": [
+            "CTU-Honeypot-Capture-4-1",
+            "CTU-IoT-Malware-Capture-8-1"
+          ],
+          "validation": [
+            "CTU-IoT-Malware-Capture-20-1",
+            "CTU-IoT-Malware-Capture-21-1"
+          ],
+          "test": [
+            "CTU-Honeypot-Capture-7-1-Somfy-01",
+            "CTU-IoT-Malware-Capture-34-1"
+          ],
+          "unknown_final": [
+            "CTU-IoT-Malware-Capture-42-1"
+          ]
+        },
+        "capture_overlap": {
+          "test__train": [],
+          "test__unknown_final": [],
+          "test__validation": [],
+          "train__unknown_final": [],
+          "train__validation": [],
+          "unknown_final__validation": []
+        },
+        "sample_id_overlap": {
+          "test__train": 0,
+          "test__unknown_final": 0,
+          "test__validation": 0,
+          "train__unknown_final": 0,
+          "train__validation": 0,
+          "unknown_final__validation": 0
+        },
+        "exact_content_overlap": {
+          "test__train": 0,
+          "test__unknown_final": 0,
+          "test__validation": 0,
+          "train__unknown_final": 0,
+          "train__validation": 0,
+          "unknown_final__validation": 0
+        },
+        "quantized_feature_overlap": {
+          "test__train": 12,
+          "test__unknown_final": 14,
+          "test__validation": 41,
+          "train__unknown_final": 7,
+          "train__validation": 15,
+          "unknown_final__validation": 31
+        },
+        "unordered_endpoint_key_overlap": {
+          "test__train": 0,
+          "test__unknown_final": 0,
+          "test__validation": 0,
+          "train__unknown_final": 0,
+          "train__validation": 4,
+          "unknown_final__validation": 0
+        }
+      }
+    },
+    "iot23_scenario_multi_split": {},
+    "edge_capture_overlap_interpretation": "Expected by frozen capture-internal time-block protocol; sessions crossing block/gap boundaries are dropped. This does not establish cross-run generalization.",
+    "normalization_encoding_calibration": "No normalization/calibration; DictVectorizer fit only on training records.",
+    "raw_ports": "Retained only in private matching state; model view exposes service_category, with no-port feature path available.",
+    "iot_match_rates": {
+      "CTU-IoT-Malware-Capture-8-1": 1.0,
+      "CTU-IoT-Malware-Capture-20-1": 1.0,
+      "CTU-IoT-Malware-Capture-21-1": 0.9996956786366403,
+      "CTU-IoT-Malware-Capture-34-1": 1.0,
+      "CTU-IoT-Malware-Capture-42-1": 1.0,
+      "CTU-Honeypot-Capture-4-1": 1.0,
+      "CTU-Honeypot-Capture-7-1-Somfy-01": 0.8153846153846154
+    },
+    "deduplication": {
+      "input_records": 76865,
+      "output_records": 41319,
+      "duplicate_evidence_groups": 3790,
+      "conflicting_label_groups_dropped_entirely": 51,
+      "records_removed": 35546,
+      "records_removed_by_dataset": {
+        "Edge-IIoTset": 11154,
+        "IoT-23": 24392
+      },
+      "retention_priority": [
+        "unknown_final",
+        "test",
+        "unknown_dev",
+        "validation",
+        "train"
+      ]
+    }
+  },
+  "learnability": {
+    "experiments": [
+      {
+        "name": "Edge time-block fine-label smoke (no-service primary)",
+        "status": "COMPLETED",
+        "model": {
+          "type": "RandomForestClassifier",
+          "n_estimators": 100,
+          "max_depth": 14,
+          "min_samples_leaf": 2,
+          "class_weight": "balanced_subsample",
+          "seeds": [
+            17,
+            41
+          ]
+        },
+        "train_rows": 2338,
+        "test_rows": 1574,
+        "train_support": {
+          "DDoS_HTTP": 1000,
+          "Normal": 1000,
+          "Port_Scanning": 76,
+          "Backdoor": 262
+        },
+        "test_support": {
+          "Normal": 500,
+          "DDoS_HTTP": 500,
+          "Backdoor": 387,
+          "Port_Scanning": 187
+        },
+        "labels": [
+          "Backdoor",
+          "DDoS_HTTP",
+          "Normal",
+          "Port_Scanning"
+        ],
+        "random_accuracy_level": 0.25,
+        "majority_baseline": {
+          "label": "DDoS_HTTP",
+          "accuracy": 0.3176620076238882,
+          "macro_f1": 0.12054001928640308,
+          "balanced_accuracy": 0.25
+        },
+        "runs": [
+          {
+            "seed": 17,
+            "accuracy": 0.9707750952986023,
+            "macro_f1": 0.9569325683600285,
+            "balanced_accuracy": 0.9460347593582888,
+            "per_class_recall": {
+              "Backdoor": 1.0,
+              "DDoS_HTTP": 0.982,
+              "Normal": 1.0,
+              "Port_Scanning": 0.8021390374331551
+            },
+            "confusion_matrix": [
+              [
+                387,
+                0,
+                0,
+                0
+              ],
+              [
+                4,
+                491,
+                2,
+                3
+              ],
+              [
+                0,
+                0,
+                500,
+                0
+              ],
+              [
+                8,
+                4,
+                25,
+                150
+              ]
+            ]
+          },
+          {
+            "seed": 41,
+            "accuracy": 0.9618805590851334,
+            "macro_f1": 0.9425959452858187,
+            "balanced_accuracy": 0.9298288770053476,
+            "per_class_recall": {
+              "Backdoor": 1.0,
+              "DDoS_HTTP": 0.976,
+              "Normal": 1.0,
+              "Port_Scanning": 0.7433155080213903
+            },
+            "confusion_matrix": [
+              [
+                387,
+                0,
+                0,
+                0
+              ],
+              [
+                6,
+                488,
+                2,
+                4
+              ],
+              [
+                0,
+                0,
+                500,
+                0
+              ],
+              [
+                12,
+                11,
+                25,
+                139
+              ]
+            ]
+          }
+        ],
+        "mean_macro_f1": 0.9497642568229236,
+        "std_macro_f1": 0.007168311537104899,
+        "mean_balanced_accuracy": 0.9379318181818181,
+        "feature_contract": "no_service; behavior whitelist only; DictVectorizer fitted on training data"
+      },
+      {
+        "name": "IoT-23 scenario-held-out behavior smoke (no-service primary)",
+        "status": "COMPLETED",
+        "model": {
+          "type": "RandomForestClassifier",
+          "n_estimators": 100,
+          "max_depth": 14,
+          "min_samples_leaf": 2,
+          "class_weight": "balanced_subsample",
+          "seeds": [
+            17,
+            41
+          ]
+        },
+        "train_rows": 2110,
+        "test_rows": 2269,
+        "train_support": {
+          "CommandAndControl": 1500,
+          "Benign": 610
+        },
+        "test_support": {
+          "CommandAndControl": 1500,
+          "Benign": 769
+        },
+        "labels": [
+          "Benign",
+          "CommandAndControl"
+        ],
+        "random_accuracy_level": 0.5,
+        "majority_baseline": {
+          "label": "CommandAndControl",
+          "accuracy": 0.6610841780520053,
+          "macro_f1": 0.39798355001326613,
+          "balanced_accuracy": 0.5
+        },
+        "runs": [
+          {
+            "seed": 17,
+            "accuracy": 0.7329219920669898,
+            "macro_f1": 0.731173331414745,
+            "balanced_accuracy": 0.7888110099696575,
+            "per_class_recall": {
+              "Benign": 0.9622886866059818,
+              "CommandAndControl": 0.6153333333333333
+            },
+            "confusion_matrix": [
+              [
+                740,
+                29
+              ],
+              [
+                577,
+                923
+              ]
+            ]
+          },
+          {
+            "seed": 41,
+            "accuracy": 0.7360070515645659,
+            "macro_f1": 0.7344090780740554,
+            "balanced_accuracy": 0.7933623753792804,
+            "per_class_recall": {
+              "Benign": 0.9713914174252276,
+              "CommandAndControl": 0.6153333333333333
+            },
+            "confusion_matrix": [
+              [
+                747,
+                22
+              ],
+              [
+                577,
+                923
+              ]
+            ]
+          }
+        ],
+        "mean_macro_f1": 0.7327912047444003,
+        "std_macro_f1": 0.001617873329655184,
+        "mean_balanced_accuracy": 0.791086692674469,
+        "feature_contract": "no_service; behavior whitelist only; DictVectorizer fitted on training data"
+      },
+      {
+        "name": "Edge shortcut sensitivity (full behavior)",
+        "status": "COMPLETED",
+        "model": {
+          "type": "RandomForestClassifier",
+          "n_estimators": 100,
+          "max_depth": 14,
+          "min_samples_leaf": 2,
+          "class_weight": "balanced_subsample",
+          "seeds": [
+            17,
+            41
+          ]
+        },
+        "train_rows": 2338,
+        "test_rows": 1574,
+        "train_support": {
+          "DDoS_HTTP": 1000,
+          "Normal": 1000,
+          "Port_Scanning": 76,
+          "Backdoor": 262
+        },
+        "test_support": {
+          "Normal": 500,
+          "DDoS_HTTP": 500,
+          "Backdoor": 387,
+          "Port_Scanning": 187
+        },
+        "labels": [
+          "Backdoor",
+          "DDoS_HTTP",
+          "Normal",
+          "Port_Scanning"
+        ],
+        "random_accuracy_level": 0.25,
+        "majority_baseline": {
+          "label": "DDoS_HTTP",
+          "accuracy": 0.3176620076238882,
+          "macro_f1": 0.12054001928640308,
+          "balanced_accuracy": 0.25
+        },
+        "runs": [
+          {
+            "seed": 17,
+            "accuracy": 0.9714104193138501,
+            "macro_f1": 0.9573278187717373,
+            "balanced_accuracy": 0.9465347593582888,
+            "per_class_recall": {
+              "Backdoor": 1.0,
+              "DDoS_HTTP": 0.984,
+              "Normal": 1.0,
+              "Port_Scanning": 0.8021390374331551
+            },
+            "confusion_matrix": [
+              [
+                387,
+                0,
+                0,
+                0
+              ],
+              [
+                3,
+                492,
+                1,
+                4
+              ],
+              [
+                0,
+                0,
+                500,
+                0
+              ],
+              [
+                4,
+                16,
+                17,
+                150
+              ]
+            ]
+          },
+          {
+            "seed": 41,
+            "accuracy": 0.957433290978399,
+            "macro_f1": 0.9319302811986234,
+            "balanced_accuracy": 0.9171229946524064,
+            "per_class_recall": {
+              "Backdoor": 1.0,
+              "DDoS_HTTP": 0.984,
+              "Normal": 1.0,
+              "Port_Scanning": 0.6844919786096256
+            },
+            "confusion_matrix": [
+              [
+                387,
+                0,
+                0,
+                0
+              ],
+              [
+                3,
+                492,
+                1,
+                4
+              ],
+              [
+                0,
+                0,
+                500,
+                0
+              ],
+              [
+                18,
+                0,
+                41,
+                128
+              ]
+            ]
+          }
+        ],
+        "mean_macro_f1": 0.9446290499851804,
+        "std_macro_f1": 0.012698768786556958,
+        "mean_balanced_accuracy": 0.9318288770053476,
+        "feature_contract": "full_behavior; behavior whitelist only; DictVectorizer fitted on training data"
+      },
+      {
+        "name": "Edge shortcut sensitivity (service-only)",
+        "status": "COMPLETED",
+        "model": {
+          "type": "RandomForestClassifier",
+          "n_estimators": 100,
+          "max_depth": 14,
+          "min_samples_leaf": 2,
+          "class_weight": "balanced_subsample",
+          "seeds": [
+            17,
+            41
+          ]
+        },
+        "train_rows": 2338,
+        "test_rows": 1574,
+        "train_support": {
+          "DDoS_HTTP": 1000,
+          "Normal": 1000,
+          "Port_Scanning": 76,
+          "Backdoor": 262
+        },
+        "test_support": {
+          "Normal": 500,
+          "DDoS_HTTP": 500,
+          "Backdoor": 387,
+          "Port_Scanning": 187
+        },
+        "labels": [
+          "Backdoor",
+          "DDoS_HTTP",
+          "Normal",
+          "Port_Scanning"
+        ],
+        "random_accuracy_level": 0.25,
+        "majority_baseline": {
+          "label": "DDoS_HTTP",
+          "accuracy": 0.3176620076238882,
+          "macro_f1": 0.12054001928640308,
+          "balanced_accuracy": 0.25
+        },
+        "runs": [
+          {
+            "seed": 17,
+            "accuracy": 0.9008894536213469,
+            "macro_f1": 0.7925626503890183,
+            "balanced_accuracy": 0.7950443629178239,
+            "per_class_recall": {
+              "Backdoor": 0.9896640826873385,
+              "DDoS_HTTP": 0.998,
+              "Normal": 1.0,
+              "Port_Scanning": 0.1925133689839572
+            },
+            "confusion_matrix": [
+              [
+                383,
+                0,
+                4,
+                0
+              ],
+              [
+                0,
+                499,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                500,
+                0
+              ],
+              [
+                20,
+                131,
+                0,
+                36
+              ]
+            ]
+          },
+          {
+            "seed": 41,
+            "accuracy": 0.9008894536213469,
+            "macro_f1": 0.7925626503890183,
+            "balanced_accuracy": 0.7950443629178239,
+            "per_class_recall": {
+              "Backdoor": 0.9896640826873385,
+              "DDoS_HTTP": 0.998,
+              "Normal": 1.0,
+              "Port_Scanning": 0.1925133689839572
+            },
+            "confusion_matrix": [
+              [
+                383,
+                0,
+                4,
+                0
+              ],
+              [
+                0,
+                499,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                500,
+                0
+              ],
+              [
+                20,
+                131,
+                0,
+                36
+              ]
+            ]
+          }
+        ],
+        "mean_macro_f1": 0.7925626503890183,
+        "std_macro_f1": 0.0,
+        "mean_balanced_accuracy": 0.7950443629178239,
+        "feature_contract": "service_only; behavior whitelist only; DictVectorizer fitted on training data"
+      },
+      {
+        "name": "IoT-23 shortcut sensitivity (full behavior)",
+        "status": "COMPLETED",
+        "model": {
+          "type": "RandomForestClassifier",
+          "n_estimators": 100,
+          "max_depth": 14,
+          "min_samples_leaf": 2,
+          "class_weight": "balanced_subsample",
+          "seeds": [
+            17,
+            41
+          ]
+        },
+        "train_rows": 2110,
+        "test_rows": 2269,
+        "train_support": {
+          "CommandAndControl": 1500,
+          "Benign": 610
+        },
+        "test_support": {
+          "CommandAndControl": 1500,
+          "Benign": 769
+        },
+        "labels": [
+          "Benign",
+          "CommandAndControl"
+        ],
+        "random_accuracy_level": 0.5,
+        "majority_baseline": {
+          "label": "CommandAndControl",
+          "accuracy": 0.6610841780520053,
+          "macro_f1": 0.39798355001326613,
+          "balanced_accuracy": 0.5
+        },
+        "runs": [
+          {
+            "seed": 17,
+            "accuracy": 0.7386513882767739,
+            "macro_f1": 0.7371760425560425,
+            "balanced_accuracy": 0.7972635457303858,
+            "per_class_recall": {
+              "Benign": 0.9791937581274383,
+              "CommandAndControl": 0.6153333333333333
+            },
+            "confusion_matrix": [
+              [
+                753,
+                16
+              ],
+              [
+                577,
+                923
+              ]
+            ]
+          },
+          {
+            "seed": 41,
+            "accuracy": 0.7342441604230939,
+            "macro_f1": 0.7325610965368969,
+            "balanced_accuracy": 0.7907615951452103,
+            "per_class_recall": {
+              "Benign": 0.9661898569570871,
+              "CommandAndControl": 0.6153333333333333
+            },
+            "confusion_matrix": [
+              [
+                743,
+                26
+              ],
+              [
+                577,
+                923
+              ]
+            ]
+          }
+        ],
+        "mean_macro_f1": 0.7348685695464697,
+        "std_macro_f1": 0.0023074730095727913,
+        "mean_balanced_accuracy": 0.794012570437798,
+        "feature_contract": "full_behavior; behavior whitelist only; DictVectorizer fitted on training data"
+      },
+      {
+        "name": "IoT-23 shortcut sensitivity (service-only)",
+        "status": "COMPLETED",
+        "model": {
+          "type": "RandomForestClassifier",
+          "n_estimators": 100,
+          "max_depth": 14,
+          "min_samples_leaf": 2,
+          "class_weight": "balanced_subsample",
+          "seeds": [
+            17,
+            41
+          ]
+        },
+        "train_rows": 2110,
+        "test_rows": 2269,
+        "train_support": {
+          "CommandAndControl": 1500,
+          "Benign": 610
+        },
+        "test_support": {
+          "CommandAndControl": 1500,
+          "Benign": 769
+        },
+        "labels": [
+          "Benign",
+          "CommandAndControl"
+        ],
+        "random_accuracy_level": 0.5,
+        "majority_baseline": {
+          "label": "CommandAndControl",
+          "accuracy": 0.6610841780520053,
+          "macro_f1": 0.39798355001326613,
+          "balanced_accuracy": 0.5
+        },
+        "runs": [
+          {
+            "seed": 17,
+            "accuracy": 0.3380343763772587,
+            "macro_f1": 0.252635046113307,
+            "balanced_accuracy": 0.4986996098829649,
+            "per_class_recall": {
+              "Benign": 0.9973992197659298,
+              "CommandAndControl": 0.0
+            },
+            "confusion_matrix": [
+              [
+                767,
+                2
+              ],
+              [
+                1500,
+                0
+              ]
+            ]
+          },
+          {
+            "seed": 41,
+            "accuracy": 0.3380343763772587,
+            "macro_f1": 0.252635046113307,
+            "balanced_accuracy": 0.4986996098829649,
+            "per_class_recall": {
+              "Benign": 0.9973992197659298,
+              "CommandAndControl": 0.0
+            },
+            "confusion_matrix": [
+              [
+                767,
+                2
+              ],
+              [
+                1500,
+                0
+              ]
+            ]
+          }
+        ],
+        "mean_macro_f1": 0.252635046113307,
+        "std_macro_f1": 0.0,
+        "mean_balanced_accuracy": 0.4986996098829649,
+        "feature_contract": "service_only; behavior whitelist only; DictVectorizer fitted on training data"
+      }
+    ],
+    "primary_signal_profile": "no_service",
+    "shortcut_diagnostics": [
+      "full_behavior",
+      "service_only"
+    ]
+  },
+  "qwen_input": {
+    "actual_model_call": false,
+    "reason": "No configured endpoint was required; validation covers real serialized inputs and output schema only.",
+    "samples": 200,
+    "schema_and_serialization_valid": true,
+    "length_chars": {
+      "Edge-IIoTset": {
+        "min": 844,
+        "median": 1346.0,
+        "p95": 1738.0,
+        "max": 1748
+      },
+      "IoT-23": {
+        "min": 820,
+        "median": 1122.0,
+        "p95": 1724.2,
+        "max": 1732
+      }
+    },
+    "packet_policy": {
+      "initial": 8,
+      "maximum": 16
+    },
+    "unknown_path": true,
+    "capability_gating": true
+  }
+}

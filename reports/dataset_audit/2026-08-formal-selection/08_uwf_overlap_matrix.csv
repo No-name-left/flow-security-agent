@@ -1,0 +1,7 @@
+﻿left_dataset,right_dataset,calendar_week,left_rows,right_rows,left_labels,right_labels,time_ranges_overlap,uid_intersection,community_id_intersection,exact_flow_key_intersection,common_columns,left_only_columns,right_only_columns,interpretation
+Data24,Fall24-2,2024-10-27 - 2024-11-03,454846,54203,none,T1018|T1046|T1210|T1595,True,0,1,0,26,,vlan,shared calendar/environment; no exact sampled record overlap
+Data24,Fall24-2,2024-11-03 - 2024-11-10,503263,5424,none,T1210|T1595,True,0,0,0,26,,vlan,shared calendar/environment; no exact sampled record overlap
+Sum25-1,Sum25-2,2025-06-08 - 2025-06-15,44833,2,T1595|none,T1595,True,0,0,0,26,,vlan,shared calendar/environment; no exact sampled record overlap
+Sum25-1,Sum25-2,2025-05-18 - 2025-05-25,49893,244377,from official technique metrics,from official technique metrics,True,not sampled,not sampled,not sampled,26,,vlan,shared calendar/environment; exact-record overlap not tested
+Sum25-1,Sum25-2,2025-05-25 - 2025-06-01,179308,1146127,from official technique metrics,from official technique metrics,True,not sampled,not sampled,not sampled,26,,vlan,shared calendar/environment; exact-record overlap not tested
+Sum25-1,Sum25-2,2025-06-01 - 2025-06-08,302746,478173,from official technique metrics,from official technique metrics,True,not sampled,not sampled,not sampled,26,,vlan,shared calendar/environment; exact-record overlap not tested

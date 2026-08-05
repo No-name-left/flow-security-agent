@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-import pytest
+import pytest  # type: ignore[import-not-found]
 from pydantic import BaseModel, ConfigDict, Field
 
 from flowsec.llm.structured_output import (

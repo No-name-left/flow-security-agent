@@ -1,0 +1,286 @@
+{
+  "status": "FEASIBLE_ON_INSTANCE_LABEL_PRESENCE",
+  "seed": 20260803,
+  "trial": 43,
+  "split_sizes": {
+    "train": 80,
+    "validation": 17,
+    "test": 17
+  },
+  "minimum_per_technique": {
+    "train": 8,
+    "validation": 3,
+    "test": 4
+  },
+  "techniques_checked": [
+    "T1007",
+    "T1016",
+    "T1018",
+    "T1021",
+    "T1033",
+    "T1046",
+    "T1049",
+    "T1057",
+    "T1068",
+    "T1069",
+    "T1070",
+    "T1078",
+    "T1082",
+    "T1083",
+    "T1105",
+    "T1114",
+    "T1125",
+    "T1222",
+    "T1518",
+    "T1548",
+    "T1550",
+    "T1587",
+    "T1613",
+    "T1654"
+  ],
+  "technique_counts": {
+    "T1007": {
+      "train": 23,
+      "validation": 3,
+      "test": 6
+    },
+    "T1016": {
+      "train": 33,
+      "validation": 8,
+      "test": 8
+    },
+    "T1018": {
+      "train": 36,
+      "validation": 11,
+      "test": 7
+    },
+    "T1021": {
+      "train": 49,
+      "validation": 14,
+      "test": 12
+    },
+    "T1033": {
+      "train": 73,
+      "validation": 17,
+      "test": 16
+    },
+    "T1046": {
+      "train": 54,
+      "validation": 13,
+      "test": 13
+    },
+    "T1049": {
+      "train": 31,
+      "validation": 6,
+      "test": 7
+    },
+    "T1057": {
+      "train": 48,
+      "validation": 7,
+      "test": 14
+    },
+    "T1068": {
+      "train": 32,
+      "validation": 10,
+      "test": 8
+    },
+    "T1069": {
+      "train": 50,
+      "validation": 12,
+      "test": 14
+    },
+    "T1070": {
+      "train": 15,
+      "validation": 6,
+      "test": 7
+    },
+    "T1078": {
+      "train": 28,
+      "validation": 9,
+      "test": 7
+    },
+    "T1082": {
+      "train": 41,
+      "validation": 10,
+      "test": 15
+    },
+    "T1083": {
+      "train": 61,
+      "validation": 15,
+      "test": 16
+    },
+    "T1105": {
+      "train": 51,
+      "validation": 8,
+      "test": 14
+    },
+    "T1114": {
+      "train": 30,
+      "validation": 10,
+      "test": 7
+    },
+    "T1125": {
+      "train": 26,
+      "validation": 7,
+      "test": 7
+    },
+    "T1222": {
+      "train": 24,
+      "validation": 8,
+      "test": 9
+    },
+    "T1518": {
+      "train": 56,
+      "validation": 12,
+      "test": 14
+    },
+    "T1548": {
+      "train": 41,
+      "validation": 10,
+      "test": 14
+    },
+    "T1550": {
+      "train": 10,
+      "validation": 5,
+      "test": 5
+    },
+    "T1587": {
+      "train": 17,
+      "validation": 5,
+      "test": 7
+    },
+    "T1613": {
+      "train": 18,
+      "validation": 6,
+      "test": 6
+    },
+    "T1654": {
+      "train": 19,
+      "validation": 4,
+      "test": 6
+    }
+  },
+  "groups": {
+    "train": [
+      "poeticus",
+      "vortex",
+      "inegale",
+      "snoopy",
+      "fougueux",
+      "lumieres",
+      "elmerf",
+      "moderne",
+      "renard",
+      "donald",
+      "arcade",
+      "astral",
+      "voyage",
+      "illusion",
+      "magiqua",
+      "exquis",
+      "dimension",
+      "grandiose",
+      "rigolo",
+      "evolution",
+      "chateau",
+      "etourdi",
+      "papillon",
+      "futuriste",
+      "original",
+      "robotique",
+      "inspirant",
+      "univers",
+      "vivifiant",
+      "symphonie",
+      "fantaisie",
+      "galaxie",
+      "genial",
+      "machin",
+      "palpitant",
+      "opulent",
+      "eclatium",
+      "gallant",
+      "frivole",
+      "venerable",
+      "tintin",
+      "eloquent",
+      "magique",
+      "inventif",
+      "seduisant",
+      "hacker",
+      "arthur",
+      "aerien",
+      "harmonie",
+      "sublimia",
+      "rantaplan",
+      "scoobydoo",
+      "dynamique",
+      "captivant",
+      "intrepide",
+      "magistral",
+      "amusanthe",
+      "merveille",
+      "quantique",
+      "malins",
+      "eclatant",
+      "virtuel",
+      "festif",
+      "coyote",
+      "emotion",
+      "radieusa",
+      "princesse",
+      "exuberant",
+      "aventure",
+      "epanoui",
+      "deliria",
+      "eblouiria",
+      "petillant",
+      "heroique",
+      "paradigme",
+      "aeriella",
+      "intense",
+      "invention",
+      "sublime",
+      "popeye"
+    ],
+    "validation": [
+      "petulant",
+      "eclipsia",
+      "cosmique",
+      "exaltant",
+      "genereux",
+      "bonjour",
+      "dragon",
+      "gaiete",
+      "brillant",
+      "parallele",
+      "fabuleux",
+      "surprise",
+      "enchante",
+      "winnie",
+      "emotionia",
+      "coriandre",
+      "etoile"
+    ],
+    "test": [
+      "feerique",
+      "eclairant",
+      "vaillant",
+      "spongebob",
+      "spatial",
+      "courageux",
+      "spiderman",
+      "etonnant",
+      "vacances",
+      "glorieux",
+      "soleil",
+      "insolite",
+      "sirene",
+      "ravissant",
+      "epique",
+      "radieux",
+      "devinette"
+    ]
+  },
+  "caveat": "This proves only an instance-level label-presence split for non-doubt techniques with >=20 instances. It does not prove that each technique has enough correctly joined, Flow-observable samples."
+}

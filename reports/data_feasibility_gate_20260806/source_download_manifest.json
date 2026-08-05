@@ -1,0 +1,196 @@
+{
+  "generated_at": "2026-08-05T20:28:46.580294+00:00",
+  "policy": "official sources, minimal scenario selection, no full IoT-23 archive",
+  "iot23_base_url": "https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/",
+  "files": [
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Backdoor_attack.csv",
+      "bytes": 17889603,
+      "sha256": "a3da7bfd919c5f238e5c721cbd0e24a0b2b717d7f231c87c3bc9bc083582295b",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Backdoor_attack.pcap",
+      "bytes": 6694092,
+      "sha256": "2f22c751442017f745397d517df9837da378362f670ad238faeac0decd58e3e9",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\DDoS HTTP Flood Attacks.pcap",
+      "bytes": 28307602,
+      "sha256": "2fb2558d51defd1704a54a7a76df787048e9281d2efd8177703d66a7f78620ba",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\DDoS_HTTP_Flood_attack.csv",
+      "bytes": 95709749,
+      "sha256": "526ef4221d74c046d35db948e7aa534f2660270321510726f312409d6036ca33",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Heart_Rate.csv",
+      "bytes": 52569102,
+      "sha256": "f5104511c7b67988ec67fc2f8262913b4ad6d4285db047500a04307491f4b9d5",
+      "modified_time_utc": "2022-03-18T06:49:06+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Heart_Rate.pcap",
+      "bytes": 12840229,
+      "sha256": "45af68c5dc56f1e135102069ee6d86a62e5d2b14dd23cac0bee39dcc40e832fb",
+      "modified_time_utc": "2022-03-18T06:49:06+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Port Scanning attack.pcap",
+      "bytes": 1801807,
+      "sha256": "9fa4c8527951c2ea935b1ae5e932063c1b7fb8cc1e2b0f24defbe3a7b99058d9",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Port_Scanning_attack.csv",
+      "bytes": 7335171,
+      "sha256": "26f7f094254daa23e85ec7df1b7ad9352cf208d9ee9b55d7d7928d3415c793ad",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Ransomware attack.pcap",
+      "bytes": 2842688,
+      "sha256": "f38a731096f61391384adad975537de2de6cea89f38e1c1421e5b328f4b17116",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\Ransomware_attack.csv",
+      "bytes": 7592169,
+      "sha256": "60fa5257c73f0eef6736a56953c7afe6a99e08942a32c3b9716a64abd2be0c7a",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\SQL injection attack.pcap",
+      "bytes": 8173215,
+      "sha256": "374b06418c3dddd831561a8b5521c18a47bd1cd9bfa83f83e33b70d134517491",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\edge_iiotset\\official_subset\\SQL_injection_attack.csv",
+      "bytes": 26933868,
+      "sha256": "59d62ccfab6b708ce1c437a33b4c285e20e614e612edcd86260d4e5c2461c63d",
+      "modified_time_utc": "2022-03-18T06:49:00+00:00",
+      "source": "existing official Edge-IIoTset archive"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-Honeypot-Capture-4-1\\2018-10-25-14-06-32-192.168.1.132.pcap",
+      "bytes": 4594492,
+      "sha256": "3fb775c0391b6ad313a3f7845e634a277b07c3f6377346c2486ba63e1c22e90c",
+      "modified_time_utc": "2026-08-05T19:47:59.833566+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-Honeypot-Capture-4-1\\bro\\conn.log.labeled",
+      "bytes": 61653,
+      "sha256": "aebe40ea0e03b120265a5c7bc140dd9b0d3fe2fce65559e84776b7dd5360e71e",
+      "modified_time_utc": "2026-08-05T19:43:10.195057+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-Honeypot-Capture-7-1\\Somfy-01\\2019-07-03-15-15-47-first_start_somfy_gateway.pcap",
+      "bytes": 2094105,
+      "sha256": "0ec756ff0e26fc6c7d985178a35206bd7bc5b8a33cc5c7a23d6bb0b103db2a2a",
+      "modified_time_utc": "2026-08-05T19:43:17.181332+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-Honeypot-Capture-7-1\\Somfy-01\\bro\\conn.log.labeled",
+      "bytes": 18024,
+      "sha256": "fb37fb38393c48b064d3afd373b075ffe31063d4924a2df1c5d13fc490b830cc",
+      "modified_time_utc": "2026-08-05T19:43:13.486181+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-20-1\\2018-10-02-13-12-30-192.168.100.103.pcap",
+      "bytes": 4057401,
+      "sha256": "4d0a00c33a4bf11228158baddd47c38f702731ea8d75ef1201061fc8bbd878b9",
+      "modified_time_utc": "2026-08-05T19:42:17.766604+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-20-1\\bro\\conn.log.labeled",
+      "bytes": 419604,
+      "sha256": "ef48ad72f65efd13d517223e61e4d877ba53a082ddb8159324b18d3f310d0711",
+      "modified_time_utc": "2026-08-05T19:42:14.750789+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-21-1\\2018-10-03-15-22-32-192.168.100.113.pcap",
+      "bytes": 4063997,
+      "sha256": "40b6928cedcda03fe5ded8a9994ec007a6d784028f37cbc00bbe3a26a7893023",
+      "modified_time_utc": "2026-08-05T19:42:25.847727+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-21-1\\bro\\conn.log.labeled",
+      "bytes": 428943,
+      "sha256": "b63db259aead078f50fc150aa97ace4d1f69576e1245334962759d978ce437eb",
+      "modified_time_utc": "2026-08-05T19:42:22.041518+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-34-1\\2018-12-21-15-50-14-192.168.1.195.pcap",
+      "bytes": 126317980,
+      "sha256": "92ec7e2f6658ee4b007d0b816986c46cc0338bc5e2bec6ceaaca566c695e4699",
+      "modified_time_utc": "2026-08-05T19:47:45.671166+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-34-1\\bro\\conn.log.labeled",
+      "bytes": 2926718,
+      "sha256": "d69e49b2aae8c1bd33286936531658202dec47d989f0439bad3f8be180467a6e",
+      "modified_time_utc": "2026-08-05T19:45:27.562109+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-42-1\\2019-01-10-14-34-38-192.168.1.197.pcap",
+      "bytes": 2908160,
+      "sha256": "7573797f17aae96e3804a3cfb22d531b74c17bbae740de1e14048f89130fba37",
+      "modified_time_utc": "2026-08-05T19:42:35.545902+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-42-1\\bro\\conn.log.labeled",
+      "bytes": 585829,
+      "sha256": "269fa1b22d9a37e159cf41b81a213a0032d21306f5d39b4c20cb0d211b04e8aa",
+      "modified_time_utc": "2026-08-05T19:42:31.788342+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-8-1\\2018-07-31-15-15-09-192.168.100.113.pcap",
+      "bytes": 2098362,
+      "sha256": "80dcc2602519479ddcde889fa902fee19a76696630811452f8df38888af894f2",
+      "modified_time_utc": "2026-08-05T19:42:43.330232+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\CTU-IoT-Malware-Capture-8-1\\bro\\conn.log.labeled",
+      "bytes": 1431000,
+      "sha256": "4877ca8f0f01902fbd18d28b7d06cb3d0be082355b7f2c8862c9deef1782eb8a",
+      "modified_time_utc": "2026-08-05T19:42:40.275313+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    },
+    {
+      "path": "data\\external\\iot23\\official_subset\\metadata\\README.md",
+      "bytes": 5806,
+      "sha256": "8c645afd906d2a22c8cc9fae1251e7a35c27b09ccb6ecadf268b768643a44ab2",
+      "modified_time_utc": "2026-08-05T19:42:08.450441+00:00",
+      "source": "official CTU IoT-23 individual scenario endpoint"
+    }
+  ]
+}

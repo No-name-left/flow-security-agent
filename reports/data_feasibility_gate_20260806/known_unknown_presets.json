@@ -1,0 +1,35 @@
+{
+  "edge_probe": {
+    "known": [
+      "Backdoor",
+      "DDoS_HTTP",
+      "Normal",
+      "Port_Scanning"
+    ],
+    "u_dev": [
+      "SQL_injection"
+    ],
+    "u_final": [
+      "Ransomware"
+    ]
+  },
+  "iot23_probe": {
+    "known": [
+      "Benign",
+      "CommandAndControl"
+    ],
+    "u_dev": [],
+    "u_final_scenario": [
+      "CTU-IoT-Malware-Capture-42-1"
+    ],
+    "u_final_labels": [
+      "FileDownload",
+      "C&C-FileDownload"
+    ],
+    "limitation": "only six malicious unknown flows in the fully held-out scenario",
+    "supplementary_unseen_label": [
+      "DDoS in test-only Capture-34"
+    ]
+  },
+  "status": "feasibility presets; formal K/U must be preregistered before training"
+}

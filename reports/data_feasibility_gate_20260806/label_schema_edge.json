@@ -1,0 +1,20 @@
+{
+  "id": "edge_native_v1",
+  "fine_labels": [
+    "Backdoor",
+    "DDoS_HTTP",
+    "Normal",
+    "Port_Scanning",
+    "Ransomware",
+    "SQL_injection"
+  ],
+  "coarse_mapping": {
+    "Normal": "Benign",
+    "Port_Scanning": "Reconnaissance",
+    "DDoS_HTTP": "Availability",
+    "Backdoor": "Malware",
+    "SQL_injection": "Injection",
+    "Ransomware": "Malware"
+  },
+  "scope": "feasibility subset only; full 15-class schema remains for formal build"
+}

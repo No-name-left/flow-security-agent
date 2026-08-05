@@ -1,0 +1,115 @@
+{
+  "generated_at": "2026-08-05T20:28:46.580294+00:00",
+  "files": [
+    {
+      "path": "adapter_schema.json",
+      "bytes": 586,
+      "sha256": "7109abefb5c8d81bbe70271c2d7c55c1b123d5628f8d3bf8f69fca60e57a1501"
+    },
+    {
+      "path": "dataset_manifest.json",
+      "bytes": 24184,
+      "sha256": "ec91d289e467d1dcbd2643cf6d967dfd050817b04b07b5289a1b8fb54c88d804"
+    },
+    {
+      "path": "edge_adapter_validation.md",
+      "bytes": 1354,
+      "sha256": "ff2439e55a5f4b15ff3a198cdee779aa54ab5a0e34242aff43773b36ae0f4d74"
+    },
+    {
+      "path": "edge_smoke.jsonl",
+      "bytes": 8877364,
+      "sha256": "3e02afc49f30fe3fa527e592664f0bbe99e4ae29683b414dbe4ea52ea18041b9"
+    },
+    {
+      "path": "final_gate_report.md",
+      "bytes": 2141,
+      "sha256": "36107f3cee74101b5856b9b221c5b723b400586d80e6a3609d1be9e8b942b972"
+    },
+    {
+      "path": "gate_results.json",
+      "bytes": 48787,
+      "sha256": "772feec70b063f9110ffdd7ec70dad4137f055341f701581c76aa55dbff89e2e"
+    },
+    {
+      "path": "iot23_adapter_validation.md",
+      "bytes": 1851,
+      "sha256": "1c1e94daeefbfe8a528d1129e5e56834a97b27e748e51cf78692e3d46019d750"
+    },
+    {
+      "path": "iot23_smoke.jsonl",
+      "bytes": 6839837,
+      "sha256": "2a1da8b73cc4026e156428a2b5f94126226e9747d96bef30ef4dfc5a3373a0ce"
+    },
+    {
+      "path": "known_unknown_presets.json",
+      "bytes": 746,
+      "sha256": "4056d3c2ae58643d6db513936a37218f340fbe165c6c94e4936cec01beb470a4"
+    },
+    {
+      "path": "label_schema_edge.json",
+      "bytes": 476,
+      "sha256": "9d9ee9a1c2d9bb606f633b38dfb8f81ee2c11f2731306f129cc3c607572b4c6f"
+    },
+    {
+      "path": "label_schema_iot23.json",
+      "bytes": 488,
+      "sha256": "1790f42fd9bf127ddacf7e985bc6a0202de80bda1ef7007c274d92830dcb093d"
+    },
+    {
+      "path": "leakage_audit.md",
+      "bytes": 1437,
+      "sha256": "691ae683a341d3df9f604ed699cec9ec6920c21fd0a176df54112e5f3e3053ca"
+    },
+    {
+      "path": "learnability_smoke_report.md",
+      "bytes": 1531,
+      "sha256": "2fe00fae0e03393879e3b3eb1dfdb56e058070679dcb8a5d3a27376111bdf187"
+    },
+    {
+      "path": "lightweight_model_predictions.csv",
+      "bytes": 2275803,
+      "sha256": "d3c98261c1619d2344ef9c8c5b84249847a83715ef5f03a341081a3a9ca7e1ba"
+    },
+    {
+      "path": "model_feature_whitelist.json",
+      "bytes": 770,
+      "sha256": "30c3fffdcecd38a7f6da22870bdca086e3c7b200a0a80cf4bf61dc471378ba54"
+    },
+    {
+      "path": "prohibited_fields.json",
+      "bytes": 532,
+      "sha256": "a1c1a11894cdbbd0a9a6e2a8fb1240e07d59de79f3ae59ecb7921d519f47d7ca"
+    },
+    {
+      "path": "qwen_input_samples.jsonl",
+      "bytes": 377036,
+      "sha256": "42dad3ed743379ba3b8d905fca1f71ae7dbef2e94ef87548e0be93599e14ed55"
+    },
+    {
+      "path": "qwen_input_smoke_report.md",
+      "bytes": 605,
+      "sha256": "3d1b4be30edeedf10c083bef4bf2f5a7c91e5d4efa27fc774dad15a5363f7145"
+    },
+    {
+      "path": "run_final_gate.py",
+      "bytes": 69391,
+      "sha256": "81db63545a32b9b8dbe263fbfc7222e12cb68f8674f8229b8ac19339d083e507"
+    },
+    {
+      "path": "run_metadata.json",
+      "bytes": 498,
+      "sha256": "80fbeec0e1c2b791326d10369f1f136596ae042eb49dd6f06faf283f4a8cd5c0"
+    },
+    {
+      "path": "source_download_manifest.json",
+      "bytes": 9790,
+      "sha256": "6c48afda408f4a468eda9ec612fc3765ae4afe2ebbb5a5fe2235ddaf8f795673"
+    },
+    {
+      "path": "split_manifest.json",
+      "bytes": 912,
+      "sha256": "bb62397f759110051a750921aaac4b8d13297ccabff77d529a9a4a37e9b4f0f3"
+    }
+  ]
+}

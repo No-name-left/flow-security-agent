@@ -1,0 +1,23 @@
+{
+  "features": [
+    "packet_sequence.direction",
+    "packet_sequence.packet_length",
+    "packet_sequence.relative_iat",
+    "packet_sequence.protocol",
+    "packet_sequence.tcp_flags",
+    "session_summary.duration",
+    "session_summary.forward_packets",
+    "session_summary.backward_packets",
+    "session_summary.forward_bytes",
+    "session_summary.backward_bytes",
+    "session_summary.packet_length_stats",
+    "session_summary.iat_stats",
+    "session_summary.handshake_state",
+    "session_summary.service_category",
+    "temporal_context",
+    "application_evidence.allowed_categories_only",
+    "capabilities",
+    "missing_fields"
+  ],
+  "raw_port_policy": "audit only; service category default; no-port ablation entry retained"
+}

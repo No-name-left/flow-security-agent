@@ -1,0 +1,184 @@
+{
+  "inspection_type": "static_config_and_source_only",
+  "weights_loaded": false,
+  "config_path": "..\\dataset_audit_cache\\metadata\\qwen35_9b_base_config.json",
+  "config_sha256": "d0883072e01861ed0b2d47be3c16c36a8e81c224c7ffaa310c6558fb3f932b05",
+  "source_path": "..\\dataset_audit_cache\\metadata\\modeling_qwen3_5.py",
+  "source_sha256": "216299f3abdbff00301fce279d726d1ddd350bdaa93150b101a822dd3a9e3079",
+  "architectures": [
+    "Qwen3_5ForConditionalGeneration"
+  ],
+  "model_type": "qwen3_5",
+  "dtype": "bfloat16",
+  "is_multimodal_checkpoint": true,
+  "text_config": {
+    "hidden_size": 4096,
+    "num_hidden_layers": 32,
+    "intermediate_size": 12288,
+    "vocab_size": 248320,
+    "max_position_embeddings": 262144,
+    "layer_types": [
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention"
+    ]
+  },
+  "vision_config": {
+    "depth": 27,
+    "hidden_size": 1152,
+    "out_hidden_size": 4096
+  },
+  "linear_assignments": [
+    {
+      "class": "Qwen3_5GatedDeltaNet",
+      "attribute": "out_proj",
+      "line": 433
+    },
+    {
+      "class": "Qwen3_5GatedDeltaNet",
+      "attribute": "in_proj_qkv",
+      "line": 447
+    },
+    {
+      "class": "Qwen3_5GatedDeltaNet",
+      "attribute": "in_proj_z",
+      "line": 448
+    },
+    {
+      "class": "Qwen3_5GatedDeltaNet",
+      "attribute": "in_proj_b",
+      "line": 449
+    },
+    {
+      "class": "Qwen3_5GatedDeltaNet",
+      "attribute": "in_proj_a",
+      "line": 450
+    },
+    {
+      "class": "Qwen3_5Attention",
+      "attribute": "q_proj",
+      "line": 660
+    },
+    {
+      "class": "Qwen3_5Attention",
+      "attribute": "k_proj",
+      "line": 663
+    },
+    {
+      "class": "Qwen3_5Attention",
+      "attribute": "v_proj",
+      "line": 666
+    },
+    {
+      "class": "Qwen3_5Attention",
+      "attribute": "o_proj",
+      "line": 669
+    },
+    {
+      "class": "Qwen3_5MLP",
+      "attribute": "gate_proj",
+      "line": 729
+    },
+    {
+      "class": "Qwen3_5MLP",
+      "attribute": "up_proj",
+      "line": 730
+    },
+    {
+      "class": "Qwen3_5MLP",
+      "attribute": "down_proj",
+      "line": 731
+    },
+    {
+      "class": "Qwen3_5VisionMLP",
+      "attribute": "linear_fc1",
+      "line": 850
+    },
+    {
+      "class": "Qwen3_5VisionMLP",
+      "attribute": "linear_fc2",
+      "line": 851
+    },
+    {
+      "class": "Qwen3_5VisionPatchMerger",
+      "attribute": "linear_fc1",
+      "line": 884
+    },
+    {
+      "class": "Qwen3_5VisionPatchMerger",
+      "attribute": "linear_fc2",
+      "line": 886
+    },
+    {
+      "class": "Qwen3_5VisionAttention",
+      "attribute": "qkv",
+      "line": 915
+    },
+    {
+      "class": "Qwen3_5VisionAttention",
+      "attribute": "proj",
+      "line": 916
+    },
+    {
+      "class": "Qwen3_5ForCausalLM",
+      "attribute": "lm_head",
+      "line": 1620
+    },
+    {
+      "class": "Qwen3_5ForConditionalGeneration",
+      "attribute": "lm_head",
+      "line": 1713
+    }
+  ],
+  "candidate_text_lora_target_suffixes": [
+    "down_proj",
+    "gate_proj",
+    "in_proj_a",
+    "in_proj_b",
+    "in_proj_qkv",
+    "in_proj_z",
+    "k_proj",
+    "o_proj",
+    "out_proj",
+    "q_proj",
+    "up_proj",
+    "v_proj"
+  ],
+  "vision_only_suffixes_excluded": [
+    "linear_fc1",
+    "linear_fc2",
+    "proj",
+    "qkv"
+  ],
+  "source_declares_text_only_classes": true,
+  "caveat": "Suffixes are static candidates, not a successful-load claim. Run qwen35_9b_5090_smoke_test.py with the intended checkpoint and software stack before freezing LoRA targets."
+}

@@ -1,0 +1,51 @@
+{
+  "sample_id": "synthetic-session-001",
+  "dataset_name": "SYNTHETIC",
+  "scenario_or_capture_id": "fixture-only",
+  "split": "test",
+  "timestamp_start": 0.0,
+  "timestamp_end": 0.25,
+  "packet_sequence": [
+    {
+      "direction": "initiator_to_responder",
+      "packet_length": 60,
+      "relative_iat": 0.0,
+      "protocol": "TCP",
+      "tcp_flags": 2
+    }
+  ],
+  "session_summary": {
+    "duration": 0.25,
+    "forward_packets": 1,
+    "backward_packets": 0,
+    "forward_bytes": 60,
+    "backward_bytes": 0,
+    "packet_length_stats": {"min": 60.0, "max": 60.0, "mean": 60.0, "std": 0.0},
+    "iat_stats": {"min": 0.0, "max": 0.0, "mean": 0.0, "std": 0.0},
+    "handshake_state": "INCOMPLETE_HANDSHAKE",
+    "service_category": "web"
+  },
+  "temporal_context": {
+    "window_seconds": 60,
+    "prior_session_count": 0,
+    "same_initiator_prior_sessions": 0
+  },
+  "application_evidence": null,
+  "label_schema_id": "synthetic_v1",
+  "fine_label": "Benign",
+  "coarse_label": "Benign",
+  "capabilities": {
+    "packet_expand": false,
+    "temporal_context": true,
+    "application_evidence": false
+  },
+  "missing_fields": ["application_evidence"],
+  "prohibited_model_fields": [
+    "raw_ip",
+    "timestamp_start",
+    "timestamp_end",
+    "source_file",
+    "scenario_or_capture_id",
+    "dataset_name"
+  ]
+}

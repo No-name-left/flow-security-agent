@@ -1,0 +1,79 @@
+﻿dataset,canonical_field,source_field_or_rule,availability,verified_sample_path,notes
+CasinoLimit,timestamp,timestamp,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,src_ip,src_ip,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,dst_ip,dst_ip,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,src_port,src_port,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,dst_port,dst_port,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,protocol,protocol,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,duration,duration,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,forward_reverse_bytes,bytes (one recorded direction/row),yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,forward_reverse_packets,packets (one recorded direction/row),yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,tcp_state_or_history,missing,no,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,service,missing,no,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+CasinoLimit,attack_technique,indirect system_labels+relations,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,adapter required
+CasinoLimit,activity_group,instance_name,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\casinolimit_robotique.csv,
+UWF Data24,timestamp,ts|datetime,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,adapter required
+UWF Data24,src_ip,src_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,dst_ip,dest_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,src_port,src_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,dst_port,dest_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,protocol,proto,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,duration,duration,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,forward_reverse_bytes,orig_bytes|resp_bytes,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,adapter required
+UWF Data24,forward_reverse_packets,orig_pkts|resp_pkts,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,adapter required
+UWF Data24,tcp_state_or_history,conn_state|history,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,adapter required
+UWF Data24,service,service,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,attack_technique,label_technique,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,
+UWF Data24,activity_group,missing; derive capture-week/activity group,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_data24_2024-10-27.parquet,adapter required
+UWF Fall24-2,timestamp,ts|datetime,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,adapter required
+UWF Fall24-2,src_ip,src_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,dst_ip,dest_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,src_port,src_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,dst_port,dest_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,protocol,proto,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,duration,duration,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,forward_reverse_bytes,orig_bytes|resp_bytes,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,adapter required
+UWF Fall24-2,forward_reverse_packets,orig_pkts|resp_pkts,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,adapter required
+UWF Fall24-2,tcp_state_or_history,conn_state|history,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,adapter required
+UWF Fall24-2,service,service,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,attack_technique,label_technique,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,
+UWF Fall24-2,activity_group,missing; derive capture-week/activity group,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_fall24_2_2024-10-27.parquet,adapter required
+UWF Sum25-1,timestamp,ts|datetime,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,adapter required
+UWF Sum25-1,src_ip,src_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,dst_ip,dest_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,src_port,src_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,dst_port,dest_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,protocol,proto,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,duration,duration,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,forward_reverse_bytes,orig_bytes|resp_bytes,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,adapter required
+UWF Sum25-1,forward_reverse_packets,orig_pkts|resp_pkts,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,adapter required
+UWF Sum25-1,tcp_state_or_history,conn_state|history,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,adapter required
+UWF Sum25-1,service,service,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,attack_technique,label_technique,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,
+UWF Sum25-1,activity_group,missing; derive capture-week/activity group,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_1_2025-06-08.parquet,adapter required
+UWF Sum25-2,timestamp,ts|datetime,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,adapter required
+UWF Sum25-2,src_ip,src_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,dst_ip,dest_ip_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,src_port,src_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,dst_port,dest_port_zeek,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,protocol,proto,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,duration,duration,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,forward_reverse_bytes,orig_bytes|resp_bytes,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,adapter required
+UWF Sum25-2,forward_reverse_packets,orig_pkts|resp_pkts,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,adapter required
+UWF Sum25-2,tcp_state_or_history,conn_state|history,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,adapter required
+UWF Sum25-2,service,service,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,attack_technique,label_technique,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,
+UWF Sum25-2,activity_group,missing; derive capture-week/activity group,yes,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\uwf_sum25_2_2025-06-08.parquet,adapter required
+CAM-LDS,timestamp,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,src_ip,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,dst_ip,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,src_port,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,dst_port,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,protocol,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,duration,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,forward_reverse_bytes,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,forward_reverse_packets,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,tcp_state_or_history,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,service,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,attack_technique,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"
+CAM-LDS,activity_group,not verified from a NetFlow sample,unknown,C:\Users\lenovo\Desktop\研究生方向\杂项\26.6_ai网安应用测试\dataset_audit_cache\downloads\cam_scenario7_attackmate.json,"attackmate ground truth is verified, direct Flow schema/join is not"

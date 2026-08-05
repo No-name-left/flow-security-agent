@@ -1,0 +1,47 @@
+{
+  "audit_id": "2026-08-two-candidate-final-feasibility",
+  "retrieval_cutoff": "2026-08-04T23:34:00+08:00",
+  "scope": [
+    "DataSense: CIC IIoT Dataset 2025",
+    "CICIoMT2024"
+  ],
+  "single_main_dataset_found": false,
+  "datasense_status": "BLOCKED_PENDING_AUTHOR_CONFIRMATION",
+  "ciciomt2024_status": "BLOCKED_PENDING_AUTHOR_CONFIRMATION",
+  "formal_qwen_experiments_authorized": false,
+  "public_single_dataset_search_route": "PAUSE_PENDING_AUTHOR_OR_MANIFEST_EVIDENCE",
+  "controlled_core_dataset_design": "DESIGN_ONLY_ALLOWED_FORMAL_TRAINING_NOT_ALLOWED",
+  "decisive_blockers": {
+    "DataSense": [
+      "No per-fine-class independent-run counts",
+      "No run/capture manifest or PCAP-to-run-to-label mapping",
+      "No proof of 40 independent benign sessions",
+      "Published evaluation uses stratified 80/20 after aggregation",
+      "Official file browser requires registration and returned HTTP 403 without it"
+    ],
+    "CICIoMT2024": [
+      "No per-fine-class independent-run counts",
+      "No proof that an original PCAP equals one independent execution",
+      "No run-level proof for published train/test directories",
+      "Large PCAP chunking and attack-dependent 10/100-packet windows",
+      "Official file browser requires registration and returned HTTP 403 without it"
+    ]
+  },
+  "independent_activity_few_shot": {
+    "DataSense": "NOT_FORMALLY_FEASIBLE_WITH_CURRENT_EVIDENCE",
+    "CICIoMT2024": "NOT_FORMALLY_FEASIBLE_WITH_CURRENT_EVIDENCE"
+  },
+  "group_split": {
+    "DataSense": "NOT_FORMALLY_FEASIBLE_WITH_CURRENT_EVIDENCE",
+    "CICIoMT2024": "NOT_FORMALLY_FEASIBLE_WITH_CURRENT_EVIDENCE"
+  },
+  "downloaded_bytes_saved_to_disk": 8960775,
+  "known_http_response_body_bytes": 190258,
+  "known_total_transfer_bytes_excluding_web_reader": 9151033,
+  "download_limit_bytes": 2147483648,
+  "dataset_archives_downloaded": 0,
+  "models_run": false,
+  "git_add_commit_push_run": false,
+  "author_questions_sent": false,
+  "required_author_confirmation": true
+}

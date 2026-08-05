@@ -1,0 +1,21 @@
+{
+  "id": "iot23_behavior_v1",
+  "native_fine_labels": [
+    "Benign",
+    "C&C",
+    "C&C-FileDownload",
+    "C&C-Torii",
+    "DDoS",
+    "FileDownload",
+    "PartOfAHorizontalPortScan"
+  ],
+  "coarse_labels": [
+    "Availability",
+    "Benign",
+    "CommandAndControl",
+    "FileTransfer",
+    "Reconnaissance"
+  ],
+  "normalization_rule": "preserve native detailed-label; map only to documented behavior coarse groups",
+  "scenario_family_is_backend_only": true
+}

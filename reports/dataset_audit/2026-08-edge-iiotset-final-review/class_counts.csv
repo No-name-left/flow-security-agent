@@ -1,0 +1,16 @@
+﻿label,coarse_label,ml_selected_rows,raw_csv_packet_rows,pcap_packets,sessions_30s,sessions_60s,evidence_note
+Backdoor,Malware,10195,24862,24914,1532,1455,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+DDoS_HTTP,DoS_DDoS,10561,229022,229142,18747,12147,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+DDoS_ICMP,DoS_DDoS,14090,2914354,2914356,2409365,2407988,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+DDoS_TCP,DoS_DDoS,10247,2020120,2020152,1176080,1176058,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+DDoS_UDP,DoS_DDoS,14498,3201626,3215732,3215227,3215192,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+Fingerprinting,Information_Gathering,1001,1001,1176,224,215,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+MITM,MITM,1214,1229,1229,286,245,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+Normal,Normal,24301,11209913,11258625,681513,680807,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary; raw totals aggregate 10 normal captures
+Password,Malware,9989,1053385,1053893,96307,96154,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+Port_Scanning,Information_Gathering,10071,22564,23329,11065,10943,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+Ransomware,Malware,10925,10925,11030,1546,1386,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+SQL_injection,Injection,10311,51203,51228,4442,4439,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+Uploading,Malware,10269,37634,37644,7650,7638,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary
+Vulnerability_scanner,Information_Gathering,10076,145869,265827,2982,2936,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary; PCAP count/session counts are partial because official PCAP has a malformed/truncated record
+XSS,Injection,10052,15915,16215,1941,1930,full official archive; sessions are minimum-probe bidirectional 5-tuple counts per capture boundary

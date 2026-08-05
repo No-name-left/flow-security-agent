@@ -1,0 +1,75 @@
+{
+  "status": "ok",
+  "files": [
+    {
+      "file": "01_candidate_longlist.csv",
+      "bytes": 2943,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/w5frgl\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:J9\",\"address\":\"A1:J9\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "e2eesp",
+          "target": {
+            "id": "wb/twuobt",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "02_metadata_evidence_matrix.csv",
+      "bytes": 5879,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/er7p3x\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:AJ9\",\"address\":\"A1:AJ9\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "yxvgfa",
+          "target": {
+            "id": "wb/zs3ek0",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "status": "ok",
+  "files": [
+    {
+      "file": "04_uwf_parent_technique_matrix.csv",
+      "bytes": 25620,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/833ilh\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:AF72\",\"address\":\"A1:AF72\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "y6t2ee",
+          "target": {
+            "id": "wb/zb6113",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "05_uwf_subtechnique_matrix.csv",
+      "bytes": 140,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/159kcq\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:J1\",\"address\":\"A1:J1\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "ujhopl",
+          "target": {
+            "id": "wb/ynab5r",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "06_uwf_group_matrix.csv",
+      "bytes": 7506,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/6fmbtr\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:M28\",\"address\":\"A1:M28\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "vk5z1r",
+          "target": {
+            "id": "wb/6bpya4",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "07_uwf_flow_observability.csv",
+      "bytes": 3966,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/iyq3f4\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:K28\",\"address\":\"A1:K28\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "gubobs",
+          "target": {
+            "id": "wb/ez84r4",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "10_uwf_fewshot_feasibility.csv",
+      "bytes": 5671,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/cqbo7q\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:M28\",\"address\":\"A1:M28\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "7o880k",
+          "target": {
+            "id": "wb/q4chg2",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "uwf_file_inventory.csv",
+      "bytes": 11922,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/kkmtd3\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:M51\",\"address\":\"A1:M51\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "i4k3g0",
+          "target": {
+            "id": "wb/sfcaoc",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    }
+  ]
+}

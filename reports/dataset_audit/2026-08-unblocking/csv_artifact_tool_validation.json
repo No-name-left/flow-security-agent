@@ -1,0 +1,180 @@
+{
+  "status": "ok",
+  "files": [
+    {
+      "file": "03_casinolimit_join_results.csv",
+      "bytes": 1331993,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/8zd7go\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:AE7307\",\"address\":\"A1:AE7307\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "yup0e9",
+          "target": {
+            "id": "wb/djna63",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "04_casinolimit_manual_review_queue.csv",
+      "bytes": 233144,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/mwvero\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:V46\",\"address\":\"A1:V46\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "6pvirp",
+          "target": {
+            "id": "wb/qgo27s",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "06_casinolimit_final_technique_matrix.csv",
+      "bytes": 13258,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/4a3ksb\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:U67\",\"address\":\"A1:U67\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "nq7285",
+          "target": {
+            "id": "wb/hoies7",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "09_uwf_activity_technique_matrix.csv",
+      "bytes": 21876,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/7a0bk1\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:O72\",\"address\":\"A1:O72\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "k9erwv",
+          "target": {
+            "id": "wb/psjntk",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "10_cross_dataset_technique_overlap.csv",
+      "bytes": 7840,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/jzq4na\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:K69\",\"address\":\"A1:K69\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "xbskdj",
+          "target": {
+            "id": "wb/sumuba",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    }
+  ]
+}

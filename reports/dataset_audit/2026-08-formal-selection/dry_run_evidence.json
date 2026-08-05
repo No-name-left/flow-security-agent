@@ -1,0 +1,174 @@
+{
+  "status": "PARTIAL_PASS_WITH_JOIN_WARNINGS",
+  "formal_training_started": false,
+  "instance": "ravissant",
+  "raw_flow_file": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_ravissant.csv",
+  "physical_data_rows": 371109,
+  "parsed_rows": 371105,
+  "malformed_or_skipped_rows": 4,
+  "system_label_records": 27,
+  "relation_records": 3,
+  "pipeline_stages": [
+    "raw Flow CSV",
+    "event_uid join to relation",
+    "exact ATT&CK v19.1 external_id mapping",
+    "time-window candidates",
+    "directed and direction-normalized endpoint/port match",
+    "candidate evidence sample"
+  ],
+  "relations": [
+    {
+      "event_uids": [
+        "266427-intranet"
+      ],
+      "raw_techniques": [
+        "T1570"
+      ],
+      "parent_techniques_v19_1": [
+        "T1570"
+      ],
+      "time_window_candidate_count": 42,
+      "strict_directed_match_count": 0,
+      "direction_normalized_match_count": 2,
+      "relation_data": {
+        "src_ip": "10.135.*.10",
+        "dst_ip": "10.135.215.20",
+        "src_port": "",
+        "dst_port": "8383",
+        "start_time": "2024-05-18 02:34:17.827",
+        "end_time": "2024-05-18 02:34:44.023"
+      }
+    },
+    {
+      "event_uids": [
+        "266434-intranet"
+      ],
+      "raw_techniques": [
+        "T1570"
+      ],
+      "parent_techniques_v19_1": [
+        "T1570"
+      ],
+      "time_window_candidate_count": 105,
+      "strict_directed_match_count": 0,
+      "direction_normalized_match_count": 3,
+      "relation_data": {
+        "src_ip": "10.135.*.10",
+        "dst_ip": "10.135.215.20",
+        "src_port": "",
+        "dst_port": "8083",
+        "start_time": "2024-05-18 02:34:44.023",
+        "end_time": "2024-05-18 02:35:30.909"
+      }
+    },
+    {
+      "event_uids": [
+        "45202-bastion"
+      ],
+      "raw_techniques": [
+        "T1572"
+      ],
+      "parent_techniques_v19_1": [
+        "T1572"
+      ],
+      "time_window_candidate_count": 123,
+      "strict_directed_match_count": 0,
+      "direction_normalized_match_count": 0,
+      "relation_data": {
+        "src_ip": "10.35.*.20",
+        "dst_ip": "10.135.215.10",
+        "src_port": "",
+        "dst_port": "8787",
+        "start_time": "2024-05-18 02:38:36.948",
+        "end_time": "2024-05-18 02:39:41.344"
+      }
+    }
+  ],
+  "candidate_samples": [
+    {
+      "instance": "ravissant",
+      "event_uids": [
+        "266427-intranet"
+      ],
+      "raw_techniques": [
+        "T1570"
+      ],
+      "parent_techniques_v19_1": [
+        "T1570"
+      ],
+      "timestamp": "2024-05-18T02:34:17.836000",
+      "src_ip": "10.135.215.20",
+      "dst_ip": "10.135.215.10",
+      "src_port": 8383,
+      "dst_port": 57390,
+      "protocol": "TCP",
+      "bytes": 40.0,
+      "packets": 1,
+      "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+    },
+    {
+      "instance": "ravissant",
+      "event_uids": [
+        "266427-intranet"
+      ],
+      "raw_techniques": [
+        "T1570"
+      ],
+      "parent_techniques_v19_1": [
+        "T1570"
+      ],
+      "timestamp": "2024-05-18T02:34:17.836000",
+      "src_ip": "10.135.215.20",
+      "dst_ip": "10.135.215.10",
+      "src_port": 8383,
+      "dst_port": 57390,
+      "protocol": "TCP",
+      "bytes": 40.0,
+      "packets": 1,
+      "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+    },
+    {
+      "instance": "ravissant",
+      "event_uids": [
+        "266434-intranet"
+      ],
+      "raw_techniques": [
+        "T1570"
+      ],
+      "parent_techniques_v19_1": [
+        "T1570"
+      ],
+      "timestamp": "2024-05-18T02:34:44.031000",
+      "src_ip": "10.135.215.20",
+      "dst_ip": "10.135.215.10",
+      "src_port": 8083,
+      "dst_port": 50066,
+      "protocol": "TCP",
+      "bytes": 8.7,
+      "packets": 396,
+      "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+    },
+    {
+      "instance": "ravissant",
+      "event_uids": [
+        "266434-intranet"
+      ],
+      "raw_techniques": [
+        "T1570"
+      ],
+      "parent_techniques_v19_1": [
+        "T1570"
+      ],
+      "timestamp": "2024-05-18T02:34:44.031000",
+      "src_ip": "10.135.215.20",
+      "dst_ip": "10.135.215.10",
+      "src_port": 8083,
+      "dst_port": 50066,
+      "protocol": "TCP",
+      "bytes": 5.2,
+      "packets": 3492,
+      "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+    }
+  ],
+  "warning": "Two of three relations yielded candidates only after deterministic direction normalization; one relation yielded no endpoint/port match. The adapter must be validated on more instances before CasinoLimit can supply formal supervised Flow labels."
+}

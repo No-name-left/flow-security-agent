@@ -1,0 +1,67 @@
+{
+  "audit_date": "2026-08-04",
+  "audit_name": "UWF Flow-only ATT&CK Technique main dataset validation",
+  "seed": 20260804,
+  "attack_version": "Enterprise ATT&CK v19.1",
+  "uwf": {
+    "versions": 6,
+    "weekly_parquet_files": 50,
+    "rows": 27111594,
+    "compressed_bytes": 1181646450,
+    "parent_techniques": 27,
+    "subtechniques": 0,
+    "flow_observable_ab_labels": ["T1018", "T1046", "T1110", "T1557", "T1595"],
+    "strict_reliable_known_candidates": ["T1018", "T1046", "T1595"],
+    "port_shortcut_secondary": ["T1110"],
+    "public_activity_id_available": false,
+    "public_subtechnique_label_available": false,
+    "duplicate_rows_removed_from_modeling": 33053
+  },
+  "recommended_sets": {
+    "K_known": ["T1046", "T1595"],
+    "K_known_secondary": ["T1110"],
+    "K_pseudo_unknown": ["T1018"],
+    "K_final_unknown": ["T1190", "T1210"]
+  },
+  "decisions": {
+    "task1": "GO WITH LIMITATIONS",
+    "task2": "GO WITH LIMITED TECHNIQUE COVERAGE",
+    "unknown": "PARTIAL",
+    "one_shot": "PARTIAL",
+    "five_shot": "PARTIAL",
+    "ten_shot": "PARTIAL",
+    "main_dataset": "CONDITIONAL_MAIN_DATASET",
+    "formal_preprocessing_allowed": true,
+    "prepare_5090_smoke_allowed": true,
+    "formal_qwen_sft_allowed": false
+  },
+  "cpu_probe": {
+    "lightgbm_version": "4.6.0",
+    "technique_random_macro_f1": 0.8360,
+    "technique_grouped_macro_f1": 0.8399,
+    "technique_grouped_no_port_macro_f1": 0.8126,
+    "technique_label_shuffle_macro_f1": 0.1406,
+    "version_prediction_macro_f1": 0.9386,
+    "version_prediction_no_port_macro_f1": 0.7832,
+    "interpretation": "Flow signal exists, but collection-domain and fixed-script shortcuts remain material; probe is not a paper result."
+  },
+  "group_protocol": {
+    "official_group": "unavailable",
+    "primary_proxy": "dataset_version + original weekly parquet/file",
+    "sensitivity_proxy": "dataset_version + calendar date + source host",
+    "support_query_overlap_allowed": false,
+    "claim_limit": "proxy groups are not verified independent attack missions"
+  },
+  "canonical_plans_modified": false,
+  "canonical_mirror_sha_match": true,
+  "canonical_hashes": {
+    "research_plan_detailed.md": "2D3083DE5F17E40B764D5A7F74EEABE7748F764A7D931B1FCB5CB20D0C954FD6",
+    "research_plan_and_timeline.md": "EAD98E725EBF7018A38B290DACC1C0A8AEC10ABD77F9F8772B02381655163A6D",
+    "research_plan_brief.md": "19BA2D1DCE798E3BD54E5CAF33541BD78875DBDFC1C1116E15F6F6EF1D608876"
+  },
+  "protected_test_sha256_before": "BC6F548F294AE12D905FC1C6ABFB9808E37C5216C7A1499614682940476C6418",
+  "model_weights_downloaded": false,
+  "gpu_task_run": false,
+  "qwen_training_run": false,
+  "git_add_commit_push_run": false
+}

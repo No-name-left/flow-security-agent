@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-08-05T20:28:46.580294+00:00",
+  "command": "python reports/data_feasibility_gate_20260806/run_final_gate.py",
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tshark": "C:\\Program Files\\Wireshark\\tshark.exe",
+  "seeds": [
+    17,
+    41
+  ],
+  "environment": {
+    "processor_count": 20
+  },
+  "formal_training": false,
+  "qwen_called": false
+}

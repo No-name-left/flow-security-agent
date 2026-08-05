@@ -1,0 +1,49 @@
+{
+  "audit_id": "2026-08-ciciot2023-main-validation",
+  "completed_at": "2026-08-04",
+  "decision": "ENGINEERING_ONLY",
+  "formal_main_dataset_approved": false,
+  "official_dataset_downloaded": false,
+  "pcap_downloaded": false,
+  "formal_training_started": false,
+  "official_fine_labels": 34,
+  "official_attack_labels": 33,
+  "official_coarse_groups_including_benign": 8,
+  "official_reported_rows": 46686579,
+  "sample_semantics": "fixed-size packet-window summary, not conventional bidirectional Flow",
+  "capture_or_attack_run_id_available_in_blended_csv": false,
+  "formal_group_split_feasible": false,
+  "fewshot_support_query_isolation_feasible": false,
+  "secondary_probe": {
+    "dataset": "lacg030175/CIC-IoT-2023-raw",
+    "config": "random_3way",
+    "rows": 9600,
+    "actual_labels": 32,
+    "numeric_features": 39,
+    "role": "exploratory audit only",
+    "fine_lightgbm_macro_f1": 0.6137700304221698,
+    "fine_lightgbm_ece": 0.15040618440500048,
+    "label_shuffle_macro_f1": 0.02890068640371739,
+    "unknown_msp_auroc": 0.7989897727272728,
+    "unknown_fpr_at_95_tpr": 0.5159090909090909
+  },
+  "gate": {
+    "class_coverage": "pass",
+    "near_far_unknown_design": "design_only_pass",
+    "non_random_signal": "limited_pass",
+    "capture_level_split": "fail",
+    "fewshot_activity_isolation": "fail",
+    "adaptive_action_states": "engineering_only_pass"
+  },
+  "blocking_reasons": [
+    "released blended CSV lacks capture/attack-run/source-group identifiers",
+    "paper documents one experiment per attack",
+    "Spark part files are shuffled storage partitions, not independent sources",
+    "10-packet versus 100-packet construction is strongly associated with coarse label families"
+  ],
+  "reopen_conditions": [
+    "obtain auditable sample-to-capture-and-attack-run mapping",
+    "verify sufficient independent activities per target class",
+    "pass group-disjoint train/dev/final and few-shot support/query isolation"
+  ]
+}

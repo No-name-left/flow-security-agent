@@ -1,0 +1,37 @@
+{
+  "mode": "preflight_only",
+  "formal_training_started": false,
+  "model": "Qwen/Qwen3.5-9B-Base",
+  "model_is_local": false,
+  "allow_download": false,
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "max_seq_length": 2048,
+  "candidate_lora_targets": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj",
+    "in_proj_qkv",
+    "in_proj_z",
+    "in_proj_b",
+    "in_proj_a",
+    "out_proj"
+  ],
+  "recommended_training_envelope": {
+    "quantization": "4-bit NF4",
+    "compute_dtype": "bfloat16 when supported",
+    "micro_batch_size": 1,
+    "gradient_accumulation": "use to reach effective batch",
+    "gradient_checkpointing": true,
+    "optimizer": "paged_adamw_8bit",
+    "freeze_vision_tower": true,
+    "initial_sequence_length": "2048; increase to 4096 only after measured headroom"
+  },
+  "torch_import_error": "ModuleNotFoundError(\"No module named 'torch'\")",
+  "status": "PREPARED_NOT_RUN",
+  "reason": "Use --execute on the target NVIDIA host after dependencies and checkpoint are available."
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "left": "uwf_data22_2021-12-12.parquet",
+    "right": "uwf_fall22_2021-12-12.parquet",
+    "left_rows": 428724,
+    "right_rows": 20745,
+    "uid_intersection": 20716,
+    "community_id_intersection": 15491,
+    "exact_flow_key_intersection": 20716
+  },
+  {
+    "left": "uwf_data22_2021-12-19.parquet",
+    "right": "uwf_fall22_2021-12-19.parquet",
+    "left_rows": 1757069,
+    "right_rows": 97807,
+    "uid_intersection": 94240,
+    "community_id_intersection": 35893,
+    "exact_flow_key_intersection": 94240
+  },
+  {
+    "left": "uwf_data22_2021-12-26.parquet",
+    "right": "uwf_fall22_2021-12-26.parquet",
+    "left_rows": 1757998,
+    "right_rows": 98290,
+    "uid_intersection": 94652,
+    "community_id_intersection": 36017,
+    "exact_flow_key_intersection": 94652
+  },
+  {
+    "left": "uwf_data22_2022-01-02.parquet",
+    "right": "uwf_fall22_2022-01-02.parquet",
+    "left_rows": 2403853,
+    "right_rows": 133497,
+    "uid_intersection": 129811,
+    "community_id_intersection": 67444,
+    "exact_flow_key_intersection": 129811
+  },
+  {
+    "left": "uwf_data24_2024-10-27.parquet",
+    "right": "uwf_fall24_2_2024-10-27.parquet",
+    "left_rows": 454846,
+    "right_rows": 54203,
+    "uid_intersection": 0,
+    "community_id_intersection": 1,
+    "exact_flow_key_intersection": 0
+  },
+  {
+    "left": "uwf_data24_2024-11-03.parquet",
+    "right": "uwf_fall24_2_2024-11-03.parquet",
+    "left_rows": 503263,
+    "right_rows": 5424,
+    "uid_intersection": 0,
+    "community_id_intersection": 0,
+    "exact_flow_key_intersection": 0
+  },
+  {
+    "left": "uwf_sum25_1_2025-05-18.parquet",
+    "right": "uwf_sum25_2_2025-05-18.parquet",
+    "left_rows": 49893,
+    "right_rows": 244377,
+    "uid_intersection": 0,
+    "community_id_intersection": 4359,
+    "exact_flow_key_intersection": 0
+  },
+  {
+    "left": "uwf_sum25_1_2025-05-25.parquet",
+    "right": "uwf_sum25_2_2025-05-25.parquet",
+    "left_rows": 179308,
+    "right_rows": 1146127,
+    "uid_intersection": 0,
+    "community_id_intersection": 27428,
+    "exact_flow_key_intersection": 0
+  },
+  {
+    "left": "uwf_sum25_1_2025-06-01.parquet",
+    "right": "uwf_sum25_2_2025-06-01.parquet",
+    "left_rows": 302746,
+    "right_rows": 478173,
+    "uid_intersection": 0,
+    "community_id_intersection": 0,
+    "exact_flow_key_intersection": 0
+  },
+  {
+    "left": "uwf_sum25_1_2025-06-08.parquet",
+    "right": "uwf_sum25_2_2025-06-08.parquet",
+    "left_rows": 44833,
+    "right_rows": 2,
+    "uid_intersection": 0,
+    "community_id_intersection": 0,
+    "exact_flow_key_intersection": 0
+  }
+]

@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+pytest-cache-files-*/
 .test-tmp/
 .ruff_cache/
 .mypy_cache/
@@ -10,6 +11,9 @@ __pycache__/
 htmlcov/
 .venv/
 venv/
+*.log
+tmp/
+temp/
 
 # Secrets and local runtime settings
 .env
@@ -23,6 +27,24 @@ outputs/
 checkpoints/
 models/
 adapters/
+wandb/
+mlruns/
+.cache/
+.huggingface/
+hf_cache/
+download_cache/
+downloads/
+*.part
+*.partial
+*.tmp
+*.pcap
+*.pcapng
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
 *.parquet
 *.arrow
 *.feather
@@ -30,9 +52,23 @@ adapters/
 *.ckpt
 *.pt
 *.pth
+*.gguf
+*.bin
+*shard*.jsonl
+*shard*.csv
+*intermediate*.jsonl
+*intermediate*.parquet
+
+# Large reproducible audit outputs (keep scripts, reports and manifests instead)
+reports/data_feasibility_gate_*/edge_smoke.jsonl
+reports/data_feasibility_gate_*/iot23_smoke.jsonl
+reports/data_feasibility_gate_*/qwen_input_samples.jsonl
+reports/data_feasibility_gate_*/lightweight_model_predictions.csv
+reports/dataset_audit/2026-08-unblocking/03_casinolimit_join_results.csv
 
 # Editors and operating systems
 .idea/
 .vscode/
+.obsidian/
 .DS_Store
 Thumbs.db

@@ -1,0 +1,646 @@
+{
+  "audit_timestamp_utc": "2026-08-03T16:23:51.876812+00:00",
+  "audit_seed": 20260803,
+  "attack_version": "Enterprise ATT&CK v19.1",
+  "attack_stix_sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3",
+  "cache_bytes_touched": 324015050,
+  "casino": {
+    "instances": 114,
+    "flow_csv_members_official": 140,
+    "system_label_records": 9243,
+    "distinct_raw_techniques": 66,
+    "relation_files": 73,
+    "threshold_counts": {
+      "1": 66,
+      "5": 42,
+      "8": 38,
+      "10": 35,
+      "15": 31,
+      "20": 25
+    },
+    "reliable_threshold_counts": {
+      "1": 65,
+      "5": 41,
+      "8": 37,
+      "10": 34,
+      "15": 30,
+      "20": 24
+    },
+    "split": {
+      "status": "FEASIBLE_ON_INSTANCE_LABEL_PRESENCE",
+      "seed": 20260803,
+      "trial": 43,
+      "split_sizes": {
+        "train": 80,
+        "validation": 17,
+        "test": 17
+      },
+      "minimum_per_technique": {
+        "train": 8,
+        "validation": 3,
+        "test": 4
+      },
+      "techniques_checked": [
+        "T1007",
+        "T1016",
+        "T1018",
+        "T1021",
+        "T1033",
+        "T1046",
+        "T1049",
+        "T1057",
+        "T1068",
+        "T1069",
+        "T1070",
+        "T1078",
+        "T1082",
+        "T1083",
+        "T1105",
+        "T1114",
+        "T1125",
+        "T1222",
+        "T1518",
+        "T1548",
+        "T1550",
+        "T1587",
+        "T1613",
+        "T1654"
+      ],
+      "technique_counts": {
+        "T1007": {
+          "train": 23,
+          "validation": 3,
+          "test": 6
+        },
+        "T1016": {
+          "train": 33,
+          "validation": 8,
+          "test": 8
+        },
+        "T1018": {
+          "train": 36,
+          "validation": 11,
+          "test": 7
+        },
+        "T1021": {
+          "train": 49,
+          "validation": 14,
+          "test": 12
+        },
+        "T1033": {
+          "train": 73,
+          "validation": 17,
+          "test": 16
+        },
+        "T1046": {
+          "train": 54,
+          "validation": 13,
+          "test": 13
+        },
+        "T1049": {
+          "train": 31,
+          "validation": 6,
+          "test": 7
+        },
+        "T1057": {
+          "train": 48,
+          "validation": 7,
+          "test": 14
+        },
+        "T1068": {
+          "train": 32,
+          "validation": 10,
+          "test": 8
+        },
+        "T1069": {
+          "train": 50,
+          "validation": 12,
+          "test": 14
+        },
+        "T1070": {
+          "train": 15,
+          "validation": 6,
+          "test": 7
+        },
+        "T1078": {
+          "train": 28,
+          "validation": 9,
+          "test": 7
+        },
+        "T1082": {
+          "train": 41,
+          "validation": 10,
+          "test": 15
+        },
+        "T1083": {
+          "train": 61,
+          "validation": 15,
+          "test": 16
+        },
+        "T1105": {
+          "train": 51,
+          "validation": 8,
+          "test": 14
+        },
+        "T1114": {
+          "train": 30,
+          "validation": 10,
+          "test": 7
+        },
+        "T1125": {
+          "train": 26,
+          "validation": 7,
+          "test": 7
+        },
+        "T1222": {
+          "train": 24,
+          "validation": 8,
+          "test": 9
+        },
+        "T1518": {
+          "train": 56,
+          "validation": 12,
+          "test": 14
+        },
+        "T1548": {
+          "train": 41,
+          "validation": 10,
+          "test": 14
+        },
+        "T1550": {
+          "train": 10,
+          "validation": 5,
+          "test": 5
+        },
+        "T1587": {
+          "train": 17,
+          "validation": 5,
+          "test": 7
+        },
+        "T1613": {
+          "train": 18,
+          "validation": 6,
+          "test": 6
+        },
+        "T1654": {
+          "train": 19,
+          "validation": 4,
+          "test": 6
+        }
+      },
+      "groups": {
+        "train": [
+          "poeticus",
+          "vortex",
+          "inegale",
+          "snoopy",
+          "fougueux",
+          "lumieres",
+          "elmerf",
+          "moderne",
+          "renard",
+          "donald",
+          "arcade",
+          "astral",
+          "voyage",
+          "illusion",
+          "magiqua",
+          "exquis",
+          "dimension",
+          "grandiose",
+          "rigolo",
+          "evolution",
+          "chateau",
+          "etourdi",
+          "papillon",
+          "futuriste",
+          "original",
+          "robotique",
+          "inspirant",
+          "univers",
+          "vivifiant",
+          "symphonie",
+          "fantaisie",
+          "galaxie",
+          "genial",
+          "machin",
+          "palpitant",
+          "opulent",
+          "eclatium",
+          "gallant",
+          "frivole",
+          "venerable",
+          "tintin",
+          "eloquent",
+          "magique",
+          "inventif",
+          "seduisant",
+          "hacker",
+          "arthur",
+          "aerien",
+          "harmonie",
+          "sublimia",
+          "rantaplan",
+          "scoobydoo",
+          "dynamique",
+          "captivant",
+          "intrepide",
+          "magistral",
+          "amusanthe",
+          "merveille",
+          "quantique",
+          "malins",
+          "eclatant",
+          "virtuel",
+          "festif",
+          "coyote",
+          "emotion",
+          "radieusa",
+          "princesse",
+          "exuberant",
+          "aventure",
+          "epanoui",
+          "deliria",
+          "eblouiria",
+          "petillant",
+          "heroique",
+          "paradigme",
+          "aeriella",
+          "intense",
+          "invention",
+          "sublime",
+          "popeye"
+        ],
+        "validation": [
+          "petulant",
+          "eclipsia",
+          "cosmique",
+          "exaltant",
+          "genereux",
+          "bonjour",
+          "dragon",
+          "gaiete",
+          "brillant",
+          "parallele",
+          "fabuleux",
+          "surprise",
+          "enchante",
+          "winnie",
+          "emotionia",
+          "coriandre",
+          "etoile"
+        ],
+        "test": [
+          "feerique",
+          "eclairant",
+          "vaillant",
+          "spongebob",
+          "spatial",
+          "courageux",
+          "spiderman",
+          "etonnant",
+          "vacances",
+          "glorieux",
+          "soleil",
+          "insolite",
+          "sirene",
+          "ravissant",
+          "epique",
+          "radieux",
+          "devinette"
+        ]
+      },
+      "caveat": "This proves only an instance-level label-presence split for non-doubt techniques with >=20 instances. It does not prove that each technique has enough correctly joined, Flow-observable samples."
+    },
+    "dry_run": {
+      "status": "PARTIAL_PASS_WITH_JOIN_WARNINGS",
+      "formal_training_started": false,
+      "instance": "ravissant",
+      "raw_flow_file": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_ravissant.csv",
+      "physical_data_rows": 371109,
+      "parsed_rows": 371105,
+      "malformed_or_skipped_rows": 4,
+      "system_label_records": 27,
+      "relation_records": 3,
+      "pipeline_stages": [
+        "raw Flow CSV",
+        "event_uid join to relation",
+        "exact ATT&CK v19.1 external_id mapping",
+        "time-window candidates",
+        "directed and direction-normalized endpoint/port match",
+        "candidate evidence sample"
+      ],
+      "relations": [
+        {
+          "event_uids": [
+            "266427-intranet"
+          ],
+          "raw_techniques": [
+            "T1570"
+          ],
+          "parent_techniques_v19_1": [
+            "T1570"
+          ],
+          "time_window_candidate_count": 42,
+          "strict_directed_match_count": 0,
+          "direction_normalized_match_count": 2,
+          "relation_data": {
+            "src_ip": "10.135.*.10",
+            "dst_ip": "10.135.215.20",
+            "src_port": "",
+            "dst_port": "8383",
+            "start_time": "2024-05-18 02:34:17.827",
+            "end_time": "2024-05-18 02:34:44.023"
+          }
+        },
+        {
+          "event_uids": [
+            "266434-intranet"
+          ],
+          "raw_techniques": [
+            "T1570"
+          ],
+          "parent_techniques_v19_1": [
+            "T1570"
+          ],
+          "time_window_candidate_count": 105,
+          "strict_directed_match_count": 0,
+          "direction_normalized_match_count": 3,
+          "relation_data": {
+            "src_ip": "10.135.*.10",
+            "dst_ip": "10.135.215.20",
+            "src_port": "",
+            "dst_port": "8083",
+            "start_time": "2024-05-18 02:34:44.023",
+            "end_time": "2024-05-18 02:35:30.909"
+          }
+        },
+        {
+          "event_uids": [
+            "45202-bastion"
+          ],
+          "raw_techniques": [
+            "T1572"
+          ],
+          "parent_techniques_v19_1": [
+            "T1572"
+          ],
+          "time_window_candidate_count": 123,
+          "strict_directed_match_count": 0,
+          "direction_normalized_match_count": 0,
+          "relation_data": {
+            "src_ip": "10.35.*.20",
+            "dst_ip": "10.135.215.10",
+            "src_port": "",
+            "dst_port": "8787",
+            "start_time": "2024-05-18 02:38:36.948",
+            "end_time": "2024-05-18 02:39:41.344"
+          }
+        }
+      ],
+      "candidate_samples": [
+        {
+          "instance": "ravissant",
+          "event_uids": [
+            "266427-intranet"
+          ],
+          "raw_techniques": [
+            "T1570"
+          ],
+          "parent_techniques_v19_1": [
+            "T1570"
+          ],
+          "timestamp": "2024-05-18T02:34:17.836000",
+          "src_ip": "10.135.215.20",
+          "dst_ip": "10.135.215.10",
+          "src_port": 8383,
+          "dst_port": 57390,
+          "protocol": "TCP",
+          "bytes": 40.0,
+          "packets": 1,
+          "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+        },
+        {
+          "instance": "ravissant",
+          "event_uids": [
+            "266427-intranet"
+          ],
+          "raw_techniques": [
+            "T1570"
+          ],
+          "parent_techniques_v19_1": [
+            "T1570"
+          ],
+          "timestamp": "2024-05-18T02:34:17.836000",
+          "src_ip": "10.135.215.20",
+          "dst_ip": "10.135.215.10",
+          "src_port": 8383,
+          "dst_port": 57390,
+          "protocol": "TCP",
+          "bytes": 40.0,
+          "packets": 1,
+          "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+        },
+        {
+          "instance": "ravissant",
+          "event_uids": [
+            "266434-intranet"
+          ],
+          "raw_techniques": [
+            "T1570"
+          ],
+          "parent_techniques_v19_1": [
+            "T1570"
+          ],
+          "timestamp": "2024-05-18T02:34:44.031000",
+          "src_ip": "10.135.215.20",
+          "dst_ip": "10.135.215.10",
+          "src_port": 8083,
+          "dst_port": 50066,
+          "protocol": "TCP",
+          "bytes": 8.7,
+          "packets": 396,
+          "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+        },
+        {
+          "instance": "ravissant",
+          "event_uids": [
+            "266434-intranet"
+          ],
+          "raw_techniques": [
+            "T1570"
+          ],
+          "parent_techniques_v19_1": [
+            "T1570"
+          ],
+          "timestamp": "2024-05-18T02:34:44.031000",
+          "src_ip": "10.135.215.20",
+          "dst_ip": "10.135.215.10",
+          "src_port": 8083,
+          "dst_port": 50066,
+          "protocol": "TCP",
+          "bytes": 5.2,
+          "packets": 3492,
+          "join_mode": "time + relation endpoints/ports, accepting reverse Flow direction"
+        }
+      ],
+      "warning": "Two of three relations yielded candidates only after deterministic direction normalization; one relation yielded no endpoint/port match. The adapter must be validated on more instances before CasinoLimit can supply formal supervised Flow labels."
+    },
+    "k_sets": {
+      "K_core": [
+        "T1018",
+        "T1046"
+      ],
+      "K_fewshot": [
+        "T1021",
+        "T1105",
+        "T1572"
+      ],
+      "K_attribution_only": [
+        "T1003",
+        "T1005",
+        "T1007",
+        "T1016",
+        "T1033",
+        "T1049",
+        "T1057",
+        "T1068",
+        "T1069",
+        "T1070",
+        "T1078",
+        "T1082",
+        "T1083",
+        "T1098",
+        "T1114",
+        "T1125",
+        "T1222",
+        "T1518",
+        "T1548",
+        "T1550",
+        "T1567",
+        "T1570",
+        "T1587",
+        "T1613",
+        "T1654"
+      ],
+      "K_excluded": [
+        "T1006",
+        "T1011",
+        "T1040",
+        "T1041",
+        "T1053",
+        "T1059",
+        "T1074",
+        "T1087",
+        "T1102",
+        "T1110",
+        "T1120",
+        "T1124",
+        "T1132",
+        "T1133",
+        "T1136",
+        "T1210",
+        "T1213",
+        "T1219",
+        "T1221",
+        "T1485",
+        "T1526",
+        "T1552",
+        "T1555",
+        "T1556",
+        "T1560",
+        "T1562",
+        "T1565",
+        "T1569",
+        "T1580",
+        "T1590",
+        "T1592",
+        "T1595",
+        "T1602",
+        "T1608",
+        "T1611",
+        "T1649"
+      ]
+    }
+  },
+  "uwf_overlap": {
+    "Data24__Fall24-2__2024-10-27 - 2024-11-03": {
+      "left_dataset": "Data24",
+      "right_dataset": "Fall24-2",
+      "calendar_week": "2024-10-27 - 2024-11-03",
+      "left_rows": 454846,
+      "right_rows": 54203,
+      "left_labels": "none",
+      "right_labels": "T1018|T1046|T1210|T1595",
+      "time_ranges_overlap": true,
+      "uid_intersection": 0,
+      "community_id_intersection": 1,
+      "exact_flow_key_intersection": 0,
+      "common_columns": 26,
+      "left_only_columns": "",
+      "right_only_columns": "vlan",
+      "interpretation": "shared calendar/environment; no exact sampled record overlap"
+    },
+    "Data24__Fall24-2__2024-11-03 - 2024-11-10": {
+      "left_dataset": "Data24",
+      "right_dataset": "Fall24-2",
+      "calendar_week": "2024-11-03 - 2024-11-10",
+      "left_rows": 503263,
+      "right_rows": 5424,
+      "left_labels": "none",
+      "right_labels": "T1210|T1595",
+      "time_ranges_overlap": true,
+      "uid_intersection": 0,
+      "community_id_intersection": 0,
+      "exact_flow_key_intersection": 0,
+      "common_columns": 26,
+      "left_only_columns": "",
+      "right_only_columns": "vlan",
+      "interpretation": "shared calendar/environment; no exact sampled record overlap"
+    },
+    "Sum25-1__Sum25-2__2025-06-08 - 2025-06-15": {
+      "left_dataset": "Sum25-1",
+      "right_dataset": "Sum25-2",
+      "calendar_week": "2025-06-08 - 2025-06-15",
+      "left_rows": 44833,
+      "right_rows": 2,
+      "left_labels": "T1595|none",
+      "right_labels": "T1595",
+      "time_ranges_overlap": true,
+      "uid_intersection": 0,
+      "community_id_intersection": 0,
+      "exact_flow_key_intersection": 0,
+      "common_columns": 26,
+      "left_only_columns": "",
+      "right_only_columns": "vlan",
+      "interpretation": "shared calendar/environment; no exact sampled record overlap"
+    }
+  },
+  "dataset_decisions": {
+    "CasinoLimit": "CONDITIONAL GO",
+    "UWF-ZeekData24": "CONDITIONAL GO",
+    "UWF-ZeekDataFall24-2": "CONDITIONAL GO",
+    "UWF-ZeekDataSum25-1": "CONDITIONAL GO",
+    "UWF-ZeekDataSum25-2": "CONDITIONAL GO",
+    "CAM-LDS": "NO-GO for main Flow training",
+    "NF-ToN-IoT-v3": "NO-GO for formal ATT&CK open recognition",
+    "Multi-Source Cybersecurity Logs": "NO-GO now",
+    "COMISET / Windows-APT 2025": "NO-GO for current Flow-only study"
+  },
+  "formal_selection": {
+    "main": "CasinoLimit only as a conditional episode-level candidate; not approved for row-level supervised labels",
+    "source_or_external": "UWF datasets under capture-week grouping and label-support restrictions",
+    "optional": "CAM-LDS activity-level case study after a direct Flow join is verified",
+    "no_go": "NF-ToN-IoT-v3 for ATT&CK task; host-only supplementary datasets; unavailable multi-source archive"
+  },
+  "qwen35_9b_resource": {
+    "official_safetensors_bytes": 19306216416,
+    "official_safetensors_gib": 17.98,
+    "checkpoint_architecture": "Qwen3_5ForConditionalGeneration with vision tower and 3:1 linear/full-attention text stack",
+    "rtx_5090_32gb_4bit_qlora": "CONDITIONAL GO after target-host smoke test",
+    "rtx_5090_32gb_full_finetune": "NO-GO",
+    "rtx_5090_32gb_full_ppo_rlhf": "NO-GO",
+    "smoke_status": "PREPARED_NOT_RUN"
+  },
+  "no_gpu_training_performed": true
+}

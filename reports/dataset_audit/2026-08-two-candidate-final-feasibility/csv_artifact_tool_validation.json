@@ -1,0 +1,110 @@
+{
+  "status": "ok",
+  "files": [
+    {
+      "file": "07_file_inventory.csv",
+      "bytes": 3066,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/mbv968\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:J11\",\"address\":\"A1:J11\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "c8289t",
+          "target": {
+            "id": "wb/7vv92s",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "08_per_class_independent_group_counts.csv",
+      "bytes": 9584,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/dd37nr\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:L71\",\"address\":\"A1:L71\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "tuwhjc",
+          "target": {
+            "id": "wb/0tivim",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    },
+    {
+      "file": "09_formal_gate_matrix.csv",
+      "bytes": 3684,
+      "imported": true,
+      "previewInspection": {
+        "ndjson": "{\"kind\":\"sheet\",\"id\":\"ws/tlylth\",\"name\":\"Data\",\"index\":0,\"range\":\"A1:F21\",\"address\":\"A1:F21\"}",
+        "truncated": false,
+        "metadata": {
+          "revision": "e7g1li",
+          "target": {
+            "id": "wb/6yl4tk",
+            "beforeLines": 0,
+            "afterLines": 0
+          },
+          "kind": {
+            "requested": "sheet",
+            "tokens": [
+              "sheet"
+            ]
+          },
+          "include": {
+            "requested": "id,name,values",
+            "tokens": [
+              "id",
+              "name",
+              "values"
+            ]
+          },
+          "exclude": {
+            "tokens": []
+          },
+          "notices": []
+        }
+      }
+    }
+  ]
+}

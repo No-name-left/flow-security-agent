@@ -1,0 +1,69 @@
+﻿technique,CasinoLimit_reliable_activity_count,UWF_reliable_activity_count,UWF_conservative_week_group_count,CasinoLimit_observability,UWF_observability,schema_compatible,behavior_semantically_comparable,cross_source_train_test_feasible,K_core_candidate,reason
+T1003,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1005,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1006,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1007,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1011,1,0,0,C,absent,False,False,False,False,absent from audited UWF labels
+T1016,7,0,1,D,D,False,False,False,False,UWF lacks public confirmed activity IDs
+T1018,7,0,1,B,B,True,True,False,False,Flow behavior/schema conceptually comparable; UWF lacks public confirmed activity IDs
+T1021,6,0,0,C,absent,False,False,False,False,absent from audited UWF labels
+T1033,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1040,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1041,0,0,0,C,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1046,33,0,3,B,B,True,True,False,False,Flow behavior/schema conceptually comparable; UWF lacks public confirmed activity IDs
+T1048,0,0,5,absent,C,False,False,False,False,absent from CasinoLimit labels; UWF lacks public confirmed activity IDs
+T1049,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1053,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1057,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1059,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1068,1,0,0,D,absent,False,False,False,False,absent from audited UWF labels
+T1069,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1070,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1074,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1078,1,0,5,D,D,False,False,False,False,UWF lacks public confirmed activity IDs
+T1082,36,0,0,D,absent,False,False,False,False,absent from audited UWF labels
+T1083,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1087,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1098,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1102,0,0,0,C,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1105,5,0,0,C,absent,False,False,False,False,absent from audited UWF labels
+T1110,0,0,5,B,B,False,False,False,False,UWF lacks public confirmed activity IDs; no reliable joined CasinoLimit instance
+T1114,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1120,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1124,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1125,6,0,0,D,absent,False,False,False,False,absent from audited UWF labels
+T1132,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1133,0,0,0,C,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1136,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1190,0,0,6,absent,C,False,False,False,False,absent from CasinoLimit labels; UWF lacks public confirmed activity IDs
+T1210,0,0,4,C,C,False,False,False,False,UWF lacks public confirmed activity IDs; no reliable joined CasinoLimit instance
+T1213,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1219,1,0,0,C,absent,False,False,False,False,absent from audited UWF labels
+T1221,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1222,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1485,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1518,1,0,0,D,absent,False,False,False,False,absent from audited UWF labels
+T1526,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1548,0,0,1,D,D,False,False,False,False,UWF lacks public confirmed activity IDs; no reliable joined CasinoLimit instance
+T1550,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1552,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1555,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1556,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1560,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1562,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1565,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1567,0,0,0,C,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1569,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1570,2,0,0,C,absent,False,False,False,False,absent from audited UWF labels
+T1572,5,0,0,B,absent,False,False,False,False,absent from audited UWF labels
+T1580,1,0,0,D,absent,False,False,False,False,absent from audited UWF labels
+T1587,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1590,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1592,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1595,0,0,15,B,B,True,True,False,False,Flow behavior/schema conceptually comparable; UWF lacks public confirmed activity IDs; no reliable joined CasinoLimit instance
+T1602,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1608,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1611,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1613,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1649,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance
+T1654,0,0,0,D,absent,False,False,False,False,absent from audited UWF labels; no reliable joined CasinoLimit instance

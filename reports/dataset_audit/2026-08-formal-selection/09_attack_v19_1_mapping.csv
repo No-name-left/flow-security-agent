@@ -1,0 +1,106 @@
+﻿source_dataset,raw_label,normalized_id,technique_name_v19_1,parent_id_v19_1,parent_name_v19_1,is_subtechnique,deprecated,revoked,mapping_status,mapping_note,auto_confirmed
+CasinoLimit,T1003,T1003,OS Credential Dumping,T1003,OS Credential Dumping,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1005,T1005,Data from Local System,T1005,Data from Local System,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1006,T1006,Direct Volume Access,T1006,Direct Volume Access,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1007,T1007,System Service Discovery,T1007,System Service Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1011,T1011,Exfiltration Over Other Network Medium,T1011,Exfiltration Over Other Network Medium,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1016,T1016,System Network Configuration Discovery,T1016,System Network Configuration Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1018,T1018,Remote System Discovery,T1018,Remote System Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1021,T1021,Remote Services,T1021,Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1033,T1033,System Owner/User Discovery,T1033,System Owner/User Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1040,T1040,Network Sniffing,T1040,Network Sniffing,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1041,T1041,Exfiltration Over C2 Channel,T1041,Exfiltration Over C2 Channel,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1046,T1046,Network Service Discovery,T1046,Network Service Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1049,T1049,System Network Connections Discovery,T1049,System Network Connections Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1053,T1053,Scheduled Task/Job,T1053,Scheduled Task/Job,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1057,T1057,Process Discovery,T1057,Process Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1059,T1059,Command and Scripting Interpreter,T1059,Command and Scripting Interpreter,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1068,T1068,Exploitation for Privilege Escalation,T1068,Exploitation for Privilege Escalation,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1069,T1069,Permission Groups Discovery,T1069,Permission Groups Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1070,T1070,Indicator Removal,T1070,Indicator Removal,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1074,T1074,Data Staged,T1074,Data Staged,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1078,T1078,Valid Accounts,T1078,Valid Accounts,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1082,T1082,System Information Discovery,T1082,System Information Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1083,T1083,File and Directory Discovery,T1083,File and Directory Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1087,T1087,Account Discovery,T1087,Account Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1098,T1098,Account Manipulation,T1098,Account Manipulation,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1102,T1102,Web Service,T1102,Web Service,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1105,T1105,Ingress Tool Transfer,T1105,Ingress Tool Transfer,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1110,T1110,Brute Force,T1110,Brute Force,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1114,T1114,Email Collection,T1114,Email Collection,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1120,T1120,Peripheral Device Discovery,T1120,Peripheral Device Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1124,T1124,System Time Discovery,T1124,System Time Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1125,T1125,Video Capture,T1125,Video Capture,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1132,T1132,Data Encoding,T1132,Data Encoding,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1133,T1133,External Remote Services,T1133,External Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1136,T1136,Create Account,T1136,Create Account,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1210,T1210,Exploitation of Remote Services,T1210,Exploitation of Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1213,T1213,Data from Information Repositories,T1213,Data from Information Repositories,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1219,T1219,Remote Access Tools,T1219,Remote Access Tools,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1221,T1221,Template Injection,T1221,Template Injection,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1222,T1222,File and Directory Permissions Modification,T1222,File and Directory Permissions Modification,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1485,T1485,Data Destruction,T1485,Data Destruction,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1518,T1518,Software Discovery,T1518,Software Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1526,T1526,Cloud Service Discovery,T1526,Cloud Service Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1548,T1548,Abuse Elevation Control Mechanism,T1548,Abuse Elevation Control Mechanism,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1550,T1550,Use Alternate Authentication Material,T1550,Use Alternate Authentication Material,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1552,T1552,Unsecured Credentials,T1552,Unsecured Credentials,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1555,T1555,Credentials from Password Stores,T1555,Credentials from Password Stores,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1556,T1556,Modify Authentication Process,T1556,Modify Authentication Process,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1560,T1560,Archive Collected Data,T1560,Archive Collected Data,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1562,T1562,Impair Defenses,T1562,Impair Defenses,False,False,True,EXACT_HISTORICAL_REVIEW,Exact ID exists but is revoked/deprecated in v19.1; do not silently relabel.,False
+CasinoLimit,T1565,T1565,Data Manipulation,T1565,Data Manipulation,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1567,T1567,Exfiltration Over Web Service,T1567,Exfiltration Over Web Service,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1569,T1569,System Services,T1569,System Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1570,T1570,Lateral Tool Transfer,T1570,Lateral Tool Transfer,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1572,T1572,Protocol Tunneling,T1572,Protocol Tunneling,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1580,T1580,Cloud Infrastructure Discovery,T1580,Cloud Infrastructure Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1587,T1587,Develop Capabilities,T1587,Develop Capabilities,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1590,T1590,Gather Victim Network Information,T1590,Gather Victim Network Information,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1592,T1592,Gather Victim Host Information,T1592,Gather Victim Host Information,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1595,T1595,Active Scanning,T1595,Active Scanning,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1602,T1602,Data from Configuration Repository,T1602,Data from Configuration Repository,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1608,T1608,Stage Capabilities,T1608,Stage Capabilities,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1611,T1611,Escape to Host,T1611,Escape to Host,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1613,T1613,Container and Resource Discovery,T1613,Container and Resource Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1649,T1649,Steal or Forge Authentication Certificates,T1649,Steal or Forge Authentication Certificates,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CasinoLimit,T1654,T1654,Log Enumeration,T1654,Log Enumeration,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1003.008,T1003.008,/etc/passwd and /etc/shadow,T1003,OS Credential Dumping,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1016,T1016,System Network Configuration Discovery,T1016,System Network Configuration Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1033,T1033,System Owner/User Discovery,T1033,System Owner/User Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1041,T1041,Exfiltration Over C2 Channel,T1041,Exfiltration Over C2 Channel,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1053.003,T1053.003,Cron,T1053,Scheduled Task/Job,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1057,T1057,Process Discovery,T1057,Process Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1059.004,T1059.004,Unix Shell,T1059,Command and Scripting Interpreter,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1071.001,T1071.001,Web Protocols,T1071,Application Layer Protocol,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1078.002,T1078.002,Domain Accounts,T1078,Valid Accounts,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1083,T1083,File and Directory Discovery,T1083,File and Directory Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1095,T1095,Non-Application Layer Protocol,T1095,Non-Application Layer Protocol,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1110.001,T1110.001,Password Guessing,T1110,Brute Force,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1133,T1133,External Remote Services,T1133,External Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1190,T1190,Exploit Public-Facing Application,T1190,Exploit Public-Facing Application,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1210,T1210,Exploitation of Remote Services,T1210,Exploitation of Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1525,T1525,Implant Internal Image,T1525,Implant Internal Image,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1573.001,T1573.001,Symmetric Cryptography,T1573,Encrypted Channel,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1589.002,T1589.002,Email Addresses,T1589,Gather Victim Identity Information,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1590.002,T1590.002,DNS,T1590,Gather Victim Network Information,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1591,T1591,Gather Victim Org Information,T1591,Gather Victim Org Information,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1592.002,T1592.002,Software,T1592,Gather Victim Host Information,True,False,False,EXACT_ACTIVE,Exact external_id match.,True
+CAM-LDS scenario_7 sample,T1610,T1610,Deploy Container,T1610,Deploy Container,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Data24,T1048,T1048,Exfiltration Over Alternative Protocol,T1048,Exfiltration Over Alternative Protocol,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Data24,T1078,T1078,Valid Accounts,T1078,Valid Accounts,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Data24,T1110,T1110,Brute Force,T1110,Brute Force,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Data24,T1190,T1190,Exploit Public-Facing Application,T1190,Exploit Public-Facing Application,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Data24,T1595,T1595,Active Scanning,T1595,Active Scanning,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Fall24-2,T1018,T1018,Remote System Discovery,T1018,Remote System Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Fall24-2,T1046,T1046,Network Service Discovery,T1046,Network Service Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Fall24-2,T1210,T1210,Exploitation of Remote Services,T1210,Exploitation of Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Fall24-2,T1595,T1595,Active Scanning,T1595,Active Scanning,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-1,T1016,T1016,System Network Configuration Discovery,T1016,System Network Configuration Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-1,T1046,T1046,Network Service Discovery,T1046,Network Service Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-1,T1190,T1190,Exploit Public-Facing Application,T1190,Exploit Public-Facing Application,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-1,T1210,T1210,Exploitation of Remote Services,T1210,Exploitation of Remote Services,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-1,T1548,T1548,Abuse Elevation Control Mechanism,T1548,Abuse Elevation Control Mechanism,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-1,T1595,T1595,Active Scanning,T1595,Active Scanning,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-2,T1046,T1046,Network Service Discovery,T1046,Network Service Discovery,False,False,False,EXACT_ACTIVE,Exact external_id match.,True
+UWF Sum25-2,T1595,T1595,Active Scanning,T1595,Active Scanning,False,False,False,EXACT_ACTIVE,Exact external_id match.,True

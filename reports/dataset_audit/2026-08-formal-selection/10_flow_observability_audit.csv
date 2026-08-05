@@ -1,0 +1,67 @@
+﻿source_dataset,raw_technique_id,parent_technique_id_v19_1,technique_name_v19_1,observability_category,observability_reason,raw_instance_support,reliable_instance_support,relation_linkable_instance_support,reliable_relation_linkable_instance_support,label_record_count,doubt_record_count,relation_linked_record_count,provisional_k_set,mapping_status
+CasinoLimit,T1003,T1003,OS Credential Dumping,D,The audited Flow schema cannot independently establish this host/content/identity action.,18,18,0,0,28,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1005,T1005,Data from Local System,D,The audited Flow schema cannot independently establish this host/content/identity action.,16,16,0,0,55,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1006,T1006,Direct Volume Access,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,1,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1007,T1007,System Service Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,32,32,0,0,65,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1011,T1011,Exfiltration Over Other Network Medium,C,Alternative-medium exfiltration needs semantics not present in basic Flow fields.,14,14,1,1,77,0,1,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1016,T1016,System Network Configuration Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,49,49,12,12,126,0,16,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1018,T1018,Remote System Discovery,B,Remote-host fan-out can be supported by causal Flow context.,54,54,32,32,224,0,89,K_core,EXACT_ACTIVE
+CasinoLimit,T1021,T1021,Remote Services,C,Remote-service use is visible; malicious intent and account context are not.,75,75,10,10,718,0,31,K_fewshot,EXACT_ACTIVE
+CasinoLimit,T1033,T1033,System Owner/User Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,106,106,0,0,1057,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1040,T1040,Network Sniffing,D,The audited Flow schema cannot independently establish this host/content/identity action.,9,9,0,0,15,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1041,T1041,Exfiltration Over C2 Channel,C,Outbound transfer is visible; C2/exfiltration intent is not directly observable.,1,1,0,0,2,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1046,T1046,Network Service Discovery,B,Port/service fan-out is observable only across multiple Flows.,80,80,58,58,1040,0,385,K_core,EXACT_ACTIVE
+CasinoLimit,T1049,T1049,System Network Connections Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,44,44,0,0,187,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1053,T1053,Scheduled Task/Job,D,The audited Flow schema cannot independently establish this host/content/identity action.,6,6,0,0,44,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1057,T1057,Process Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,69,69,0,0,372,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1059,T1059,Command and Scripting Interpreter,D,The audited Flow schema cannot independently establish this host/content/identity action.,9,9,0,0,33,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1068,T1068,Exploitation for Privilege Escalation,D,The audited Flow schema cannot independently establish this host/content/identity action.,50,50,1,1,159,0,1,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1069,T1069,Permission Groups Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,76,76,0,0,181,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1070,T1070,Indicator Removal,D,The audited Flow schema cannot independently establish this host/content/identity action.,28,28,0,0,59,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1074,T1074,Data Staged,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,3,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1078,T1078,Valid Accounts,D,The audited Flow schema cannot independently establish this host/content/identity action.,44,44,1,1,111,0,1,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1082,T1082,System Information Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,66,66,39,39,269,0,75,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1083,T1083,File and Directory Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,92,92,0,0,1238,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1087,T1087,Account Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,11,11,0,0,19,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1098,T1098,Account Manipulation,D,The audited Flow schema cannot independently establish this host/content/identity action.,16,16,0,0,20,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1102,T1102,Web Service,C,Web-service traffic is visible; C2 use is not provable without endpoint/content context.,1,1,0,0,1,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1105,T1105,Ingress Tool Transfer,C,Transfer direction and volume are visible; tool identity and intent are not.,73,73,5,5,262,0,7,K_fewshot,EXACT_ACTIVE
+CasinoLimit,T1110,T1110,Brute Force,B,"Repeated authentication attempts may be inferred from connection patterns, not success semantics.",11,11,0,0,29,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1114,T1114,Email Collection,D,The audited Flow schema cannot independently establish this host/content/identity action.,47,47,0,0,391,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1120,T1120,Peripheral Device Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,1,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1124,T1124,System Time Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,3,3,0,0,3,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1125,T1125,Video Capture,D,The audited Flow schema cannot independently establish this host/content/identity action.,40,40,7,7,206,0,75,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1132,T1132,Data Encoding,D,The audited Flow schema cannot independently establish this host/content/identity action.,6,6,0,0,6,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1133,T1133,External Remote Services,C,External remote-service traffic is visible; authentication and intent are not.,2,2,0,0,2,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1136,T1136,Create Account,D,The audited Flow schema cannot independently establish this host/content/identity action.,4,4,0,0,4,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1210,T1210,Exploitation of Remote Services,C,Remote-service interaction is visible; successful exploitation is not.,2,2,0,0,2,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1213,T1213,Data from Information Repositories,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,3,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1219,T1219,Remote Access Tools,C,"Remote-access endpoints may be recognized, but legitimate/malicious use needs context.",1,1,1,1,1,0,1,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1221,T1221,Template Injection,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,61,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1222,T1222,File and Directory Permissions Modification,D,The audited Flow schema cannot independently establish this host/content/identity action.,41,41,0,0,108,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1485,T1485,Data Destruction,D,The audited Flow schema cannot independently establish this host/content/identity action.,3,3,0,0,5,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1518,T1518,Software Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,82,82,1,1,304,0,1,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1526,T1526,Cloud Service Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,1,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1548,T1548,Abuse Elevation Control Mechanism,D,The audited Flow schema cannot independently establish this host/content/identity action.,65,65,0,0,213,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1550,T1550,Use Alternate Authentication Material,D,The audited Flow schema cannot independently establish this host/content/identity action.,20,20,0,0,48,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1552,T1552,Unsecured Credentials,D,The audited Flow schema cannot independently establish this host/content/identity action.,2,2,0,0,4,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1555,T1555,Credentials from Password Stores,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,2,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1556,T1556,Modify Authentication Process,D,The audited Flow schema cannot independently establish this host/content/identity action.,4,4,0,0,8,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1560,T1560,Archive Collected Data,D,The audited Flow schema cannot independently establish this host/content/identity action.,6,6,0,0,10,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1562,T1562,Impair Defenses,D,The audited Flow schema cannot independently establish this host/content/identity action.,3,3,0,0,21,0,0,K_excluded,EXACT_HISTORICAL_REVIEW
+CasinoLimit,T1565,T1565,Data Manipulation,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,1,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1567,T1567,Exfiltration Over Web Service,C,Web transfer is visible; exfiltration intent and content are not.,18,18,0,0,54,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1569,T1569,System Services,D,The audited Flow schema cannot independently establish this host/content/identity action.,3,3,0,0,4,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1570,T1570,Lateral Tool Transfer,C,Lateral transfer pattern is partly visible; transferred tool identity is absent.,18,18,2,2,64,0,2,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1572,T1572,Protocol Tunneling,B,"Persistent or unusual tunnel-like channels are pattern-level evidence, not payload proof.",17,17,10,10,73,0,33,K_fewshot,EXACT_ACTIVE
+CasinoLimit,T1580,T1580,Cloud Infrastructure Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,1,1,1,0,1,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1587,T1587,Develop Capabilities,D,The audited Flow schema cannot independently establish this host/content/identity action.,29,29,0,0,160,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1590,T1590,Gather Victim Network Information,D,The audited Flow schema cannot independently establish this host/content/identity action.,2,2,0,0,5,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1592,T1592,Gather Victim Host Information,D,The audited Flow schema cannot independently establish this host/content/identity action.,13,13,0,0,207,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1595,T1595,Active Scanning,B,Active scan fan-out is observable in causal Flow context.,73,0,52,0,690,690,233,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1602,T1602,Data from Configuration Repository,D,The audited Flow schema cannot independently establish this host/content/identity action.,7,7,0,0,11,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1608,T1608,Stage Capabilities,D,The audited Flow schema cannot independently establish this host/content/identity action.,9,9,0,0,18,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1611,T1611,Escape to Host,D,The audited Flow schema cannot independently establish this host/content/identity action.,1,1,0,0,1,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1613,T1613,Container and Resource Discovery,D,The audited Flow schema cannot independently establish this host/content/identity action.,30,30,0,0,89,0,0,K_attribution_only,EXACT_ACTIVE
+CasinoLimit,T1649,T1649,Steal or Forge Authentication Certificates,D,The audited Flow schema cannot independently establish this host/content/identity action.,3,3,0,0,4,0,0,K_excluded,EXACT_ACTIVE
+CasinoLimit,T1654,T1654,Log Enumeration,D,The audited Flow schema cannot independently establish this host/content/identity action.,29,29,0,0,62,0,0,K_attribution_only,EXACT_ACTIVE

@@ -1,0 +1,28 @@
+{
+  "fields": [
+    "raw_ip",
+    "timestamp_start",
+    "timestamp_end",
+    "absolute_time",
+    "source_file",
+    "scenario_or_capture_id",
+    "dataset_name",
+    "stable_device_id",
+    "fixed_payload",
+    "fixed_uri",
+    "fixed_topic",
+    "fixed_username",
+    "attack_script_id",
+    "raw_port"
+  ],
+  "allowed_uses": [
+    "session reconstruction",
+    "sorting",
+    "grouping",
+    "split",
+    "past-only context lookup",
+    "audit",
+    "leakage detection"
+  ],
+  "model_input": false
+}

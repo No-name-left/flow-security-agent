@@ -1,0 +1,382 @@
+[
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\cam_manifestations_filtered_tail.bin",
+    "source_url": "https://zenodo.org/api/records/18390561/files/manifestations_filtered.zip/content#range-tail",
+    "acquired_or_derived_utc": "2026-08-03T15:52:12.396021+00:00",
+    "size_bytes": 1048576,
+    "sha256": "92c1de322f56fe96c3c6c6753bbd4e4d75aa5f8cb35553ff2ee7f6f75f6296a5",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\cam_scenario7_attackmate.json",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T16:02:47.666302+00:00",
+    "size_bytes": 14272,
+    "sha256": "3bbf8329c5022f4a8f4dcd76536ac3ac8a7abc0177f805d495efad1ecabb407e",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\cam_scenario7_attackmate_member.bin",
+    "source_url": "https://zenodo.org/api/records/18390561/files/scenario_7.zip/content#member-attackmate.json",
+    "acquired_or_derived_utc": "2026-08-03T16:02:47.616803+00:00",
+    "size_bytes": 3834,
+    "sha256": "f59ddbd29dffaf4a4ccd280de60075fa8d87363ecbecb7d192fa2a2f8d4c1311",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\cam_scenario7_tail.bin",
+    "source_url": "https://zenodo.org/api/records/18390561/files/scenario_7.zip/content#range-tail",
+    "acquired_or_derived_utc": "2026-08-03T15:53:52.218615+00:00",
+    "size_bytes": 1048576,
+    "sha256": "c5a98162a7fbe33c5245f9d4e6070c8ca76b9658a1c017edf6bc7f8c80a543f0",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_flow_probe.bin",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T15:23:35.919938+00:00",
+    "size_bytes": 669784,
+    "sha256": "9d85ecff41f254e926a0475d2bf2c752d0ca101b415bd0c79031b2daa692a3b5",
+    "completeness": "partial",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_labelled_flows_tail.bin",
+    "source_url": "https://zenodo.org/api/records/17256954/files/labelled_flows.zip/content#range-tail",
+    "acquired_or_derived_utc": "2026-08-03T15:25:19.709456+00:00",
+    "size_bytes": 1048576,
+    "sha256": "c4d2b9fb97fc985efb8b230a3887bd1378942c8faaf2ab2848fc0d2e97f494d4",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_minnie.csv",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T16:04:00.329384+00:00",
+    "size_bytes": 33897837,
+    "sha256": "cf8ba48e0ba9c35f572e06341a01e91e0c81c0c42244c004c24ff95ece7ef597",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_minnie_member.bin",
+    "source_url": "https://zenodo.org/api/records/17256954/files/labelled_flows.zip/content#member-minnie",
+    "acquired_or_derived_utc": "2026-08-03T16:04:00.232694+00:00",
+    "size_bytes": 3152033,
+    "sha256": "af8cc670b2be69d07b8ba90073f02727761681b9129091611fcd4909d3fa9c5f",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_output.zip",
+    "source_url": "https://zenodo.org/api/records/17256954/files/output.zip/content",
+    "acquired_or_derived_utc": "2026-08-03T15:19:43.420801+00:00",
+    "size_bytes": 1893426,
+    "sha256": "7cb01c030363122faa06acd82ca1c3c189e6305e4ffc536c35a15c49bfe0e2d2",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_ravissant.csv",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T16:13:37.750925+00:00",
+    "size_bytes": 40123575,
+    "sha256": "7b2775f1f498c31ff18457a7a8e25d249e13a1a1b16d6c4cd3a588020af4b2c0",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_ravissant_member.bin",
+    "source_url": "https://zenodo.org/api/records/17256954/files/labelled_flows.zip/content#member-ravissant",
+    "acquired_or_derived_utc": "2026-08-03T16:13:37.626276+00:00",
+    "size_bytes": 3680089,
+    "sha256": "75d209d3159ddc539a4d182eda91d97c13a8156539118270fc58f0ab3abf402b",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_robotique.csv",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T16:06:23.019932+00:00",
+    "size_bytes": 40376506,
+    "sha256": "c676f76bb54536b56d410f413c6c74fec6c80cbd38d2e4ebf3217a71feb5b03f",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_robotique_member.bin",
+    "source_url": "https://zenodo.org/api/records/17256954/files/labelled_flows.zip/content#member-robotique",
+    "acquired_or_derived_utc": "2026-08-03T16:06:22.909090+00:00",
+    "size_bytes": 3611119,
+    "sha256": "bf995ce40e5b7bbb77bf4dfe88755d7511b541c1ed492bf1c6a7b7fb85d3ed8f",
+    "completeness": "range/member complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\casinolimit_syslogs_labels.zip",
+    "source_url": "https://zenodo.org/api/records/17256954/files/syslogs_labels.zip/content",
+    "acquired_or_derived_utc": "2026-08-03T15:36:19.709216+00:00",
+    "size_bytes": 19803821,
+    "sha256": "02a111968410a2c51294fc2c5b0a79610b4f26475508f92aab8fc5ab9a94f267",
+    "completeness": "partial",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\uwf_data24_2024-10-27.parquet",
+    "source_url": "https://datasets.uwf.edu/data/ (official dated parquet directory; cached filename normalized)",
+    "acquired_or_derived_utc": "2026-08-03T15:47:37.627003+00:00",
+    "size_bytes": 33163904,
+    "sha256": "cadcaf2084ab599d31a530a8cd5f93e010804b9e91ca1e3f8f2631a45ece2575",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\uwf_data24_2024-11-03.parquet",
+    "source_url": "https://datasets.uwf.edu/data/ (official dated parquet directory; cached filename normalized)",
+    "acquired_or_derived_utc": "2026-08-03T15:46:41.310767+00:00",
+    "size_bytes": 36635805,
+    "sha256": "0a61b52c3527e6e2e2a5f277778752d89a8ab2bb03147da5aee5d923055ccb7a",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\uwf_fall24_2_2024-10-27.parquet",
+    "source_url": "https://datasets.uwf.edu/data/ (official dated parquet directory; cached filename normalized)",
+    "acquired_or_derived_utc": "2026-08-03T15:41:51.417011+00:00",
+    "size_bytes": 3592190,
+    "sha256": "32317f64d899ba9f4f792b45231e100d4e191615bc6ca1f541f9663ce477bea0",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\uwf_fall24_2_2024-11-03.parquet",
+    "source_url": "https://datasets.uwf.edu/data/ (official dated parquet directory; cached filename normalized)",
+    "acquired_or_derived_utc": "2026-08-03T15:41:54.894111+00:00",
+    "size_bytes": 365126,
+    "sha256": "89c9ad044643e7fb8470f2bc23a13f8db5af959b59b32a89f1c21202caf93a49",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\uwf_sum25_1_2025-06-08.parquet",
+    "source_url": "https://datasets.uwf.edu/data/ (official dated parquet directory; cached filename normalized)",
+    "acquired_or_derived_utc": "2026-08-03T15:51:04.782750+00:00",
+    "size_bytes": 3297617,
+    "sha256": "79a40950c779519e80bec740111ed25a98a1d4b79ac58644aa217f7b7b197bf2",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\downloads\\uwf_sum25_2_2025-06-08.parquet",
+    "source_url": "https://datasets.uwf.edu/data/ (official dated parquet directory; cached filename normalized)",
+    "acquired_or_derived_utc": "2026-08-03T15:51:06.655244+00:00",
+    "size_bytes": 7801,
+    "sha256": "476a98f94f2d8bd5c3e70258a848e942662bc8853a4271c1c50909b734da2196",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\configuration_qwen3_5.py",
+    "source_url": "https://raw.githubusercontent.com/huggingface/transformers/main/src/transformers/models/qwen3_5/configuration_qwen3_5.py",
+    "acquired_or_derived_utc": "2026-08-03T15:14:18.134860+00:00",
+    "size_bytes": 8266,
+    "sha256": "3c01b3cdcff8d77cbafac9841bc48c41e5a5b38637231f1bde3d843cd198dbaf",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\enterprise-attack-19.1.json",
+    "source_url": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/v19.1/enterprise-attack/enterprise-attack-19.1.json",
+    "acquired_or_derived_utc": "2026-08-03T16:01:45.868455+00:00",
+    "size_bytes": 53277393,
+    "sha256": "bdf1ce86a4e604214c5076d37ae4dcb322678afc528df8492e6fdc1b554f5da3",
+    "completeness": "complete",
+    "version_or_record": "ATT&CK v19.1",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\modeling_qwen3_5.py",
+    "source_url": "https://raw.githubusercontent.com/huggingface/transformers/main/src/transformers/models/qwen3_5/modeling_qwen3_5.py",
+    "acquired_or_derived_utc": "2026-08-03T15:14:17.540617+00:00",
+    "size_bytes": 91566,
+    "sha256": "216299f3abdbff00301fce279d726d1ddd350bdaa93150b101a822dd3a9e3079",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\qwen35_9b_base_config.json",
+    "source_url": "https://huggingface.co/Qwen/Qwen3.5-9B-Base/raw/main/config.json",
+    "acquired_or_derived_utc": "2026-08-03T14:55:14.056424+00:00",
+    "size_bytes": 3126,
+    "sha256": "d0883072e01861ed0b2d47be3c16c36a8e81c224c7ffaa310c6558fb3f932b05",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\qwen35_9b_config.json",
+    "source_url": "https://huggingface.co/Qwen/Qwen3.5-9B/raw/main/config.json",
+    "acquired_or_derived_utc": "2026-08-03T14:55:25.029697+00:00",
+    "size_bytes": 3126,
+    "sha256": "d0883072e01861ed0b2d47be3c16c36a8e81c224c7ffaa310c6558fb3f932b05",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\uwf_data24_technique_metrics.csv",
+    "source_url": "https://datasets.uwf.edu/data/ (official _parquet_technique_metrics_ directory)",
+    "acquired_or_derived_utc": "2026-08-03T15:31:22.016302+00:00",
+    "size_bytes": 1304,
+    "sha256": "8bfee88358ccf3af4a791e7629db46e027481db55cfe6d030c8ae31ee4acb4bd",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\uwf_sum25_1_technique_metrics.csv",
+    "source_url": "https://datasets.uwf.edu/data/ (official _parquet_technique_metrics_ directory)",
+    "acquired_or_derived_utc": "2026-08-03T15:49:34.329073+00:00",
+    "size_bytes": 1578,
+    "sha256": "42cfe212515f935aca2ed18950ce222e22b9ed03fd850ca0187295614649ba33",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\uwf_sum25_2_technique_metrics.csv",
+    "source_url": "https://datasets.uwf.edu/data/ (official _parquet_technique_metrics_ directory)",
+    "acquired_or_derived_utc": "2026-08-03T15:31:24.056736+00:00",
+    "size_bytes": 707,
+    "sha256": "fb6958fb03b14e9570f1a4b2536531a18d33290ba62812e04f75b68b88588ace",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\zenodo_17256954.json",
+    "source_url": "https://zenodo.org/api/records/17256954",
+    "acquired_or_derived_utc": "2026-08-03T14:54:30.798093+00:00",
+    "size_bytes": 6673,
+    "sha256": "dd65f2e4aebc76a53b482a123508a2c99a73eeb1dd145316fc08a9dcf508b955",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\metadata\\zenodo_18390561.json",
+    "source_url": "https://zenodo.org/api/records/18390561",
+    "acquired_or_derived_utc": "2026-08-03T14:54:58.278412+00:00",
+    "size_bytes": 21169,
+    "sha256": "58343cfedc6c5664d44dc12639a874bf34ebd3df7a10f52d506660c14e1fec24",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\dollm_2405.07638.pdf",
+    "source_url": "https://arxiv.org/pdf/2405.07638",
+    "acquired_or_derived_utc": "2026-08-03T14:55:39.682268+00:00",
+    "size_bytes": 727797,
+    "sha256": "5892ccf281edeedcf61c16669f4c715ff582a01cd0ed0e5cc70c74b17e67304b",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\dollm_2405.07638.txt",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T15:02:55.352270+00:00",
+    "size_bytes": 104543,
+    "sha256": "5817272904316bbf55fef25d1efd58f1e18716e1a2073793ac9ea47726687a27",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\multisource_2606.18190.pdf",
+    "source_url": "https://arxiv.org/pdf/2606.18190",
+    "acquired_or_derived_utc": "2026-08-03T15:05:42.941194+00:00",
+    "size_bytes": 318119,
+    "sha256": "40b6f3f8e1879baf846f24e86ed4b4b0084803569e9cb6465b73247a582ba3d7",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\multisource_2606.18190.txt",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T15:08:15.022589+00:00",
+    "size_bytes": 65007,
+    "sha256": "9ec40fb431487bf0fe1323ce9782b80fc143a0ef1805fcd89998aa1e275be70e",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\trafficllm_2504.04222.pdf",
+    "source_url": "https://arxiv.org/pdf/2504.04222",
+    "acquired_or_derived_utc": "2026-08-03T15:02:02.243829+00:00",
+    "size_bytes": 9911140,
+    "sha256": "a4b981b1ef4ca4d733762efcefa0e03cae8d26a7913d235aa71a5900a078efc9",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\trafficllm_2504.04222.txt",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T15:12:05.478381+00:00",
+    "size_bytes": 158840,
+    "sha256": "8c762ba92851d13fd140ae3c065400b6216e6483cba1a03f3340ca6bc2516927",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "source-specific"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\uwf_zeekdata24.pdf",
+    "source_url": "https://www.mdpi.com/2306-5729/10/5/59/pdf",
+    "acquired_or_derived_utc": "2026-08-03T15:07:55.824568+00:00",
+    "size_bytes": 11945870,
+    "sha256": "e4745c7dc9a7c50c616de5b2908f1d9cccfea3bf20c0b19a3cc949e90822f32c",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  },
+  {
+    "local_path": "C:\\Users\\lenovo\\Desktop\\研究生方向\\杂项\\26.6_ai网安应用测试\\dataset_audit_cache\\papers\\uwf_zeekdata24.txt",
+    "source_url": "derived locally from an official cached archive/sample",
+    "acquired_or_derived_utc": "2026-08-03T15:08:17.773729+00:00",
+    "size_bytes": 135376,
+    "sha256": "19eedcf8abb4d5cc718f7889367765cb778ba40d47976ed984cb0c2dd3a120c3",
+    "completeness": "complete",
+    "version_or_record": "see source metadata",
+    "license": "CC BY 4.0"
+  }
+]

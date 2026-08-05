@@ -1,0 +1,27 @@
+{
+  "name": "CanonicalSessionRecord",
+  "required_fields": [
+    "sample_id",
+    "dataset_name",
+    "scenario_or_capture_id",
+    "split",
+    "timestamp_start",
+    "timestamp_end",
+    "packet_sequence",
+    "session_summary",
+    "temporal_context",
+    "application_evidence",
+    "label_schema_id",
+    "fine_label",
+    "coarse_label",
+    "capabilities",
+    "missing_fields",
+    "prohibited_model_fields"
+  ],
+  "packet_sequence_max": 16,
+  "initial_model_packet_view": 8,
+  "adapter_implementations": [
+    "EdgeAdapter",
+    "IoT23Adapter"
+  ]
+}

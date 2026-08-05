@@ -1,0 +1,242 @@
+{
+  "Attack traffic/Backdoor_attack.csv": {
+    "rows": 24862,
+    "attack_type_counts": {
+      "Backdoor": 24862
+    },
+    "attack_label_counts": {
+      "1": 24862
+    },
+    "error": null
+  },
+  "Attack traffic/DDoS_HTTP_Flood_attack.csv": {
+    "rows": 229022,
+    "attack_type_counts": {
+      "DDoS_HTTP": 229022
+    },
+    "attack_label_counts": {
+      "1": 229022
+    },
+    "error": null
+  },
+  "Attack traffic/DDoS_ICMP_Flood_attack.csv": {
+    "rows": 2914354,
+    "attack_type_counts": {
+      "DDoS_ICMP": 2914354
+    },
+    "attack_label_counts": {
+      "1": 2914354
+    },
+    "error": null
+  },
+  "Attack traffic/DDoS_TCP_SYN_Flood_attack.csv": {
+    "rows": 2020120,
+    "attack_type_counts": {
+      "DDoS_TCP": 2020120
+    },
+    "attack_label_counts": {
+      "1": 2020120
+    },
+    "error": null
+  },
+  "Attack traffic/DDoS_UDP_Flood_attack.csv": {
+    "rows": 3201626,
+    "attack_type_counts": {
+      "DDoS_UDP": 3201626
+    },
+    "attack_label_counts": {
+      "1": 3201626
+    },
+    "error": null
+  },
+  "Attack traffic/MITM_attack.csv": {
+    "rows": 1229,
+    "attack_type_counts": {
+      "MITM": 1229
+    },
+    "attack_label_counts": {
+      "1": 1229
+    },
+    "error": null
+  },
+  "Attack traffic/OS_Fingerprinting_attack.csv": {
+    "rows": 1001,
+    "attack_type_counts": {
+      "OS_Fingerprinting": 1001
+    },
+    "attack_label_counts": {
+      "1": 1001
+    },
+    "error": null
+  },
+  "Attack traffic/Password_attack.csv": {
+    "rows": 1053385,
+    "attack_type_counts": {
+      "Password": 1053385
+    },
+    "attack_label_counts": {
+      "1": 1053385
+    },
+    "error": null
+  },
+  "Attack traffic/Port_Scanning_attack.csv": {
+    "rows": 22564,
+    "attack_type_counts": {
+      "Port_Scanning": 22564
+    },
+    "attack_label_counts": {
+      "1": 22564
+    },
+    "error": null
+  },
+  "Attack traffic/Ransomware_attack.csv": {
+    "rows": 10925,
+    "attack_type_counts": {
+      "Ransomware": 10925
+    },
+    "attack_label_counts": {
+      "1": 10925
+    },
+    "error": null
+  },
+  "Attack traffic/SQL_injection_attack.csv": {
+    "rows": 51203,
+    "attack_type_counts": {
+      "SQL_injection": 51203
+    },
+    "attack_label_counts": {
+      "1": 51203
+    },
+    "error": null
+  },
+  "Attack traffic/Uploading_attack.csv": {
+    "rows": 37634,
+    "attack_type_counts": {
+      "Uploading": 37634
+    },
+    "attack_label_counts": {
+      "1": 37634
+    },
+    "error": null
+  },
+  "Attack traffic/Vulnerability_scanner_attack.csv": {
+    "rows": 145869,
+    "attack_type_counts": {
+      "Vulnerability_scanner": 145869
+    },
+    "attack_label_counts": {
+      "1": 145869
+    },
+    "error": null
+  },
+  "Attack traffic/XSS_attack.csv": {
+    "rows": 15915,
+    "attack_type_counts": {
+      "XSS": 15915
+    },
+    "attack_label_counts": {
+      "1": 15915
+    },
+    "error": null
+  },
+  "Normal traffic/Distance/Distance.csv": {
+    "rows": 1143540,
+    "attack_type_counts": {
+      "Normal": 1143540
+    },
+    "attack_label_counts": {
+      "0": 1143540
+    },
+    "error": null
+  },
+  "Normal traffic/Flame_Sensor/Flame_Sensor.csv": {
+    "rows": 1070196,
+    "attack_type_counts": {
+      "Normal": 1070196
+    },
+    "attack_label_counts": {
+      "0": 1070196
+    },
+    "error": null
+  },
+  "Normal traffic/Heart_Rate/Heart_Rate.csv": {
+    "rows": 165319,
+    "attack_type_counts": {
+      "Normal": 165319
+    },
+    "attack_label_counts": {
+      "0": 165319
+    },
+    "error": null
+  },
+  "Normal traffic/IR_Receiver/IR_Receiver.csv": {
+    "rows": 1307778,
+    "attack_type_counts": {
+      "Normal": 1307778
+    },
+    "attack_label_counts": {
+      "0": 1307778
+    },
+    "error": null
+  },
+  "Normal traffic/Modbus/Modbus.csv": {
+    "rows": 159502,
+    "attack_type_counts": {
+      "Normal": 159502
+    },
+    "attack_label_counts": {
+      "0": 159502
+    },
+    "error": null
+  },
+  "Normal traffic/phValue/phValue.csv": {
+    "rows": 746908,
+    "attack_type_counts": {
+      "Normal": 746908
+    },
+    "attack_label_counts": {
+      "0": 746908
+    },
+    "error": null
+  },
+  "Normal traffic/Soil_Moisture/Soil_Moisture.csv": {
+    "rows": 1192777,
+    "attack_type_counts": {
+      "Normal": 1192777
+    },
+    "attack_label_counts": {
+      "0": 1192777
+    },
+    "error": null
+  },
+  "Normal traffic/Sound_Sensor/Sound_Sensor.csv": {
+    "rows": 1512883,
+    "attack_type_counts": {
+      "Normal": 1512883
+    },
+    "attack_label_counts": {
+      "0": 1512883
+    },
+    "error": null
+  },
+  "Normal traffic/Temperature_and_Humidity/Temperature_and_Humidity.csv": {
+    "rows": 1615722,
+    "attack_type_counts": {
+      "Normal": 1615722
+    },
+    "attack_label_counts": {
+      "0": 1615722
+    },
+    "error": null
+  },
+  "Normal traffic/Water_Level/Water_Level.csv": {
+    "rows": 2295288,
+    "attack_type_counts": {
+      "Normal": 2295288
+    },
+    "attack_label_counts": {
+      "0": 2295288
+    },
+    "error": null
+  }
+}

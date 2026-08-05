@@ -1,0 +1,12 @@
+{
+  "downloaded_at": "2026-08-04",
+  "official_page": "https://www.unb.ca/cic/datasets/iotdataset-2023.html",
+  "official_paper": "https://doi.org/10.3390/s23135941",
+  "official_download_status": "BLOCKED_BY_FORM_AND_REDIRECT_DURING_AUDIT",
+  "secondary_probe_dataset": "lacg030175/CIC-IoT-2023-raw",
+  "secondary_probe_config": "random_3way",
+  "secondary_probe_rows": 9600,
+  "secondary_probe_sha256": "99c8e90beeb22a710096cf5aa6a3d43bce434347986389fef4dce957b77d408b",
+  "secondary_probe_role": "exploratory CPU/shortcut probe only; not formal evidence for benchmark performance",
+  "pcap_downloaded": false
+}

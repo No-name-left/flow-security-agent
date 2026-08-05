@@ -1,0 +1,28 @@
+﻿parent_technique,technique_name,observability_level,observability_reason,flow_count,version_count,week_group_count,date_group_count,reliable_known_candidate,unknown_candidate_priority,input_requirement
+T1016,System Network Configuration Discovery,D,"System network configuration is host state, not established by conn Flow.",17625,2,2,3,False,LOW,single Flow
+T1018,Remote System Discovery,B,Remote-host fan-out is supported by deterministic multi-Flow context.,30774,1,3,4,True,HIGH,single Flow + deterministic past-only context
+T1046,Network Service Discovery,B,Service/port fan-out is observable across related Flows.,1779059,4,7,8,True,HIGH,single Flow + deterministic past-only context
+T1048,Exfiltration Over Alternative Protocol,C,"Alternative-protocol transfer is visible, but exfiltration intent/content is not.",559,1,5,15,False,SECONDARY,single Flow
+T1059,Command and Scripting Interpreter,D,Command execution is not observable from conn Flow.,7,2,3,3,False,LOW,single Flow
+T1071,Application Layer Protocol,C,Application-protocol traffic is visible; C2 intent is not.,17,2,2,4,False,SECONDARY,single Flow
+T1078,Valid Accounts,D,Valid-account use requires authentication or host evidence.,6048,1,5,18,False,LOW,single Flow
+T1110,Brute Force,B,Repeated authentication-like connections can support brute-force evidence.,871188,1,5,18,False,SECONDARY,single Flow + deterministic past-only context
+T1112,Modify Registry,D,Registry modification is host-only evidence.,3,1,2,2,False,LOW,single Flow
+T1133,External Remote Services,C,Remote-service access is visible; legitimacy and authentication are not.,1,1,1,1,False,LOW,single Flow
+T1136,Create Account,D,Account creation is not established by conn Flow.,3,1,1,1,False,LOW,single Flow
+T1190,Exploit Public-Facing Application,C,Public-service interaction is visible; successful exploitation is not.,4660,4,9,23,False,SECONDARY,single Flow
+T1203,Exploitation for Client Execution,D,Client execution exploitation requires endpoint/content evidence.,18,1,2,3,False,LOW,single Flow
+T1204,User Execution,D,User execution is not observable from conn Flow.,7,1,2,2,False,LOW,single Flow
+T1210,Exploitation of Remote Services,C,Remote-service interaction is visible; exploitation success is not.,366,3,5,8,False,SECONDARY,single Flow
+T1505,Server Software Component,D,Server software component persistence needs host/application evidence.,1,1,1,1,False,LOW,single Flow
+T1546,Event Triggered Execution,D,Event-triggered execution requires host evidence.,1,1,1,1,False,LOW,single Flow
+T1547,Boot or Logon Autostart Execution,D,Boot/logon autostart requires host evidence.,4,1,2,2,False,LOW,single Flow
+T1548,Abuse Elevation Control Mechanism,D,Privilege escalation mechanism is not established by conn Flow.,14902,3,3,3,False,LOW,single Flow
+T1557,Adversary-in-the-Middle,B,"Adversary-in-the-middle can have network-level evidence, but needs context.",1,1,1,1,False,LOW,single Flow + deterministic past-only context
+T1566,Phishing,C,Delivery traffic may be visible; phishing semantics/content are absent.,10,1,1,1,False,LOW,single Flow
+T1571,Non-Standard Port,C,Non-standard port/protocol use is visible; malicious intent is not.,3,1,1,1,False,LOW,single Flow
+T1587,Develop Capabilities,D,Capability development is pre-compromise activity outside conn-Flow proof.,275471,1,3,4,False,LOW,single Flow
+T1589,Gather Victim Identity Information,D,Identity-information gathering is not established by conn Flow.,292,1,3,4,False,LOW,single Flow
+T1590,Gather Victim Network Information,C,Network-information gathering may leave scan-like evidence but intent is weak.,21208,1,3,9,False,SECONDARY,single Flow
+T1592,Gather Victim Host Information,D,Host-information gathering requires content/host semantics.,21405,1,3,9,False,LOW,single Flow
+T1595,Active Scanning,B,Active scanning fan-out is observable in causal Flow context.,1197737,5,19,42,True,HIGH,single Flow + deterministic past-only context

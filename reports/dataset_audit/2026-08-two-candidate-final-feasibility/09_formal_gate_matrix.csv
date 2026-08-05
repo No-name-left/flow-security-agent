@@ -1,0 +1,21 @@
+dataset,gate,status,evidence_grade,confirmed_evidence,blocking_or_failure_reason
+DataSense,G1,PASS,B,Separate timestamped PCAPs and at least 76 network-derived features; more than 16 DoS DDoS Recon and other classes are network-observable,Archive schema not inspected but modality requirement is supported by original paper
+DataSense,G2,BLOCKED,B,49 attack labels across 7 coarse classes plus Benign,Usable K U_dev U_final allocation cannot be proven without per-class independent run counts and near/far preregistration evidence
+DataSense,G3,BLOCKED,D,Packet and log totals exist for all fine labels,No A/B evidence that any K candidate has at least 20 independent runs
+DataSense,G4,BLOCKED,D,At least two labels can be named as possible development unknowns,No A/B evidence of at least 12 independent runs per U_dev class
+DataSense,G5,BLOCKED,D,At least four labels can be named as possible final unknowns,No A/B evidence of 15 independent runs or 10 support plus 5 query runs
+DataSense,G6,BLOCKED,B,12 hours of benign traffic spanning work and after-work periods,Independent benign session count is unknown; 10-second windows are not independent sessions
+DataSense,G7,BLOCKED,B,Separate timestamped PCAPs and synchronized logs are described,No run manifest; official evaluation is stratified 80/20 after aggregation
+DataSense,G8,BLOCKED,B,Temporal alignment between PCAP and logs is described,No execution-to-PCAP-to-fine-label trace table or success/failure log
+DataSense,G9,BLOCKED,B,Raw PCAP could support unified re-extraction,Published split is window/row stratified and fixed testbed identities/tools remain unaudited at run level
+DataSense,G10,BLOCKED,B,Official dataset page and registration download entry exist,File tree core metadata and dataset license could not be inspected without registration; browse endpoint returned 403
+CICIoMT2024,G1,PASS,B,Raw PCAP and 18 Wi-Fi/MQTT attack labels are explicitly network based,BLE uses a distinct capture chain but is not needed to reach 16 labels
+CICIoMT2024,G2,BLOCKED,B,Five coarse classes and 18 Wi-Fi/MQTT fine attacks plus Benign are documented,Usable K U_dev U_final allocation cannot be proven without independent run counts and near/far evidence
+CICIoMT2024,G3,BLOCKED,C,Official train/test PCAP directories exist,No A/B per-class count showing at least 20 independent runs; PCAP files/chunks may not equal runs
+CICIoMT2024,G4,BLOCKED,C,Multiple candidate unknown labels exist,No A/B evidence of at least 12 independent runs per U_dev class
+CICIoMT2024,G5,BLOCKED,C,Multiple candidate unknown labels exist,No A/B evidence of 15 independent runs or 10 support plus 5 query runs
+CICIoMT2024,G6,BLOCKED,B,Power profiling; two 13-hour idle captures; active batches totaling 26 hours; interaction experiments,No manifest proving at least 40 independent benign sessions or concurrent attack-background labeling
+CICIoMT2024,G7,BLOCKED,B,Official train/test directories and 80/20 PCAP-file split are described,No run/capture manifest; large PCAPs are later split into chunks and train/test execution independence is unproven
+CICIoMT2024,G8,BLOCKED,B,Attack procedures labels and protocol domains are described,No execution-to-original-PCAP-to-chunk-to-CSV trace table or success/failure log
+CICIoMT2024,G9,BLOCKED,B,Raw PCAP could permit unified re-extraction,Official CSV uses attack-dependent 10/100-packet windows and protocol-specific capture chains; run-level shortcut removal cannot be verified
+CICIoMT2024,G10,BLOCKED,B,Official PCAP/CSV directory description and registration entry exist,Actual file tree metadata license and required core files were not inspectable without registration; browse endpoint returned 403

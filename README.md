@@ -1,24 +1,25 @@
 # Flow Security Agent
 
-Flow Security Agent is a research framework for **Flow-based malicious traffic analysis**. The current research studies open-set recognition, evidence-grounded ATT&CK candidate attribution and few-shot onboarding of Flow-observable attack techniques.
+Flow Security Agent is a research framework for **session-level open-world malicious traffic analysis**. The current design uses a post-trained Qwen3.5-9B as the first classifier and a constrained decision Agent to acquire additional evidence, reject unknown traffic and support few-shot class onboarding.
+
+> **New developer or Agent:** start with the [project handoff guide](docs/PROJECT_HANDOFF.md). It summarizes the current research Gate, completed assets, unresolved decisions, allowed next steps and working-tree safeguards.
 
 ## Research direction
 
 ```text
-Flow / NetFlow
-→ audited raw record / label unit / model sample
-→ anchor behavior + past-only behavior-coherent Flow context
-→ Qwen3.5-9B supervised and structural adaptation
-→ Known / Unknown
-→ evidence-grounded Top-k ATT&CK candidates
-→ data-dependent few-shot onboarding
+official PCAP and labels
+→ dataset-specific session reconstruction
+→ CanonicalSessionRecord and past-only context
+→ post-trained Qwen3.5-9B first classification and Unknown decision
+→ constrained Agent evidence expansion and reclassification
+→ sample-level 1/5/10-shot class onboarding
 ```
 
-The multi-Flow episode is a hypothesis to be audited and compared with anchor-only, single-Flow and fixed-window baselines. It is not assumed to be a native or automatically correct label unit.
+Edge-IIoTset is frozen as the primary dataset with stated limitations. IoT-23 is an independent scenario-held-out external validation dataset with its own native labels and model adaptation. Both passed the final feasibility Gate with `PASS_WITH_LIMITATIONS`; they share an interface but are not physically merged for training.
 
 ## Implemented foundation
 
-This initial repository provides:
+This repository currently provides:
 
 - a reusable OpenAI-compatible LLM runtime with timeout, retry and bounded concurrency;
 - Pydantic-based structured-output extraction and validation;
@@ -26,20 +27,22 @@ This initial repository provides:
 - per-record validated cache and verifiable resume;
 - independent failure, usage and latency traces;
 - Markdown/YAML-front-matter RAG document ingestion with source metadata;
-- a Flow-oriented Python package and baseline tests.
+- a Flow-oriented Python package and baseline tests;
+- a reproducible dual-dataset feasibility Gate with prototype Edge/IoT-23 adapters, manifests, leakage checks and synthetic schema fixtures.
 
-These components are engineering infrastructure, not claimed paper contributions.
+These components are engineering infrastructure, not claimed paper contributions. The Gate models and scores are audit probes, not formal paper results.
 
 ## Not implemented yet
 
 The following research components remain future work:
 
-- public Flow dataset adapters and leakage-aware splits;
-- label-unit audit and anchor-plus-past-context sample construction;
-- LightGBM training, calibration and group-aware out-of-fold predictions;
-- Qwen3.5-9B Stage A/SFT/few-shot training and independent checkpoints;
+- production-grade EdgeAdapter, IoT23Adapter and full-data leakage-aware manifests;
+- frozen full-data split, Known/Unknown and support/query protocols;
+- formal traditional-model baselines and Qwen3.5-9B SFT/few-shot checkpoints;
 - DPO and gated RLAIF experiments;
 - formal experiments and paper metrics.
+
+Official data download, full parsing and training-asset generation now move to the remote server. See [server migration and data recovery](docs/SERVER_MIGRATION.md). The local repository retains code, reports, manifests, download instructions and small synthetic fixtures, not raw traffic or model artifacts.
 
 ## Research Plan and Change Control
 
@@ -62,7 +65,7 @@ Agents must not tune on frozen test data or independently change frozen dataset 
 Python 3.11 or newer is recommended.
 
 ```bash
-python -m pip install -e ".[test]"
+python -m pip install -e ".[test,data]"
 python -m pytest
 ```
 
@@ -83,7 +86,9 @@ src/flowsec/llm/     reusable model runtime, cache, validation and traces
 src/flowsec/rag/     knowledge-document ingestion
 configs/             non-secret runtime examples
 scripts/             small command-line entry points
-tests/               infrastructure tests without dataset dependencies
+tools/               auditable dataset and experiment utilities
+reports/             feasibility evidence, manifests and reproducible audit scripts
+tests/               infrastructure tests and synthetic fixtures
 docs/                engineering contracts and migration notes
 docs/research_plan/  canonical research specification and derived views
 ```
