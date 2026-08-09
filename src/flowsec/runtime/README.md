@@ -15,3 +15,19 @@ Supervisor backend, final prompt or response schema, final Unknown algorithm,
 production evidence tools, final experience-retrieval algorithm, model training,
 or a Production dataset adapter. Those systems must connect through the existing
 protocol and evidence boundaries after their separate research and data Gates.
+
+## Integration boundary
+
+- Traffic Expert, Supervisor and Evidence Tool backends must provide a local,
+  side-effect-free `estimate()` before each call. The runtime reserves that
+  declared upper bound before execution; a structured result may reconcile the
+  reservation downward, while a failed call without structured usage retains the
+  conservative reservation.
+- Production adapters must create only allow-listed `EvidenceItem` projections.
+  The runtime rejects explicit backend identities and sends the Supervisor a
+  frozen `SupervisorView` without sample identity or raw verification feedback.
+- Evidence-action parameter sets, experiment budgets, maximum rounds and memory
+  retrieval limits must be supplied by the experiment configuration. Values used
+  in tests are synthetic fixtures and are not paper or deployment defaults.
+- Retrieved text remains `UNTRUSTED_EVIDENCE`; a real prompt adapter must quote
+  and delimit it as data rather than execute it as an instruction.

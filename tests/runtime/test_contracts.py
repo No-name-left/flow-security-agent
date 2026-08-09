@@ -15,9 +15,9 @@ from flowsec.runtime.contracts import (
     RuntimeInput,
     ToolRequest,
 )
-from flowsec.runtime.variants import ExperimentVariant, default_variants
+from flowsec.runtime.variants import ExperimentVariant, build_variant_configs
 
-from ._helpers import capabilities, evidence
+from ._helpers import capabilities, evidence, synthetic_budget_limits
 
 
 def test_gap_contract_distinguishes_observational_and_knowledge() -> None:
@@ -52,8 +52,23 @@ def test_tool_request_signature_is_deterministic_and_parameter_sensitive() -> No
     assert first.signature != different.signature
 
 
+def test_tool_request_parameters_must_be_finite_json() -> None:
+    with pytest.raises(ValidationError):
+        ToolRequest(
+            action=AgentAction.EXPAND_PACKETS,
+            parameters={"invalid": object()},
+        )
+    with pytest.raises(ValidationError):
+        ToolRequest(
+            action=AgentAction.EXPAND_PACKETS,
+            parameters={"invalid": float("nan")},
+        )
+
+
 def test_budget_tracks_abstract_resources_without_prices() -> None:
-    state = BudgetState(limits=BudgetLimits(max_tool_calls=1, max_abstract_tokens=5))
+    state = BudgetState(
+        limits=synthetic_budget_limits(max_tool_calls=1, max_abstract_tokens=5)
+    )
     state.consume(kind="tool", metrics=CallMetrics(abstract_tokens=5, abstract_cost=0.25))
     assert state.tool_calls == 1
     assert state.abstract_tokens == 5
@@ -74,8 +89,21 @@ def test_runtime_input_forbids_ground_truth_field() -> None:
 
 
 def test_variants_express_domains_tools_budgets_and_placeholder() -> None:
-    variants = default_variants()
+    variants = build_variant_configs(synthetic_budget_limits(max_rounds=4))
     assert variants[ExperimentVariant.BASIC].max_rounds == 0
     assert AgentAction.EXPAND_PACKETS not in variants[ExperimentVariant.BASIC].allowed_actions
     assert variants[ExperimentVariant.RULE_POLICY].allowed_information_domains
+    assert variants[ExperimentVariant.FIXED_FULL].budget == variants[ExperimentVariant.LLM_SUPERVISOR].budget
+    assert variants[ExperimentVariant.FIXED_FULL].budget == variants[ExperimentVariant.RULE_POLICY].budget
+    assert (
+        variants[ExperimentVariant.FIXED_FULL].allowed_information_domains
+        == variants[ExperimentVariant.RULE_POLICY].allowed_information_domains
+        == variants[ExperimentVariant.LLM_SUPERVISOR].allowed_information_domains
+    )
+    assert (
+        variants[ExperimentVariant.FIXED_FULL].allowed_actions
+        == variants[ExperimentVariant.RULE_POLICY].allowed_actions
+        == variants[ExperimentVariant.LLM_SUPERVISOR].allowed_actions
+    )
+    assert variants[ExperimentVariant.FIXED_FULL].max_rounds == 4
     assert variants[ExperimentVariant.LEARNABLE_POLICY].implementation_status == "placeholder_only"

@@ -4,9 +4,10 @@ from collections import deque
 from typing import Any, Protocol
 
 from .contracts import (
+    CallMetrics,
     EvidenceItem,
-    EvidenceState,
     SupervisorDecision,
+    SupervisorView,
     TrafficExpertResult,
     UnknownDecision,
     UnknownState,
@@ -16,11 +17,10 @@ from .contracts import (
 class TrafficExpertBackend(Protocol):
     """Provider-neutral traffic expert boundary."""
 
-    def evaluate(
-        self,
-        evidence: tuple[EvidenceItem, ...],
-        previous_state: EvidenceState | None = None,
-    ) -> TrafficExpertResult:
+    def estimate(self, evidence: tuple[EvidenceItem, ...]) -> CallMetrics:
+        ...
+
+    def evaluate(self, evidence: tuple[EvidenceItem, ...]) -> TrafficExpertResult:
         ...
 
 
@@ -38,20 +38,28 @@ class UnknownScorer(Protocol):
 class SupervisorBackend(Protocol):
     """Policy backend that proposes, but never executes, a runtime action."""
 
-    def decide(self, state: EvidenceState) -> SupervisorDecision:
+    def estimate(self, state: SupervisorView) -> CallMetrics:
+        ...
+
+    def decide(self, state: SupervisorView) -> SupervisorDecision:
         ...
 
 
 class MockTrafficExpertBackend:
-    def __init__(self, responses: list[TrafficExpertResult | Exception]):
+    def __init__(
+        self,
+        responses: list[TrafficExpertResult | Exception],
+        *,
+        estimate_metrics: CallMetrics | None = None,
+    ):
         self.responses = deque(responses)
         self.calls: list[tuple[EvidenceItem, ...]] = []
+        self.estimate_metrics = estimate_metrics or CallMetrics()
 
-    def evaluate(
-        self,
-        evidence: tuple[EvidenceItem, ...],
-        previous_state: EvidenceState | None = None,
-    ) -> TrafficExpertResult:
+    def estimate(self, evidence: tuple[EvidenceItem, ...]) -> CallMetrics:
+        return self.estimate_metrics
+
+    def evaluate(self, evidence: tuple[EvidenceItem, ...]) -> TrafficExpertResult:
         self.calls.append(evidence)
         if not self.responses:
             raise RuntimeError("no mock Traffic Expert response remains")
@@ -83,7 +91,7 @@ class MockUnknownScorer:
 class DeterministicTestUnknownScorer:
     """Test-only scorer over an opaque signal; not a scientific algorithm choice."""
 
-    def __init__(self, *, known_max: float = 0.3, unknown_min: float = 0.7):
+    def __init__(self, *, known_max: float, unknown_min: float):
         self.known_max = known_max
         self.unknown_min = unknown_min
         self.calls = 0
@@ -94,7 +102,7 @@ class DeterministicTestUnknownScorer:
         context: dict[str, Any],
     ) -> UnknownDecision:
         self.calls += 1
-        value = float(result.model_signals.get("unknown_score", 0.5))
+        value = float(result.model_signals.get("synthetic_open_set_signal", 0.5))
         if value <= self.known_max:
             state = UnknownState.KNOWN_LIKELY
         elif value >= self.unknown_min:
@@ -105,11 +113,20 @@ class DeterministicTestUnknownScorer:
 
 
 class MockSupervisorBackend:
-    def __init__(self, decisions: list[SupervisorDecision | Exception | object]):
+    def __init__(
+        self,
+        decisions: list[SupervisorDecision | Exception | object],
+        *,
+        estimate_metrics: CallMetrics | None = None,
+    ):
         self.decisions = deque(decisions)
-        self.states: list[EvidenceState] = []
+        self.states: list[SupervisorView] = []
+        self.estimate_metrics = estimate_metrics or CallMetrics()
 
-    def decide(self, state: EvidenceState) -> SupervisorDecision:
+    def estimate(self, state: SupervisorView) -> CallMetrics:
+        return self.estimate_metrics
+
+    def decide(self, state: SupervisorView) -> SupervisorDecision:
         self.states.append(state.model_copy(deep=True))
         if not self.decisions:
             raise RuntimeError("no mock Supervisor response remains")

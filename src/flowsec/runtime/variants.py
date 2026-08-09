@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from .contracts import AgentAction, BudgetLimits, FrozenRuntimeModel, GapDomain
 
@@ -23,8 +23,18 @@ class ExperimentVariantConfig(FrozenRuntimeModel):
     max_rounds: int = Field(ge=0)
     implementation_status: str = "available"
 
+    @model_validator(mode="after")
+    def validate_budget_alignment(self) -> "ExperimentVariantConfig":
+        if self.max_rounds != self.budget.max_rounds:
+            raise ValueError("variant max_rounds must match its budget contract")
+        return self
 
-def default_variants() -> dict[ExperimentVariant, ExperimentVariantConfig]:
+
+def build_variant_configs(
+    common_budget: BudgetLimits,
+) -> dict[ExperimentVariant, ExperimentVariantConfig]:
+    """Build budget-matched variants from an explicitly supplied experiment budget."""
+
     terminals = {
         AgentAction.ACCEPT_FINE,
         AgentAction.BACKOFF_COARSE,
@@ -32,13 +42,14 @@ def default_variants() -> dict[ExperimentVariant, ExperimentVariantConfig]:
         AgentAction.ABSTAIN,
     }
     all_actions = frozenset(AgentAction)
-    common_budget = BudgetLimits(max_rounds=3)
     return {
         ExperimentVariant.BASIC: ExperimentVariantConfig(
             variant=ExperimentVariant.BASIC,
             allowed_information_domains=frozenset(),
             allowed_actions=frozenset(terminals),
-            budget=BudgetLimits(max_rounds=0, max_tool_calls=0, max_rag_calls=0),
+            budget=common_budget.model_copy(
+                update={"max_rounds": 0, "max_tool_calls": 0, "max_rag_calls": 0}
+            ),
             max_rounds=0,
         ),
         ExperimentVariant.FIXED_FULL: ExperimentVariantConfig(
@@ -46,28 +57,28 @@ def default_variants() -> dict[ExperimentVariant, ExperimentVariantConfig]:
             allowed_information_domains=frozenset(GapDomain),
             allowed_actions=all_actions,
             budget=common_budget,
-            max_rounds=3,
+            max_rounds=common_budget.max_rounds,
         ),
         ExperimentVariant.RULE_POLICY: ExperimentVariantConfig(
             variant=ExperimentVariant.RULE_POLICY,
             allowed_information_domains=frozenset(GapDomain),
             allowed_actions=all_actions,
             budget=common_budget,
-            max_rounds=3,
+            max_rounds=common_budget.max_rounds,
         ),
         ExperimentVariant.LLM_SUPERVISOR: ExperimentVariantConfig(
             variant=ExperimentVariant.LLM_SUPERVISOR,
             allowed_information_domains=frozenset(GapDomain),
             allowed_actions=all_actions,
             budget=common_budget,
-            max_rounds=3,
+            max_rounds=common_budget.max_rounds,
         ),
         ExperimentVariant.LEARNABLE_POLICY: ExperimentVariantConfig(
             variant=ExperimentVariant.LEARNABLE_POLICY,
             allowed_information_domains=frozenset(GapDomain),
             allowed_actions=all_actions,
             budget=common_budget,
-            max_rounds=3,
+            max_rounds=common_budget.max_rounds,
             implementation_status="placeholder_only",
         ),
     }

@@ -32,6 +32,7 @@ from ._helpers import (
     request,
     runtime,
     runtime_input,
+    synthetic_budget_limits,
 )
 
 
@@ -126,6 +127,7 @@ def test_multiple_missing_evidence_executes_only_first_planned_action() -> None:
     multi = SupervisorDecision(
         action=AgentAction.EXPAND_PACKETS,
         request=request(AgentAction.EXPAND_PACKETS, end=16),
+        short_reason="synthetic one-action-per-round test",
         planned_actions=(
             AgentAction.EXPAND_TEMPORAL_CONTEXT,
             AgentAction.EXPAND_GRAPH_CONTEXT,
@@ -148,7 +150,15 @@ def test_same_tool_different_request_signatures_are_allowed() -> None:
             decision(AgentAction.ACCEPT_FINE),
         ]
     )
-    tool = PacketExpansionTool(default_evidence=(evidence("more-packets", gap_type=GapType.PACKET),))
+    def expanding_packets(tool_request: object, current: object) -> ToolResult:
+        start = tool_request.parameters["start"]  # type: ignore[attr-defined]
+        return ToolResult(
+            status=ToolStatus.SUCCESS,
+            request_signature=tool_request.signature,  # type: ignore[attr-defined]
+            evidence=(evidence(f"packets-from-{start}", gap_type=GapType.PACKET),),
+        )
+
+    tool = PacketExpansionTool(handler=expanding_packets)
     orchestrator, _, _ = runtime([missing, missing, expert_result()], supervisor, tools=[tool])
     result = orchestrator.run(runtime_input())
     assert result.final_decision.decision_type is FinalDecisionType.FINE
@@ -295,7 +305,7 @@ def test_tool_budget_exhaustion_abstains_before_execution() -> None:
     supervisor = MockSupervisorBackend(
         [decision(AgentAction.EXPAND_PACKETS, request(AgentAction.EXPAND_PACKETS, end=16))]
     )
-    budget = BudgetLimits(max_tool_calls=0, max_rag_calls=0)
+    budget = synthetic_budget_limits(max_tool_calls=0, max_rag_calls=0)
     tools = default_tools()
     orchestrator, _, _ = runtime([missing], supervisor, tools=tools, budget=budget)
     result = orchestrator.run(runtime_input())
@@ -317,14 +327,14 @@ def test_max_rounds_stops_before_second_evidence_action() -> None:
             decision(AgentAction.EXPAND_PACKETS, request(AgentAction.EXPAND_PACKETS, end=16)),
             decision(
                 AgentAction.EXPAND_TEMPORAL_CONTEXT,
-                request(AgentAction.EXPAND_TEMPORAL_CONTEXT, window=60),
+                request(AgentAction.EXPAND_TEMPORAL_CONTEXT, window=60, past_only=True),
             ),
         ]
     )
     orchestrator, _, _ = runtime(
         [packet_missing, temporal_missing],
         supervisor,
-        budget=BudgetLimits(max_rounds=1),
+        budget=synthetic_budget_limits(max_rounds=1),
     )
     result = orchestrator.run(runtime_input())
     assert FailureCode.MAX_ROUNDS_REACHED in result.failures

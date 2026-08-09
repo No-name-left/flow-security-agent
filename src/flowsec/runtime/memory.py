@@ -10,7 +10,7 @@ class ExperienceMemory(Protocol):
         self,
         context: str,
         *,
-        limit: int = 3,
+        limit: int,
         filters: dict[str, str] | None = None,
     ) -> tuple[ExperienceRecord, ...]:
         ...
@@ -23,13 +23,15 @@ class InMemoryExperienceStore:
     """Deterministic fixture store, not the final retrieval implementation."""
 
     def __init__(self, records: list[ExperienceRecord] | None = None):
+        if any(not record.feedback.verified for record in records or []):
+            raise ValueError("unverified records cannot preload Experience Memory")
         self.records = list(records or [])
 
     def retrieve(
         self,
         context: str,
         *,
-        limit: int = 3,
+        limit: int,
         filters: dict[str, str] | None = None,
     ) -> tuple[ExperienceRecord, ...]:
         terms = {item.casefold() for item in context.split() if item}

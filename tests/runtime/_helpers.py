@@ -13,6 +13,7 @@ from flowsec.runtime.contracts import (
     CapabilityStatus,
     EvidenceItem,
     EvidenceSufficiency,
+    EvidenceTrust,
     GapDomain,
     GapType,
     MissingEvidence,
@@ -47,6 +48,7 @@ def evidence(
     gap_type: GapType = GapType.OTHER,
     domain: GapDomain = GapDomain.OBSERVATIONAL,
     model_safe: bool = True,
+    trust: EvidenceTrust = EvidenceTrust.TRUSTED,
 ) -> EvidenceItem:
     return EvidenceItem(
         evidence_id=evidence_id,
@@ -54,6 +56,7 @@ def evidence(
         domain=domain,
         content=f"safe synthetic evidence {evidence_id}",
         provenance="synthetic_fixture",
+        trust=trust,
         model_safe=model_safe,
     )
 
@@ -86,7 +89,7 @@ def expert_result(
         short_analysis="synthetic",
         missing_evidence=missing,
         evidence_sufficiency=sufficiency,
-        model_signals={"unknown_score": unknown_score},
+        model_signals={"synthetic_open_set_signal": unknown_score},
     )
 
 
@@ -95,6 +98,23 @@ def capabilities(*, unavailable: Capability | None = None) -> tuple[CapabilitySt
         CapabilityStatus(capability=item, available=item is not unavailable)
         for item in Capability
     )
+
+
+def synthetic_budget_limits(**updates: object) -> BudgetLimits:
+    """Explicit test fixture values; not production or paper defaults."""
+
+    values: dict[str, object] = {
+        "max_rounds": 3,
+        "max_traffic_expert_calls": 4,
+        "max_supervisor_calls": 8,
+        "max_tool_calls": 3,
+        "max_rag_calls": 1,
+        "max_abstract_tokens": 100_000,
+        "max_abstract_cost": 100.0,
+        "max_abstract_latency": 100_000.0,
+    }
+    values.update(updates)
+    return BudgetLimits.model_validate(values)
 
 
 def request(action: AgentAction, **parameters: object) -> ToolRequest:
@@ -113,7 +133,12 @@ def default_tools() -> list[object]:
         ApplicationEvidenceTool(default_evidence=(evidence("application", gap_type=GapType.APPLICATION),)),
         KnowledgeRetrievalTool(
             default_evidence=(
-                evidence("knowledge", gap_type=GapType.KNOWLEDGE, domain=GapDomain.KNOWLEDGE),
+                evidence(
+                    "knowledge",
+                    gap_type=GapType.KNOWLEDGE,
+                    domain=GapDomain.KNOWLEDGE,
+                    trust=EvidenceTrust.UNTRUSTED_EVIDENCE,
+                ),
             )
         ),
     ]
@@ -128,13 +153,14 @@ def runtime(
     **kwargs: object,
 ) -> tuple[RuntimeOrchestrator, MockTrafficExpertBackend, DeterministicTestUnknownScorer]:
     expert = MockTrafficExpertBackend(expert_responses)
-    unknown = DeterministicTestUnknownScorer()
+    unknown = DeterministicTestUnknownScorer(known_max=0.3, unknown_min=0.7)
     orchestrator = RuntimeOrchestrator(
         traffic_expert=expert,
         unknown_scorer=unknown,
         supervisor=supervisor,  # type: ignore[arg-type]
         tools=default_tools() if tools is None else tools,  # type: ignore[arg-type]
-        budget_limits=budget,
+        budget_limits=budget or synthetic_budget_limits(),
+        memory_retrieval_limit=3,
         **kwargs,
     )
     return orchestrator, expert, unknown

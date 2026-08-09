@@ -18,6 +18,9 @@ class EvidenceTool(Protocol):
     action: AgentAction
     capability: Capability
 
+    def estimate(self, request: ToolRequest) -> CallMetrics:
+        ...
+
     def execute(
         self,
         request: ToolRequest,
@@ -41,11 +44,16 @@ class SyntheticEvidenceTool:
         *,
         default_evidence: tuple[EvidenceItem, ...] = (),
         default_metrics: CallMetrics | None = None,
+        estimate_metrics: CallMetrics | None = None,
     ):
         self.handler = handler
         self.default_evidence = default_evidence
         self.default_metrics = default_metrics or CallMetrics()
+        self.estimate_metrics = estimate_metrics or self.default_metrics
         self.requests: list[ToolRequest] = []
+
+    def estimate(self, request: ToolRequest) -> CallMetrics:
+        return self.estimate_metrics
 
     def execute(
         self,
