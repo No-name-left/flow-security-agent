@@ -67,18 +67,22 @@ Qwen3.5-9B直接承担第一次known fine/coarse分类、证据充分度和suppo
 
 Agent在Qwen第一次分类后选择：`ACCEPT_FINE`、`BACKOFF_COARSE`、`EXPAND_PACKETS`、`EXPAND_TEMPORAL_CONTEXT`、`EXPAND_GRAPH_CONTEXT`、`REQUEST_APPLICATION_EVIDENCE`、`RETRIEVE_KNOWLEDGE`、`RECLASSIFY`、`REJECT_UNKNOWN`、`RETURN_TOPK`、`REQUEST_LABEL`、`REGISTER_NEW_CLASS`或`ABSTAIN`。`CALL_LLM_EXPERT`不再是正式动作。
 
-强Static使用相同Qwen、工具、信息域和预算，并包含合理的固定取证、retry、fallback与validator。Agent具体采用规则、contextual bandit、小型policy network或其他方法，待数据与预实验决定。
+Agent以Evidence State表达当前候选、Unknown状态、证据充分度、缺失证据类型、可用能力、请求历史、工具失败和剩余预算，并按`状态→识别缺口→选择合法证据源→更新状态→重分类或停止`运行。观测缺口必须通过包、past-only时间/关系上下文或合法应用字段取得真实网络证据；只有协议、行为或标签语义的知识缺口才优先使用RAG，RAG不得补造未观察到的流量事实。
+
+强Static使用相同Qwen、工具、信息域和预算，并包含合理的固定取证、retry、fallback与validator。RulePolicy根据缺失证据作可解释选择，LearnablePolicy在同一状态/动作合同上学习选择；三者必须budget-matched。错误先归因到证据、策略、Qwen、Unknown校准、RAG或工具等对应组件，再决定执行当前样本取证、策略更新、SFT候选或组件修复，禁止将所有错误直接回流SFT。
 
 ### 3.3 四组实验
 
 | 实验 | 主要比较 | 回答的问题 |
 | --- | --- | --- |
 | 一：LLM独立分类能力 | LR、RF、LightGBM/XGBoost、原始Qwen、后训练Qwen | Qwen独立分类的能力、成本及相对传统强基线的边界 |
-| 二：开放集与自适应取证 | 传统开放集、单次Qwen、Qwen+强Static、Qwen+RulePolicy、Qwen+LearnablePolicy、可选全证据上界 | Unknown与动态取证是否改善任务成功和utility-cost |
+| 二：开放集与自适应取证 | 传统开放集、单次Qwen+冻结Unknown；Basic vs Fixed Full；预算匹配的Fixed Full、强Static、RulePolicy、候选LearnablePolicy；逐项证据源消融 | 区分更多证据本身、动态选择和各证据源的贡献，并检验收益是否来自额外资源 |
 | 三：1/5/10-shot新类接入 | 重训、最近邻/原型、Qwen ICL、RAG原型、Agent注册和可选LoRA | 新类能否低成本接入且不显著遗忘旧类 |
 | 四：IoT-23独立场景外部验证 | IoT-23独立适配与scenario split下的闭集、一套Unknown和一套Agent上下文增益；允许时增加1/5-shot | 同一接口、Qwen协议、Unknown生命周期和Agent决策能否适用于另一采集环境和原生标签Schema |
 
 主要指标包括Known Macro-F1、Unknown AUROC/AUPR/FPR95/OSCR/H-score、层次退回、新类F1与遗忘、任务成功、证据/工具选择、恢复、预算遵从、输出合法、重分类/RAG调用率、延迟和成本。
+
+实验二中Agent与Static固定使用相同Qwen、工具、信息域和最大预算，报告证据请求率、Qwen/RAG/工具调用次数、延迟、Token/API成本与utility-cost曲线。packet、temporal、graph、application和RAG分别消融；固定全证据用于回答证据上界，不等同于动态Agent。
 
 在传统开放集基线完成后，实现“Unknown拒识+被拒识样本随机分配至候选新类”的零信息标签扩展诊断，并输出Known-to-Novel FPR、新类Macro-F1、混淆矩阵及多随机种子结果；该诊断不替代合理的传统Unknown拒识基线。
 

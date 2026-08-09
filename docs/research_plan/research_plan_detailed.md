@@ -67,6 +67,8 @@ Qwen已知类分类 + Frozen Unknown Scoring / Calibration（known-only知识）
 
 Agent读取Qwen第一次分类的粗细类别、证据状态、supporting/missing evidence、可供open-set计算的模型信号、冻结Unknown评分结果和当前工具状态，再决定是否接受或追加证据。Agent是动态取证和决策层，不是“传统分类器决定是否调用Qwen”的路由器。
 
+Agent的基本闭环进一步明确为`Evidence State → 识别缺失证据 → 选择对应证据源/合法动作 → 更新状态 → 重分类或停止`。动态性来自根据当前证据缺口、可用能力和剩余预算选择下一步，而不是在Qwen不确定时无差别调用全部工具；这一细化不改变Qwen首次分类、独立Unknown层和Agent所在位置。
+
 架构回溯、Edge-IIoTset Phase 2客观审查和双数据集最终可行性验收已经完成。两个最小Adapter均可输出统一`CanonicalSessionRecord`，非随机划分下去除service category后仍存在基本可学习信号，且基础模型视图未发现直接身份泄漏。当前实现仍是验收原型；生产级会话构造、全量split、K/U、分类输出形式、Unknown算法、SFT格式和Agent学习算法尚未冻结，Qwen训练和正式实验尚未开始。
 
 ## 1. 研究动机、核心假设与预期贡献
@@ -208,9 +210,11 @@ Logistic Regression、Random Forest、LightGBM和XGBoost用于闭集强基线、
 
 ### 4.2 Session Evidence Card
 
-统一证据对象至少包含：数据集原生Schema、会话标识的匿名化引用、前N个包的方向/长度/IAT/协议/flags、会话持续时间与双向统计、字段缺失声明、当前可观察证据、已请求证据、知识来源和预算状态。
+Session Evidence Card是提供给Qwen和工具的安全证据载体，至少包含：数据集原生Schema、会话标识的匿名化引用、前N个包的方向/长度/IAT/协议/flags、会话持续时间与双向统计、字段缺失声明、当前可观察证据、已请求证据、知识来源和预算状态。
 
 Agent扩展后可加入past-only时间上下文、局部通信图摘要、合法应用层字段、有限脱敏Payload和RAG结果。传统模型概率只能作为可选消融字段，不属于正式Qwen输入合同。不可观察信息不得由Qwen或RAG补造。
+
+Evidence State则是随决策过程更新的策略语义合同：它应表达当前fine/coarse候选、open-set信号或Unknown决策状态、证据是否充分、supporting/missing evidence及缺口类型、当前可用能力、已请求与明确不可获得的证据、当前与剩余预算、决策深度、历史动作和工具失败。上述内容用于约束策略输入、动作合法性和轨迹记录，暂不锁定为最终字段名或JSON Schema。
 
 ### 4.3 Qwen3.5-9B主分类模型
 
@@ -228,11 +232,26 @@ SFT用于学习会话证据序列化、`K_known`原生标签语义、粗细层�
 
 知识来源可包括数据集官方类别描述、协议说明、ATT&CK、CAPEC、公开攻击行为说明和已批准的新类记忆。known-only RAG服务阶段A；full-frozen RAG只在合法拒识后服务阶段B；few-shot memory只在获得support标签后建立。`U_final`名称和描述不得泄漏到阶段A。
 
+RAG不是每个样本默认调用的通用补全器。Evidence State须概念性地区分两类缺口：**观测证据缺口**表示真实流量信息尚未被观察，例如包序列、历史行为、关系上下文或合法应用层字段不足，应调用相应网络取证工具；**知识证据缺口**表示已有观测需要协议、攻击行为或标签语义解释，才优先调用`RETRIEVE_KNOWLEDGE`。例如“过去60秒是否访问多个目标端口”只能由past-only时间上下文回答，RAG不得推断或补造该观测。三阶段RAG信息隔离保持不变。
+
 ## 5. Adaptive Decision Agent
 
 ### 5.1 状态、动作与停止
 
-Agent状态至少记录：Qwen fine/coarse候选、证据充分度、supporting/missing evidence、模型信号、冻结Unknown评分及校准状态、当前包数与上下文范围、已请求字段、RAG状态、工具异常、决策深度、成本、延迟和剩余预算。
+Agent状态至少表达：当前fine/coarse候选、open-set信号与冻结Unknown决策状态、证据充分度、supporting/missing evidence、缺失证据类型、可用能力、当前包数与上下文范围、已请求证据历史、明确不可获得的证据、RAG状态、历史动作、工具异常、决策深度、当前/剩余预算、成本和延迟。这是研究层面的语义合同，不提前冻结最终Schema字段。
+
+`missing_evidence_type`仅服务工具选择，不增加新的分类任务：观测证据缺口指尚未取得的真实网络观测，知识证据缺口指已有观测缺少外部语义解释。候选映射如下：
+
+| 缺口或状态 | 优先候选动作 |
+| --- | --- |
+| 包序列或传输交互不足 | `EXPAND_PACKETS` |
+| 扫描、突发、周期性或历史行为不足 | `EXPAND_TEMPORAL_CONTEXT` |
+| 多源、多目标、关系或局部拓扑不足 | `EXPAND_GRAPH_CONTEXT` |
+| 合法应用协议可观察字段不足 | `REQUEST_APPLICATION_EVIDENCE` |
+| 协议、安全行为或标签语义知识不足 | `RETRIEVE_KNOWLEDGE` |
+| 证据充分或无法继续获取 | `RECLASSIFY`、`ACCEPT_FINE`、`BACKOFF_COARSE`、`REJECT_UNKNOWN`或`ABSTAIN` |
+
+该映射约束候选动作与状态语义，避免“低置信就任意调用工具”，但不把RulePolicy硬编码为永久算法；RulePolicy和LearnablePolicy仍可在同一状态、动作、工具与预算合同上选择不同合法动作。
 
 动作集合：
 
@@ -254,15 +273,19 @@ Agent状态至少记录：Qwen fine/coarse候选、证据充分度、supporting/
 
 `CALL_LLM_EXPERT`不再是正式动作：Qwen已是必经主分类器，追加调用统一由`RECLASSIFY`表达。状态机、工具白名单、预算和最大深度强制动作合法与可复现。
 
+当证据已充分、相关能力不可用、合法动作不能再改变状态、重试上限/最大深度到达或预算耗尽时必须停止，并根据冻结规则接受、退回粗类、拒识或abstain；工具失败只能触发白名单内的retry/fallback，不得无限循环。
+
 ### 5.2 策略与公平基线
 
-Agent策略可能采用冻结规则、contextual bandit、小型policy network或其他轻量方法，尚未最终确定。`RulePolicy`作为可解释基线，`LearnablePolicy`只有在数据与训练信号充分时启用。
+三个策略对象共享上述Evidence State、动作白名单、工具和预算合同。`Strong Static`使用预先冻结且合理的证据获取次序；`RulePolicy`依据Evidence State与缺失证据类型作可解释选择；`LearnablePolicy`在相同合同上学习动作选择，且只在数据与训练信号充分时启用。具体学习算法仍未冻结。
 
-强Static Pipeline必须使用相同的Qwen、工具、信息域和最大预算，并包含合理的固定取证顺序、retry、fallback和validator。只有Agent在相同条件下提高任务目标适应性、任务成功、恢复或utility-cost，才能说明Agent化有价值；不能通过故意削弱Static获得结论。
+强Static Pipeline必须使用相同的Qwen、工具、信息域和最大预算，并包含合理的固定取证顺序、retry、fallback和validator。固定全证据只代表在共同预算内预先提供全部指定证据的上界或消融，不等同于Adaptive Agent。只有Rule/Learnable在预算匹配条件下提高任务目标适应性、任务成功、恢复或utility-cost，才能说明动态策略有价值；不能通过给Agent更多信息、更多调用预算或故意削弱Static获得结论。
 
 ### 5.3 轨迹与反馈
 
 每个样本保存`sample_id → evidence state → Qwen output → action/reason → tool input/result → next state → stop reason → final prediction → unknown score → cost/latency → truth → error source → update action`。获得真实标签后，将错误归因到SESSION_CONSTRUCTION、PACKET_EVIDENCE、CONTEXT_SELECTION、APPLICATION_EVIDENCE、RAG_QUERY/EVIDENCE、LLM_CLASSIFICATION、UNKNOWN_DECISION、POLICY、CLASS_MEMORY、LABEL_SCHEMA、DATA_LEAKAGE或TOOL_FAILURE，只更新相关组件。
+
+组件级归因同时构成反馈边界，而不只是论文统计：**Level 1样本级适应**只为当前样本取得新的合法证据，不更新参数；**Level 2策略级适应**面向相似状态下反复选错工具或过早停止，更新RulePolicy规则、策略训练集或LearnablePolicy，不直接归因于Qwen；**Level 3模型级适应**仅在充分且正确的证据已提供、Qwen仍持续出现同类理解或分类错误时，才考虑补充SFT数据，DPO仍受既定条件Gate约束。Unknown阈值/校准错误应更新Unknown scoring/calibration，RAG错误应优先修复query、retrieval或知识条目。禁止采用“所有错误均回流SFT”的无归因路线。
 
 ## 6. 训练边界与启动条件
 
@@ -282,7 +305,16 @@ DPO仅在SFT后确认存在证据幻觉、过度自信、错误拒识或动作�
 
 ### 实验二：开放集与自适应取证主实验
 
-比较：传统模型开放集基线；单次Qwen分类与固定Unknown决策；Qwen加强Static取证；Qwen加RulePolicy；Qwen加LearnablePolicy；可选固定全证据上界。所有Qwen系统使用同一主模型、工具白名单、信息域和最大预算。
+传统模型开放集基线与单次Qwen+冻结Unknown继续作为必要参照；Agent部分按四个因果问题组织：
+
+| 问题 | 主要比较与控制 |
+| --- | --- |
+| Q1 更多证据本身是否有价值 | `Basic Session Evidence` vs 在共同最大预算内预先冻结的`Fixed Full Evidence` |
+| Q2 动态按需取证是否优于固定方式 | `Fixed Full Evidence`、`Strong Static`、`RulePolicy`、`LearnablePolicy`使用相同Qwen、工具、信息域和最大预算 |
+| Q3 各证据源贡献什么 | 分别移除packet expansion、temporal context、graph context、application evidence和RAG |
+| Q4 收益是否只来自更多资源 | 对齐Agent与Static预算，并报告证据请求、Qwen/RAG/工具调用、延迟、Token成本、预算遵从及utility-cost曲线 |
+
+`Basic Session Evidence`回答不追加证据的能力，`Fixed Full Evidence`回答更多证据的上界，Strong Static与Rule/Learnable的预算匹配比较才回答动态选择是否必要。不得通过为Agent额外开放信息域、调用次数或预算制造优势；若某证据源在数据中不可用，应报告能力边界而非伪造完整消融。
 
 #### 传统模型零信息新类扩展诊断
 
@@ -300,7 +332,7 @@ DPO仅在SFT后确认存在证据幻觉、过度自信、错误拒识或动作�
 
 该诊断希望区分“发现样本不属于Known”与“识别它具体属于哪个新类”，并检验强行扩展标签空间是否表现为新类漏检、Known流量污染和新类之间近似随机混淆。它不能单独用于证明LLM优越；正式公平比较仍是`传统强分类器+合理Unknown拒识`、`后训练Qwen+Unknown`和`Qwen+Agent动态证据扩展`。
 
-指标包括Known Macro-F1、Unknown AUROC/AUPR、FPR95、OSCR、H-score、层次退回、错误接纳Unknown、证据请求率、RAG/重分类调用率、任务成功、预算遵从、恢复成功、输出合法、延迟、Token/API成本及utility-cost曲线。
+指标包括Known Macro-F1、Unknown AUROC/AUPR、FPR95、OSCR、H-score、层次退回、错误接纳Unknown、证据请求率、Qwen调用次数、RAG调用次数、各类工具调用次数、任务成功、预算遵从、恢复成功、输出合法、延迟、Token/API成本及utility-cost曲线。
 
 主要消融包括：只有会话基础证据、无包扩展、无时间上下文、无图上下文、无应用层证据、无RAG、固定取证、Rule vs Learnable、无成本惩罚和预算匹配。具体组合在数据可用性确认后压缩，不预先假定所有证据源都存在。
 
@@ -319,8 +351,9 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 - 每套Unknown preset至少使用多个随机种子；具体数量在数据与算力确认后冻结。
 - `U_final`只运行冻结系统，结果不回流模型、阈值、Prompt、RAG、策略或训练。
 - 保存数据、代码、模型、Prompt、RAG、证据序列化和工具配置指纹，以及run ID、split manifest、失败和resume记录。
-- Agent除分类指标外还报告end-to-end task success、evidence/tool选择成功、recovery、budget compliance和output validity。
-- 比较Static与Agent时必须使用同一Qwen、工具、信息和预算；成本受限子集须在实验前固定，不按模型结果定制。
+- Agent除分类指标外还报告end-to-end task success、evidence/tool选择成功、recovery、budget compliance和output validity，并分别统计证据请求率、Qwen/RAG/各工具调用次数、延迟、Token/API成本和utility-cost曲线。
+- 比较Static与Agent时必须使用同一Qwen、工具、信息域和最大预算，并进行budget-matched主比较；成本受限子集须在实验前固定，不按模型结果定制。固定全证据、Static、Rule与Learnable的资源差异须单独披露，不能把额外调用量解释为策略增益。
+- 错误分析须同时给出错误来源和组件级处置去向，区分样本级取证、策略更新、Qwen SFT、Unknown校准及RAG修复，避免把不同组件的问题汇总为单一模型误差。
 - 会话和past-only关联必须在训练、验证、测试内部独立构造，并检查固定身份、时间和来源捷径。
 
 ## 9. 时间与依赖
@@ -352,6 +385,9 @@ T0定义为生产级`CanonicalSessionRecord`、两个Adapter、Edge与IoT-23各�
 | 固定IP、时间、capture或脚本捷径 | 后台关联与模型输入分离；做白名单、去身份和敏感性对照 |
 | Qwen不优于传统基线 | 报告分类能力与成本边界，并检查Unknown、证据充分度和few-shot价值；不恢复树模型主导架构 |
 | Agent不优于强Static | Static成为推荐系统；Agent作为适用边界和负结果分析，不强行宣称有效 |
+| 缺失证据类型判断错误或用RAG代替真实观测 | 以`capabilities`、缺失声明和动作validator限制候选工具；观测缺口只能调用真实取证工具，能力不可用时backoff或abstain |
+| Agent收益来自额外信息或预算 | 强制与Static共享Qwen、工具、信息域和最大预算，报告逐类调用量及utility-cost；无法预算匹配的结果只作为上界补充 |
+| 错误反馈更新了错误组件 | 先完成组件级归因；Unknown问题回到校准层、RAG问题回到检索链、策略问题回到Policy，只有充分证据下持续的Qwen错误进入SFT候选 |
 | 应用层或Payload不可用 | 保留基础会话、包序列、past-only关联与RAG；缺失证据显式声明 |
 | BF16 LoRA收益小或显存/框架受限 | 保留原始Qwen基线、缩小高价值样本；必要时降级为QLoRA；取消DPO、27B和继续预训练 |
 | 一个月实验过多 | 保留Edge实验一、开放集最小实验二、sample-level实验三及IoT-23三项压缩验证；优先取消复杂策略、DPO和外部few-shot扩展 |
