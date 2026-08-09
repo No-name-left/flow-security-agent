@@ -1,0 +1,27 @@
+{
+  "fields": [
+    "dataset_name",
+    "scenario_or_capture_id",
+    "source_file",
+    "source_path",
+    "source_sha256",
+    "timestamp_start",
+    "timestamp_end",
+    "absolute_time",
+    "raw_ip",
+    "raw_initiator_ip",
+    "raw_responder_ip",
+    "raw_port",
+    "raw_initiator_port",
+    "raw_responder_port",
+    "raw_endpoint_identifier",
+    "stable_device_id",
+    "attack_script_id",
+    "fixed_payload",
+    "fixed_uri",
+    "fixed_topic",
+    "fixed_username"
+  ],
+  "model_input": false,
+  "version": "prohibited_model_fields_v1"
+}

@@ -1,0 +1,175 @@
+{
+  "DETERMINISM_AUDIT_OK": true,
+  "clean_double_run_equal": true,
+  "comparison_basis": "canonical logical row and core JSON content hashes; Parquet metadata and absolute output paths ignored",
+  "comparisons": {
+    "application_evidence": {
+      "clean_a": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clean_b": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "backend_records": {
+      "clean_a": "7b8d9815821c19ab603c4b12ae32fd856fccb206c56fc9f5d4d3e9620aed052e",
+      "clean_b": "7b8d9815821c19ab603c4b12ae32fd856fccb206c56fc9f5d4d3e9620aed052e",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "7b8d9815821c19ab603c4b12ae32fd856fccb206c56fc9f5d4d3e9620aed052e"
+    },
+    "canonical_sessions": {
+      "clean_a": "71b195120699419f0ecc18ae6500040ca3b27c6c565afa20844b2079937bd041",
+      "clean_b": "71b195120699419f0ecc18ae6500040ca3b27c6c565afa20844b2079937bd041",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "71b195120699419f0ecc18ae6500040ca3b27c6c565afa20844b2079937bd041"
+    },
+    "expandable_packet_store": {
+      "clean_a": "5815944a29bf9d43fcd1f65de50ce04305ea52e500876033f25fa99d14808b94",
+      "clean_b": "5815944a29bf9d43fcd1f65de50ce04305ea52e500876033f25fa99d14808b94",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "5815944a29bf9d43fcd1f65de50ce04305ea52e500876033f25fa99d14808b94"
+    },
+    "initial_model_views": {
+      "clean_a": "e52f84dc52da085c679f6e121a323e7fc4509382767c7cebb3717d47791b7600",
+      "clean_b": "e52f84dc52da085c679f6e121a323e7fc4509382767c7cebb3717d47791b7600",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "e52f84dc52da085c679f6e121a323e7fc4509382767c7cebb3717d47791b7600"
+    },
+    "relation_index": {
+      "clean_a": "3ccacebad6cccdc8ce11337026a6ae648e5030fa689fd4eab56e01d2131d8eef",
+      "clean_b": "3ccacebad6cccdc8ce11337026a6ae648e5030fa689fd4eab56e01d2131d8eef",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "3ccacebad6cccdc8ce11337026a6ae648e5030fa689fd4eab56e01d2131d8eef"
+    },
+    "sample_id_index": {
+      "clean_a": "af053dee5d51fea8dd1ce05ed936082e1ed0b58aa64649605b06b38308662822",
+      "clean_b": "af053dee5d51fea8dd1ce05ed936082e1ed0b58aa64649605b06b38308662822",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "af053dee5d51fea8dd1ce05ed936082e1ed0b58aa64649605b06b38308662822"
+    },
+    "temporal_index": {
+      "clean_a": "8175b88d1d66d3894f4c3f6e57aa65da4706804eaf571020da96b9c83fb6432b",
+      "clean_b": "8175b88d1d66d3894f4c3f6e57aa65da4706804eaf571020da96b9c83fb6432b",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "8175b88d1d66d3894f4c3f6e57aa65da4706804eaf571020da96b9c83fb6432b"
+    }
+  },
+  "core_manifest_clean_double_equal": true,
+  "core_manifest_comparisons": {
+    "anomaly_policy.json": {
+      "clean_a": "6f7fc80c2321f63eb6a75bf30dcb7e8793f0105c46570526fa77f899a4b050d3",
+      "clean_b": "6f7fc80c2321f63eb6a75bf30dcb7e8793f0105c46570526fa77f899a4b050d3",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "6f7fc80c2321f63eb6a75bf30dcb7e8793f0105c46570526fa77f899a4b050d3"
+    },
+    "canonical_schema_v1.json": {
+      "clean_a": "24b5318152a17858d56141173012e59b303ba2e52096d54a1c97828b6fef6a59",
+      "clean_b": "24b5318152a17858d56141173012e59b303ba2e52096d54a1c97828b6fef6a59",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "24b5318152a17858d56141173012e59b303ba2e52096d54a1c97828b6fef6a59"
+    },
+    "edge_known_unknown_presets.json": {
+      "clean_a": "d25668707f40bc6e0d34a67edfa9ef94bf8ef582078be47b2696563a164cf55a",
+      "clean_b": "d25668707f40bc6e0d34a67edfa9ef94bf8ef582078be47b2696563a164cf55a",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "d25668707f40bc6e0d34a67edfa9ef94bf8ef582078be47b2696563a164cf55a"
+    },
+    "edge_label_schema.json": {
+      "clean_a": "50e33d701061df80d17141c92292762d3ecb9750b4dc360cbcdc037746196b07",
+      "clean_b": "50e33d701061df80d17141c92292762d3ecb9750b4dc360cbcdc037746196b07",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "50e33d701061df80d17141c92292762d3ecb9750b4dc360cbcdc037746196b07"
+    },
+    "edge_split_manifest.json": {
+      "clean_a": "eb734272aec240f14feaee1ef63ba44af0678f767fc1c124db919fc50dbd6c46",
+      "clean_b": "eb734272aec240f14feaee1ef63ba44af0678f767fc1c124db919fc50dbd6c46",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "eb734272aec240f14feaee1ef63ba44af0678f767fc1c124db919fc50dbd6c46"
+    },
+    "edge_support_query_manifest.json": {
+      "clean_a": "edb3f14f6ead25a930a3c1fdb19e8ac7487d03344a414e54b96709c66207992e",
+      "clean_b": "edb3f14f6ead25a930a3c1fdb19e8ac7487d03344a414e54b96709c66207992e",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "edb3f14f6ead25a930a3c1fdb19e8ac7487d03344a414e54b96709c66207992e"
+    },
+    "iot23_known_unknown_presets.json": {
+      "clean_a": "b1f719ed91c087b6219de4be514045938abf6271117752eab2b525d18ba1391c",
+      "clean_b": "b1f719ed91c087b6219de4be514045938abf6271117752eab2b525d18ba1391c",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "b1f719ed91c087b6219de4be514045938abf6271117752eab2b525d18ba1391c"
+    },
+    "iot23_label_schema.json": {
+      "clean_a": "76b2ed49e499ef7daea3c7306f21e6704b9e7f4f5611812529e4e9b6512617bf",
+      "clean_b": "76b2ed49e499ef7daea3c7306f21e6704b9e7f4f5611812529e4e9b6512617bf",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "76b2ed49e499ef7daea3c7306f21e6704b9e7f4f5611812529e4e9b6512617bf"
+    },
+    "iot23_split_manifest.json": {
+      "clean_a": "fea1a47415fa191de717a19cea311b7fc8a986240798016385f5b42b47a1d36c",
+      "clean_b": "fea1a47415fa191de717a19cea311b7fc8a986240798016385f5b42b47a1d36c",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "fea1a47415fa191de717a19cea311b7fc8a986240798016385f5b42b47a1d36c"
+    },
+    "iot23_support_query_manifest.json": {
+      "clean_a": "f5e043291bfeac8920e0e6aa67416019c5cc22f707787cce880244f66a63a04d",
+      "clean_b": "f5e043291bfeac8920e0e6aa67416019c5cc22f707787cce880244f66a63a04d",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "f5e043291bfeac8920e0e6aa67416019c5cc22f707787cce880244f66a63a04d"
+    },
+    "model_feature_whitelist.json": {
+      "clean_a": "119cd6a7f53e9a46db525611f5f43a65fb8dfab582160f8f02641c62cdcf1f85",
+      "clean_b": "119cd6a7f53e9a46db525611f5f43a65fb8dfab582160f8f02641c62cdcf1f85",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "119cd6a7f53e9a46db525611f5f43a65fb8dfab582160f8f02641c62cdcf1f85"
+    },
+    "prohibited_model_fields.json": {
+      "clean_a": "b0b355b7dcb6b11c63e685bbbf1e9bacafbf6224ad5edabb5e4885c2a5a4feb6",
+      "clean_b": "b0b355b7dcb6b11c63e685bbbf1e9bacafbf6224ad5edabb5e4885c2a5a4feb6",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "b0b355b7dcb6b11c63e685bbbf1e9bacafbf6224ad5edabb5e4885c2a5a4feb6"
+    },
+    "training_asset_manifest_edge.json": {
+      "clean_a": "c24dba7cacd45a240242e988b90e046403a5829a3ed3ebdaf9b172786960d402",
+      "clean_b": "c24dba7cacd45a240242e988b90e046403a5829a3ed3ebdaf9b172786960d402",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "c24dba7cacd45a240242e988b90e046403a5829a3ed3ebdaf9b172786960d402"
+    },
+    "training_asset_manifest_iot23.json": {
+      "clean_a": "298c6e75a3fcf54d37f065d5860763a322545702113be1b01ad60793f54c587e",
+      "clean_b": "298c6e75a3fcf54d37f065d5860763a322545702113be1b01ad60793f54c587e",
+      "clean_double_equal": true,
+      "clean_resume_equal": true,
+      "resumed": "298c6e75a3fcf54d37f065d5860763a322545702113be1b01ad60793f54c587e"
+    }
+  },
+  "core_manifest_resume_equal_to_clean": true,
+  "interrupted_resume_equal_to_clean": true,
+  "interruption_point": "after first completed capture checkpoint",
+  "scope": {
+    "edge_capture": "Attack_OS_Fingerprinting",
+    "iot23_scenario": "CTU-IoT-Malware-Capture-8-1",
+    "mode": "sample",
+    "sample_sessions_per_source": 500
+  },
+  "stable_sample_id_index_equal": true,
+  "status": "PASS"
+}

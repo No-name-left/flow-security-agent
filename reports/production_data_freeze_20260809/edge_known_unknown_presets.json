@@ -1,0 +1,217 @@
+{
+  "Far": {
+    "K_known": [
+      "Backdoor",
+      "DDoS_HTTP",
+      "DDoS_ICMP",
+      "DDoS_TCP",
+      "DDoS_UDP",
+      "Normal",
+      "OS_Fingerprinting",
+      "Port_Scanning",
+      "Ransomware",
+      "SQL_injection",
+      "Vulnerability_scanner",
+      "XSS"
+    ],
+    "U_dev": [
+      "MITM",
+      "Uploading"
+    ],
+    "U_final": [
+      "Password"
+    ],
+    "counts": {
+      "K_known": {
+        "Backdoor": 1357,
+        "DDoS_HTTP": 7504,
+        "DDoS_ICMP": 2281745,
+        "DDoS_TCP": 1155171,
+        "DDoS_UDP": 3128015,
+        "Normal": 678279,
+        "OS_Fingerprinting": 202,
+        "Port_Scanning": 10665,
+        "Ransomware": 1364,
+        "SQL_injection": 4259,
+        "Vulnerability_scanner": 2805,
+        "XSS": 1900
+      },
+      "U_dev": {
+        "MITM": 227,
+        "Uploading": 7631
+      },
+      "U_final": {
+        "Password": 96057
+      }
+    },
+    "definition": "each U_final coarse parent is absent from K_known",
+    "exclusion_reason": "none",
+    "parent_relationships": {
+      "MITM": {
+        "coarse_parent": "ManInTheMiddle",
+        "known_siblings": []
+      },
+      "Password": {
+        "coarse_parent": "CredentialAccess",
+        "known_siblings": []
+      },
+      "Uploading": {
+        "coarse_parent": "FileTransfer",
+        "known_siblings": []
+      }
+    },
+    "seed": 20260810,
+    "selection_rule": "native taxonomy only; frozen before any Qwen/model run"
+  },
+  "Mixed": {
+    "K_known": [
+      "Backdoor",
+      "DDoS_HTTP",
+      "DDoS_ICMP",
+      "DDoS_TCP",
+      "DDoS_UDP",
+      "Normal",
+      "OS_Fingerprinting",
+      "Port_Scanning",
+      "Uploading",
+      "Vulnerability_scanner",
+      "XSS"
+    ],
+    "U_dev": [
+      "MITM",
+      "SQL_injection"
+    ],
+    "U_final": [
+      "Password",
+      "Ransomware"
+    ],
+    "counts": {
+      "K_known": {
+        "Backdoor": 1357,
+        "DDoS_HTTP": 7504,
+        "DDoS_ICMP": 2281745,
+        "DDoS_TCP": 1155171,
+        "DDoS_UDP": 3128015,
+        "Normal": 678279,
+        "OS_Fingerprinting": 202,
+        "Port_Scanning": 10665,
+        "Uploading": 7631,
+        "Vulnerability_scanner": 2805,
+        "XSS": 1900
+      },
+      "U_dev": {
+        "MITM": 227,
+        "SQL_injection": 4259
+      },
+      "U_final": {
+        "Password": 96057,
+        "Ransomware": 1364
+      }
+    },
+    "definition": "U_final includes one shared-parent near class and one absent-parent far class",
+    "exclusion_reason": "none",
+    "parent_relationships": {
+      "MITM": {
+        "coarse_parent": "ManInTheMiddle",
+        "known_siblings": []
+      },
+      "Password": {
+        "coarse_parent": "CredentialAccess",
+        "known_siblings": []
+      },
+      "Ransomware": {
+        "coarse_parent": "Malware",
+        "known_siblings": [
+          "Backdoor"
+        ]
+      },
+      "SQL_injection": {
+        "coarse_parent": "Injection",
+        "known_siblings": [
+          "XSS"
+        ]
+      }
+    },
+    "seed": 20260811,
+    "selection_rule": "native taxonomy only; frozen before any Qwen/model run"
+  },
+  "Near": {
+    "K_known": [
+      "Backdoor",
+      "DDoS_HTTP",
+      "DDoS_TCP",
+      "MITM",
+      "Normal",
+      "Password",
+      "Port_Scanning",
+      "Ransomware",
+      "SQL_injection",
+      "Uploading",
+      "Vulnerability_scanner"
+    ],
+    "U_dev": [
+      "DDoS_ICMP",
+      "OS_Fingerprinting"
+    ],
+    "U_final": [
+      "DDoS_UDP",
+      "XSS"
+    ],
+    "counts": {
+      "K_known": {
+        "Backdoor": 1357,
+        "DDoS_HTTP": 7504,
+        "DDoS_TCP": 1155171,
+        "MITM": 227,
+        "Normal": 678279,
+        "Password": 96057,
+        "Port_Scanning": 10665,
+        "Ransomware": 1364,
+        "SQL_injection": 4259,
+        "Uploading": 7631,
+        "Vulnerability_scanner": 2805
+      },
+      "U_dev": {
+        "DDoS_ICMP": 2281745,
+        "OS_Fingerprinting": 202
+      },
+      "U_final": {
+        "DDoS_UDP": 3128015,
+        "XSS": 1900
+      }
+    },
+    "definition": "every U_final class shares its coarse parent with at least one K_known class",
+    "exclusion_reason": "none",
+    "parent_relationships": {
+      "DDoS_ICMP": {
+        "coarse_parent": "Availability",
+        "known_siblings": [
+          "DDoS_HTTP",
+          "DDoS_TCP"
+        ]
+      },
+      "DDoS_UDP": {
+        "coarse_parent": "Availability",
+        "known_siblings": [
+          "DDoS_HTTP",
+          "DDoS_TCP"
+        ]
+      },
+      "OS_Fingerprinting": {
+        "coarse_parent": "Reconnaissance",
+        "known_siblings": [
+          "Port_Scanning",
+          "Vulnerability_scanner"
+        ]
+      },
+      "XSS": {
+        "coarse_parent": "Injection",
+        "known_siblings": [
+          "SQL_injection"
+        ]
+      }
+    },
+    "seed": 20260809,
+    "selection_rule": "native taxonomy only; frozen before any Qwen/model run"
+  }
+}

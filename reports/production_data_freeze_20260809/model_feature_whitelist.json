@@ -1,0 +1,24 @@
+{
+  "features": [
+    "label_schema_id",
+    "packet_sequence.direction",
+    "packet_sequence.packet_length",
+    "packet_sequence.relative_iat",
+    "packet_sequence.l3_protocol",
+    "packet_sequence.l4_protocol",
+    "packet_sequence.tcp_flags",
+    "session_summary.duration",
+    "session_summary.initiator_packets",
+    "session_summary.responder_packets",
+    "session_summary.initiator_bytes",
+    "session_summary.responder_bytes",
+    "session_summary.packet_length_stats",
+    "session_summary.iat_stats",
+    "session_summary.handshake_state",
+    "capabilities",
+    "missing_fields"
+  ],
+  "primary_view": "NO_SERVICE",
+  "service_diagnostic_view": "derived_service_diagnostic_v1",
+  "version": "primary_no_service_v1"
+}

@@ -1,0 +1,173 @@
+{
+  "LEAKAGE_AUDIT_OK": true,
+  "fail_count": 0,
+  "items": [
+    {
+      "evidence": {
+        "duplicates": 0
+      },
+      "id": 1,
+      "name": "stable sample ID overlap",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "retained_duplicate_groups": 0
+      },
+      "id": 2,
+      "name": "exact duplicate",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "cross_split_groups": 0
+      },
+      "id": 3,
+      "name": "reverse tuple duplicate",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "cross_split_quantized_groups": 7497,
+        "interpretation": "reported sensitivity; near equality alone is not record identity"
+      },
+      "id": 4,
+      "name": "near duplicate sensitivity",
+      "status": "PASS_WITH_LIMITATION"
+    },
+    {
+      "evidence": {
+        "excluded": 249608,
+        "retained": 0
+      },
+      "id": 5,
+      "name": "split boundary session",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "violations": 0
+      },
+      "id": 6,
+      "name": "prohibited model fields",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "model_projection_contract": "identifier keys absent"
+      },
+      "id": 7,
+      "name": "dataset/capture/scenario identifier leakage",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "violations": 0
+      },
+      "id": 8,
+      "name": "raw IP leakage",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "initial_view_has_absolute_time": false
+      },
+      "id": 9,
+      "name": "absolute timestamp leakage",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "initial_view_has_raw_port": false,
+        "primary_service_category": false
+      },
+      "id": 10,
+      "name": "raw port leakage",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "violations": 0
+      },
+      "id": 11,
+      "name": "future context",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "context_scope": "capture_or_scenario_and_split",
+        "state_resets_on_split": true
+      },
+      "id": 12,
+      "name": "cross-split temporal context",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "overlap": 0
+      },
+      "id": 13,
+      "name": "support/query overlap",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "duplicates": 0
+      },
+      "id": 14,
+      "name": "support/query exact duplicate",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "overlap": 0
+      },
+      "id": 15,
+      "name": "K/U overlap",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "manifest_violations": 0
+      },
+      "id": 16,
+      "name": "U_dev leakage into SFT",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "manifest_violations": 0
+      },
+      "id": 17,
+      "name": "U_final development leakage",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "fit_scope": "train_only",
+        "fitted_preprocessing_in_freeze": false
+      },
+      "id": 18,
+      "name": "preprocessing fit leakage",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "mismatches": []
+      },
+      "id": 19,
+      "name": "source hash mismatch",
+      "status": "PASS"
+    },
+    {
+      "evidence": {
+        "retained_conflicts": 0
+      },
+      "id": 20,
+      "name": "label conflict",
+      "status": "PASS"
+    }
+  ],
+  "limitation_count": 1,
+  "status": "PASS_WITH_LIMITATIONS"
+}

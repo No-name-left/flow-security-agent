@@ -29,22 +29,21 @@ This repository currently provides:
 - independent failure, usage and latency traces;
 - Markdown/YAML-front-matter RAG document ingestion with source metadata;
 - a Flow-oriented Python package and baseline tests;
-- a reproducible dual-dataset feasibility Gate with prototype Edge/IoT-23 adapters, manifests, leakage checks and synthetic schema fixtures.
+- a reproducible dual-dataset feasibility Gate with prototype Edge/IoT-23 adapters, manifests, leakage checks and synthetic schema fixtures;
+- production `EdgeAdapter`/`IoT23Adapter`, `CanonicalSessionRecord` v1, checkpoint/resume, partitioned Parquet assets, chronological/scenario-held splits, frozen K/U and support/query manifests, and deterministic/leakage audits.
 
 These components are engineering infrastructure, not claimed paper contributions. The Gate models and scores are audit probes, not formal paper results.
 
 ## Not implemented yet
 
-The following research components remain future work:
+The following model and experiment components remain future work:
 
-- production-grade EdgeAdapter, IoT23Adapter and full-data leakage-aware manifests;
-- frozen full-data split, Known/Unknown and support/query protocols;
 - formal traditional-model baselines and Qwen3.5-9B SFT/few-shot checkpoints;
 - a frozen production Unknown scoring algorithm and calibration threshold;
 - conditional LoRA DPO experiments; PPO/GRPO and full-parameter 9B or formal 27B training are outside the current mainline;
 - formal experiments and paper metrics.
 
-The local closeout and reproducible GitHub stopping point are complete. A remote server has been rented and is reachable through VS Code SSH; the project is now entering server initialization, before official data download or production processing. Formal training defaults to text-only BF16 LoRA with visual modules frozen and non-thinking structured output; QLoRA is only a resource/compatibility fallback. See [server migration and data recovery](docs/SERVER_MIGRATION.md). The repository retains code, reports, manifests, download instructions and small synthetic fixtures, not raw traffic or model artifacts.
+The remote server bootstrap, official data recovery, identity-based-dedup Production Data Freeze rebuild, Edge label-provenance guard and class-role support audit are complete. The final postfix audit is `PASS_WITH_LIMITATIONS`, `CLASS_ROLE_SUPPORT_GATE=PASS`, and `PRODUCTION_DATA_READY=true`; no data Gate blocker remains. The Gate validates logical K/U experiment visibility separately from physical chronological storage, and support/query sampling preserves exact-evidence diversity before applying capacity limits. Edge 1/5/10-shot and the registered IoT-23 coarse `Exploitation` 1/5-shot variants are ready. No Qwen weights were downloaded and no formal model training started. Formal training defaults to text-only BF16 LoRA with visual modules frozen and non-thinking structured output; QLoRA is only a resource/compatibility fallback. See [server migration and data recovery](docs/SERVER_MIGRATION.md) and the [production freeze report](reports/production_data_freeze_20260809/README.md). The repository retains code, small reports, manifests, download instructions and synthetic fixtures, not raw traffic or model artifacts.
 
 ## Research Plan and Change Control
 
@@ -86,6 +85,7 @@ Runtime examples are in `configs/runtime.example.yaml`. API keys must be supplie
 ```text
 src/flowsec/llm/     reusable model runtime, cache, validation and traces
 src/flowsec/rag/     knowledge-document ingestion
+src/flowsec/production/ production adapters, schemas, manifests and audits
 configs/             non-secret runtime examples
 scripts/             small command-line entry points
 tools/               auditable dataset and experiment utilities

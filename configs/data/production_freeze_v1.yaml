@@ -1,0 +1,179 @@
+schema_version: canonical_session_record_v1
+freeze_id: production_data_freeze_20260809
+random_seeds: [20260809, 20260810, 20260811]
+
+processing:
+  packet_store_limit: 16
+  initial_packet_limit: 8
+  session_timeout_seconds: 60.0
+  context_window_seconds: 60.0
+  split_train_fraction: 0.70
+  split_validation_fraction: 0.15
+  split_test_fraction: 0.15
+  fixed_gap_safety_seconds: 5.0
+  long_session_quantile: 0.999
+  max_gap_fraction_for_usability: 0.02
+  parquet_compression: zstd
+  parquet_shard_rows: 100000
+  primary_view: PRIMARY_VIEW
+  primary_view_version: primary_no_service_v1
+  primary_includes_service_category: false
+  no_service_view_version: no_service_v1
+  service_diagnostic_view_version: derived_service_diagnostic_v1
+  support_query_cap_per_class: 1000
+  primary_deduplication_policy: immutable_backend_identity_only
+  exact_model_view_policy: audit_and_evaluation_clean_sensitivity_only
+  near_signature_policy: audit_and_evaluation_clean_sensitivity_only
+  context_scope: capture_or_scenario_and_split
+
+edge:
+  dataset_name: Edge-IIoTset
+  dataset_version: edge_iiotset_official_archive_sha256_42df619d
+  archive:
+    filename: edgeiiotset-cyber-security-dataset-of-iot-iiot.zip
+    bytes: 1746605436
+    md5: d0f9be0185845a1ef4ed31cc6db4a9b2
+    sha256: 42df619d4a222c5ae014a3b8ad2017536dbf49fbc2d35145349e6012a65b74ae
+  label_schema_id: edge_native_v1
+  benign_label: Normal
+  coarse_mapping:
+    Normal: Benign
+    Backdoor: Malware
+    DDoS_HTTP: Availability
+    DDoS_ICMP: Availability
+    DDoS_TCP: Availability
+    DDoS_UDP: Availability
+    MITM: ManInTheMiddle
+    OS_Fingerprinting: Reconnaissance
+    Password: CredentialAccess
+    Port_Scanning: Reconnaissance
+    Ransomware: Malware
+    SQL_injection: Injection
+    Uploading: FileTransfer
+    Vulnerability_scanner: Reconnaissance
+    XSS: Injection
+  captures:
+    - {id: Attack_Backdoor, pcap: "Attack traffic/Backdoor_attack.pcap", csv: "Attack traffic/Backdoor_attack.csv", fine_label: Backdoor}
+    - {id: Attack_DDoS_HTTP, pcap: "Attack traffic/DDoS HTTP Flood Attacks.pcap", csv: "Attack traffic/DDoS_HTTP_Flood_attack.csv", fine_label: DDoS_HTTP}
+    - {id: Attack_DDoS_ICMP, pcap: "Attack traffic/DDoS ICMP Flood Attacks.pcap", csv: "Attack traffic/DDoS_ICMP_Flood_attack.csv", fine_label: DDoS_ICMP}
+    - {id: Attack_DDoS_TCP, pcap: "Attack traffic/DDoS TCP SYN Flood Attacks.pcap", csv: "Attack traffic/DDoS_TCP_SYN_Flood_attack.csv", fine_label: DDoS_TCP}
+    - {id: Attack_DDoS_UDP, pcap: "Attack traffic/DDoS UDP Flood Attacks.pcap", csv: "Attack traffic/DDoS_UDP_Flood_attack.csv", fine_label: DDoS_UDP}
+    - {id: Attack_MITM, pcap: "Attack traffic/MITM (ARP spoofing + DNS) Attack.pcap", csv: "Attack traffic/MITM_attack.csv", fine_label: MITM}
+    - {id: Attack_OS_Fingerprinting, pcap: "Attack traffic/OS Fingerprinting attack.pcap", csv: "Attack traffic/OS_Fingerprinting_attack.csv", fine_label: OS_Fingerprinting}
+    - {id: Attack_Password, pcap: "Attack traffic/Password attacks.pcap", csv: "Attack traffic/Password_attack.csv", fine_label: Password}
+    - {id: Attack_Port_Scanning, pcap: "Attack traffic/Port Scanning attack.pcap", csv: "Attack traffic/Port_Scanning_attack.csv", fine_label: Port_Scanning}
+    - {id: Attack_Ransomware, pcap: "Attack traffic/Ransomware attack.pcap", csv: "Attack traffic/Ransomware_attack.csv", fine_label: Ransomware}
+    - {id: Attack_SQL_injection, pcap: "Attack traffic/SQL injection attack.pcap", csv: "Attack traffic/SQL_injection_attack.csv", fine_label: SQL_injection}
+    - {id: Attack_Uploading, pcap: "Attack traffic/Uploading attack.pcap", csv: "Attack traffic/Uploading_attack.csv", fine_label: Uploading}
+    - {id: Attack_Vulnerability_scanner, pcap: "Attack traffic/Vulnerability scanner attack.pcap", csv: "Attack traffic/Vulnerability_scanner_attack.csv", fine_label: Vulnerability_scanner, anomaly: edge_vulnerability_scanner_corrupt_tail}
+    - {id: Attack_XSS, pcap: "Attack traffic/XSS attacks.pcap", csv: "Attack traffic/XSS_attack.csv", fine_label: XSS}
+    - {id: Normal_Distance, pcap: "Normal traffic/Distance/Distance.pcap", csv: "Normal traffic/Distance/Distance.csv", fine_label: Normal}
+    - {id: Normal_Flame_Sensor, pcap: "Normal traffic/Flame_Sensor/Flame_Sensor.pcap", csv: "Normal traffic/Flame_Sensor/Flame_Sensor.csv", fine_label: Normal}
+    - {id: Normal_Heart_Rate, pcap: "Normal traffic/Heart_Rate/Heart_Rate.pcap", csv: "Normal traffic/Heart_Rate/Heart_Rate.csv", fine_label: Normal}
+    - {id: Normal_IR_Receiver, pcap: "Normal traffic/IR_Receiver/IR_Receiver.pcap", csv: "Normal traffic/IR_Receiver/IR_Receiver.csv", fine_label: Normal}
+    - {id: Normal_Modbus, pcap: "Normal traffic/Modbus/Modbus.pcap", csv: "Normal traffic/Modbus/Modbus.csv", fine_label: Normal}
+    - {id: Normal_Soil_Moisture, pcap: "Normal traffic/Soil_Moisture/Soil_Moisture.pcap", csv: "Normal traffic/Soil_Moisture/Soil_Moisture.csv", fine_label: Normal}
+    - {id: Normal_Sound_Sensor, pcap: "Normal traffic/Sound_Sensor/Sound_Sensor.pcap", csv: "Normal traffic/Sound_Sensor/Sound_Sensor.csv", fine_label: Normal}
+    - {id: Normal_Temperature_and_Humidity, pcap: "Normal traffic/Temperature_and_Humidity/Temperature_and_Humidity.pcap", csv: "Normal traffic/Temperature_and_Humidity/Temperature_and_Humidity.csv", fine_label: Normal}
+    - {id: Normal_Water_Level, pcap: "Normal traffic/Water_Level/Water_Level.pcap", csv: "Normal traffic/Water_Level/Water_Level.csv", fine_label: Normal}
+    - {id: Normal_phValue, pcap: "Normal traffic/phValue/phValue.pcap", csv: "Normal traffic/phValue/phValue.csv", fine_label: Normal}
+  known_unknown_presets:
+    Near:
+      seed: 20260809
+      u_dev: [DDoS_ICMP, OS_Fingerprinting]
+      u_final: [DDoS_UDP, XSS]
+      definition: every U_final class shares its coarse parent with at least one K_known class
+    Far:
+      seed: 20260810
+      u_dev: [MITM, Uploading]
+      u_final: [Password]
+      definition: each U_final coarse parent is absent from K_known
+    Mixed:
+      seed: 20260811
+      u_dev: [SQL_injection, MITM]
+      u_final: [Ransomware, Password]
+      definition: U_final includes one shared-parent near class and one absent-parent far class
+
+iot23:
+  dataset_name: IoT-23
+  dataset_version: iot23_official_scenario_assets_20260809
+  label_schema_id: iot23_behavior_v1
+  task_label_level: coarse_label
+  benign_label: Benign
+  known_coarse_labels: [Benign, CommandAndControl]
+  u_dev_coarse_labels: [Reconnaissance]
+  u_final_coarse_labels: [Exploitation]
+  coarse_rules:
+    benign: Benign
+    ddos: Availability
+    partofahorizontalportscan: Reconnaissance
+    filedownload: FileTransfer
+    c&c: CommandAndControl
+    heartbeat: CommandAndControl
+    attack: Exploitation
+    fallback: MaliciousOther
+  scenarios:
+    - id: CTU-IoT-Malware-Capture-8-1
+      role: train
+      pcap: CTU-IoT-Malware-Capture-8-1/2018-07-31-15-15-09-192.168.100.113.pcap
+      log: CTU-IoT-Malware-Capture-8-1/bro/conn.log.labeled
+      pcap_sha256: 80dcc2602519479ddcde889fa902fee19a76696630811452f8df38888af894f2
+      log_sha256: 4877ca8f0f01902fbd18d28b7d06cb3d0be082355b7f2c8862c9deef1782eb8a
+    - id: CTU-Honeypot-Capture-4-1
+      role: train
+      pcap: CTU-Honeypot-Capture-4-1/2018-10-25-14-06-32-192.168.1.132.pcap
+      log: CTU-Honeypot-Capture-4-1/bro/conn.log.labeled
+      pcap_sha256: 3fb775c0391b6ad313a3f7845e634a277b07c3f6377346c2486ba63e1c22e90c
+      log_sha256: aebe40ea0e03b120265a5c7bc140dd9b0d3fe2fce65559e84776b7dd5360e71e
+    - id: CTU-IoT-Malware-Capture-20-1
+      role: validation
+      pcap: CTU-IoT-Malware-Capture-20-1/2018-10-02-13-12-30-192.168.100.103.pcap
+      log: CTU-IoT-Malware-Capture-20-1/bro/conn.log.labeled
+      pcap_sha256: 4d0a00c33a4bf11228158baddd47c38f702731ea8d75ef1201061fc8bbd878b9
+      log_sha256: ef48ad72f65efd13d517223e61e4d877ba53a082ddb8159324b18d3f310d0711
+    - id: CTU-IoT-Malware-Capture-21-1
+      role: validation
+      pcap: CTU-IoT-Malware-Capture-21-1/2018-10-03-15-22-32-192.168.100.113.pcap
+      log: CTU-IoT-Malware-Capture-21-1/bro/conn.log.labeled
+      pcap_sha256: 40b6928cedcda03fe5ded8a9994ec007a6d784028f37cbc00bbe3a26a7893023
+      log_sha256: b63db259aead078f50fc150aa97ace4d1f69576e1245334962759d978ce437eb
+    - id: CTU-IoT-Malware-Capture-34-1
+      role: test
+      pcap: CTU-IoT-Malware-Capture-34-1/2018-12-21-15-50-14-192.168.1.195.pcap
+      log: CTU-IoT-Malware-Capture-34-1/bro/conn.log.labeled
+      pcap_sha256: 92ec7e2f6658ee4b007d0b816986c46cc0338bc5e2bec6ceaaca566c695e4699
+      log_sha256: d69e49b2aae8c1bd33286936531658202dec47d989f0439bad3f8be180467a6e
+    - id: CTU-Honeypot-Capture-7-1-Somfy-01
+      role: test
+      pcap: CTU-Honeypot-Capture-7-1/Somfy-01/2019-07-03-15-15-47-first_start_somfy_gateway.pcap
+      log: CTU-Honeypot-Capture-7-1/Somfy-01/bro/conn.log.labeled
+      pcap_sha256: 0ec756ff0e26fc6c7d985178a35206bd7bc5b8a33cc5c7a23d6bb0b103db2a2a
+      log_sha256: fb37fb38393c48b064d3afd373b075ffe31063d4924a2df1c5d13fc490b830cc
+      anomaly: iot23_somfy_strict_match_limitation
+    - id: CTU-IoT-Malware-Capture-42-1
+      role: unknown_probe
+      pcap: CTU-IoT-Malware-Capture-42-1/2019-01-10-14-34-38-192.168.1.197.pcap
+      log: CTU-IoT-Malware-Capture-42-1/bro/conn.log.labeled
+      pcap_sha256: 7573797f17aae96e3804a3cfb22d531b74c17bbae740de1e14048f89130fba37
+      log_sha256: 269fa1b22d9a37e159cf41b81a213a0032d21306f5d39b4c20cb0d211b04e8aa
+      anomaly: iot23_capture42_truncated_tail
+    - id: CTU-IoT-Malware-Capture-3-1
+      role: unknown_pool
+      pcap: CTU-IoT-Malware-Capture-3-1/2018-05-21_capture.pcap
+      log: CTU-IoT-Malware-Capture-3-1/bro/conn.log.labeled
+      readme: CTU-IoT-Malware-Capture-3-1/README.md
+      pcap_sha256: c674dc0c8d584fa66e6f00c60df973c5fbacad551c850a76d75ec9952641d00b
+      log_sha256: 9851009bbca03e15089fa1a356dd4b5eee4a98161a51703626058a0b507f50d0
+      readme_sha256: 426f8ce8680c2593815f6d8bdc4f1f9cf183210a26d9459f135d4d100e91558f
+      official_pcap_url: https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-3-1/2018-05-21_capture.pcap
+      official_log_url: https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-3-1/bro/conn.log.labeled
+      selection_reason: one minimal official scenario supplies complete, well-supported Reconnaissance U_dev and Exploitation U_final fine classes
+  known_unknown_preset:
+    id: iot23_external_validation_v1
+    seed: 20260809
+    task_label_level: coarse_label
+    k_known: [Benign, CommandAndControl]
+    u_dev: [Reconnaissance]
+    u_final: [Exploitation]
+    u_dev_native_fine: [PartOfAHorizontalPortScan]
+    u_final_native_fine: [Attack]

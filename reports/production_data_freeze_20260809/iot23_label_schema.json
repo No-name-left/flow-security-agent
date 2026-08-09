@@ -1,0 +1,44 @@
+{
+  "benign_label": "Benign",
+  "coarse_labels": [
+    "Availability",
+    "Benign",
+    "CommandAndControl",
+    "Exploitation",
+    "FileTransfer",
+    "MaliciousOther",
+    "Reconnaissance"
+  ],
+  "dataset": "IoT-23",
+  "det_label_compatibility": [
+    "detailed-label",
+    "det_label"
+  ],
+  "fine_labels": [
+    "Attack",
+    "Benign",
+    "C&C",
+    "C&C-FileDownload",
+    "C&C-Torii",
+    "DDoS",
+    "FileDownload",
+    "PartOfAHorizontalPortScan"
+  ],
+  "id": "iot23_behavior_v1",
+  "label_descriptions": {
+    "Attack": "IoT-23 native detailed-label Attack",
+    "Benign": "IoT-23 native detailed-label Benign",
+    "C&C": "IoT-23 native detailed-label C&C",
+    "C&C-FileDownload": "IoT-23 native detailed-label C&C-FileDownload",
+    "C&C-Torii": "IoT-23 native detailed-label C&C-Torii",
+    "DDoS": "IoT-23 native detailed-label DDoS",
+    "FileDownload": "IoT-23 native detailed-label FileDownload",
+    "PartOfAHorizontalPortScan": "IoT-23 native detailed-label PartOfAHorizontalPortScan"
+  },
+  "parent_of": "deterministic native detailed-label substring rules in production config",
+  "prohibited_model_fields_version": "prohibited_model_fields_v1",
+  "sample_unit": "reliably PCAP-matched official Zeek connection record",
+  "scenario_family_is_backend_only": true,
+  "task_label_level": "coarse_label",
+  "version": "iot23_native_behavior_full_v1"
+}

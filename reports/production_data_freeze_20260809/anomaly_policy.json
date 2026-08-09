@@ -1,0 +1,13 @@
+{
+  "known_recoverable_tail_policy": "retain readable prefix, record parser return code and anomaly ID; never repair source in place",
+  "raw_immutable": true,
+  "severity_values": [
+    "INFO",
+    "WARNING",
+    "PASS_WITH_LIMITATION",
+    "FAIL"
+  ],
+  "split_boundary_policy": "exclude session and record reproducibility ID/count",
+  "unmatched_policy": "quarantine strict unmatched records; never relax matching for coverage",
+  "version": "anomaly_policy_v1"
+}

@@ -1,0 +1,61 @@
+{
+  "matrix": [
+    {
+      "class": "Ransomware",
+      "dataset": "Edge-IIoTset",
+      "expected_minimum": 1,
+      "gate_rule": "PREFIX implementation required every K_known class in every physical train/validation/test split",
+      "label_space": "fine_label",
+      "logical_partition": "sft_validation",
+      "observed_count": 0,
+      "physical_split": "validation",
+      "preset": "Near",
+      "role": "K_known",
+      "source_manifest": "production catalog + training asset manifest"
+    },
+    {
+      "class": "DDoS_UDP",
+      "dataset": "Edge-IIoTset",
+      "expected_minimum": 10,
+      "gate_rule": "PREFIX implementation coupled every registered shot variant to BASE readiness",
+      "label_space": "fine_label",
+      "logical_partition": "final_unknown/10_shot",
+      "observed_count": 5,
+      "physical_split": "test",
+      "preset": "Near",
+      "role": "U_final",
+      "source_manifest": "edge_support_query_manifest.json"
+    },
+    {
+      "class": "DDoS_UDP",
+      "dataset": "Edge-IIoTset",
+      "expected_minimum": 1,
+      "gate_rule": "PREFIX implementation coupled a non-empty few-shot query to BASE readiness",
+      "label_space": "fine_label",
+      "logical_partition": "final_unknown/support_query",
+      "observed_count": 0,
+      "physical_split": "test",
+      "preset": "Near",
+      "role": "U_final",
+      "source_manifest": "edge_support_query_manifest.json"
+    },
+    {
+      "class": "Ransomware",
+      "dataset": "Edge-IIoTset",
+      "expected_minimum": 1,
+      "gate_rule": "PREFIX implementation required every K_known class in every physical train/validation/test split",
+      "label_space": "fine_label",
+      "logical_partition": "sft_validation",
+      "observed_count": 0,
+      "physical_split": "validation",
+      "preset": "Far",
+      "role": "K_known",
+      "source_manifest": "production catalog + training asset manifest"
+    }
+  ],
+  "root_cause_classes": [
+    "GATE_LOGIC_BUG",
+    "MANIFEST_GENERATION_BUG"
+  ],
+  "status": "PREFIX_FAILURE_CAPTURED"
+}

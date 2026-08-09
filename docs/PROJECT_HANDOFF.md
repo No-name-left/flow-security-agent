@@ -2,9 +2,9 @@
 
 > 适用对象：首次接手本项目的开发者或Agent。
 >
-> 最近核验：2026-08-09；服务器已租用并可通过VS Code SSH访问，当前进入`SERVER INITIALIZATION`。
+> 最近核验：2026-08-09；服务器初始化、官方数据恢复、identity-based dedup全量重建、Edge标签provenance guard与class-role定向复审均已完成；`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`、`PRODUCTION_DATA_READY=true`、`DECISION_REQUIRED=false`。尚未下载Qwen或启动训练。
 >
-> 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；当前最新生效决定为DEC-0011，DEC-0006至DEC-0010继续有效。
+> 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；当前最新生效决定为DEC-0012，DEC-0006至DEC-0011继续有效。
 
 ## 1. 一分钟了解当前项目
 
@@ -35,19 +35,19 @@ Agent在Qwen第一次分类后决定“下一步需要什么证据或是否停�
 
 审计确认旧架构主要存在于三份计划、交接文档和历史报告中。仓库尚未实现正式LightGBM/XGBoost主分类、OOF Tree-aware训练、Qwen Reviewer SFT、选择性Qwen路由或Agent主循环，因此没有已运行的旧pipeline需要回滚。
 
-三份正式计划现已统一为LLM独立分类、会话级混合表示和Agent动态取证。DEC-0001至DEC-0010作为历史记录完整保留；DEC-0008冻结Edge-IIoTset主实验与IoT-23外部验证的双数据集方案，DEC-0009记录双数据集最终可行性验收`PASS_WITH_LIMITATIONS`，DEC-0010将正式数据下载、全量解析和训练资产生成迁移到远程服务器，DEC-0011冻结text-only BF16 LoRA默认训练与独立Unknown评分接口。DEC-0005的sample-level信息隔离原则仍可继承，但其中CICIoMT立即主线和传统模型Reviewer安排已被后续决定替代。
+三份正式计划现已统一为LLM独立分类、会话级混合表示和Agent动态取证。DEC-0001至DEC-0011作为历史记录完整保留；DEC-0008冻结Edge-IIoTset主实验与IoT-23外部验证的双数据集方案，DEC-0009记录双数据集最终可行性验收`PASS_WITH_LIMITATIONS`，DEC-0010将正式数据下载、全量解析和训练资产生成迁移到远程服务器，DEC-0011冻结text-only BF16 LoRA默认训练与独立Unknown评分接口，DEC-0012冻结immutable backend identity Primary去重以及train不变的exact/near evaluation-clean sensitivity。DEC-0005的sample-level信息隔离原则仍可继承，但其中CICIoMT立即主线和传统模型Reviewer安排已被后续决定替代。
 
 ### 2.2 当前数据角色
 
 | 对象 | 当前角色 | 接手含义 |
 | --- | --- | --- |
 | Edge-IIoTset | **主数据集，带冻结限制使用** | 承担完整闭集/coarse/fine、Unknown、Agent、1/5/10-shot及成本/恢复主实验；采用capture内时间块与隔离gap，不宣称跨攻击run泛化 |
-| IoT-23 | **第二数据集，已通过最终可行性验收（带限制）** | 官方标签、PCAP对齐、统一Adapter和独立scenario划分已实测；承担闭集、Unknown和Agent上下文增益的压缩外部验证，正式Unknown支持数仍须补足或限制结论 |
+| IoT-23 | **第二数据集，已通过最终可行性验收（带限制）** | 官方标签、PCAP对齐、统一Adapter和独立scenario划分已实测；承担闭集、Unknown和Agent上下文增益的压缩外部验证，正式coarse `Exploitation` U_final及1/5-shot support/query均已验证 |
 | CICIoMT2024、X-IIoTID | 历史候选与备选说明 | 既有审计继续保留，但不再是当前立即执行主线 |
 | DataSense、UWF、CICIoT2023等 | 历史候选或后续复现资源 | 不因已通过旧Gate自动成为新主数据 |
 | CasinoLimit | 历史连接研究 | 不作为逐流量主监督数据 |
 | NF3、NF-ToN等其他候选 | 退出当前主线 | 停止广泛数据集搜索；仅在IoT-23生产构建出现新阻断并新增Decision时重选第二数据集 |
-| K_known/U_dev/U_final | 未冻结 | 正式数据、会话单位与split确定后、任何训练前预注册 |
+| K_known/U_dev/U_final | **已冻结** | Edge使用Near/Far/Mixed三套原生fine-class预设；IoT-23使用一套原生coarse class-held Unknown预设；全部早于任何Qwen运行 |
 | 正式模型与实验 | 尚未开始 | Qwen SFT/DPO、Unknown、传统基线和Agent均没有正式论文结果 |
 
 ### 2.3 Edge-IIoTset Phase 2 审查已完成
@@ -67,6 +67,16 @@ Phase 2的原始建议仍作为审计事实保留；DEC-0008在承认其限制�
 验收目录为`reports/data_feasibility_gate_20260806/`，入口报告为`final_gate_report.md`，可复现脚本为`run_final_gate.py`。本轮使用6个Edge代表性PCAP和7个IoT-23官方capture，生成3,753条Edge及3,222条IoT-23可交付冒烟记录；两个Adapter均输出统一`CanonicalSessionRecord`。IoT-23验收划分为Capture-8/Honeypot-4训练、Capture-20/21验证、Capture-34/Somfy-01测试、Capture-42整体`unknown_final`。
 
 直接泄漏检查未发现模型视图中的IP、绝对时间、文件名、数据集或capture/scenario身份，past-only未来引用为0，跨split相同会话和完整证据重叠为0。两随机种子的no-service RF仅作Gate探针：Edge Macro-F1为0.9498±0.0072，IoT-23为0.7328±0.0016，均超过各自多数类基线；不得作为论文结果。冻结限制为Edge多数攻击类只有一个capture且Vulnerability Scanner PCAP异常，IoT-23 Somfy-01最低PCAP/日志匹配率81.54%，Capture-42 PCAP尾部截断但全部4,426条日志已匹配，且只有6条FileDownload恶意流。本轮只验证Qwen真实输入和JSON合同，没有调用或训练模型。
+
+### 2.5 Production Data Freeze已通过pre-commit复审（带限制）
+
+生产入口为`flowsec-production-data`或`python -m flowsec.production.cli`，配置为`configs/data/production_freeze_v1.yaml`。全量运行处理24个Edge PCAP和8个IoT-23 scenario；新增且仅新增官方`CTU-IoT-Malware-Capture-3-1`，用于IoT-23的Reconnaissance `U_dev`与Exploitation `U_final`。后台审计层共7,818,954条记录；identity-based dedup与boundary/gap隔离后保留7,569,346条Canonical/model-safe记录，其中Edge 7,377,181、IoT-23 192,165。
+
+初版流水线曾因全局model-view过度去重被pre-commit审计阻断；该历史run已被identity-based dedup全量重建取代，model-view equality现只用于审计与不改train的evaluation-clean敏感性变体。Edge companion provenance为24/24 capture纯度100%，正式7,619,032个Edge backend session全部具有`VERIFIED_CAPTURE_FALLBACK`，label conflict与unmatched/quarantine均为0。最终20项泄漏检查无FAIL，identity跨split overlap为0，subset双跑及人为中断/resume的逻辑资产哈希一致。
+
+最后的`CLASS_ROLE_SUPPORT_GATE`阻塞已定向修复：旧Gate错误地把每个K类physical validation非空及全部few-shot变体耦合为BASE硬条件；旧support sampler又在evidence去重前截断，令Near/DDoS_UDP虚假只剩5个10-shot候选且query为0。当前Gate检查最终logical training manifests，BASE与few-shot variant分开报告；support先保留exact evidence多样性再限流。完整121行class-role matrix为119 `PASS`、2个非硬`LIMITATION`、0 `FAIL`；两个限制都是Near/Far的K_known Ransomware physical validation为0，合法train/test与逻辑角色不受影响。Edge三套preset和IoT-23 BASE均PASS，Edge 1/5/10-shot及IoT正式1/5-shot均READY；IoT 10-shot为未注册而非失败。最终`CLASS_ROLE_SUPPORT_GATE=PASS`、`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`、`PRODUCTION_DATA_READY=true`。
+
+审计同时预注册了不替换Primary split的`NEAR_DUPLICATE_SENSITIVITY_VARIANT`，并修复IoT-23 support/query沿用fine-level `Attack`的问题；正式support target现与task/K-U/training manifest一致为coarse-level `Exploitation`，sample ID不变。大数据与完整审计报告位于服务器Git外的`/root/autodl-tmp/experiments/production_data_freeze_20260809/`，仓库内小型摘要位于`reports/production_data_freeze_20260809/`。
 
 ## 3. 当前正式输入与实验口径
 
@@ -101,18 +111,18 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 
 ## 4. 当前下一步与停止规则
 
-本阶段已完成架构审计、三份计划纠偏、Edge-IIoTset Phase 2审查、双数据集方案冻结、最终可行性验收、本地迁移收尾与GitHub停止点。远程服务器已经租用，可通过VS Code SSH访问，数据盘约600GB；当前停止在服务器初始化开始处，尚未下载正式数据、生成生产资产或配置/下载Qwen。
+本阶段已完成架构审计、计划纠偏、双数据集Gate、服务器初始化、官方数据恢复、identity-based dedup全量Production Data Freeze重建、标签provenance guard、class-role复审与postfix pre-commit审计。当前没有数据Gate blocker；尚未下载Qwen、安装完整训练栈或启动任何正式训练。工作树仍未提交，下一步先人工审查本阶段diff，并仅在明确授权后commit/push。
 
 冻结的执行顺序如下；双数据集Gate已经完成，本地阶段只做归档、推送和经批准的数据清理：
 
-1. **已完成：**双数据集最终Gate、三份研究计划、DEC-0009与DEC-0010同步；
-2. **已完成：**代码、测试、报告、manifest、校验和、下载工具与`docs/SERVER_MIGRATION.md`已push；可重建本地数据已按`reports/local_data_cleanup_20260806/`清理；
-3. **下一步唯一阶段——SERVER INITIALIZATION：**在服务器clone/pull最新`main`并验证同步，初始化独立数据/资产/模型目录，确认硬件/GPU、权限和数据处理环境；
-4. 从官方来源下载Edge-IIoTset与IoT-23，校验哈希并复跑Gate；
-5. 将验收版`CanonicalSessionRecord`、EdgeAdapter和IoT23Adapter固化为生产数据流水线；
-6. 冻结两个数据集各自的全量split、K/U、support/query、异常文件处置和训练manifest，完成回归、近重复敏感性及IoT-23 Unknown支持数检查；
-7. 配置GPU模型环境，加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；
-8. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证。
+1. **已完成：**双数据集最终Gate、研究计划/Decision同步和本地迁移收尾；
+2. **已完成：**远程服务器clone/同步、目录/数据盘/GPU/权限/独立数据环境初始化；
+3. **已完成：**Edge-IIoTset与IoT-23官方数据下载、66个生产源文件验哈希及服务器Gate复核；
+4. **已完成：**生产`CanonicalSessionRecord`、EdgeAdapter、IoT23Adapter、checkpoint/resume与分片Parquet流水线；
+5. **已完成：**全量split、K/U、support/query、异常处置、training manifest、U_final隔离、20项泄漏与确定性审计；
+6. **已完成：**identity-based dedup全量重建、24-capture标签provenance guard与必要checkpoint resume；
+7. **已完成：**class-role BASE/few-shot Gate纠正、最新run identity防旧manifest保护、完整pytest与postfix复审，`PRODUCTION_DATA_READY=true`；
+8. **当前下一步：**人工审查并在明确授权后commit/push冻结实现；之后再配置Qwen3.5-9B并执行原始模型与text-only BF16 LoRA SFT小规模冒烟。
 
 IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建出现新的阻断性证据并新增Decision，否则不得重选第二数据集，也不得自动恢复“CICIoMT首选、X-IIoTID立即切换”或重新开启主数据集搜索。
 
@@ -129,12 +139,13 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - `tools/dataset_download/`：Edge官方归档和IoT-23七场景的服务器下载、恢复与哈希校验入口；
 - `reports/data_feasibility_gate_20260806/run_final_gate.py`：验收版EdgeAdapter、IoT23Adapter、统一会话记录、泄漏/捷径检查、RF和Qwen输入合同的可复现参考实现；应重构进生产模块，不应原样充当正式流水线。
 - `docs/SERVER_MIGRATION.md`：服务器目录、环境变量、官方来源、校验、Gate复跑、Git禁入内容与后续顺序。
+- `src/flowsec/production/`、`tools/production_data_freeze.py`与`tools/audit_production_determinism.py`：正式schema、Adapter、guard、split/KU/support/training manifest、泄漏与确定性流水线。
+- `configs/data/production_freeze_v1.yaml`：正式、模型无关且早于Qwen运行冻结的完整数据协议。
+- `reports/production_data_freeze_20260809/`：可提交的小型生产冻结复现摘要与关键manifest副本；服务器完整产物仍在Git外。
 
 ### 尚未实现，不得描述成已有结果
 
-- 生产级`CanonicalSessionRecord`、EdgeAdapter、IoT23Adapter、会话重建、包级序列和跨会话上下文；当前已有双数据集验收原型，但不是正式全量数据流水线；
 - Session Evidence Card与应用层证据工具；
-- 正式DatasetLabelSchema、K/U、support/query和split manifest；
 - 传统闭集/开放集正式基线；
 - Qwen3.5-9B text-only BF16 LoRA主分类SFT、独立Unknown算法/校准与条件性LoRA DPO；
 - RulePolicy、LearnablePolicy、强Static与Agent主实验；
@@ -170,10 +181,10 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 
 ## 8. 工作树与验证提示
 
-本次审计开始时，`main`与`origin/main`位于`df27944`，并存在用户对`tests/test_structured_output.py`的既有一行修改；该改动已原样保留并随完整测试复核。不得为追求干净执行reset、checkout、rebase或clean。服务器端clone后应以远程`main`和本交接文档为基线，不假定本地聊天记忆存在。
+本次Production Data Freeze开始时，`HEAD`为`db9e8638bbbe01587db5fa967de00c89e1885d32`且与任务指定baseline一致。当前工作树有本阶段刻意产生、尚未暂存/提交的生产代码、配置、测试和文档；不得为追求干净执行reset、checkout、rebase或clean。后续应先审查精确diff，再按明确授权commit/push。
 
 最终Gate运行了官方最小数据下载、PCAP解析、会话/标签对齐、哈希、泄漏与捷径检查、两随机种子RF及Qwen输入合同冒烟；没有调用或训练Qwen，也没有运行正式论文实验。DEC-0010只改变执行位置；DEC-0011冻结BF16 LoRA/text-only/non-thinking默认模式和独立Unknown评分接口。任何后续数据角色、会话单位、输入证据、K/U、训练阶段、Unknown或Agent口径改变，必须同步更新canonical detailed的Decision Log与本交接文档。
 
 ## 9. 接手完成检查
 
-接手者应能回答：Qwen为什么是首次主分类器；默认训练为何是text-only BF16 LoRA而非QLoRA；传统模型还承担什么；正式Unknown为何由独立评分/校准层产生；Edge与IoT-23分别负责哪些实验；为何两个数据集不合并训练；`CanonicalSessionRecord`如何统一接口并隔离后台字段；Qwen首次看到前8包与摘要、Agent最多扩展到第16包；`U_final`禁止进入哪些阶段；单一攻击capture、捷径和异常PCAP怎样限制Edge结论；Production Adapter是否存在；Gate原型为何不是生产实现；原始数据如何恢复且哪些内容不得进入Git；当前为何只进入服务器初始化。任一问题不清楚时，不应启动训练。
+接手者应能回答：Qwen为什么是首次主分类器；默认训练为何是text-only BF16 LoRA而非QLoRA；传统模型还承担什么；正式Unknown为何由独立评分/校准层产生；Edge与IoT-23分别负责哪些实验；为何两个数据集不合并训练；`CanonicalSessionRecord`如何统一接口并隔离后台字段；Qwen首次看到前8包与摘要、Agent最多扩展到第16包；`U_final`禁止进入哪些阶段；单一攻击capture、捷径和异常PCAP怎样限制Edge结论；Production Adapter和正式manifest位于何处；原始数据如何恢复且哪些内容不得进入Git；为何physical chronological split不能替代logical K/U visibility检查；当前哪些限制仍不构成数据Gate blocker。任一问题不清楚时，不应启动训练。

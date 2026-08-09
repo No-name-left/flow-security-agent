@@ -1,14 +1,14 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-09）：远程服务器已经租用并可通过VS Code SSH访问，数据盘约600GB；尚未在服务器clone/pull仓库、初始化目录、确认GPU、下载正式数据或配置Qwen。当前唯一阶段为`SERVER INITIALIZATION`。
+> 当前状态（2026-08-09）：远程服务器初始化、官方数据恢复、Gate复核和Production Data Freeze已完成；`PRODUCTION_DATA_READY=true`。尚未下载Qwen或启动模型训练。
 
 ## 1. 已冻结的数据角色
 
 - **Edge-IIoTset：**正式主实验数据集，Gate状态为`PASS_WITH_LIMITATIONS`。用于闭集、Unknown、Agent动态取证、包级证据/RAG和sample-level 1/5/10-shot实验。多数攻击类只有单个capture，因此不得声称跨攻击run泛化。
 - **IoT-23：**独立scenario外部验证数据集，Gate状态为`PASS_WITH_LIMITATIONS`。保留原生标签和独立train/validation/scenario-held-out test，不与Edge细类物理合并训练。
-- 两者分别解析，通过`CanonicalSessionRecord`统一方法接口。当前Gate Adapter是可复现原型，不是生产流水线。
+- 两者分别解析，通过`CanonicalSessionRecord`统一方法接口。Gate Adapter仍保留为历史验收参考；正式实现位于`src/flowsec/production/`。
 
-本地不再保留可重建的解压PCAP/CSV、IoT-23场景副本和大型冒烟JSONL/预测表。代码、测试、报告、manifest、哈希和下载工具进入Git。由于尚未在目标服务器实际验证Kaggle下载，唯一一份Edge官方完整压缩包暂时保留；服务器验证成功后再单独决定是否删除。
+正式原始数据位于服务器`/root/autodl-tmp/datasets/`，派生生产资产位于`/root/autodl-tmp/processed/production_data_freeze_v1/`，完整运行报告位于`/root/autodl-tmp/experiments/production_data_freeze_20260809/`；它们都在Git仓库外。代码、配置、测试与小型复现报告进入Git。Edge完整归档与解压成员已在服务器逐项验哈希，当前不得擅自删除。
 
 ## 2. 官方来源与校验
 
@@ -29,14 +29,14 @@ python tools/dataset_download/download_edge_iiotset.py --output-root "$EDGE_DATA
 ### IoT-23
 
 - 官方数据目录：`https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/`
-- 当前Gate场景：Capture-8、Honeypot-4、Capture-20、Capture-21、Capture-34、Somfy-01、Capture-42。
+- 正式场景：Capture-8、Honeypot-4、Capture-20、Capture-21、Capture-34、Somfy-01、Capture-42，以及按最小必要原则新增的Capture-3。
 - 不需要下载20 GB完整归档；工具只下载上述场景的PCAP、官方`conn.log.labeled`及数据集README，并使用`source_download_manifest.json`中已实测的SHA256校验。
 
 ```bash
 python tools/dataset_download/download_iot23_gate_subset.py --output-root "$IOT23_DATA_ROOT"
 ```
 
-当前Capture-42只有6条FileDownload未知恶意流，不能单独支撑正式Unknown主结论。生产manifest冻结前须补充少量官方scenario，或预注册小样本置信区间与结论边界。
+Capture-42仍只作为6条FileTransfer恶意流的probe，不能单独支撑正式Unknown主结论。正式冻结新增一个官方Capture-3：Reconnaissance/PartOfAHorizontalPortScan作为`U_dev`，Exploitation/Attack作为`U_final`；三份新增文件的URL、大小和SHA256已写入服务器下载manifest。
 
 ## 3. 推荐服务器目录与环境变量
 
@@ -50,14 +50,14 @@ $ARTIFACT_ROOT/                manifest、session、split、训练资产和实�
 $MODEL_ROOT/                   基础模型、LoRA与checkpoint
 ```
 
-示例：
+本服务器实际布局：
 
 ```bash
-export PROJECT_ROOT=/workspace/flow_security_agent
-export EDGE_DATA_ROOT=/data/flowsec/edge_iiotset
-export IOT23_DATA_ROOT=/data/flowsec/iot23/official_subset
-export ARTIFACT_ROOT=/data/flowsec/artifacts
-export MODEL_ROOT=/data/flowsec/models
+export PROJECT_ROOT=/root/autodl-tmp/workspace/flow-security-agent
+export EDGE_DATA_ROOT=/root/autodl-tmp/datasets/edge_iiotset
+export IOT23_DATA_ROOT=/root/autodl-tmp/datasets/iot23
+export ARTIFACT_ROOT=/root/autodl-tmp/processed
+export MODEL_ROOT=/root/autodl-tmp/models
 export TSHARK_BIN="$(command -v tshark)"
 export CAPINFOS_BIN="$(command -v capinfos)"
 ```
@@ -66,22 +66,22 @@ export CAPINFOS_BIN="$(command -v capinfos)"
 
 ## 4. 服务器执行顺序
 
-1. 在已租用服务器clone/pull仓库并确认本地`main`与远程哈希一致；安装Python 3.11、TShark/Capinfos及项目依赖。
-2. 创建上述数据、资产和模型目录，确认约600GB数据盘的挂载点、磁盘空间、读写权限与GPU硬件；具体路径和硬件写入后续环境manifest，不写死进研究计划。
-3. 使用两个下载工具从官方来源获取数据并完成哈希验证。
-4. 以新的输出目录复跑最终可行性Gate，验证服务器解析环境：
+1. **已完成：**clone/pull仓库并确认任务baseline；安装独立Python数据环境、TShark/Capinfos及项目依赖。
+2. **已完成：**创建数据/资产/模型目录并确认约600GB数据盘、读写权限与GPU硬件。
+3. **已完成：**从官方来源获取Edge和IoT-23数据，校验归档、成员和scenario哈希。
+4. **已完成：**以新输出目录复跑最终可行性Gate：
 
 ```bash
 export FLOWSEC_GATE_OUTPUT="$ARTIFACT_ROOT/data_feasibility_gate_smoke"
 python reports/data_feasibility_gate_20260806/run_final_gate.py
 ```
 
-5. 对照`reports/data_feasibility_gate_20260806/gate_results.json`、`dataset_manifest.json`和`split_manifest.json`检查记录数、匹配率、泄漏项和随机种子。Gate RF仅为数据探针，不得写成论文结果。
-6. 将Gate中的`EdgeAdapter`、`IoT23Adapter`和`CanonicalSessionRecord`重构进生产模块；当前尚无可声称存在的Production Adapter命令入口。
-7. 生产Adapter通过回归后，冻结全量split、K/U、support/query、异常文件处置和训练manifest。
-8. 最后配置GPU模型环境，加载Qwen3.5-9B post-trained模型并运行text-only BF16 LoRA SFT小规模冒烟：冻结视觉编码器和多模态对齐模块，使用non-thinking/direct-response。QLoRA仅在显存不足或框架兼容性受限时作为降级路线；不得跳过数据冻结直接训练。
+5. **已完成：**对照Gate记录数、匹配率、泄漏项和随机种子；Gate RF仍只作为数据探针。
+6. **已完成：**将Adapter和Canonical schema重构为生产模块，命令入口为`flowsec-production-data`。
+7. **已完成：**冻结全量split、K/U、support/query、异常文件处置和training manifest；最终`PASS_WITH_LIMITATIONS`且`PRODUCTION_DATA_READY=true`。
+8. **下一步：**先审查并commit/push Production Data Freeze实现，再配置GPU模型环境，加载Qwen3.5-9B post-trained模型并运行原始模型与text-only BF16 LoRA SFT小规模冒烟。冻结视觉编码器和多模态对齐模块，使用non-thinking/direct-response；QLoRA仅为资源/兼容性降级路线。
 
-现有Gate脚本已支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。Edge根目录应包含`official_subset/`和`extracted/Edge-IIoTset dataset/`；IoT-23根目录直接指向七个场景所在的`official_subset`。
+现有Gate脚本仍只负责七场景验收，并支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。正式生产CLI默认读取本服务器实际Edge解压根与包含八个场景的IoT-23根；Capture-3的精确恢复URL/hash/size保存在服务器下载manifest和Production Freeze source manifest中。
 
 ## 5. Git禁入内容与恢复依据
 
@@ -94,5 +94,6 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - `reports/data_feasibility_gate_20260806/split_manifest.json`：最小划分协议；
 - `reports/data_feasibility_gate_20260806/run_final_gate.py`：可复现Gate脚本；
 - `tools/dataset_download/`：官方数据下载与校验入口。
+- `reports/production_data_freeze_20260809/`：正式冻结的小型复现摘要、schema/split/KU/training/audit关键manifest；完整source/统计与Parquet位于上述Git外实验/资产路径。
 
-尚未完成的事项包括服务器Git/目录/硬件与数据环境初始化、正式数据下载和Gate复核、生产Adapter、全量manifest与K/U冻结、Qwen模型配置与下载、正式传统基线、BF16 LoRA SFT、独立Unknown算法/校准和Agent/论文实验；服务器已租用不等于这些工作已经开始。
+尚未完成的事项只从模型阶段开始：Production Freeze代码的人工审查/commit/push、Qwen模型环境与下载、原始模型冒烟、BF16 LoRA SFT、正式传统基线、独立Unknown算法/校准和Agent/论文实验。`PRODUCTION_DATA_READY=true`不等于模型训练已开始。

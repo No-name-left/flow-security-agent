@@ -23,6 +23,9 @@ test = [
   "pytest>=8.0.0",
 ]
 
+[project.scripts]
+flowsec-production-data = "flowsec.production.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

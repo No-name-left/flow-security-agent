@@ -1,0 +1,372 @@
+{
+  "CLASS_ROLE_SUPPORT_GATE": "FAIL",
+  "edge": {
+    "Far": {
+      "K_known": {
+        "Backdoor": {
+          "test": 470,
+          "train": 541,
+          "validation": 346
+        },
+        "DDoS_HTTP": {
+          "test": 1,
+          "train": 6321,
+          "validation": 1182
+        },
+        "DDoS_ICMP": {
+          "test": 421101,
+          "train": 1512030,
+          "validation": 348614
+        },
+        "DDoS_TCP": {
+          "test": 164109,
+          "train": 825440,
+          "validation": 165622
+        },
+        "DDoS_UDP": {
+          "test": 427132,
+          "train": 2282536,
+          "validation": 418347
+        },
+        "Normal": {
+          "test": 99789,
+          "train": 511023,
+          "validation": 67467
+        },
+        "OS_Fingerprinting": {
+          "test": 33,
+          "train": 139,
+          "validation": 30
+        },
+        "Port_Scanning": {
+          "test": 1591,
+          "train": 7532,
+          "validation": 1542
+        },
+        "Ransomware": {
+          "test": 1132,
+          "train": 232,
+          "validation": 0
+        },
+        "SQL_injection": {
+          "test": 641,
+          "train": 2952,
+          "validation": 666
+        },
+        "Vulnerability_scanner": {
+          "test": 427,
+          "train": 2078,
+          "validation": 300
+        },
+        "XSS": {
+          "test": 295,
+          "train": 1303,
+          "validation": 302
+        }
+      },
+      "U_dev": {
+        "MITM": {
+          "validation": 13
+        },
+        "Uploading": {
+          "validation": 352
+        }
+      },
+      "U_final": {
+        "Password": {
+          "hard_signature_overlap_free": true,
+          "observed_support_id_references": 16,
+          "query_count": 1000,
+          "query_unique": true,
+          "shot_ready": true,
+          "status": "PASS",
+          "support_query_disjoint": true,
+          "unique_support": true,
+          "warnings": []
+        }
+      },
+      "status": "FAIL"
+    },
+    "Mixed": {
+      "K_known": {
+        "Backdoor": {
+          "test": 470,
+          "train": 541,
+          "validation": 346
+        },
+        "DDoS_HTTP": {
+          "test": 1,
+          "train": 6321,
+          "validation": 1182
+        },
+        "DDoS_ICMP": {
+          "test": 421101,
+          "train": 1512030,
+          "validation": 348614
+        },
+        "DDoS_TCP": {
+          "test": 164109,
+          "train": 825440,
+          "validation": 165622
+        },
+        "DDoS_UDP": {
+          "test": 427132,
+          "train": 2282536,
+          "validation": 418347
+        },
+        "Normal": {
+          "test": 99789,
+          "train": 511023,
+          "validation": 67467
+        },
+        "OS_Fingerprinting": {
+          "test": 33,
+          "train": 139,
+          "validation": 30
+        },
+        "Port_Scanning": {
+          "test": 1591,
+          "train": 7532,
+          "validation": 1542
+        },
+        "Uploading": {
+          "test": 854,
+          "train": 6425,
+          "validation": 352
+        },
+        "Vulnerability_scanner": {
+          "test": 427,
+          "train": 2078,
+          "validation": 300
+        },
+        "XSS": {
+          "test": 295,
+          "train": 1303,
+          "validation": 302
+        }
+      },
+      "U_dev": {
+        "MITM": {
+          "validation": 13
+        },
+        "SQL_injection": {
+          "validation": 666
+        }
+      },
+      "U_final": {
+        "Password": {
+          "hard_signature_overlap_free": true,
+          "observed_support_id_references": 16,
+          "query_count": 1000,
+          "query_unique": true,
+          "shot_ready": true,
+          "status": "PASS",
+          "support_query_disjoint": true,
+          "unique_support": true,
+          "warnings": []
+        },
+        "Ransomware": {
+          "hard_signature_overlap_free": true,
+          "observed_support_id_references": 16,
+          "query_count": 580,
+          "query_unique": true,
+          "shot_ready": true,
+          "status": "PASS",
+          "support_query_disjoint": true,
+          "unique_support": true,
+          "warnings": [
+            "query capacity is 580/1000; protocol remains structurally usable"
+          ]
+        }
+      },
+      "status": "PASS"
+    },
+    "Near": {
+      "K_known": {
+        "Backdoor": {
+          "test": 470,
+          "train": 541,
+          "validation": 346
+        },
+        "DDoS_HTTP": {
+          "test": 1,
+          "train": 6321,
+          "validation": 1182
+        },
+        "DDoS_TCP": {
+          "test": 164109,
+          "train": 825440,
+          "validation": 165622
+        },
+        "MITM": {
+          "test": 22,
+          "train": 192,
+          "validation": 13
+        },
+        "Normal": {
+          "test": 99789,
+          "train": 511023,
+          "validation": 67467
+        },
+        "Password": {
+          "test": 66029,
+          "train": 3958,
+          "validation": 26070
+        },
+        "Port_Scanning": {
+          "test": 1591,
+          "train": 7532,
+          "validation": 1542
+        },
+        "Ransomware": {
+          "test": 1132,
+          "train": 232,
+          "validation": 0
+        },
+        "SQL_injection": {
+          "test": 641,
+          "train": 2952,
+          "validation": 666
+        },
+        "Uploading": {
+          "test": 854,
+          "train": 6425,
+          "validation": 352
+        },
+        "Vulnerability_scanner": {
+          "test": 427,
+          "train": 2078,
+          "validation": 300
+        }
+      },
+      "U_dev": {
+        "DDoS_ICMP": {
+          "validation": 348614
+        },
+        "OS_Fingerprinting": {
+          "validation": 30
+        }
+      },
+      "U_final": {
+        "DDoS_UDP": {
+          "hard_signature_overlap_free": true,
+          "observed_support_id_references": 11,
+          "query_count": 0,
+          "query_unique": true,
+          "shot_ready": false,
+          "status": "FAIL",
+          "support_query_disjoint": true,
+          "unique_support": true,
+          "warnings": [
+            "query capacity is 0/1000; protocol remains structurally usable"
+          ]
+        },
+        "XSS": {
+          "hard_signature_overlap_free": true,
+          "observed_support_id_references": 16,
+          "query_count": 189,
+          "query_unique": true,
+          "shot_ready": true,
+          "status": "PASS",
+          "support_query_disjoint": true,
+          "unique_support": true,
+          "warnings": [
+            "query capacity is 189/1000; protocol remains structurally usable"
+          ]
+        }
+      },
+      "status": "FAIL"
+    }
+  },
+  "failures": [
+    {
+      "K_known": [
+        {
+          "class": "Ransomware",
+          "missing_splits": [
+            "validation"
+          ]
+        }
+      ],
+      "code": "PRESET_CLASS_SUPPORT_FAIL",
+      "dataset": "Edge-IIoTset",
+      "preset": "Near"
+    },
+    {
+      "classes": [
+        "DDoS_UDP"
+      ],
+      "code": "U_FINAL_SUPPORT_QUERY_FAIL",
+      "dataset": "Edge-IIoTset",
+      "preset": "Near"
+    },
+    {
+      "K_known": [
+        {
+          "class": "Ransomware",
+          "missing_splits": [
+            "validation"
+          ]
+        }
+      ],
+      "code": "PRESET_CLASS_SUPPORT_FAIL",
+      "dataset": "Edge-IIoTset",
+      "preset": "Far"
+    }
+  ],
+  "iot23": {
+    "K_known": {
+      "Benign": {
+        "test": 2029,
+        "train": 2633,
+        "validation": 6464
+      },
+      "CommandAndControl": {
+        "test": 6706,
+        "train": 8222,
+        "validation": 30
+      }
+    },
+    "U_dev": {
+      "Reconnaissance": {
+        "unknown_dev": 145597
+      }
+    },
+    "U_final": {
+      "Exploitation": {
+        "hard_signature_overlap_free": true,
+        "observed_support_id_references": 6,
+        "query_count": 1000,
+        "query_unique": true,
+        "shot_ready": true,
+        "status": "PASS",
+        "support_query_disjoint": true,
+        "unique_support": true,
+        "warnings": []
+      }
+    },
+    "preset": "iot23_external_validation_v1",
+    "status": "PASS"
+  },
+  "low_sample_warnings": [
+    {
+      "class": "DDoS_UDP",
+      "dataset": "Edge-IIoTset",
+      "preset": "Near",
+      "warning": "query capacity is 0/1000; protocol remains structurally usable"
+    },
+    {
+      "class": "XSS",
+      "dataset": "Edge-IIoTset",
+      "preset": "Near",
+      "warning": "query capacity is 189/1000; protocol remains structurally usable"
+    },
+    {
+      "class": "Ransomware",
+      "dataset": "Edge-IIoTset",
+      "preset": "Mixed",
+      "warning": "query capacity is 580/1000; protocol remains structurally usable"
+    }
+  ],
+  "status": "FAIL"
+}

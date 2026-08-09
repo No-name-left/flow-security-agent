@@ -1,0 +1,532 @@
+{
+  "captures": {
+    "Attack_Backdoor": {
+      "duration_statistics": {
+        "capture_span_seconds": 11317.967966079712,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 226.35935932159424,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 1486.3264290881111,
+        "maximum_timestamp": 1638734821.118175,
+        "minimum_timestamp": 1638723503.150209,
+        "requested_gap_seconds": 1486.327,
+        "session_duration_max_seconds": 3145.7887189388275,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 226.35935932159424
+      },
+      "split_counts": {
+        "quarantine": 67,
+        "test": 470,
+        "train": 541,
+        "validation": 346
+      }
+    },
+    "Attack_DDoS_HTTP": {
+      "duration_statistics": {
+        "capture_span_seconds": 271.11070704460144,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 5.422214140892029,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 154.39379519844056,
+        "maximum_timestamp": 1637836800.461491,
+        "minimum_timestamp": 1637836529.350784,
+        "requested_gap_seconds": 154.394,
+        "session_duration_max_seconds": 270.1088662147522,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 5.422214140892029
+      },
+      "split_counts": {
+        "quarantine": 4641,
+        "test": 1,
+        "train": 6321,
+        "validation": 1182
+      }
+    },
+    "Attack_DDoS_ICMP": {
+      "duration_statistics": {
+        "capture_span_seconds": 403.67452907562256,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 8.073490581512452,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 8.452328071594312,
+        "maximum_timestamp": 1637792672.823991,
+        "minimum_timestamp": 1637792269.149462,
+        "requested_gap_seconds": 8.453,
+        "session_duration_max_seconds": 110.92604207992554,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 8.073490581512452
+      },
+      "split_counts": {
+        "quarantine": 126236,
+        "test": 421101,
+        "train": 1512030,
+        "validation": 348614
+      }
+    },
+    "Attack_DDoS_TCP": {
+      "duration_statistics": {
+        "capture_span_seconds": 528.0146889686584,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.00018787384033203125,
+        "maximum_timestamp": 1637777485.622962,
+        "minimum_timestamp": 1637776957.608273,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 1.3067121505737305,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 10.560293779373168
+      },
+      "split_counts": {
+        "quarantine": 20878,
+        "test": 164109,
+        "train": 825440,
+        "validation": 165622
+      }
+    },
+    "Attack_DDoS_UDP": {
+      "duration_statistics": {
+        "capture_span_seconds": 400.9082729816437,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.0,
+        "maximum_timestamp": 1637793231.047885,
+        "minimum_timestamp": 1637792830.139612,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 0.039624929428100586,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 8.018165459632874
+      },
+      "split_counts": {
+        "quarantine": 87227,
+        "test": 427132,
+        "train": 2282536,
+        "validation": 418347
+      }
+    },
+    "Attack_MITM": {
+      "duration_statistics": {
+        "capture_span_seconds": 1172.9805178642273,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 23.459610357284546,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 259.28705999565125,
+        "maximum_timestamp": 1638036627.15884,
+        "minimum_timestamp": 1638035454.178322,
+        "requested_gap_seconds": 259.288,
+        "session_duration_max_seconds": 259.5038249492645,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 23.459610357284546
+      },
+      "split_counts": {
+        "test": 22,
+        "train": 192,
+        "validation": 13
+      }
+    },
+    "Attack_OS_Fingerprinting": {
+      "duration_statistics": {
+        "capture_span_seconds": 821.5851991176605,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 16.43170398235321,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 564.2673724873067,
+        "maximum_timestamp": 1640640492.525002,
+        "minimum_timestamp": 1640639670.939803,
+        "requested_gap_seconds": 564.268,
+        "session_duration_max_seconds": 566.6083459854126,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 16.43170398235321
+      },
+      "split_counts": {
+        "quarantine": 12,
+        "test": 33,
+        "train": 139,
+        "validation": 30
+      }
+    },
+    "Attack_Password": {
+      "duration_statistics": {
+        "capture_span_seconds": 68505.64350795746,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 3.3347975730895985,
+        "maximum_timestamp": 1638647241.60508,
+        "minimum_timestamp": 1638578735.961572,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 59.32385802268982,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 1370.1128701591492
+      },
+      "split_counts": {
+        "quarantine": 24,
+        "test": 66029,
+        "train": 3958,
+        "validation": 26070
+      }
+    },
+    "Attack_Port_Scanning": {
+      "duration_statistics": {
+        "capture_span_seconds": 9999.71894288063,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 98.503,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 98.50279868513772,
+        "maximum_timestamp": 1637776209.194016,
+        "minimum_timestamp": 1637766209.475073,
+        "requested_gap_seconds": 98.503,
+        "session_duration_max_seconds": 2247.069398164749,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 199.99437885761262
+      },
+      "split_counts": {
+        "quarantine": 243,
+        "test": 1591,
+        "train": 7532,
+        "validation": 1542
+      }
+    },
+    "Attack_Ransomware": {
+      "duration_statistics": {
+        "capture_span_seconds": 116550.44358992577,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 1553.475,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 1553.4747321613856,
+        "maximum_timestamp": 1638573878.441645,
+        "minimum_timestamp": 1638457327.998055,
+        "requested_gap_seconds": 1553.475,
+        "session_duration_max_seconds": 5754.960698843002,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 2331.0088717985154
+      },
+      "split_counts": {
+        "test": 1132,
+        "train": 232
+      }
+    },
+    "Attack_SQL_injection": {
+      "duration_statistics": {
+        "capture_span_seconds": 505.1168930530548,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 10.102337861061097,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 12.577253906250792,
+        "maximum_timestamp": 1638218623.68852,
+        "minimum_timestamp": 1638218118.571627,
+        "requested_gap_seconds": 12.578,
+        "session_duration_max_seconds": 32.6280460357666,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 10.102337861061097
+      },
+      "split_counts": {
+        "quarantine": 174,
+        "test": 641,
+        "train": 2952,
+        "validation": 666
+      }
+    },
+    "Attack_Uploading": {
+      "duration_statistics": {
+        "capture_span_seconds": 505.3178610801697,
+        "clipped_for_split_usability": true,
+        "effective_gap_seconds": 10.106357221603394,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 34.578303338527675,
+        "maximum_timestamp": 1638829018.204631,
+        "minimum_timestamp": 1638828512.88677,
+        "requested_gap_seconds": 34.579,
+        "session_duration_max_seconds": 51.63386297225952,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 10.106357221603394
+      },
+      "split_counts": {
+        "quarantine": 4,
+        "test": 854,
+        "train": 6425,
+        "validation": 352
+      }
+    },
+    "Attack_Vulnerability_scanner": {
+      "duration_statistics": {
+        "capture_span_seconds": 2394.661017894745,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 40.866,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 40.865392010211934,
+        "maximum_timestamp": 1638817323.254705,
+        "minimum_timestamp": 1638814928.593687,
+        "requested_gap_seconds": 40.866,
+        "session_duration_max_seconds": 64.03448295593262,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 47.8932203578949
+      },
+      "split_counts": {
+        "quarantine": 107,
+        "test": 427,
+        "train": 2078,
+        "validation": 300
+      }
+    },
+    "Attack_XSS": {
+      "duration_statistics": {
+        "capture_span_seconds": 7707.292858123779,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 10.221,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 10.220330188750387,
+        "maximum_timestamp": 1638211994.731065,
+        "minimum_timestamp": 1638204287.438207,
+        "requested_gap_seconds": 10.221,
+        "session_duration_max_seconds": 242.14797806739807,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 154.14585716247558
+      },
+      "split_counts": {
+        "quarantine": 13,
+        "test": 295,
+        "train": 1303,
+        "validation": 302
+      }
+    },
+    "Normal_Distance": {
+      "duration_statistics": {
+        "capture_span_seconds": 1612.0374858379364,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.48566765499115033,
+        "maximum_timestamp": 1640647513.352243,
+        "minimum_timestamp": 1640645901.314757,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 1610.1874780654907,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 32.24074971675873
+      },
+      "split_counts": {
+        "quarantine": 408,
+        "test": 10492,
+        "train": 50974,
+        "validation": 10171
+      }
+    },
+    "Normal_Flame_Sensor": {
+      "duration_statistics": {
+        "capture_span_seconds": 1437.1037430763245,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.3467095375061025,
+        "maximum_timestamp": 1641359161.829999,
+        "minimum_timestamp": 1641357724.726256,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 1430.149808883667,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 28.74207486152649
+      },
+      "split_counts": {
+        "quarantine": 527,
+        "test": 10092,
+        "train": 46766,
+        "validation": 9996
+      }
+    },
+    "Normal_Heart_Rate": {
+      "duration_statistics": {
+        "capture_span_seconds": 1837.3899638652802,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.18032469940185542,
+        "maximum_timestamp": 1640657417.376946,
+        "minimum_timestamp": 1640655579.986982,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 1010.1077280044556,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 36.7477992773056
+      },
+      "split_counts": {
+        "quarantine": 63,
+        "test": 1814,
+        "train": 6910,
+        "validation": 1786
+      }
+    },
+    "Normal_IR_Receiver": {
+      "duration_statistics": {
+        "capture_span_seconds": 1826.3256590366364,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.41177204895017283,
+        "maximum_timestamp": 1641341916.754163,
+        "minimum_timestamp": 1641340090.428504,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 1825.2081389427185,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 36.52651318073273
+      },
+      "split_counts": {
+        "quarantine": 493,
+        "test": 12023,
+        "train": 57650,
+        "validation": 12419
+      }
+    },
+    "Normal_Modbus": {
+      "duration_statistics": {
+        "capture_span_seconds": 1404199.9847290516,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 945.042,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 945.0414043426298,
+        "maximum_timestamp": 1641363967.966722,
+        "minimum_timestamp": 1639959767.981993,
+        "requested_gap_seconds": 945.042,
+        "session_duration_max_seconds": 1789.4832870960236,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 28083.99969458103
+      },
+      "split_counts": {
+        "test": 603,
+        "train": 462
+      }
+    },
+    "Normal_Soil_Moisture": {
+      "duration_statistics": {
+        "capture_span_seconds": 8182.11887717247,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 1.174023316621765,
+        "maximum_timestamp": 1641376955.711811,
+        "minimum_timestamp": 1641368773.592934,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 805.1035709381104,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 163.6423775434494
+      },
+      "split_counts": {
+        "quarantine": 104,
+        "test": 12717,
+        "train": 45734,
+        "validation": 12705
+      }
+    },
+    "Normal_Sound_Sensor": {
+      "duration_statistics": {
+        "capture_span_seconds": 1936.7761871814728,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.33972745656967185,
+        "maximum_timestamp": 1641355573.145523,
+        "minimum_timestamp": 1641353636.369336,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 1930.221920967102,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 38.73552374362946
+      },
+      "split_counts": {
+        "quarantine": 531,
+        "test": 13530,
+        "train": 67398,
+        "validation": 13572
+      }
+    },
+    "Normal_Temperature_and_Humidity": {
+      "duration_statistics": {
+        "capture_span_seconds": 2469404.961569071,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 32.25,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 32.24962890148163,
+        "maximum_timestamp": 1639960855.043322,
+        "minimum_timestamp": 1637491450.081753,
+        "requested_gap_seconds": 32.25,
+        "session_duration_max_seconds": 30182.548060178757,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 49388.09923138142
+      },
+      "split_counts": {
+        "test": 462,
+        "train": 89389
+      }
+    },
+    "Normal_Water_Level": {
+      "duration_statistics": {
+        "capture_span_seconds": 670856.9042651653,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.47508358383178895,
+        "maximum_timestamp": 1641334154.060928,
+        "minimum_timestamp": 1640663297.156663,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 2520.293118953705,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 13417.138085303306
+      },
+      "split_counts": {
+        "test": 31198,
+        "train": 113959
+      }
+    },
+    "Normal_phValue": {
+      "duration_statistics": {
+        "capture_span_seconds": 4467.281028985977,
+        "clipped_for_split_usability": false,
+        "effective_gap_seconds": 5.0,
+        "fixed_safety_seconds": 5.0,
+        "long_session_quantile": 0.999,
+        "long_session_quantile_seconds": 0.5690337514877071,
+        "maximum_timestamp": 1640652544.470536,
+        "minimum_timestamp": 1640648077.189507,
+        "requested_gap_seconds": 5.0,
+        "session_duration_max_seconds": 4465.528334140778,
+        "usability_cap_fraction": 0.02,
+        "usability_cap_seconds": 89.34562057971955
+      },
+      "split_counts": {
+        "quarantine": 99,
+        "test": 6858,
+        "train": 31781,
+        "validation": 6818
+      }
+    }
+  },
+  "context_scope": "capture_or_scenario_and_split",
+  "counts": {
+    "test": 167832,
+    "train": 526500,
+    "validation": 96376
+  },
+  "gap_rule": "max(fixed safety window, duration p99.9), clipped only by preregistered 2% capture-span usability cap",
+  "policy": "capture-internal chronological contiguous 70/15/15 blocks",
+  "session_timeout_seconds": 60.0
+}

@@ -1,0 +1,73 @@
+{
+  "logical_layers": {
+    "backend_audit_record": [
+      "sample_id",
+      "dataset",
+      "source_hash",
+      "scenario_or_capture_id",
+      "original_tuple",
+      "raw_ip",
+      "raw_port",
+      "absolute_timestamp",
+      "packet_provenance",
+      "original_label",
+      "split",
+      "exclusion_reason",
+      "anomaly_ids"
+    ],
+    "expandable_evidence_store": [
+      "packets_9_16",
+      "past_only_temporal_index",
+      "relation_index",
+      "application_evidence",
+      "sanitized_payload_if_whitelisted",
+      "rag_retrieval_key"
+    ],
+    "model_safe_initial_view": {
+      "other_fields": [
+        "label_schema_id",
+        "capabilities",
+        "missing_fields"
+      ],
+      "packet_fields": [
+        "direction",
+        "packet_length",
+        "relative_iat",
+        "l3_protocol",
+        "l4_protocol",
+        "tcp_flags"
+      ],
+      "packet_limit": 8,
+      "service_category_in_primary": false,
+      "summary_fields": [
+        "duration",
+        "initiator_packets",
+        "responder_packets",
+        "initiator_bytes",
+        "responder_bytes",
+        "packet_length_stats",
+        "iat_stats",
+        "handshake_state"
+      ]
+    }
+  },
+  "name": "CanonicalSessionRecord",
+  "physical_format": {
+    "compression": "zstd",
+    "jsonl_scope": "small human-review fixtures only",
+    "type": "partitioned parquet"
+  },
+  "sample_id_algorithm": {
+    "id": "flowsec_sample_id_v1",
+    "inputs": [
+      "dataset_version",
+      "source_content_sha256",
+      "sha256(canonical bidirectional session identity)",
+      "integer session start microseconds",
+      "deterministic source ordinal"
+    ],
+    "path_independent": true,
+    "raw_identity_exposed": false
+  },
+  "schema_version": "canonical_session_record_v1"
+}

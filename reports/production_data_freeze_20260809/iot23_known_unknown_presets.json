@@ -1,0 +1,34 @@
+{
+  "counts": {
+    "K_known": {
+      "Benign": 11126,
+      "CommandAndControl": 14958
+    },
+    "U_dev": {
+      "Reconnaissance": 145719
+    },
+    "U_final": {
+      "Exploitation": 5962
+    }
+  },
+  "id": "iot23_external_validation_v1",
+  "k_known": [
+    "Benign",
+    "CommandAndControl"
+  ],
+  "seed": 20260809,
+  "selection_rule": "native coarse hierarchy and official scenario metadata; no model outputs",
+  "task_label_level": "coarse_label",
+  "u_dev": [
+    "Reconnaissance"
+  ],
+  "u_dev_native_fine": [
+    "PartOfAHorizontalPortScan"
+  ],
+  "u_final": [
+    "Exploitation"
+  ],
+  "u_final_native_fine": [
+    "Attack"
+  ]
+}
