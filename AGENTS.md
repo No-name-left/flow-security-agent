@@ -2,6 +2,17 @@
 
 These instructions apply to the entire repository.
 
+## Current frozen project state
+
+- The canonical research specification is `docs/research_plan/research_plan_detailed.md`; operational status is in `docs/PROJECT_HANDOFF.md`, and server/data recovery instructions are in `docs/SERVER_MIGRATION.md`.
+- The mainline is session evidence → text-only Qwen3.5-9B first classification → frozen Unknown scoring/calibration → constrained Agent evidence expansion. Do not restore a tree-first or Qwen-as-Reviewer architecture.
+- Edge-IIoTset is the limited primary dataset; IoT-23 is the limited independent-scenario external validation dataset. Do not reopen dataset search, replace these roles or physically merge their fine-label training without an authorized new Decision.
+- Default formal training is BF16 LoRA SFT with visual modules frozen and non-thinking output. QLoRA is only a resource/compatibility fallback. `U_dev` is not main-classifier SFT supervision; `U_final` must never be used for SFT/DPO, Prompt/RAG examples, Unknown algorithm or threshold selection, Agent training, or error-driven tuning.
+- Production `CanonicalSessionRecord`, EdgeAdapter and IoT23Adapter are not implemented. The Gate implementations in `reports/data_feasibility_gate_20260806/run_final_gate.py` are prototypes and audit evidence, not the production pipeline or paper results.
+- The remote server is rented and reachable; the current stage is `SERVER INITIALIZATION`. Keep data/artifact/model roots outside the Git checkout and configurable through environment/configuration rather than hard-coded local Windows or server paths.
+- Raw traffic, dataset archives, large generated tables, model weights, checkpoints, credentials and environment secrets must not enter Git.
+- A material research change must update the canonical plan and Decision Log, then synchronize the handoff. Do not commit or push unless the user explicitly authorizes it.
+
 ## Required project context
 
 Before changing the project:

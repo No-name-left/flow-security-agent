@@ -10,7 +10,8 @@ Flow Security Agent is a research framework for **session-level open-world malic
 official PCAP and labels
 → dataset-specific session reconstruction
 → CanonicalSessionRecord and past-only context
-→ post-trained Qwen3.5-9B first classification and Unknown decision
+→ text-only BF16 LoRA post-trained Qwen3.5-9B first classification and evidence state
+→ frozen open-set scoring and calibration
 → constrained Agent evidence expansion and reclassification
 → sample-level 1/5/10-shot class onboarding
 ```
@@ -39,10 +40,11 @@ The following research components remain future work:
 - production-grade EdgeAdapter, IoT23Adapter and full-data leakage-aware manifests;
 - frozen full-data split, Known/Unknown and support/query protocols;
 - formal traditional-model baselines and Qwen3.5-9B SFT/few-shot checkpoints;
-- DPO and gated RLAIF experiments;
+- a frozen production Unknown scoring algorithm and calibration threshold;
+- conditional LoRA DPO experiments; PPO/GRPO and full-parameter 9B or formal 27B training are outside the current mainline;
 - formal experiments and paper metrics.
 
-Official data download, full parsing and training-asset generation now move to the remote server. See [server migration and data recovery](docs/SERVER_MIGRATION.md). The local repository retains code, reports, manifests, download instructions and small synthetic fixtures, not raw traffic or model artifacts.
+The local closeout and reproducible GitHub stopping point are complete. A remote server has been rented and is reachable through VS Code SSH; the project is now entering server initialization, before official data download or production processing. Formal training defaults to text-only BF16 LoRA with visual modules frozen and non-thinking structured output; QLoRA is only a resource/compatibility fallback. See [server migration and data recovery](docs/SERVER_MIGRATION.md). The repository retains code, reports, manifests, download instructions and small synthetic fixtures, not raw traffic or model artifacts.
 
 ## Research Plan and Change Control
 

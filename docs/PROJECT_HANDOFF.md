@@ -2,9 +2,9 @@
 
 > 适用对象：首次接手本项目的开发者或Agent。
 >
-> 最近核验：2026-08-06；本地阶段收尾、首个远程推送和受限数据清理已完成。
+> 最近核验：2026-08-09；服务器已租用并可通过VS Code SSH访问，当前进入`SERVER INITIALIZATION`。
 >
-> 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；当前最新生效决定为DEC-0010，DEC-0006至DEC-0009继续有效。
+> 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；当前最新生效决定为DEC-0011，DEC-0006至DEC-0010继续有效。
 
 ## 1. 一分钟了解当前项目
 
@@ -14,15 +14,18 @@
 网络流量样本
 → 会话级混合表示
 → 后训练Qwen3.5-9B独立执行第一次分类
-→ fine / coarse / Unknown分数 / supporting与missing evidence
+→ fine/coarse候选、证据状态、supporting/missing evidence与开放集模型信号
+→ Frozen Unknown Scoring / Calibration
 → Adaptive Decision Agent按需扩展证据、重新分类、拒识或接入新类
 ```
 
 Qwen是正式主分类模型，不是LightGBM/XGBoost的Reviewer。传统模型只作为闭集/开放集、速度/成本、泄漏诊断和可选融合基线；树模型OOF概率不是Qwen SFT的必需输入。
 
+正式模型采用Qwen3.5-9B post-trained的text-only模式，冻结视觉编码器和多模态对齐模块，以BF16 LoRA SFT作为默认训练路线并使用non-thinking/direct-response输出；QLoRA只在显存或框架兼容性受限时降级使用。Qwen不被假定能可靠自报Unknown概率：正式Unknown由独立、冻结、可复现的评分/校准层产生，具体算法仍待使用`K_known`与`U_dev`比较。
+
 Agent在Qwen第一次分类后决定“下一步需要什么证据或是否停止”，确定性Python工具负责具体执行。Agent可以请求更多包、past-only时间上下文、局部通信图、合法应用层证据或RAG，再通过`RECLASSIFY`调用同一主Qwen；`CALL_LLM_EXPERT`已退出正式动作集。
 
-## 2. 2026-08-06冻结状态
+## 2. 2026-08-09冻结状态
 
 ### 2.1 架构回溯已完成
 
@@ -32,7 +35,7 @@ Agent在Qwen第一次分类后决定“下一步需要什么证据或是否停�
 
 审计确认旧架构主要存在于三份计划、交接文档和历史报告中。仓库尚未实现正式LightGBM/XGBoost主分类、OOF Tree-aware训练、Qwen Reviewer SFT、选择性Qwen路由或Agent主循环，因此没有已运行的旧pipeline需要回滚。
 
-三份正式计划现已统一为LLM独立分类、会话级混合表示和Agent动态取证。DEC-0001至DEC-0009完整保留；DEC-0008冻结Edge-IIoTset主实验与IoT-23外部验证的双数据集方案，DEC-0009记录双数据集最终可行性验收`PASS_WITH_LIMITATIONS`，DEC-0010将正式数据下载、全量解析和训练资产生成迁移到远程服务器。DEC-0005的sample-level信息隔离原则仍可继承，但其中CICIoMT立即主线和传统模型Reviewer安排已被后续决定替代。
+三份正式计划现已统一为LLM独立分类、会话级混合表示和Agent动态取证。DEC-0001至DEC-0010作为历史记录完整保留；DEC-0008冻结Edge-IIoTset主实验与IoT-23外部验证的双数据集方案，DEC-0009记录双数据集最终可行性验收`PASS_WITH_LIMITATIONS`，DEC-0010将正式数据下载、全量解析和训练资产生成迁移到远程服务器，DEC-0011冻结text-only BF16 LoRA默认训练与独立Unknown评分接口。DEC-0005的sample-level信息隔离原则仍可继承，但其中CICIoMT立即主线和传统模型Reviewer安排已被后续决定替代。
 
 ### 2.2 当前数据角色
 
@@ -80,8 +83,8 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 - 每个数据集保留原生标签，不强制统一ATT&CK；
 - 使用统一`DatasetLabelSchema`接口；
 - `K_known`用于Qwen SFT及传统基线；
-- `U_dev`仅用于Unknown、证据扩展和策略开发；
-- `U_final`不得进入训练、Prompt、known-only RAG、阈值、策略或人工调参；
+- `U_dev`不得作为主分类监督进入SFT，仅用于Unknown算法、阈值/校准、证据扩展和策略开发；
+- `U_final`不得进入SFT/DPO、Prompt、known-only RAG、Unknown算法选择、阈值、策略、Agent训练或人工调参；
 - 预注册Near/Far/Mixed Unknown并使用多个随机种子；
 - 阶段A使用known-only知识做Unknown拒识；
 - 阶段B仅对已拒识样本开放full-frozen RAG做Top-k候选；
@@ -98,17 +101,17 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 
 ## 4. 当前下一步与停止规则
 
-本阶段已完成架构审计、三份计划纠偏、Edge-IIoTset Phase 2审查、双数据集方案冻结、最终可行性验收及本地迁移收尾。当前停止在服务器选择之前，不进入生产数据生成或模型训练。
+本阶段已完成架构审计、三份计划纠偏、Edge-IIoTset Phase 2审查、双数据集方案冻结、最终可行性验收、本地迁移收尾与GitHub停止点。远程服务器已经租用，可通过VS Code SSH访问，数据盘约600GB；当前停止在服务器初始化开始处，尚未下载正式数据、生成生产资产或配置/下载Qwen。
 
 冻结的执行顺序如下；双数据集Gate已经完成，本地阶段只做归档、推送和经批准的数据清理：
 
 1. **已完成：**双数据集最终Gate、三份研究计划、DEC-0009与DEC-0010同步；
 2. **已完成：**代码、测试、报告、manifest、校验和、下载工具与`docs/SERVER_MIGRATION.md`已push；可重建本地数据已按`reports/local_data_cleanup_20260806/`清理；
-3. **下一步唯一动作：**选择并租赁服务器，配置基础环境和独立数据/资产/模型目录；
-4. 在服务器从官方来源下载Edge-IIoTset与IoT-23，校验哈希并复跑Gate；
+3. **下一步唯一阶段——SERVER INITIALIZATION：**在服务器clone/pull最新`main`并验证同步，初始化独立数据/资产/模型目录，确认硬件/GPU、权限和数据处理环境；
+4. 从官方来源下载Edge-IIoTset与IoT-23，校验哈希并复跑Gate；
 5. 将验收版`CanonicalSessionRecord`、EdgeAdapter和IoT23Adapter固化为生产数据流水线；
 6. 冻结两个数据集各自的全量split、K/U、support/query、异常文件处置和训练manifest，完成回归、近重复敏感性及IoT-23 Unknown支持数检查；
-7. 配置GPU模型环境，加载Qwen3.5-9B并完成小规模QLoRA/SFT冒烟；
+7. 配置GPU模型环境，加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；
 8. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证。
 
 IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建出现新的阻断性证据并新增Decision，否则不得重选第二数据集，也不得自动恢复“CICIoMT首选、X-IIoTID立即切换”或重新开启主数据集搜索。
@@ -133,7 +136,7 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - Session Evidence Card与应用层证据工具；
 - 正式DatasetLabelSchema、K/U、support/query和split manifest；
 - 传统闭集/开放集正式基线；
-- Qwen3.5-9B主分类SFT、Unknown算法、校准与DPO；
+- Qwen3.5-9B text-only BF16 LoRA主分类SFT、独立Unknown算法/校准与条件性LoRA DPO；
 - RulePolicy、LearnablePolicy、强Static与Agent主实验；
 - 四组论文实验及论文结论。
 
@@ -143,8 +146,8 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - 不把IoT-23带限制的最小验收写成正式论文实验完成，也不忽略其匹配率和未知支持数限制；无新Decision不重选第二数据集或重新搜索主数据集；
 - 不恢复传统模型主分类、Tree-aware Reviewer、selective Qwen或`CALL_LLM_EXPERT`主动作；
 - 不把树模型OOF概率写成Qwen训练必需输入；
-- 不擅自冻结分类头/标签Token、Unknown算法、继续预训练、Tokenizer、SFT格式、DPO、精确N/窗口、Agent算法、服务器规格或泛化声明；
-- 不让`U_final`进入训练、Prompt、RAG开发、阈值、策略或人工调参；
+- 不擅自冻结分类头/标签Token、Unknown具体算法、继续预训练、Tokenizer、SFT格式、DPO、精确N/窗口、Agent算法、服务器规格或泛化声明；正式训练默认BF16 LoRA，不得静默改回QLoRA主线；
+- 不让`U_dev`作为主分类监督进入SFT，不让`U_final`进入SFT/DPO、Prompt、RAG开发、Unknown算法选择、阈值、策略、Agent训练或人工调参；
 - 不把固定模块串联包装成Agent，不故意削弱Static基线；
 - 不把历史审计探针写成论文结果；
 - 不修改或丢弃用户工作树；特别保护`tests/test_structured_output.py`、README、AGENTS和`docs/research_plan/.obsidian/`；
@@ -152,7 +155,7 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 
 ## 7. 必读顺序与事实源
 
-1. `docs/research_plan/research_plan_detailed.md`，重点阅读DEC-0006至DEC-0010；
+1. `docs/research_plan/research_plan_detailed.md`，重点阅读DEC-0006至DEC-0011；
 2. `reports/data_feasibility_gate_20260806/final_gate_report.md`、`gate_results.json`和`split_manifest.json`；
 3. `docs/SERVER_MIGRATION.md`；
 4. `reports/dataset_audit/2026-08-edge-iiotset-final-review/README.md` 与 `provisional_verdict.md`；
@@ -167,10 +170,10 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 
 ## 8. 工作树与验证提示
 
-本阶段开始前工作树已经包含用户/前序改动，包括README、三份计划、受保护测试文件以及未跟踪的AGENTS、handoff、reports、tools和`.obsidian`。不要为追求干净执行reset、checkout、rebase或clean。
+本次审计开始时，`main`与`origin/main`位于`df27944`，并存在用户对`tests/test_structured_output.py`的既有一行修改；该改动已原样保留并随完整测试复核。不得为追求干净执行reset、checkout、rebase或clean。服务器端clone后应以远程`main`和本交接文档为基线，不假定本地聊天记忆存在。
 
-最终Gate运行了官方最小数据下载、PCAP解析、会话/标签对齐、哈希、泄漏与捷径检查、两随机种子RF及Qwen输入合同冒烟；没有调用或训练Qwen，也没有运行正式论文实验。DEC-0010只改变执行位置：服务器负责正式数据与训练资产，本地保留可复现元数据。任何后续数据角色、会话单位、输入证据、K/U、训练阶段、Unknown或Agent口径改变，必须同步更新canonical detailed的Decision Log与本交接文档。
+最终Gate运行了官方最小数据下载、PCAP解析、会话/标签对齐、哈希、泄漏与捷径检查、两随机种子RF及Qwen输入合同冒烟；没有调用或训练Qwen，也没有运行正式论文实验。DEC-0010只改变执行位置；DEC-0011冻结BF16 LoRA/text-only/non-thinking默认模式和独立Unknown评分接口。任何后续数据角色、会话单位、输入证据、K/U、训练阶段、Unknown或Agent口径改变，必须同步更新canonical detailed的Decision Log与本交接文档。
 
 ## 9. 接手完成检查
 
-接手者应能回答：Qwen为什么是首次主分类器；传统模型还承担什么；Edge与IoT-23分别负责哪些实验；为何两个数据集不合并训练；`CanonicalSessionRecord`如何统一接口并隔离后台字段；哪些证据只能由Agent按需获取；K/U与知识域如何隔离；单一攻击capture、捷径和异常PCAP怎样限制Edge结论；IoT-23何时才能进入外部实验；哪些训练和算法仍未决定。任一问题不清楚时，不应启动训练。
+接手者应能回答：Qwen为什么是首次主分类器；默认训练为何是text-only BF16 LoRA而非QLoRA；传统模型还承担什么；正式Unknown为何由独立评分/校准层产生；Edge与IoT-23分别负责哪些实验；为何两个数据集不合并训练；`CanonicalSessionRecord`如何统一接口并隔离后台字段；Qwen首次看到前8包与摘要、Agent最多扩展到第16包；`U_final`禁止进入哪些阶段；单一攻击capture、捷径和异常PCAP怎样限制Edge结论；Production Adapter是否存在；Gate原型为何不是生产实现；原始数据如何恢复且哪些内容不得进入Git；当前为何只进入服务器初始化。任一问题不清楚时，不应启动训练。

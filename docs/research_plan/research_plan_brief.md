@@ -7,12 +7,13 @@
 ```text
 网络流量样本
 → 双向会话的包级序列与会话摘要
-→ 后训练Qwen独立输出细类、粗类、Unknown分数和证据状态
+→ text-only BF16 LoRA后训练Qwen输出细类、粗类、证据状态及开放集模型信号
+→ 独立冻结的Unknown评分与校准
 → Agent按需补充包、跨会话上下文、应用层证据或RAG知识
 → 接受、重新分类、拒识Unknown或接入新类
 ```
 
-研究重点是三个相互衔接的问题：Qwen能否独立完成已知攻击与Unknown判断；动态取证能否在有限预算下改善证据不足样本；获得sample-level的1/5/10个标注样本后，系统能否接入新类且控制旧类遗忘。
+研究重点是三个相互衔接的问题：Qwen能否独立完成已知攻击分类、独立开放集评分层能否可靠拒识Unknown；动态取证能否在有限预算下改善证据不足样本；获得sample-level的1/5/10个标注样本后，系统能否接入新类且控制旧类遗忘。
 
 ## 二、数据与输入方案
 
@@ -26,11 +27,11 @@
 
 ## 三、核心方法
 
-Qwen3.5-9B是正式主分类模型，第一次就读取网络证据，直接承担known fine/coarse分类、Unknown判断、证据充分度及supporting/missing evidence输出。LightGBM、XGBoost、Random Forest和Logistic Regression只作为闭集/开放集、速度/成本、泄漏诊断及可选融合基线；树模型OOF概率不是Qwen训练的必要输入。
+Qwen3.5-9B是正式主分类模型，第一次就读取网络证据，直接承担known fine/coarse分类、证据充分度及supporting/missing evidence输出。正式训练默认使用文本模式BF16 LoRA SFT，冻结视觉模块并采用non-thinking直接响应；QLoRA只作为资源或兼容性降级。Unknown由独立、冻结、可复现的开放集评分与校准层处理，不直接把LLM自报概率当作正式分数。LightGBM、XGBoost、Random Forest和Logistic Regression只作为闭集/开放集、速度/成本、泄漏诊断及可选融合基线；树模型OOF概率不是Qwen训练的必要输入。
 
 Agent读取Qwen第一次分类的结果和证据缺口，可选择接受细类、退回粗类、扩展包序列、扩展时间或局部图上下文、请求应用层证据、检索知识、重新分类、拒识、返回Top-k、请求标注、注册新类或abstain。Qwen已是必经分类器，因此不再设置`CALL_LLM_EXPERT`作为正式主动作。
 
-每个正式数据集在训练前冻结`K_known`、`U_dev`和`U_final`。`U_final`不得进入训练、Prompt、known-only RAG、阈值、策略和人工调参。实验先评价Unknown拒识，再对已拒识样本使用full-frozen知识做候选识别；获得sample-level 1/5/10-shot标注后再注册新类并评价旧类遗忘。
+每个正式数据集在训练前冻结`K_known`、`U_dev`和`U_final`。SFT只使用`K_known`主分类监督；`U_dev`只用于Unknown算法、校准和策略开发；`U_final`不得进入SFT/DPO、Prompt、known-only RAG、算法选择、阈值、Agent/策略训练和人工调参。实验先评价Unknown拒识，再对已拒识样本使用full-frozen知识做候选识别；获得sample-level 1/5/10-shot标注后再注册新类并评价旧类遗忘。
 
 ## 四、核心实验与论文结论
 
@@ -49,4 +50,4 @@ Agent读取Qwen第一次分类的结果和证据缺口，可选择接受细类�
 
 当前已完成通用LLM调用、结构化输出、缓存/resume/trace、RAG摄取、数据合同、研究架构回溯、Edge-IIoTset Phase 2审查及双数据集最终可行性验收。最小官方数据实测确认两个Adapter可输出统一会话记录，IoT-23标签可与PCAP稳定对齐，去除service category后两个数据集的非随机划分仍有基本可学习信号，且模型输入未发现直接身份泄漏。Edge多数攻击类只有一个主要capture，IoT-23当前Unknown场景恶意支持数偏少，因此两者均为带限制通过；生产接口、全量split、K/U、support/query和训练manifest仍未冻结，Qwen训练和正式实验尚未开始。
 
-下一步先将代码、报告、manifest、哈希和下载说明push归档，再选择服务器、配置独立存储并从官方来源恢复两套数据；正式全量解析、生产Adapter、split/K/U/support/query及训练manifest冻结均在服务器完成。数据资产通过回归后再配置GPU模型环境并进行Qwen小规模SFT冒烟，随后完成Edge完整主实验和IoT-23压缩外部验证。分类头或标签Token、Unknown算法、SFT格式、精确时间窗口、Agent学习算法、DPO和服务器规格仍待后续实验决定。
+本地收尾、GitHub可复现停止点和受限数据清理已经完成；远程服务器已租用并可通过VS Code SSH访问，当前进入服务器初始化。下一步是在服务器clone/pull最新`main`，初始化存储与数据处理环境，确认硬件后从官方来源恢复两套数据；正式全量解析、生产Adapter、split/K/U/support/query及训练manifest冻结均在服务器完成。数据资产通过回归后再配置Qwen环境并进行text-only BF16 LoRA小规模冒烟，随后完成Edge完整主实验和IoT-23压缩外部验证。研究计划不绑定具体平台、GPU型号或目录；分类头或标签Token、Unknown具体算法、SFT格式、精确时间窗口、Agent学习算法和条件性DPO仍待后续实验决定。
