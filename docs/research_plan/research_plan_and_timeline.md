@@ -151,3 +151,43 @@ Edge单capture、固定端点和时间捷径通过capture内时间块、隔离ga
 5. 冻结全量split、K/U、support/query、异常文件处置和训练manifest，并完成生产回归与Unknown支持数检查；
 6. 配置GPU模型环境，加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；
 7. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证。
+
+## 9. 端到端流程速查（压缩版）
+
+### 9.1 研究项目执行链路
+
+1. **数据与Gate：**冻结Edge-IIoTset主实验和IoT-23独立scenario外部验证职责，从官方来源下载、校验并归档原始数据。
+2. **Production构建：**解析packet、重建双向session、对齐标签并生成`CanonicalSessionRecord`。Edge正式数据冻结前必须完成Label Provenance Audit，确认官方标签粒度、PCAP/CSV关系、session-label alignment和unmatched/conflict；当前不得视为已经通过。
+3. **数据冻结：**按immutable backend identity处理真正重复，冻结chronological/scenario split、gap、split内past-only上下文、字段白名单、exact/near sensitivity、K/U、support/query和训练manifest。
+4. **版本集成：**审查并测试独立server Production分支与本地docs分支，形成统一`main`，完成Production Data Freeze。
+5. **环境与基线：**部署Qwen3.5-9B训练环境，在冻结数据上运行传统模型和Raw Qwen基线；传统模型不承担前置路由。
+6. **SFT：**仅从`K_known/train`构造监督数据，先smoke test，再执行默认text-only BF16 LoRA SFT；QLoRA只作资源/兼容性fallback或量化消融。
+7. **SFT评价：**比较Raw Qwen与SFT Qwen的分类、证据理解、结构化输出、速度和成本。
+8. **Unknown：**只用`K_known`和`U_dev`选择并校准独立Unknown评分，在预注册Near/Far/Mixed上评价；`U_final`在最终测试前隔离。
+9. **Adaptive Agent：**实现Evidence State驱动取证，并在相同Qwen、工具、信息域和预算下比较Basic、Fixed Full、Strong Static、RulePolicy和候选LearnablePolicy。
+10. **消融与Few-shot：**消融packet、temporal、graph、application和RAG，随后使用预注册1/5/10-shot support评价新类接入与旧类遗忘。
+11. **条件性DPO与外部验证：**DPO只在可靠偏好问题和数据存在时开展；在IoT-23自身标签与scenario split下完成closed-set、Unknown和Agent压缩验证。
+12. **结果与论文：**汇总正式指标、成本、敏感性、组件级错误和限制，按“Qwen分类→Unknown→Adaptive Agent→Few-shot”完成论文。
+
+```text
+数据与Gate → Production Freeze → Qwen部署 → Raw/Traditional Baseline → BF16 LoRA SFT → Unknown → Adaptive Agent → Few-shot → IoT-23外部验证 → 最终实验 → 论文
+```
+
+### 9.2 系统实际识别链路
+
+1. 接收PCAP或等价捕获并解析packet可观察字段，来源和真实身份只留在backend审计层。
+2. 按双向通信关系重建session；当前Edge候选构造使用60秒inactivity规则，正式口径等待Label Provenance Audit与Production Freeze确认。
+3. 生成隔离model-unsafe字段的`CanonicalSessionRecord`，再构造前8包加完整session summary的Initial Evidence Card；service category不进入Primary View。
+4. 后训练Qwen3.5-9B直接输出fine/coarse候选、supporting/missing evidence、evidence sufficiency和开放集模型信号，不经过传统模型路由。
+5. 独立Frozen Unknown Scoring / Calibration产生正式Unknown判断，不采用未经验证的LLM自报概率。
+6. Evidence State汇总分类、Unknown、缺失证据、capabilities、请求历史、工具失败、动作和剩余预算。
+7. 证据充分时接受fine、退回coarse、拒识Unknown或abstain；否则由Agent选择合法证据动作。
+8. 按需扩展第9至16包、past-only时间上下文、局部关系图或合法应用层证据；完整session继续用于summary。
+9. 只有knowledge gap才调用RAG，observational gap必须取得真实网络观测，RAG不得补造流量事实。
+10. 新证据和失败写回Evidence State，Qwen重新分类，独立Unknown层重新评估。
+11. 在预算和最大深度内循环，最终输出Fine、Coarse、Unknown或Abstain；合法人工support存在时才可选执行新类注册。
+12. 保存结构化最终结果、supporting evidence、Agent动作、工具调用、成本/延迟和完整Trace。
+
+```text
+Raw Traffic → Packet Parsing → Bidirectional Session → CanonicalSessionRecord → Initial Evidence Card → Qwen → Frozen Unknown Scoring → Evidence State → Adaptive Evidence Acquisition → Reclassification → Fine / Coarse / Unknown / Abstain → Structured Result + Trace
+```

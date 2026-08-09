@@ -13,6 +13,10 @@
 → 接受、重新分类、拒识Unknown或接入新类
 ```
 
+**研究执行总链：**数据与Gate → Production Freeze → Qwen部署与基线 → BF16 LoRA SFT → 独立Unknown → Adaptive Agent → Few-shot → IoT-23外部验证 → 最终实验与论文。
+
+**系统识别总链：**Raw Traffic → Packet/Session → CanonicalSessionRecord → Initial Evidence Card → Qwen首次分类 → Frozen Unknown Scoring → Evidence State驱动按需取证与重分类 → Fine / Coarse / Unknown / Abstain → Structured Result + Trace。
+
 研究重点是三个相互衔接的问题：Qwen能否独立完成已知攻击分类、独立开放集评分层能否可靠拒识Unknown；动态取证能否在有限预算下改善证据不足样本；获得sample-level的1/5/10个标注样本后，系统能否接入新类且控制旧类遗忘。
 
 ## 二、数据与输入方案

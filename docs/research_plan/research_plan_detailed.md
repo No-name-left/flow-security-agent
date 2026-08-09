@@ -408,6 +408,68 @@ T0定义为生产级`CanonicalSessionRecord`、两个Adapter、Edge与IoT-23各�
 6. 配置GPU模型环境和Qwen3.5-9B，完成text-only BF16 LoRA SFT小规模冒烟；
 7. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证。
 
+## 附录A：端到端执行链路速查
+
+本节只将前述冻结方案按先后顺序汇总，不替代数据Gate、模型、Agent、实验和Decision Log中的详细约束。
+
+### A. 研究项目执行链路
+
+1. **数据集选择与可行性Gate。** Edge-IIoTset承担完整主实验，IoT-23承担独立scenario外部验证；核验官方来源、原生标签、PCAP/日志可解析性、潜在捷径与任务可执行性。
+2. **下载、校验与原始数据归档。** 在服务器从官方来源获取数据，记录hash、文件清单和异常文件，保证原始输入可核验、可恢复。
+3. **Production数据预处理与标签对齐。** 从PCAP解析packet、重建双向session，并将官方ground truth映射到统一`CanonicalSessionRecord`。当前待完成的Edge-IIoTset Label Provenance Audit必须确认官方标签原始粒度、PCAP/CSV来源关系、session-label alignment以及unmatched/conflict情况；审计通过前不得冻结正式Edge训练数据或声称标签映射已经完全可靠。
+4. **数据清洗、split与泄漏控制。** 只依据immutable backend identity处理真正重复记录，冻结chronological/scenario split、隔离gap、split内past-only上下文、字段白名单及exact/near-duplicate sensitivity；模型输入继续隔离真实身份、绝对时间和capture来源。
+5. **冻结`K_known`、`U_dev`与`U_final`。** Edge预注册Near/Far/Mixed Unknown，IoT-23保留自身原生标签空间；`U_final`在最终评测前严格隔离，不参与模型、阈值、Prompt、RAG或策略开发。
+6. **生成support/query与训练manifest。** 冻结1/5/10-shot support、无相同记录或精确重复的query、各阶段训练可见范围和数据版本，完成Production Data Freeze。
+7. **Git与服务器正式版本冻结。** Production实现保存在独立server分支，与本地`docs/fasst-agent-refinement`在审查和测试后安全集成，再形成统一`main`；不得直接覆盖、rebase或绕过双分支核验。
+8. **部署Qwen3.5-9B与训练环境。** 建立独立训练环境，下载模型并验证GPU、Tokenizer、推理、显存占用和结构化输出；BF16 LoRA SFT为默认路线，QLoRA仅作显存/兼容性fallback或量化消融。
+9. **建立原始Qwen与传统模型基线。** 在同一冻结数据协议上运行LR、RF、LightGBM/XGBoost和未经SFT的Qwen，得到closed-set、速度和成本参考；传统模型只承担基线与诊断，不作为Qwen前置路由器。
+10. **构造SFT训练数据。** 仅从合法`K_known/train`进行可复现采样，生成Session Evidence Card监督样本；Canonical全量资产与实际SFT采样规模分别记录。
+11. **执行BF16 LoRA SFT。** 先进行小规模smoke test，再正式训练Qwen3.5-9B，使其学习fine/coarse分类、形成Evidence State所需的证据充分性与supporting/missing evidence，以及backoff/abstain行为。
+12. **评价Raw Qwen与SFT Qwen。** 比较分类能力、结构化输出、证据理解、速度和成本，确认领域后训练的收益、失败类型与适用边界。
+13. **选择并校准Unknown Scoring。** 只使用`K_known`和`U_dev`比较logit/margin/entropy/energy/embedding/prototype等候选信号，冻结独立开放集评分和阈值；Qwen自报confidence仅作消融，`U_final`不得用于选择或调参。
+14. **执行开放集Near/Far/Mixed实验。** 评价Known分类、Unknown拒识、coarse backoff、风险—覆盖率和错误接纳Unknown，并按预注册组合与随机种子完整报告。
+15. **实现Adaptive Evidence Agent。** 构造Evidence State，使Agent依据missing evidence在预算内请求packet、temporal、graph、application或RAG证据，再决定重分类或停止。
+16. **比较Static、RulePolicy与LearnablePolicy。** 在相同Qwen、工具、信息域和最大预算下比较Basic、Fixed Full Evidence、Strong Static、RulePolicy与候选LearnablePolicy，判断自适应证据选择本身是否产生价值。
+17. **完成RAG与证据源消融。** 分别评价packet expansion、temporal context、graph context、application evidence和RAG的增量，并报告tool/Qwen/RAG调用、Token、延迟、budget compliance和utility-cost。
+18. **执行Few-shot新类接入。** 使用预注册1/5/10-shot support测试`REQUEST_LABEL`、`REGISTER_NEW_CLASS`及新类query识别，同时评价Unknown到新类转化与旧类遗忘。
+19. **条件性开展DPO。** 只有SFT后存在稳定的偏好、过度自信或动作选择问题，且能构造可靠chosen/rejected pair时才开展；否则跳过，不把DPO视为主线成立的必需步骤。
+20. **进行IoT-23独立外部验证。** 在IoT-23自身标签空间和scenario split下复现closed-set、一套Unknown和一套Agent压缩实验，不要求Edge模型直接零样本识别IoT-23细类。
+21. **最终统计、敏感性与错误分析。** 汇总closed-set、open-set、Agent、few-shot、exact/near sensitivity、成本以及组件级错误来源，冻结论文正式结果和复现清单。
+22. **论文整理与写作。** 按“后训练LLM分类→Unknown开放识别→自适应取证Agent→Few-shot新类接入”组织图表、消融、案例、限制和复现说明，形成完整论文。
+
+```text
+数据与Gate → Production Freeze → Qwen部署 → Raw/Traditional Baseline → BF16 LoRA SFT → Unknown → Adaptive Agent → Few-shot → IoT-23外部验证 → 最终实验 → 论文
+```
+
+### B. 系统实际识别链路
+
+1. **接收原始网络流量。** 系统接收PCAP或等价网络捕获数据；数据来源和真实身份只保留在backend审计层，不直接进入模型。
+2. **解析Packet。** 提取timestamp、packet length、L3/L4协议、TCP flags等可观察字段，并将不同协议结构统一投影为可审计字段。
+3. **重建双向Session。** 将同一次双向通信的packet聚合为session；当前Edge候选构造采用双向通信关系与60秒inactivity规则，正式口径仍须随Label Provenance Audit和Production Freeze确认。
+4. **构造`CanonicalSessionRecord`。** 保存backend身份、完整session统计、包序列、能力声明和可扩展证据，同时将真实IP、绝对时间、capture ID等model-unsafe字段与模型视图隔离。
+5. **构造Initial Session Evidence Card。** 第一次分类提供前`min(N, 8)`个packet的方向、长度、IAT、协议和flags，加完整session summary；service category不进入Primary View。
+6. **由Qwen3.5-9B第一次分类。** 后训练Qwen直接输出fine/coarse候选、supporting evidence、missing evidence、evidence sufficiency及可供open-set计算的模型信号，不经过传统模型路由。
+7. **执行独立Unknown Scoring。** 冻结的开放集评分/校准层根据Qwen可用模型信号判断样本是否偏离Known类别；LLM自报概率不作为正式Unknown依据。
+8. **建立Evidence State。** 汇总类别候选、Unknown状态、supporting/missing evidence、capabilities、请求历史、工具失败、历史动作和剩余预算。
+9. **由Agent判断停止或继续。** 证据充分时选择`ACCEPT_FINE`、`BACKOFF_COARSE`、`REJECT_UNKNOWN`或`ABSTAIN`；否则进入按需证据扩展。
+10. **按需执行`EXPAND_PACKETS`。** 包交互证据不足时读取第9至16个packet；完整session仍用于summary，并不表示第17包以后从原始记录中删除。
+11. **按需执行`EXPAND_TEMPORAL_CONTEXT`。** 查询当前session之前的合法past-only历史，例如近期session数、目标/端口多样性、通信频率和时间间隔。
+12. **按需执行`EXPAND_GRAPH_CONTEXT`。** 获取当前通信主体与其他session的局部关系摘要，辅助分析扫描、集中攻击、多源或多目标行为。
+13. **按需执行`REQUEST_APPLICATION_EVIDENCE`。** 仅在协议可解析、字段合法且数据实际可观察时取得HTTP、DNS、MQTT等应用层证据或有限脱敏Payload。
+14. **按需执行`RETRIEVE_KNOWLEDGE`。** RAG只补充协议、攻击行为或标签语义等knowledge gap，不替代真实流量中缺失的observational evidence。
+15. **更新Evidence State。** 将新增证据、未获得或不可用证据、工具失败、预算消耗和request history写回当前状态。
+16. **Qwen重新分类。** 使用扩展后的证据重新输出fine/coarse、supporting/missing evidence、evidence sufficiency及模型信号。
+17. **重新评估Unknown。** 独立评分/校准层根据新的模型状态重新计算开放集判断，不改变冻结算法和阈值。
+18. **执行Agent循环决策。** 在预算和最大深度内重复`Evidence State → missing evidence → action → evidence → Qwen → Unknown → new Evidence State`，直至满足停止条件。
+19. **输出Known Fine或Coarse。** 证据充分且属于Known时接受fine；只能可靠确认上层类别时执行`BACKOFF_COARSE`。
+20. **输出Unknown或Abstain。** 明显偏离Known时执行`REJECT_UNKNOWN`；证据不足、能力不可用或预算/重试耗尽时执行`ABSTAIN`，不强行猜测。
+21. **可选执行Few-shot新类接入。** 对已拒识Unknown，只有获得合法人工support标签后才执行`REQUEST_LABEL`和`REGISTER_NEW_CLASS`并用于后续新类识别；这不是普通样本的必经步骤。
+22. **生成结构化结果与Trace。** 保存最终prediction、Known/Unknown状态、supporting evidence、backoff/abstain、Agent动作、工具调用、成本/延迟和可审计trace。
+
+```text
+Raw Traffic → Packet Parsing → Bidirectional Session → CanonicalSessionRecord → Initial Evidence Card → Qwen → Frozen Unknown Scoring → Evidence State → Adaptive Evidence Acquisition → Reclassification → Fine / Coarse / Unknown / Abstain → Structured Result + Trace
+```
+
 ## 12. Material Deviation and Decision Log
 
 | 日期 | ID | 原决定 | 新决定 | 替代原因与审查证据 | 可逆性 | 后续影响 |
