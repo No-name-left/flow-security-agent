@@ -125,7 +125,6 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - `src/flowsec/rag/`：Markdown/YAML front matter摄取、chunk和来源元数据；
 - `src/flowsec/data/schema.py`：字段角色和直接泄漏检查，可扩展为会话输入合同；
 - `src/flowsec/data/event_matching.py`、`grouping.py`和`audit.py`：重复、事件匹配、候选分组和数据审计基础；
-- `src/flowsec/runtime/`：Runtime Foundation v1软件控制骨架，已包含provider-neutral的Traffic Expert、Unknown Scorer和Supervisor接口，确定性单动作状态循环、五类合成Evidence Tool、能力/预算/去重/失败处理、model-safe Trace、phase-aware Experience Memory权限、独立Class Memory接口、RulePolicy基线和实验变体配置；当前仅由Mock与synthetic tests验证，不代表真实模型、Production工具或论文Agent实验已经完成；
 - `tools/dataset_audit/`：历史数据审计和LightGBM CPU探针，可作基线/泄漏诊断。
 - `tools/dataset_download/`：Edge官方归档和IoT-23七场景的服务器下载、恢复与哈希校验入口；
 - `reports/data_feasibility_gate_20260806/run_final_gate.py`：验收版EdgeAdapter、IoT23Adapter、统一会话记录、泄漏/捷径检查、RF和Qwen输入合同的可复现参考实现；应重构进生产模块，不应原样充当正式流水线。
@@ -138,8 +137,7 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - 正式DatasetLabelSchema、K/U、support/query和split manifest；
 - 传统闭集/开放集正式基线；
 - Qwen3.5-9B text-only BF16 LoRA主分类SFT、独立Unknown算法/校准与条件性LoRA DPO；
-- 真实Qwen Traffic Expert、正式Unknown评分/校准、真实High-Capability LLM Supervisor、Production Evidence Tool与最终Experience检索；Runtime Foundation v1已提供接口和Mock控制循环，但尚未完成上述真实Backend与数据Adapter集成；
-- LearnablePolicy、强Static与Agent主实验；
+- RulePolicy、LearnablePolicy、强Static与Agent主实验；
 - 四组论文实验及论文结论。
 
 ## 6. 禁止与高风险操作
