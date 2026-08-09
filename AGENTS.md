@@ -22,7 +22,8 @@ Before changing the project:
 2. Read `docs/PROJECT_HANDOFF.md`.
    - On Windows PowerShell, use `Get-Content -Encoding UTF8` when reading Chinese Markdown files; the legacy Windows PowerShell default encoding may display valid UTF-8 text as mojibake.
 3. For work that can affect research meaning, data roles, labels, splits, model stages, evaluation protocols or paper conclusions, read `docs/research_plan/research_plan_detailed.md` in full. It is the canonical research specification.
-4. Inspect `git status --short` and preserve all pre-existing user changes.
+4. Before implementing Agent, Runtime, Supervisor or Memory behavior, read `docs/design/agent_architecture_provisional.md`; it is PROVISIONAL and cannot override a formal Decision or frozen research-plan constraint.
+5. Inspect `git status --short` and preserve all pre-existing user changes.
 
 ## Keep the handoff document synchronized
 

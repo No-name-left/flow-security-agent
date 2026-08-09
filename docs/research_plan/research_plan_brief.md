@@ -2,20 +2,20 @@
 
 ## 一、论文准备研究什么
 
-本研究面向开放世界恶意网络流量识别。核心不是让传统分类器先筛选困难样本，再由大模型复核，而是通过领域后训练，使Qwen3.5-9B直接读取会话级网络证据并独立执行第一次分类；当证据不足或疑似出现未知攻击时，再由受约束Agent决定是否扩展证据、重新分类、拒识或接入新类。
+本研究面向开放世界恶意网络流量识别。核心不是让传统分类器先筛选困难样本，再由大模型复核，而是通过领域后训练，使Qwen3.5-9B Traffic Expert直接读取会话级网络证据并独立执行第一次分类；当证据不足或疑似出现未知攻击时，再由deterministic Runtime约束的高能力LLM Supervisor决定是否扩展证据、重新分类、拒识或接入新类。
 
 ```text
 网络流量样本
 → 双向会话的包级序列与会话摘要
 → text-only BF16 LoRA后训练Qwen输出细类、粗类、证据状态及开放集模型信号
 → 独立冻结的Unknown评分与校准
-→ Agent按需补充包、跨会话上下文、应用层证据或RAG知识
+→ 高能力LLM Supervisor按需选择证据，deterministic Runtime验证并执行
 → 接受、重新分类、拒识Unknown或接入新类
 ```
 
-**研究执行总链：**数据与Gate → Production Freeze → Qwen部署与基线 → BF16 LoRA SFT → 独立Unknown → Adaptive Agent → Few-shot → IoT-23外部验证 → 最终实验与论文。
+**研究执行总链：**数据与Gate → Production Freeze → Qwen部署与基线 → BF16 LoRA SFT → 独立Unknown → Supervisor Agent → Few-shot → IoT-23外部验证 → 最终实验与论文。
 
-**系统识别总链：**Raw Traffic → Packet/Session → CanonicalSessionRecord → Initial Evidence Card → Qwen首次分类 → Frozen Unknown Scoring → Evidence State驱动按需取证与重分类 → Fine / Coarse / Unknown / Abstain → Structured Result + Trace。
+**系统识别总链：**Raw Traffic → Packet/Session → CanonicalSessionRecord → Initial Evidence Card → Qwen Traffic Expert → Frozen Unknown Scoring → Evidence State → High-Capability LLM Supervisor → Runtime执行一个合法动作并重分类 → Fine / Coarse / Unknown / Abstain → Structured Result + Trace。
 
 研究重点是三个相互衔接的问题：Qwen能否独立完成已知攻击分类、独立开放集评分层能否可靠拒识Unknown；动态取证能否在有限预算下改善证据不足样本；获得sample-level的1/5/10个标注样本后，系统能否接入新类且控制旧类遗忘。
 
@@ -33,9 +33,11 @@
 
 Qwen3.5-9B是正式主分类模型，第一次就读取网络证据，直接承担known fine/coarse分类、证据充分度及supporting/missing evidence输出。正式训练默认使用文本模式BF16 LoRA SFT，冻结视觉模块并采用non-thinking直接响应；QLoRA只作为资源或兼容性降级。Unknown由独立、冻结、可复现的开放集评分与校准层处理，不直接把LLM自报概率当作正式分数。LightGBM、XGBoost、Random Forest和Logistic Regression只作为闭集/开放集、速度/成本、泄漏诊断及可选融合基线；树模型OOF概率不是Qwen训练的必要输入。
 
-Agent读取Qwen第一次分类的结果和证据缺口，可选择接受细类、退回粗类、扩展包序列、扩展时间或局部图上下文、请求应用层证据、检索知识、重新分类、拒识、返回Top-k、请求标注、注册新类或abstain。Qwen已是必经分类器，因此不再设置`CALL_LLM_EXPERT`作为正式主动作。
+高能力LLM Supervisor读取Qwen第一次分类、Unknown状态和证据缺口，可选择接受细类、退回粗类、扩展包序列、扩展时间或局部图上下文、请求应用层证据、检索知识、重新分类、拒识、请求标注、注册新类或abstain；deterministic Runtime负责动作合法性、预算、轮数、信息隔离和Trace。Supervisor不替代Qwen产生fine分类，RulePolicy保留为强可复现baseline，LearnablePolicy仅为可选扩展。
 
 Agent根据证据充分度与缺失证据类型按需选择包、时间/关系上下文、应用层证据或RAG：真实观测缺口由网络取证补充，知识缺口才调用RAG。错误先做组件级归因，再更新对应的证据、策略、Qwen、Unknown校准或检索组件，而不把所有错误统一回流SFT。
+
+经过可靠反馈验证的Experience Memory只服务动作选择，正式test与`U_final`期间冻结只读；人工确认新类使用独立Class Memory。在线Supervisor未来允许替换为本地兼容高能力模型，具体型号和Memory检索实现尚未冻结。
 
 每个正式数据集在训练前冻结`K_known`、`U_dev`和`U_final`。SFT只使用`K_known`主分类监督；`U_dev`只用于Unknown算法、校准和策略开发；`U_final`不得进入SFT/DPO、Prompt、known-only RAG、算法选择、阈值、Agent/策略训练和人工调参。实验先评价Unknown拒识，再对已拒识样本使用full-frozen知识做候选识别；获得sample-level 1/5/10-shot标注后再注册新类并评价旧类遗忘。
 
@@ -44,7 +46,7 @@ Agent根据证据充分度与缺失证据类型按需选择包、时间/关系�
 | 实验 | 核心比较 | 论文回答 |
 | --- | --- | --- |
 | 实验一：LLM独立分类能力 | 传统强基线、原始Qwen、后训练Qwen | Qwen独立分类的能力、成本和适用边界 |
-| 实验二：开放集与自适应取证 | 传统开放集、单次Qwen、Qwen+强Static、RulePolicy、候选LearnablePolicy | Unknown与动态证据扩展是否改善任务成功和效果—成本权衡 |
+| 实验二：开放集与自适应取证 | 传统开放集、单次Qwen、Fixed/强Static、RulePolicy、高能力LLM Supervisor和可选LearnablePolicy | Unknown、动态证据扩展和Supervisor决策是否改善任务成功与效果—成本权衡 |
 | 实验三：1/5/10-shot新类接入 | 重训、原型、Qwen/RAG、Agent注册和可选LoRA | 新类能否低成本加入且不显著遗忘旧类 |
 | 实验四：IoT-23独立场景验证 | 原生标签和独立scenario划分下的闭集、Unknown与Agent上下文增益 | 方法能否适用于另一采集环境和原生标签Schema |
 
