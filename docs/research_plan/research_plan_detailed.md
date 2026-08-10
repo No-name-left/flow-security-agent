@@ -381,7 +381,7 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 | 第3周 | 在已实现deterministic Runtime foundation与provider-neutral backend preparation上完成Production adapter、正式证据工具、Edge Near/Far/Mixed Unknown、RulePolicy与High-Capability LLM Supervisor实验；LearnablePolicy和DPO仅作条件性判断 | Edge实验一、实验二及utility-cost主结果冻结 |
 | 第4周 | 完成Edge sample-level 1/5/10-shot、成本与错误分析；执行IoT-23压缩外部验证并同步论文初稿 | 实验三、实验四、限制与可复现清单完成 |
 
-T0定义为生产级`CanonicalSessionRecord`、两个Adapter、Edge与IoT-23各自split/K/U、字段白名单、support/query和training manifest获得冻结之日；该条件已于Production Data Freeze达成。当前还完成了deterministic Runtime foundation及provider-neutral real-backend preparation的安全集成，但尚未完成Production→Runtime轻量adapter、真实provider/model配置、Qwen下载或训练。正式训练使用满足Qwen3.5-9B BF16 LoRA需求的单卡GPU服务器，具体平台、型号、路径和软件小版本不作为研究方法冻结项。
+T0定义为生产级`CanonicalSessionRecord`、两个Adapter、Edge与IoT-23各自split/K/U、字段白名单、support/query和training manifest获得冻结之日；该条件已于Production Data Freeze达成。当前还完成了deterministic Runtime foundation及provider-neutral real-backend preparation的安全集成，并已提升至唯一长期分支`main`；pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`，但尚未完成Production→Runtime轻量adapter、真实provider/model配置、Qwen下载或训练。正式训练使用满足Qwen3.5-9B BF16 LoRA需求的单卡GPU服务器，具体平台、型号、路径和软件小版本不作为研究方法冻结项。
 
 ## 10. 风险与降级路线
 
@@ -427,7 +427,7 @@ T0定义为生产级`CanonicalSessionRecord`、两个Adapter、Edge与IoT-23各�
 4. **数据清洗、split与泄漏控制。** 只依据immutable backend identity处理真正重复记录，冻结chronological/scenario split、隔离gap、split内past-only上下文、字段白名单及exact/near-duplicate sensitivity；模型输入继续隔离真实身份、绝对时间和capture来源。
 5. **冻结`K_known`、`U_dev`与`U_final`。** Edge预注册Near/Far/Mixed Unknown，IoT-23保留自身原生标签空间；`U_final`在最终评测前严格隔离，不参与模型、阈值、Prompt、RAG或策略开发。
 6. **生成support/query与训练manifest。** 冻结1/5/10-shot support、无相同记录或精确重复的query、各阶段训练可见范围和数据版本，完成Production Data Freeze。
-7. **Git与服务器正式版本冻结。** Production实现已保存在独立server分支，并与最终real-backend preparation分支在独立integration分支经no-ff合并、审查和测试；不得直接覆盖、rebase或绕过双分支核验。
+7. **Git与服务器正式版本冻结。** Production与最终real-backend preparation的双分支历史已经no-ff合并、审查和测试，并提升至唯一长期分支`main`；pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`。旧本地分支和bundle暂时保留，不得直接覆盖、rebase或绕过历史核验。
 8. **部署Qwen3.5-9B与训练环境。** 建立独立训练环境，下载模型并验证GPU、Tokenizer、推理、显存占用和结构化输出；BF16 LoRA SFT为默认路线，QLoRA仅作显存/兼容性fallback或量化消融。
 9. **建立原始Qwen与传统模型基线。** 在同一冻结数据协议上运行LR、RF、LightGBM/XGBoost和未经SFT的Qwen，得到closed-set、速度和成本参考；传统模型只承担基线与诊断，不作为Qwen前置路由器。
 10. **构造SFT训练数据。** 仅从合法`K_known/train`进行可复现采样，生成Session Evidence Card监督样本；Canonical全量资产与实际SFT采样规模分别记录。

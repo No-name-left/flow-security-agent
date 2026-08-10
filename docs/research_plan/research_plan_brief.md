@@ -56,6 +56,6 @@ Agent根据证据充分度与缺失证据类型按需选择包、时间/关系�
 
 ## 五、实施计划与当前进度
 
-当前已完成通用LLM调用、结构化输出、缓存/resume/trace、RAG摄取、数据合同、研究架构回溯、Edge-IIoTset Phase 2审查及双数据集最终可行性验收。最小官方数据实测确认两个Adapter可输出统一会话记录，IoT-23标签可与PCAP稳定对齐，去除service category后两个数据集的非随机划分仍有基本可学习信号，且模型输入未发现直接身份泄漏。Edge多数攻击类只有一个主要capture，IoT-23当前Unknown场景恶意支持数偏少，因此两者均为带限制通过；生产接口、全量split、K/U、support/query和训练manifest仍未冻结，Qwen训练和正式实验尚未开始。
+当前已完成通用LLM调用、结构化输出、缓存/resume/trace、RAG摄取、数据合同、研究架构回溯、双数据集最终可行性验收，以及服务器官方数据恢复和Production Data Freeze。正式`CanonicalSessionRecord`、两个Adapter、60秒session、identity dedup、标签provenance、全量split、K/U、support/query和training manifest均已冻结并通过postfix审计（带记录限制）；`PRODUCTION_DATA_READY=true`。Edge多数攻击类只有一个主要capture，IoT-23部分外部验证支持仍偏少，因此两者的结论限制不变。Qwen训练和正式实验尚未开始。
 
-本地收尾、GitHub可复现停止点和受限数据清理已经完成；远程服务器已租用并可通过VS Code SSH访问，当前进入服务器初始化。下一步是在服务器clone/pull最新`main`，初始化存储与数据处理环境，确认硬件后从官方来源恢复两套数据；正式全量解析、生产Adapter、split/K/U/support/query及训练manifest冻结均在服务器完成。数据资产通过回归后再配置Qwen环境并进行text-only BF16 LoRA小规模冒烟，随后完成Edge完整主实验和IoT-23压缩外部验证。研究计划不绑定具体平台、GPU型号或目录；分类头或标签Token、Unknown具体算法、SFT格式、精确时间窗口、Agent学习算法和条件性DPO仍待后续实验决定。
+deterministic Runtime foundation、Memory/预算/终止安全合同及provider-neutral Traffic Expert/Supervisor backend preparation也已完成synthetic/Fake Provider工程审计，并与Production共同进入唯一长期分支`main`；pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`。当前唯一推荐下一步是轻量、白名单式Production→Runtime adapter及跨层泄漏测试；真实provider、Qwen配置/下载和text-only BF16 LoRA冒烟均须另行授权。研究计划不绑定具体平台、GPU型号或目录；分类头或标签Token、Unknown具体算法、SFT格式、Agent学习算法和条件性DPO仍待后续实验决定。

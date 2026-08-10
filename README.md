@@ -31,6 +31,8 @@ This repository currently provides:
 - a Flow-oriented Python package and baseline tests;
 - a reproducible dual-dataset feasibility Gate with prototype Edge/IoT-23 adapters, manifests, leakage checks and synthetic schema fixtures;
 - production `EdgeAdapter`/`IoT23Adapter`, `CanonicalSessionRecord` v1, checkpoint/resume, partitioned Parquet assets, chronological/scenario-held splits, frozen K/U and support/query manifests, and deterministic/leakage audits.
+- a deterministic Agent Runtime foundation with model-safe views, capability/budget enforcement, memory permissions, one-action-per-round validation and structured traces;
+- provider-neutral Traffic Expert/Supervisor transport contracts, strict parsers, versioned prompt profiles and a Fake Provider for backend-boundary tests.
 
 These components are engineering infrastructure, not claimed paper contributions. The Gate models and scores are audit probes, not formal paper results.
 
@@ -44,6 +46,8 @@ The following model and experiment components remain future work:
 - formal experiments and paper metrics.
 
 The remote server bootstrap, official data recovery, identity-based-dedup Production Data Freeze rebuild, Edge label-provenance guard and class-role support audit are complete. The final postfix audit is `PASS_WITH_LIMITATIONS`, `CLASS_ROLE_SUPPORT_GATE=PASS`, and `PRODUCTION_DATA_READY=true`; no data Gate blocker remains. The Gate validates logical K/U experiment visibility separately from physical chronological storage, and support/query sampling preserves exact-evidence diversity before applying capacity limits. Edge 1/5/10-shot and the registered IoT-23 coarse `Exploitation` 1/5-shot variants are ready. No Qwen weights were downloaded and no formal model training started. Formal training defaults to text-only BF16 LoRA with visual modules frozen and non-thinking structured output; QLoRA is only a resource/compatibility fallback. See [server migration and data recovery](docs/SERVER_MIGRATION.md) and the [production freeze report](reports/production_data_freeze_20260809/README.md). The repository retains code, small reports, manifests, download instructions and synthetic fixtures, not raw traffic or model artifacts.
+
+The unique long-term code branch is `main`; it contains the pre-model baseline `3ab33e36c8508bcd31afac2e12c094ae1fe0a964`, tagged `baseline-pre-model-20260811`. The next engineering task is the narrow, whitelist-based Production-to-Runtime adapter; real provider/model setup, Qwen download and training remain separately authorized future work.
 
 ## Research Plan and Change Control
 
@@ -86,6 +90,8 @@ Runtime examples are in `configs/runtime.example.yaml`. API keys must be supplie
 src/flowsec/llm/     reusable model runtime, cache, validation and traces
 src/flowsec/rag/     knowledge-document ingestion
 src/flowsec/production/ production adapters, schemas, manifests and audits
+src/flowsec/runtime/ deterministic Agent state, policy, budget, memory and tool contracts
+src/flowsec/integrations/llm/ provider-neutral Traffic Expert/Supervisor backend boundary
 configs/             non-secret runtime examples
 scripts/             small command-line entry points
 tools/               auditable dataset and experiment utilities
