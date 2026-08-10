@@ -6,6 +6,7 @@ These instructions apply to the entire repository.
 
 - The canonical research specification is `docs/research_plan/research_plan_detailed.md`; operational status is in `docs/PROJECT_HANDOFF.md`, and server/data recovery instructions are in `docs/SERVER_MIGRATION.md`.
 - The mainline is session evidence → text-only Qwen3.5-9B first classification → frozen Unknown scoring/calibration → constrained Agent evidence expansion. Do not restore a tree-first or Qwen-as-Reviewer architecture.
+- Agent evidence acquisition must be driven by the declared missing-evidence type under a shared state, capability and budget contract. Do not treat a fixed full-tool chain as an adaptive Agent, do not use RAG to invent missing observations, and perform component-level error attribution before deciding which component to update.
 - Edge-IIoTset is the limited primary dataset; IoT-23 is the limited independent-scenario external validation dataset. Do not reopen dataset search, replace these roles or physically merge their fine-label training without an authorized new Decision.
 - Default formal training is BF16 LoRA SFT with visual modules frozen and non-thinking output. QLoRA is only a resource/compatibility fallback. `U_dev` is not main-classifier SFT supervision; `U_final` must never be used for SFT/DPO, Prompt/RAG examples, Unknown algorithm or threshold selection, Agent training, or error-driven tuning.
 - Production `CanonicalSessionRecord`, EdgeAdapter and IoT23Adapter are implemented. The identity-based-dedup full rebuild, Edge label-provenance guard, class-role support Gate and postfix pre-commit audit have passed with documented limitations; `PRODUCTION_DATA_READY=true`. These assets are not paper results, and no model training has started.
@@ -21,7 +22,8 @@ Before changing the project:
 2. Read `docs/PROJECT_HANDOFF.md`.
    - On Windows PowerShell, use `Get-Content -Encoding UTF8` when reading Chinese Markdown files; the legacy Windows PowerShell default encoding may display valid UTF-8 text as mojibake.
 3. For work that can affect research meaning, data roles, labels, splits, model stages, evaluation protocols or paper conclusions, read `docs/research_plan/research_plan_detailed.md` in full. It is the canonical research specification.
-4. Inspect `git status --short` and preserve all pre-existing user changes.
+4. Before implementing Agent, Runtime, Supervisor or Memory behavior, read `docs/design/agent_architecture_provisional.md`; it is PROVISIONAL and cannot override a formal Decision or frozen research-plan constraint.
+5. Inspect `git status --short` and preserve all pre-existing user changes.
 
 ## Keep the handoff document synchronized
 

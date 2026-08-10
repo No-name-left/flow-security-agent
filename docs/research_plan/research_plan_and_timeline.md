@@ -28,7 +28,7 @@
 | 会话表示 | 接口和初始包预算已定 | 两个Adapter输出`CanonicalSessionRecord`；序列最多保存16包，首次分类使用前8包，Agent可请求第9至16包 |
 | K_known/U_dev/U_final | 未冻结 | 正式数据与split确定后、任何训练前预注册 |
 | Qwen3.5-9B SFT/DPO | 尚未开始 | Qwen是主分类器；默认text-only BF16 LoRA SFT、冻结视觉模块并使用non-thinking输出，QLoRA仅为降级路线，DPO保持条件性 |
-| RulePolicy/LearnablePolicy | 研究框架已定，算法未定 | 可比较规则、contextual bandit或小型policy network，不提前锁定 |
+| Supervisor/Runtime/Policy | 暂定架构已明确，尚未实现 | High-Capability LLM Supervisor为当前主方案，deterministic Runtime负责约束；RulePolicy为强baseline，LearnablePolicy仅为可选扩展，具体模型和算法不提前锁定 |
 
 ## 2. 任务依赖与数据Gate
 
@@ -67,18 +67,24 @@ Qwen3.5-9B直接承担第一次known fine/coarse分类、证据充分度和suppo
 
 Agent在Qwen第一次分类后选择：`ACCEPT_FINE`、`BACKOFF_COARSE`、`EXPAND_PACKETS`、`EXPAND_TEMPORAL_CONTEXT`、`EXPAND_GRAPH_CONTEXT`、`REQUEST_APPLICATION_EVIDENCE`、`RETRIEVE_KNOWLEDGE`、`RECLASSIFY`、`REJECT_UNKNOWN`、`RETURN_TOPK`、`REQUEST_LABEL`、`REGISTER_NEW_CLASS`或`ABSTAIN`。`CALL_LLM_EXPERT`不再是正式动作。
 
-强Static使用相同Qwen、工具、信息域和预算，并包含合理的固定取证、retry、fallback与validator。Agent具体采用规则、contextual bandit、小型policy network或其他方法，待数据与预实验决定。
+Agent以Evidence State表达当前候选、Unknown状态、证据充分度、缺失证据类型、可用能力、请求历史、工具失败和剩余预算，并按`状态→识别缺口→选择合法证据源→更新状态→重分类或停止`运行。观测缺口必须通过包、past-only时间/关系上下文或合法应用字段取得真实网络证据；只有协议、行为或标签语义的知识缺口才优先使用RAG，RAG不得补造未观察到的流量事实。
+
+当前Agent主方案使用High-Capability LLM Supervisor读取Qwen Traffic Expert输出和Evidence State，由deterministic Python Runtime执行Schema、capability、预算、去重、轮数、Memory权限、故障和Trace约束。Supervisor每轮只选择一个合法动作，不直接替代Qwen输出fine分类；通过`SupervisorBackend`抽象允许初期在线高能力模型在未来替换为本地兼容模型，具体型号尚未冻结。
+
+RulePolicy是必须保留的强可复现baseline，Strong Static继续包含合理的固定取证、retry、fallback与validator；LearnablePolicy仅为可选扩展。Experience Memory只保存经过可靠反馈验证的决策经验，train可写、主test/`U_final`冻结只读；人工确认新类的Class Memory与其分离。错误先归因到证据、策略、Qwen、Unknown校准、RAG或工具等对应组件，再决定更新位置。
 
 ### 3.3 四组实验
 
 | 实验 | 主要比较 | 回答的问题 |
 | --- | --- | --- |
 | 一：LLM独立分类能力 | LR、RF、LightGBM/XGBoost、原始Qwen、后训练Qwen | Qwen独立分类的能力、成本及相对传统强基线的边界 |
-| 二：开放集与自适应取证 | 传统开放集、单次Qwen、Qwen+强Static、Qwen+RulePolicy、Qwen+LearnablePolicy、可选全证据上界 | Unknown与动态取证是否改善任务成功和utility-cost |
+| 二：开放集与自适应取证 | 传统开放集、单次Qwen+冻结Unknown；Basic vs Fixed Full；预算匹配的Fixed Full、强Static、RulePolicy、High-Capability LLM Supervisor及可选LearnablePolicy；逐项证据源消融 | 区分更多证据本身、动态选择、高能力Supervisor和各证据源的贡献，并检验收益是否来自额外资源 |
 | 三：1/5/10-shot新类接入 | 重训、最近邻/原型、Qwen ICL、RAG原型、Agent注册和可选LoRA | 新类能否低成本接入且不显著遗忘旧类 |
 | 四：IoT-23独立场景外部验证 | IoT-23独立适配与scenario split下的闭集、一套Unknown和一套Agent上下文增益；允许时增加1/5-shot | 同一接口、Qwen协议、Unknown生命周期和Agent决策能否适用于另一采集环境和原生标签Schema |
 
-主要指标包括Known Macro-F1、Unknown AUROC/AUPR/FPR95/OSCR/H-score、层次退回、新类F1与遗忘、任务成功、证据/工具选择、恢复、预算遵从、输出合法、重分类/RAG调用率、延迟和成本。
+主要指标包括Known Macro-F1、Unknown AUROC/AUPR/FPR95/OSCR/H-score、层次退回、新类F1与遗忘、任务成功、证据/工具选择、恢复、预算遵从、输出合法、Qwen/Supervisor/RAG/工具调用、延迟和成本。
+
+实验二中Agent与Static固定使用相同Qwen、工具、信息域和最大预算，报告证据请求率、Qwen/RAG/工具调用次数、延迟、Token/API成本与utility-cost曲线。packet、temporal、graph、application和RAG分别消融；固定全证据用于回答证据上界，不等同于动态Agent。
 
 在传统开放集基线完成后，实现“Unknown拒识+被拒识样本随机分配至候选新类”的零信息标签扩展诊断，并输出Known-to-Novel FPR、新类Macro-F1、混淆矩阵及多随机种子结果；该诊断不替代合理的传统Unknown拒识基线。
 
@@ -118,7 +124,7 @@ T0定义为：生产级`CanonicalSessionRecord`和两个Adapter通过回归，Ed
 | 生产Adapter与manifest冻结 | 在服务器固化`CanonicalSessionRecord`和两个Adapter；冻结全量split、K/U、support/query、异常文件处置和训练manifest | 输入、泄漏和信息域合同可复现，IoT-23正式Unknown支持数满足预注册要求或明确小样本边界 |
 | T0后第1周 | 配置GPU模型环境；加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；完成传统和原始Qwen基线 | 模型、独立Unknown评分接口与数据链路可运行，无Final泄漏 |
 | T0后第2周 | 完成Edge Qwen主训练、闭集/coarse/fine和强Static | Qwen稳定输出fine/coarse、证据状态和开放集模型信号，冻结Unknown层产生可复现决策 |
-| T0后第3周 | 完成Edge Near/Far/Mixed Unknown、动态取证、RulePolicy和候选LearnablePolicy；DPO仅作条件性判断 | Edge实验一、实验二和utility-cost结果冻结 |
+| T0后第3周 | 完成Edge Near/Far/Mixed Unknown、deterministic Runtime、RulePolicy和High-Capability LLM Supervisor；LearnablePolicy与DPO仅作条件性判断 | Edge实验一、实验二和utility-cost结果冻结 |
 | T0后第4周 | 完成Edge sample-level 1/5/10-shot、错误/成本分析及IoT-23压缩外部验证；同步论文初稿 | 实验三、实验四、限制和复现清单完成 |
 
 ## 6. 里程碑与停止条件
@@ -129,7 +135,7 @@ T0定义为：生产级`CanonicalSessionRecord`和两个Adapter通过回归，Ed
 | G0b IoT-23验收 | **已带限制通过：**官方数据可解析、标签可用、可构造独立scenario训练/验证/测试 | 固化生产Adapter；处理Somfy未匹配记录和正式Unknown支持数，不重选数据集 |
 | G1 输入与基线 | 会话表示可复现，传统强基线和原始Qwen基线可公平运行 | 收缩到可验证表示，限制结论，不虚构跨会话能力 |
 | G2 Qwen SFT | 后训练Qwen能稳定输出分类、证据状态和可供独立Unknown评分使用的模型信号，且无Final信息泄漏 | 停止DPO/规模扩展，保留原始Qwen与失败边界 |
-| G3 Agent | 相同Qwen、工具和预算下，Rule/Learnable至少改善任务成功、恢复或utility-cost | 强Static成为推荐方案，Agent降为边界分析 |
+| G3 Agent | 相同Qwen、工具、信息域和预算下，High-Capability LLM Supervisor相对Rule/Static至少改善任务成功、恢复或utility-cost | Rule/Static成为推荐方案，Supervisor Agent降为边界分析 |
 | G4 Few-shot | support/query无相同记录或精确重复，新类提升且旧类遗忘可控 | 保留Unknown与候选识别；group-level只在有可靠活动标识时追加 |
 
 ## 7. 风险与压缩顺序
@@ -147,3 +153,43 @@ Edge单capture、固定端点和时间捷径通过capture内时间块、隔离ga
 5. 冻结全量split、K/U、support/query、异常文件处置和训练manifest，并完成生产回归与Unknown支持数检查；
 6. 配置GPU模型环境，加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；
 7. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证。
+
+## 9. 端到端流程速查（压缩版）
+
+### 9.1 研究项目执行链路
+
+1. **数据与Gate：**冻结Edge-IIoTset主实验和IoT-23独立scenario外部验证职责，从官方来源下载、校验并归档原始数据。
+2. **Production构建：**解析packet、重建双向session、对齐标签并生成`CanonicalSessionRecord`。Edge正式数据冻结前必须完成Label Provenance Audit，确认官方标签粒度、PCAP/CSV关系、session-label alignment和unmatched/conflict；当前不得视为已经通过。
+3. **数据冻结：**按immutable backend identity处理真正重复，冻结chronological/scenario split、gap、split内past-only上下文、字段白名单、exact/near sensitivity、K/U、support/query和训练manifest。
+4. **版本集成：**审查并测试独立server Production分支与本地docs分支，形成统一`main`，完成Production Data Freeze。
+5. **环境与基线：**部署Qwen3.5-9B训练环境，在冻结数据上运行传统模型和Raw Qwen基线；传统模型不承担前置路由。
+6. **SFT：**仅从`K_known/train`构造监督数据，先smoke test，再执行默认text-only BF16 LoRA SFT；QLoRA只作资源/兼容性fallback或量化消融。
+7. **SFT评价：**比较Raw Qwen与SFT Qwen的分类、证据理解、结构化输出、速度和成本。
+8. **Unknown：**只用`K_known`和`U_dev`选择并校准独立Unknown评分，在预注册Near/Far/Mixed上评价；`U_final`在最终测试前隔离。
+9. **Adaptive Agent：**实现deterministic Runtime与可替换`SupervisorBackend`，由High-Capability LLM Supervisor根据Evidence State每轮选择一个合法动作；在相同Qwen、工具、信息域和预算下比较Basic、Fixed Full、Strong Static、RulePolicy、Supervisor和可选LearnablePolicy。
+10. **消融与Few-shot：**消融packet、temporal、graph、application和RAG，随后使用预注册1/5/10-shot support评价新类接入与旧类遗忘。
+11. **条件性DPO与外部验证：**DPO只在可靠偏好问题和数据存在时开展；在IoT-23自身标签与scenario split下完成closed-set、Unknown和Agent压缩验证。
+12. **结果与论文：**汇总正式指标、成本、敏感性、组件级错误和限制，按“Qwen分类→Unknown→Adaptive Agent→Few-shot”完成论文。
+
+```text
+数据与Gate → Production Freeze → Qwen部署 → Raw/Traditional Baseline → BF16 LoRA SFT → Unknown → Supervisor Agent → Few-shot → IoT-23外部验证 → 最终实验 → 论文
+```
+
+### 9.2 系统实际识别链路
+
+1. 接收PCAP或等价捕获并解析packet可观察字段，来源和真实身份只留在backend审计层。
+2. 按双向通信关系重建session；当前Edge候选构造使用60秒inactivity规则，正式口径等待Label Provenance Audit与Production Freeze确认。
+3. 生成隔离model-unsafe字段的`CanonicalSessionRecord`，再构造前8包加完整session summary的Initial Evidence Card；service category不进入Primary View。
+4. 后训练Qwen3.5-9B直接输出fine/coarse候选、supporting/missing evidence、evidence sufficiency和开放集模型信号，不经过传统模型路由。
+5. 独立Frozen Unknown Scoring / Calibration产生正式Unknown判断，不采用未经验证的LLM自报概率。
+6. Evidence State汇总分类、Unknown、缺失证据、capabilities、请求历史、工具失败、动作、剩余预算和少量validated experience。
+7. High-Capability LLM Supervisor读取model-safe状态，由deterministic Runtime约束每轮只执行一个合法动作；Supervisor不直接替代Qwen输出fine分类。
+8. 按需扩展第9至16包、past-only时间上下文、局部关系图或合法应用层证据；完整session继续用于summary。
+9. 只有knowledge gap才调用RAG，observational gap必须取得真实网络观测，RAG不得补造流量事实。
+10. 新证据和失败写回Evidence State，Qwen重新分类，独立Unknown层重新评估，再由Supervisor决策。
+11. Runtime在预算和最大深度内循环，最终输出Fine、Coarse、Unknown或Abstain；合法人工support存在时才写入独立Class Memory并执行新类注册。
+12. 保存结构化最终结果、supporting evidence、Agent动作、工具调用、成本/延迟和完整Trace。
+
+```text
+Raw Traffic → Packet Parsing → Bidirectional Session → CanonicalSessionRecord → Initial Evidence Card → Qwen Traffic Expert → Frozen Unknown Scoring → Evidence State → High-Capability LLM Supervisor → one legal action via Deterministic Runtime → Evidence Acquisition → Reclassification → Fine / Coarse / Unknown / Abstain → Structured Result + Trace
+```
