@@ -2,7 +2,7 @@
 
 > 适用对象：首次接手本项目的开发者或Agent。
 >
-> 最近核验：2026-08-09；服务器初始化、官方数据恢复、identity-based dedup全量重建、Edge标签provenance guard与class-role定向复审均已完成；`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`、`PRODUCTION_DATA_READY=true`、`DECISION_REQUIRED=false`。尚未下载Qwen或启动训练。
+> 最近核验：2026-08-11；服务器初始化、官方数据恢复、identity-based dedup全量重建、Edge标签provenance guard与class-role定向复审均已完成；冻结Production分支已与Agent Runtime foundation及provider-neutral real-backend preparation安全集成。`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`、`PRODUCTION_DATA_READY=true`、`DECISION_REQUIRED=false`。尚未下载Qwen、调用真实模型/API或启动训练。
 >
 > 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；当前最新生效决定为DEC-0012，DEC-0006至DEC-0011继续有效。
 
@@ -25,7 +25,7 @@ Qwen是正式主分类模型，不是LightGBM/XGBoost的Reviewer。传统模型�
 
 Agent在Qwen第一次分类后决定“下一步需要什么证据或是否停止”，确定性Python工具负责具体执行。Agent可以请求更多包、past-only时间上下文、局部通信图、合法应用层证据或RAG，再通过`RECLASSIFY`调用同一主Qwen；`CALL_LLM_EXPERT`已退出正式动作集。
 
-## 2. 2026-08-09冻结状态
+## 2. 2026-08-11集成状态
 
 ### 2.1 架构回溯已完成
 
@@ -78,6 +78,12 @@ Phase 2的原始建议仍作为审计事实保留；DEC-0008在承认其限制�
 
 审计同时预注册了不替换Primary split的`NEAR_DUPLICATE_SENSITIVITY_VARIANT`，并修复IoT-23 support/query沿用fine-level `Attack`的问题；正式support target现与task/K-U/training manifest一致为coarse-level `Exploitation`，sample ID不变。大数据与完整审计报告位于服务器Git外的`/root/autodl-tmp/experiments/production_data_freeze_20260809/`，仓库内小型摘要位于`reports/production_data_freeze_20260809/`。
 
+### 2.6 Agent Runtime与LLM backend preparation已集成
+
+`src/flowsec/runtime/`现提供provider-neutral deterministic Runtime foundation，包括model-safe `SupervisorView`、外部重验证、调用前预算预留、future-context与capability保护、Memory读写权限、request/evidence去重、历史保留、终止语义验证和安全失败。`src/flowsec/integrations/llm/`提供`LLMTransport`/`RawLLMResponse`、Traffic Expert与Supervisor adapter/parser、版本化Prompt profile、Fake Provider、有限retry/failure taxonomy和secret redaction；没有真实HTTP transport、API调用、模型下载或正式Prompt/模型配置。对应工程审计位于`reports/runtime_audit/`，不是论文结果。
+
+Production与Runtime的权限边界保持分离：Production `initial_model_views`是已验证的安全投影，Runtime只接受显式`EvidenceItem`与`CapabilityStatus`。当前尚缺一个轻量、白名单式Production→Runtime adapter来完成字段封装、capability命名映射及跨层泄漏回归；在该adapter完成前，不得把backend/canonical行直接传入模型。
+
 ## 3. 当前正式输入与实验口径
 
 ### 3.1 会话级混合输入
@@ -111,7 +117,7 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 
 ## 4. 当前下一步与停止规则
 
-本阶段已完成架构审计、计划纠偏、双数据集Gate、服务器初始化、官方数据恢复、identity-based dedup全量Production Data Freeze重建、标签provenance guard、class-role复审与postfix pre-commit审计。当前没有数据Gate blocker；尚未下载Qwen、安装完整训练栈或启动任何正式训练。工作树仍未提交，下一步先人工审查本阶段diff，并仅在明确授权后commit/push。
+本阶段已完成架构审计、计划纠偏、双数据集Gate、服务器初始化、官方数据恢复、identity-based dedup全量Production Data Freeze重建、标签provenance guard、class-role复审、postfix pre-commit审计，以及Production与Agent Runtime/LLM backend preparation的Git集成。当前没有数据Gate或代码集成blocker；尚未下载Qwen、调用真实模型/API、安装完整训练栈或启动正式训练。
 
 冻结的执行顺序如下；双数据集Gate已经完成，本地阶段只做归档、推送和经批准的数据清理：
 
@@ -122,7 +128,8 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 5. **已完成：**全量split、K/U、support/query、异常处置、training manifest、U_final隔离、20项泄漏与确定性审计；
 6. **已完成：**identity-based dedup全量重建、24-capture标签provenance guard与必要checkpoint resume；
 7. **已完成：**class-role BASE/few-shot Gate纠正、最新run identity防旧manifest保护、完整pytest与postfix复审，`PRODUCTION_DATA_READY=true`；
-8. **当前下一步：**人工审查并在明确授权后commit/push冻结实现；之后再配置Qwen3.5-9B并执行原始模型与text-only BF16 LoRA SFT小规模冒烟。
+8. **已完成：**Production冻结分支与最终Agent/Runtime/backend preparation分支在独立integration分支进行no-ff集成、完整回归与架构审计；
+9. **当前下一步：**实现并测试轻量白名单式Production→Runtime adapter；真实provider smoke、Qwen配置/下载和text-only BF16 LoRA SFT仍须另行明确授权。
 
 IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建出现新的阻断性证据并新增Decision，否则不得重选第二数据集，也不得自动恢复“CICIoMT首选、X-IIoTID立即切换”或重新开启主数据集搜索。
 
@@ -142,13 +149,16 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - `src/flowsec/production/`、`tools/production_data_freeze.py`与`tools/audit_production_determinism.py`：正式schema、Adapter、guard、split/KU/support/training manifest、泄漏与确定性流水线。
 - `configs/data/production_freeze_v1.yaml`：正式、模型无关且早于Qwen运行冻结的完整数据协议。
 - `reports/production_data_freeze_20260809/`：可提交的小型生产冻结复现摘要与关键manifest副本；服务器完整产物仍在Git外。
+- `src/flowsec/runtime/`：确定性Runtime合同、状态机、预算、权限、Memory、失败与评估基础；当前使用mock/synthetic边界验证。
+- `src/flowsec/integrations/llm/`：provider-neutral LLM transport合同、Traffic Expert/Supervisor adapter、严格parser、版本化Prompt profile和Fake Provider；尚无真实HTTP transport。
+- `reports/runtime_audit/`：Runtime foundation与real-backend preparation的工程/架构审计；不包含真实模型、API、数据或论文指标。
 
 ### 尚未实现，不得描述成已有结果
 
-- Session Evidence Card与应用层证据工具；
+- Production→Runtime白名单adapter、正式Session Evidence Card封装与生产证据工具；
 - 传统闭集/开放集正式基线；
 - Qwen3.5-9B text-only BF16 LoRA主分类SFT、独立Unknown算法/校准与条件性LoRA DPO；
-- RulePolicy、LearnablePolicy、强Static与Agent主实验；
+- 真实provider transport/smoke、LearnablePolicy、强Static与Agent主实验；
 - 四组论文实验及论文结论。
 
 ## 6. 禁止与高风险操作
@@ -181,7 +191,7 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 
 ## 8. 工作树与验证提示
 
-本次Production Data Freeze开始时，`HEAD`为`db9e8638bbbe01587db5fa967de00c89e1885d32`且与任务指定baseline一致。当前工作树有本阶段刻意产生、尚未暂存/提交的生产代码、配置、测试和文档；不得为追求干净执行reset、checkout、rebase或clean。后续应先审查精确diff，再按明确授权commit/push。
+Production冻结提交为`44ec95c1b283d1aa8d8cc75ecd1eba4a30601aa0`；最新backend preparation提交为`930d31ca154f7f5e4dc35dd5c07933ea4e1cabe3`，两者在独立integration分支以no-ff方式保留双亲历史。任何后续工作不得为追求干净执行reset、checkout、rebase或clean；提交和推送仍须遵守当前任务授权。
 
 最终Gate运行了官方最小数据下载、PCAP解析、会话/标签对齐、哈希、泄漏与捷径检查、两随机种子RF及Qwen输入合同冒烟；没有调用或训练Qwen，也没有运行正式论文实验。DEC-0010只改变执行位置；DEC-0011冻结BF16 LoRA/text-only/non-thinking默认模式和独立Unknown评分接口。任何后续数据角色、会话单位、输入证据、K/U、训练阶段、Unknown或Agent口径改变，必须同步更新canonical detailed的Decision Log与本交接文档。
 
