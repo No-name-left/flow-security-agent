@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import os
+from collections.abc import Mapping
 from pathlib import Path
 
 import pytest
@@ -10,6 +12,7 @@ from flowsec.integrations.llm.prompting import (
     fixture_traffic_expert_prompt,
 )
 from flowsec.production.runtime_adapter import (
+    PRODUCTION_ASSET_VERSION,
     ProductionApplicationEvidenceTool,
     ProductionGraphContextTool,
     ProductionPacketExpansionTool,
@@ -21,7 +24,8 @@ from flowsec.production.runtime_adapter import (
 from flowsec.runtime.contracts import AgentAction, Capability, RuntimePhase, ToolRequest, ToolStatus
 
 
-REAL_ROOT = Path("/root/autodl-tmp/processed/edge_split_revision_v2")
+ARTIFACT_ROOT_ENV = "ARTIFACT_ROOT"
+_REQUIRED_ASSET = Path("manifests/split_revision_completion.json")
 CLASS_SAMPLES = {
     "Normal": "fs1_7374c279f7cd884e1be73f9e08e65191a24c13d4",
     "DDoS_TCP": "fs1_8633c2a117f328502b7583b2c2f5ce539d2c0fef",
@@ -32,6 +36,36 @@ CLASS_SAMPLES = {
 }
 NO_PAST_SAMPLE = CLASS_SAMPLES["Backdoor"]
 HAS_PAST_SAMPLE = "fs1_c30c9ed71429e81384477f652064609f9bf43ff5"
+
+
+def _configured_production_root(
+    environ: Mapping[str, str] | None = None,
+) -> Path | None:
+    environment = os.environ if environ is None else environ
+    artifact_root = environment.get(ARTIFACT_ROOT_ENV)
+    if not artifact_root:
+        return None
+    return Path(artifact_root).expanduser() / PRODUCTION_ASSET_VERSION
+
+
+def _production_assets_available(root: Path | None) -> bool:
+    if root is None:
+        return False
+    try:
+        return root.is_dir() and (root / _REQUIRED_ASSET).is_file()
+    except OSError:
+        return False
+
+
+@pytest.fixture(scope="module")
+def real_root() -> Path:
+    root = _configured_production_root()
+    if not _production_assets_available(root):
+        pytest.skip(
+            f"Git-external Production v2 assets unavailable; configure {ARTIFACT_ROOT_ENV}"
+        )
+    assert root is not None
+    return root
 
 
 def _request(sample_id: str) -> ProductionSampleRequest:
@@ -62,9 +96,43 @@ def _assert_value_fidelity(actual: object, expected: object) -> None:
         assert actual == expected
 
 
-@pytest.mark.skipif(not REAL_ROOT.is_dir(), reason="Git-external Production v2 assets unavailable")
-def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
-    store = ProductionParquetEvidenceStore(REAL_ROOT)
+def test_configured_production_root_is_available_when_required_assets_exist(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / PRODUCTION_ASSET_VERSION
+    required_asset = root / _REQUIRED_ASSET
+    required_asset.parent.mkdir(parents=True)
+    required_asset.touch()
+
+    configured = _configured_production_root({ARTIFACT_ROOT_ENV: str(tmp_path)})
+
+    assert configured == root
+    assert _production_assets_available(configured) is True
+
+
+def test_production_assets_are_unavailable_when_unconfigured_or_missing(
+    tmp_path: Path,
+) -> None:
+    assert _configured_production_root({}) is None
+    missing = _configured_production_root({ARTIFACT_ROOT_ENV: str(tmp_path)})
+    assert _production_assets_available(missing) is False
+
+
+def test_production_assets_are_unavailable_on_permission_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def raise_permission_error(_path: Path) -> bool:
+        raise PermissionError(13, "permission denied")
+
+    monkeypatch.setattr(Path, "is_dir", raise_permission_error)
+
+    assert _production_assets_available(Path("/inaccessible")) is False
+
+
+def test_real_edge_v2_production_to_runtime_smoke_without_model_call(
+    real_root: Path,
+) -> None:
+    store = ProductionParquetEvidenceStore(real_root)
     adapter = ProductionSafeAdapter(store)
     requests = [_request(sample_id) for sample_id in CLASS_SAMPLES.values()]
     requests.append(_request(HAS_PAST_SAMPLE))
