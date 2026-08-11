@@ -2,15 +2,15 @@
 
 > 最近核验：2026-08-12。
 >
-> 当前实现分支：`feat/near-pretraining-readiness-v1`，基于已进入`main`的文档同步提交`ff4eca8fc6e00196666a9a3768679e3ddfefea60`。本分支只提交代码、配置、schema、测试、小型报告和状态文档，不push。
+> 当前长期主线：`main`。Final pre-training acceptance工作以`7225c6ac496e9587a8b1caa2e066379a098d72fc`的线性后代commit按Git policy fast-forward落地；未push。
 >
-> 当前状态：Production、Edge v2 split、PLAN_B、Runtime Safe Adapter、Evidence Fidelity和官方raw Qwen部署smoke保持完成；Near Phase B的非API准备（training harness、Fine Head、pooling/LoRA/serialization、Prompt/schema、Application/Payload sidecar、formal RAG、snapshot universe、RL prompt pool与真实9B两步dry-run）已完成。`DEEPSEEK_API_KEY`缺失是Teacher annotation与最终SFT corpus的唯一blocker；SFT、RL、Unknown、正式baseline与Agent实验均未运行。
+> 当前状态：`FINAL_PRETRAINING_ACCEPTANCE_STATUS=PASS`，`READY_TO_START_FORMAL_NEAR_SFT=true`。DEC-0020监督契约、Teacher V3 pilot/bulk、22,957-record V2 corpus、16,979-session分类监督、pair/manual/token/U_final审计、真实9B resume smoke与formal launcher preflight均PASS。SFT、RL、Unknown、正式baseline与Agent实验仍未运行；下一动作只允许另行授权的`START_FORMAL_NEAR_MULTI_TASK_SFT`。
 
 ## 1. 权威链与必读顺序
 
 研究语义冲突时依次服从：
 
-1. `docs/research_plan/research_plan_detailed.md`：Canonical / highest research authority，含DEC-0001至DEC-0019；
+1. `docs/research_plan/research_plan_detailed.md`：Canonical / highest research authority，含DEC-0001至DEC-0020；
 2. `docs/training/near_mainline_training_protocol_v1.md`：training/Open-world execution authority；
 3. `docs/design/agent_architecture_provisional.md`：Agent/Runtime/Supervisor/RAG/Memory design authority，不能覆盖前两者；
 4. 本文件：只记录实际完成状态、阻塞和下一步；
@@ -100,7 +100,7 @@ Raw六类smoke没有稳定fine candidate，不是benchmark。vLLM API不暴露hi
 
 ## 7. Training Protocol v1
 
-`TRAINING_PROTOCOL_FROZEN=true`表示架构、权限、阶段和隔离已冻结。Phase B现已冻结`ATTENTION_MASKED_MEAN_V1`、`COMPACT_SAFE_EVIDENCE_V1`、Prompt/schema v1、真实Qwen module inventory与`NEAR_SFT_CONFIG_V1`；这仍不表示正式训练已运行。
+`TRAINING_PROTOCOL_FROZEN=true`表示架构、权限、阶段和隔离已冻结。Phase B现已冻结`ATTENTION_MASKED_MEAN_V1`、`COMPACT_SAFE_EVIDENCE_V1`、Prompt/schema v2、真实Qwen module inventory与`NEAR_SFT_CONFIG_V1`；这仍不表示正式训练已运行。
 
 Training #1：classification-first Multi-task SFT。
 
@@ -156,9 +156,9 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 10. 已实现与未实现
 
-已实现：Production与split；PLAN_B；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；Transformers/PEFT training harness、dynamic Linear Fine Head、真实LoRA inventory、pooling/serialization/Prompt/schema v1；Application/Payload Git-external sidecar；generic RAG KB/index；22,957个合法snapshot、6,000条RL prompt pool；真实9B两步可逆dry-run与U_final隔离audit。
+已实现：Production与split；PLAN_B；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；Transformers/PEFT training harness、dynamic Linear Fine Head、真实LoRA inventory、pooling/serialization/Prompt/schema v2；Application/Payload Git-external sidecar；generic RAG KB/index；22,957个合法snapshot、6,000条RL prompt pool；真实9B两步可逆dry-run与U_final隔离audit。
 
-未实现/未运行：DeepSeek provider smoke、Teacher pilot/bulk与最终Teacher-grounded SFT corpus（唯一原因是无`DEEPSEEK_API_KEY`）；formal Runtime Application/Payload/RAG tool wiring；正式传统/Raw baseline；SFT；GRPO；Independent Unknown；Agent benchmark；Experience/Class Memory实验；论文结果。
+Final acceptance新增并验证：正式DeepSeek provider preflight PASS；role-specific Teacher/Judge/Supervisor request builder；Teacher Prompt V3；pilot 250/250与bulk 22,957/22,957 valid、quarantine 0；V2 final corpus 22,957 records / 16,979 sessions；1,033条Known validation asset；formal launcher/resume contract；Payload/RAG pair、100-record manual、token、leakage和U_final audits。未完成/未运行：formal Runtime Application/Payload/RAG tool wiring、正式传统/Raw baseline、SFT、GRPO、Independent Unknown、Agent benchmark、Experience/Class Memory实验与论文结果。
 
 状态：
 
@@ -170,23 +170,17 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 11. 下一实施阶段与停止规则
 
-**CURRENT STOP POINT：Phase B provider-blocked finalization。**
+**CURRENT STOP POINT：FINAL_PRETRAINING_ACCEPTANCE=PASS。**
 
-只允许在用户提供runtime `DEEPSEEK_API_KEY`后继续以下固定顺序：
+`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`已冻结：每个合法TRAIN K-known session恰有一个真实primary计算classification CE，无论Teacher `evidence_sufficient`；5,978个controlled lower-evidence auxiliary仅训练Evidence LM并mask CE。GT保持backend-only，不进入serialized input、Prompt、RAG query、Payload或model-visible metadata。
 
-1. `provider-status`完成model-list与structured-response smoke；
-2. 分层250条Teacher pilot，自动grounding/schema检查并要求零quarantine；
-3. bulk Teacher annotation与cache/resume；
-4. final SFT corpus join、token gate及分层200条Teacher-target人工审计；
-5. 重跑U_final isolation与完整回归。
+Teacher V3 pilot为250/250 valid（17 sufficient / 233 insufficient），bulk为22,957/22,957 valid（1,381 sufficient / 21,576 insufficient），quarantine 0。Final corpus为22,957 records / 16,979 unique sessions，11/11 class coverage，sequence max 2,902 < 3,072，overflow/label collision/backend identity/GT-key/U_final均为0。100-record人工审查与formal preflight PASS。
 
-只有上述全部通过，才可报告`READY_FOR_FORMAL_NEAR_SFT=true`。即使ready，仍不得自动启动正式SFT；Training #1需要用户单独授权。本状态不授权Raw/传统正式baseline、Judge/RL、Unknown、U_final、Agent或few-shot实验。
-
-绝对禁止：修改Production、split、K/U、PLAN_B；用test/U_final调参；把Unknown作为K+1类；让Teacher决定GT；让Supervisor改fine label；让RAG发明Observation；默认每样本RAG；无限raw Payload；把model/data/cache/log/checkpoint提交Git。
+下一任务只能是用户另行明确授权的`START_FORMAL_NEAR_MULTI_TASK_SFT`。启动必须使用冻结config与script入口并显式给出`--execute`；默认或`--preflight-only`不得训练。仍禁止提前运行GRPO、Unknown、U_final、Agent、Far/Mixed/IoT-23或few-shot实验。
 
 ## 12. Git与环境提示
 
-当前实现分支基于`ff4eca8`；禁止reset/rebase/clean/force push，本任务不push。Phase B小型审计入口为`reports/training_readiness/near_pretraining_readiness_v1.md`。
+Final acceptance已在temporary branch显式commit，并在确认是local main线性后代后`--ff-only`落地main、删除temporary branch；未push。最终报告入口为`reports/training_readiness/near_final_pretraining_acceptance_v2.md`；上一份BLOCKED报告与Phase B报告作为历史审计记录保留。
 
 数据环境：`/root/autodl-tmp/conda/flow-data`。Qwen training/runtime环境：`/root/autodl-tmp/conda/qwen35-runtime`。Production v2 root通过现有`ARTIFACT_ROOT`约定解析，Phase B Git-external root为`$ARTIFACT_ROOT/near_pretraining_v1`；GitHub CI无外部资产时真实数据测试安全skip。DeepSeek只读runtime环境中的`DEEPSEEK_API_KEY`，不得写入repo/report/log。
 

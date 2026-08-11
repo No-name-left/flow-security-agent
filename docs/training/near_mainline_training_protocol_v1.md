@@ -138,7 +138,7 @@ Compact serialization may remove redundant keys, repeated punctuation and uninfo
 
 Before formal SFT corpus generation, freeze and fingerprint:
 
-- Traffic Expert Prompt v1;
+- Traffic Expert Prompt v2;
 - Fine class map and deterministic fine-to-coarse map;
 - Evidence State response schema v1;
 - serialization v1;
@@ -162,7 +162,7 @@ A legal session can create bounded stage variants:
 | 5 | + bounded Sanitized Payload |
 | 6 | + Knowledge RAG Evidence |
 
-Only genuinely AVAILABLE, materialized and model-safe Evidence may appear. The current implementation supports stages 0–3; Application Evidence, Sanitized Payload and Production Knowledge RAG are currently UNAVAILABLE. Those are engineering states, not permanent research prohibitions.
+Only genuinely AVAILABLE, materialized and model-safe Evidence may appear. The pre-training path now materializes stages 0–6 for legal Near K-known TRAIN states: Application/Payload use frozen sidecars and Knowledge uses the frozen generic hybrid index. Formal online Runtime wiring for those three capabilities remains a later Agent-integration step; readiness of training assets must not be described as an online tool implementation.
 
 **[FROZEN]** Final Near Agent/SFT must support Application Evidence wherever the source PCAP provides reliably extractable fields. Payload is never default input but must be available on demand when a real content gap exists. Corpus construction uses bounded stage multiplicity and diversity-aware sampling so one session cannot dominate through many near-identical stage variants.
 
@@ -333,8 +333,8 @@ Class Memory stores safe labeled support representation, prototype, description 
 | A | Production, split, Adapter, fidelity and raw Qwen deployment | **COMPLETE** with recorded limitations |
 | B | Training-side Transformers/PEFT harness; LoRA inventory checks; pooling; serialization v1; Prompt/schema v1; Application/Payload contracts; RAG Evidence Contract | **COMPLETE** for non-API readiness; no U_final access |
 | C | Raw Near Qwen and strong traditional baselines | reproducible baseline manifests |
-| D | Build bounded, diversity-aware multi-stage Near SFT corpus | snapshot universe/digest ready; final Teacher-grounded corpus waits Phase E |
-| E | DeepSeek Flash Teacher annotation, automatic consistency filtering and bounded human audit | **BLOCKED: NO_API_KEY**; no annotation fabricated |
+| D | Build bounded, diversity-aware multi-stage Near SFT corpus | **COMPLETE**; 22,957 records / 16,979 legal K-known TRAIN sessions |
+| E | DeepSeek Flash Teacher annotation, automatic consistency filtering and bounded human audit | **COMPLETE / PASS**; Teacher V3 bulk 22,957/22,957, quarantine 0, manual review recorded |
 | F | Training #1 classification-first multi-task LoRA SFT | Checkpoint A + manifest |
 | G | SFT validation/evaluation | no formal test-driven tuning |
 | H | Build fixed reproducible RL Prompt Pool from legal K_known TRAIN states | **READY**; 6,000 prompts and digest frozen, RL not run |
@@ -385,11 +385,11 @@ Model weights, optimizer state, caches, rollouts and large logs stay Git-externa
 
 ## 18. Current stop point and next implementation phase
 
-Completed facts now include Production Data Freeze, Edge v2/PLAN_B, Runtime Adapter/Fidelity, official raw Qwen smoke, and Phase B non-API readiness. The training harness exposes hidden states, dynamic Linear Fine Head logits, LM logits and combined masked loss; real Qwen inventory covers 248 Gated Attention/DeltaNet/FFN targets. `ATTENTION_MASKED_MEAN_V1`, `COMPACT_SAFE_EVIDENCE_V1`, Prompt/schema v1 and `NEAR_SFT_CONFIG_V1` are frozen. Application/Payload TRAIN sidecars, a 30-source/2,263-chunk hybrid RAG index, 22,957 legal snapshots and a 6,000-prompt RL pool are Git-external and ready; formal Runtime tool wiring remains pending.
+Completed facts now include Production Data Freeze, Edge v2/PLAN_B, Runtime Adapter/Fidelity, official raw Qwen smoke, and Phase B non-API readiness. The training harness exposes hidden states, dynamic Linear Fine Head logits, LM logits and combined masked loss; real Qwen inventory covers 248 Gated Attention/DeltaNet/FFN targets. `ATTENTION_MASKED_MEAN_V1`, `COMPACT_SAFE_EVIDENCE_V1`, Traffic Expert Prompt V2, Teacher Prompt V3, Evidence-State schema v1 and `NEAR_SFT_CONFIG_V1` are frozen. Application/Payload TRAIN sidecars, a 30-source/2,263-chunk hybrid RAG index, 22,957 legal snapshots and a 6,000-prompt RL pool are Git-external and ready; formal Runtime tool wiring remains pending.
 
-A real Qwen3.5-9B two-step BF16 dry-run passed frozen/trainable, CE-mask, LM-loss and checkpoint reload gates; the temporary checkpoint was deleted. No formal SFT, RLAIF/GRPO, Unknown development, DeepSeek Teacher/Judge/Supervisor run or benchmark has started. U_final pretraining isolation is PASS.
+A real Qwen3.5-9B dry-run and save/load/resume smoke passed frozen/trainable, CE-mask, weighted LM-loss, LoRA/Fine Head, optimizer/scheduler and RNG restoration gates; temporary checkpoints were deleted. DeepSeek provider/role isolation and the stratified Teacher V3 pilot pass. Teacher V3 bulk is complete at 22,957/22,957 with zero quarantine; the V2 corpus, pair/manual/token audits, U_final isolation and formal launcher preflight pass. Formal SFT, RLAIF/GRPO, Unknown development and benchmarks have not started.
 
-**CURRENT STOP POINT: DEEPSEEK_PROVIDER_BLOCKED=NO_API_KEY.** The next authorized readiness continuation is provider structured smoke → stratified 250-state Teacher pilot → bulk annotation → final SFT corpus/manual audit → isolation/regression. Only after those pass may PROJECT_HANDOFF report readiness for a separately authorized Training #1. This document does not authorize automatically starting SFT or any later experiment.
+**CURRENT STOP POINT: FINAL_PRETRAINING_ACCEPTANCE=PASS.** `READY_TO_START_FORMAL_NEAR_SFT=true`; the only next separately authorized action is `START_FORMAL_NEAR_MULTI_TASK_SFT`. This acceptance task did not execute SFT or any later experiment.
 
 ## 19. End-to-end flow
 
@@ -422,3 +422,39 @@ Raw Qwen baseline
 → Independent Unknown calibration
 → Agent integration
 ```
+
+
+## 20. Final pre-training acceptance implementation note
+
+The first formal config is NEAR_SFT_CONFIG_V1: BF16, PEFT LoRA rank 8 / alpha
+16 / dropout 0.05 over the audited attention, DeltaNet and FFN projections,
+ATTENTION_MASKED_MEAN_V1, classification weight 1.0, Evidence LM weight 0.35,
+AdamW 2e-4 with cosine schedule and 3% warmup, two epochs, micro-batch 1,
+gradient accumulation 16, max sequence 3072, deterministic per-epoch shuffle,
+seed 20260809, step/epoch checkpoints and two-checkpoint retention.
+
+`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` separates two scientific variables.
+`classification_ce_eligible` asks whether a record is a legal supervised
+classification primary and is determined only by TRAIN/K-known scope, immutable
+official GT, provenance/leakage/U_final checks and the deterministic state
+protocol. `evidence_sufficient` asks whether current model-safe Evidence is
+operationally sufficient to stop additional acquisition; it is an
+Evidence-State target and never gates CE.
+
+Every PLAN_B session has at most one real primary state with CE enabled, even
+when its Teacher target is insufficient. Controlled lower-evidence auxiliaries
+always mask CE but retain Evidence LM supervision. Evidence-State LM loss uses
+inverse-states-per-session weights so multi-state sessions do not multiply their
+weight. GT remains backend-only and cannot appear in serialized input, Prompt,
+RAG query, Payload or model-visible metadata; CE on a legal primary is therefore
+supervision, not label leakage. This also prevents a deliberately masked
+auxiliary from forcing the Fine Head to guess the immutable target.
+
+Checkpoint selection uses Known validation Macro-F1 as the primary metric,
+subject to an explicit Evidence-State schema/hallucination/sufficiency safety
+gate. Validation may support bounded preregistered adjustment; test is reserved
+for formal results and U_final remains forbidden. The formal launcher is
+script/config-driven, refuses overwrite, records config/Git/model/data digests,
+saves LoRA + Fine Head + optimizer + scheduler + RNG, and supports strict
+resume. Formal execution still requires a separate explicit execute flag and
+must never be started as part of a readiness audit.

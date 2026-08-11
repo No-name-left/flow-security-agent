@@ -2,7 +2,7 @@
 
 > 文档状态：Canonical / Authoritative
 >
-> 冻结日期：2026-08-11
+> 冻结日期：2026-08-12
 >
 > 解释顺序：本文件是最高研究语义权威；`docs/training/near_mainline_training_protocol_v1.md`是训练/Open-world执行权威，Agent架构文档是Runtime/Supervisor/RAG/Memory设计权威，时间表、简版和交接不得覆盖它们。审计产生新证据但尚未写入Decision Log时，不自动改变研究方案。
 
@@ -77,7 +77,7 @@ Agent读取Qwen第一次分类的粗细类别、证据状态、supporting/missin
 
 Agent的基本闭环进一步明确为`Evidence State → 识别缺失证据 → 选择对应证据源/合法动作 → 更新状态 → 重分类或停止`。动态性来自根据当前证据缺口、可用能力和剩余预算选择下一步，而不是在Qwen不确定时无差别调用全部工具；这一细化不改变Qwen首次分类、独立Unknown层和Agent所在位置。
 
-架构回溯、Edge-IIoTset Phase 2客观审查、双数据集最终可行性验收和Production Data Freeze已经完成。生产级`CanonicalSessionRecord`、两个Adapter、60秒会话构造、K/U、support/query、provenance guard、字段白名单与training manifest均已冻结并通过postfix审计（带已记录限制）。随后完成的paper-grade split revision以`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`替换Edge旧physical assignment，并以`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`的`PLAN_B`物化三套preset的SFT候选；该修订不改变canonical identity、sessionization、label或Near/Far/Mixed成员。deterministic Runtime foundation及provider-neutral Traffic Expert/Supervisor backend preparation已经实现并通过synthetic/fake-provider工程审计；`production_runtime_adapter_v1`现已将v2 `initial_model_views`及packet/temporal/relation真实资产按exact allow-list封装为Runtime `EvidenceItem`/`CapabilityStatus`，并通过真实数据、跨层泄漏、phase/U_final和完整回归审计。Phase B现已将Application Evidence、sanitized payload和generic Knowledge RAG从contract-only推进为仅覆盖合法Near K-known TRAIN的Git-external sidecar/KB/index；formal Agent Runtime tool wiring仍未完成。官方`Qwen/Qwen3.5-9B` raw模型已在独立text-only vLLM环境完成provider/backend/真实Production受控smoke；`RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0`只证明基础设施连通性。Training Protocol v1现已实现Transformers/PEFT harness、dynamic Linear Fine Head、正式Prompt/schema、`ATTENTION_MASKED_MEAN_V1`、真实LoRA inventory与`COMPACT_SAFE_EVIDENCE_V1`，并通过真实9B两步dry-run；DeepSeek Teacher annotation与最终SFT corpus仅因缺少runtime `DEEPSEEK_API_KEY`而未完成。Qwen正式训练、Unknown算法和Agent正式实验/benchmark尚未开始。
+架构回溯、Edge-IIoTset Phase 2客观审查、双数据集最终可行性验收和Production Data Freeze已经完成。生产级`CanonicalSessionRecord`、两个Adapter、60秒会话构造、K/U、support/query、provenance guard、字段白名单与training manifest均已冻结并通过postfix审计（带已记录限制）。随后完成的paper-grade split revision以`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`替换Edge旧physical assignment，并以`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`的`PLAN_B`物化三套preset的SFT候选；该修订不改变canonical identity、sessionization、label或Near/Far/Mixed成员。deterministic Runtime foundation及provider-neutral Traffic Expert/Supervisor backend preparation已经实现并通过synthetic/fake-provider工程审计；`production_runtime_adapter_v1`现已将v2 `initial_model_views`及packet/temporal/relation真实资产按exact allow-list封装为Runtime `EvidenceItem`/`CapabilityStatus`，并通过真实数据、跨层泄漏、phase/U_final和完整回归审计。Phase B现已将Application Evidence、sanitized payload和generic Knowledge RAG从contract-only推进为仅覆盖合法Near K-known TRAIN的Git-external sidecar/KB/index；formal Agent Runtime tool wiring仍未完成。官方`Qwen/Qwen3.5-9B` raw模型已在独立text-only vLLM环境完成provider/backend/真实Production受控smoke；`RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0`只证明基础设施连通性。Training Protocol v1现已实现Transformers/PEFT harness、dynamic Linear Fine Head、正式Prompt/schema、`ATTENTION_MASKED_MEAN_V1`、真实LoRA inventory与`COMPACT_SAFE_EVIDENCE_V1`，并通过真实9B两步dry-run和save/load/resume smoke。DeepSeek provider、角色隔离、Teacher Prompt V3及250条分层pilot已经通过；V3 bulk完成22,957/22,957且quarantine为0，最终V2 SFT corpus、pair/manual/token audit与formal launcher preflight均PASS。DEC-0020正式解耦classification CE资格与Evidence sufficiency：每个合法TRAIN K-known session恰有一个真实primary state获得CE，受控低证据auxiliary不获得CE；Teacher sufficiency只监督当前Evidence是否足以停止额外取证。Qwen正式训练、Unknown算法和Agent正式实验/benchmark尚未开始。
 
 ### 0.6 ONE_MAINLINE_FIRST与协议权威
 
@@ -252,6 +252,8 @@ Pooling已在last meaningful prompt position、无新增token的explicit prompt 
 
 Training #1是classification-first Multi-task BF16 LoRA SFT：`L_SFT=lambda_cls*L_classification+lambda_ev*L_evidence_generation`，official/verified GT只监督Fine Head classification，Evidence State来自确定性规则、受控mask/stage、DeepSeek Flash Teacher、自动一致性过滤和有界人工审查。Teacher可把GT作为不可修改上下文，但不得决定标签或创造Observation。
 
+`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`冻结两个互不门控的变量：`classification_ce_eligible`由TRAIN、K-known、verified GT、无泄漏/U_final、合法provenance与deterministic primary-state protocol决定；`evidence_sufficient`由Teacher/Evidence-State表示当前可见证据是否足以作出有用分类并停止额外取证。合法primary即使`sufficient=false`仍计算CE；人为删除关键证据的controlled auxiliary只训练Evidence LM并mask CE。GT只存在于backend target，不进入serialized input、Prompt、RAG query、Payload或任何model-visible metadata，因此该监督不是label leakage。
+
 Training #2从SFT checkpoint clone/reference后执行`RLAIF-GRPO + classification CE preservation`。Fine Head CE保持Known分类并继续更新Fine Head/LoRA；GRPO只优化随rollout变化的grounding、evidence sufficiency、missing evidence、gap、backoff/abstention、幻觉惩罚、schema和brevity。Fine Head correctness对同一input的rollout group是常数，不能声称为主要组内GRPO reward。DeepSeek Flash Judge在线/异步评价current-policy rollout，RL Prompt Pool固定来自合法Near `K_known TRAIN` Evidence states；DPO保持deferred。
 
 Raw Qwen没有Fine Head，可用生成式分类Prompt形成raw baseline；它与custom-head trained model接口不完全相同。完整训练权限、阶段、可调参数与checkpoint lineage以`docs/training/near_mainline_training_protocol_v1.md`为准。
@@ -406,14 +408,14 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 
 ## 9. 时间与依赖
 
-`ONE_MAINLINE_FIRST`取代同时展开Near/Far/Mixed/IoT-23的旧四周并行排期。当前Phase A已完成，下一实施阶段固定为Phase B；本次文档同步不授权启动任何训练或benchmark。
+`ONE_MAINLINE_FIRST`取代同时展开Near/Far/Mixed/IoT-23的旧四周并行排期。Phase A和Phase B均已完成；当前只完成D–E的final pre-training acceptance与corpus冻结，本次文档同步不授权自动启动任何训练或benchmark。
 
 | Phase | 工作 | 状态/退出条件 |
 | --- | --- | --- |
 | A | Production、v2 split、PLAN_B、Safe Adapter、Evidence Fidelity、官方raw Qwen部署 | **COMPLETE / PASS_WITH_LIMITATIONS** |
-| B | training-side harness、pooling、LoRA inventory、serialization v1、Prompt/schema v1、Application/Payload contracts、RAG Evidence Contract | **NEXT IMPLEMENTATION PHASE** |
+| B | training-side harness、pooling、LoRA inventory、serialization v1、Prompt/schema v1、Application/Payload contracts、RAG Evidence Contract | **COMPLETE / PASS_WITH_LIMITATIONS** |
 | C | Near Raw Qwen与强传统baseline | 未开始；可复现manifest |
-| D–E | 多stage Near SFT corpus；DeepSeek Flash Teacher、自动一致性过滤、有界人工审计 | 未开始；仅合法K_known TRAIN |
+| D–E | 多stage Near SFT corpus；DeepSeek Flash Teacher、自动一致性过滤、有界人工审计 | **COMPLETE / PASS**；22,957 records，仅合法K_known TRAIN |
 | F–G | Training #1 Multi-task LoRA SFT及validation | 未开始；Checkpoint A |
 | H–J | 固定RL Prompt Pool；Training #2 RLAIF-GRPO + classification CE及validation | 未开始；Checkpoint B |
 | K–M | 冻结primary Qwen；Known validation + U_dev开发并冻结Independent Unknown | 未开始；U_final仍sealed |
@@ -447,13 +449,13 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 
 已完成：Production Data Freeze与Git冻结；Edge `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`（train 5,294,777、validation 1,073,539、test 1,110,343、quarantine 140,373，identity leakage 0）；Near/Far/Mixed PLAN_B候选与label provenance；deterministic Runtime、provider-neutral backend和`production_runtime_adapter_v1`；Evidence Fidelity Gate；官方`Qwen/Qwen3.5-9B` revision `c202236...`的16/16文件、独立vLLM BF16 text-only服务、六类Production、packet 9–16与past-only Temporal raw smoke。上述是基础设施，不是论文benchmark。
 
-当前真实capability：Initial AVAILABLE；packet 9–16 AVAILABLE_PER_SESSION；Temporal AVAILABLE且past-only；Relation AVAILABLE_WITH_LIMITATION；Application、Sanitized Payload和Production Knowledge RAG仍UNAVAILABLE。后3项是最终Near主方法需要补齐的按需能力，不得描述为永久禁用。
+当前online Runtime capability：Initial AVAILABLE；packet 9–16 AVAILABLE_PER_SESSION；Temporal AVAILABLE且past-only；Relation AVAILABLE_WITH_LIMITATION；Application、Sanitized Payload和Production Knowledge RAG的formal online tool wiring仍UNAVAILABLE。与此同时，三者的合法Near K-known TRAIN sidecar/KB/index已作为Git-external预训练资产冻结并进入最终corpus；不得把training asset readiness误写成online Runtime已实现。
 
-本次DEC-0019与Training Protocol v1冻结了Near-first、Fine Head/LM Head职责、SFT/RLAIF分工、DeepSeek Flash Teacher/Judge/Supervisor角色、Independent Unknown、新类Class Memory、RAG/Payload边界与checkpoint lineage。尚未实现training-side harness、Fine Head、正式Prompt/schema/serialization、Application/Payload/RAG、DeepSeek角色调用、传统正式baseline、SFT、RL、Unknown、Agent benchmark或few-shot结果。
+DEC-0019与Training Protocol v1冻结Near-first及总体架构；Phase B已经实现training-side harness、Fine Head、Prompt/schema/serialization、TRAIN-only Application/Payload/RAG sidecars、角色隔离和真实Qwen smoke。DEC-0020进一步冻结classification/sufficiency解耦：Fine Head学习当前Evidence下的known-class posterior，Evidence State学习支持度、缺口及是否值得继续取证；只有controlled lower-evidence auxiliary mask CE。
 
-`SFT_RUN=false`；`RL_RUN=false`；`UNKNOWN_ALGORITHM_FROZEN=false`。raw smoke未稳定输出六类fine candidate，只能作为训练动机与基础设施证据。
+`SFT_RUN=false`；`RL_RUN=false`；`UNKNOWN_ALGORITHM_FROZEN=false`。Final pre-training acceptance已完成：Teacher V3 bulk、final corpus/audits、formal config/launcher preflight与回归全部PASS；该完成状态不产生训练checkpoint或论文结果。
 
-**下一实施阶段只有Phase B — Training Protocol Readiness：**实现Transformers/PEFT training-side harness并用小规模train/validation-safe检查冻结pooling、LoRA target assertion、`SERIALIZATION_V1`、Traffic Expert Prompt/schema v1、Application/Payload contracts和RAG Evidence Contract。不得在本次文档任务中启动Phase C baseline、SFT、DeepSeek批量生成、GRPO、Unknown、U_final或Agent实验。
+**`READY_TO_START_FORMAL_NEAR_SFT=true`，下一动作仅为`START_FORMAL_NEAR_MULTI_TASK_SFT`。** 本readiness任务不自动启动SFT；GRPO、Unknown、U_final或Agent实验仍不授权。
 
 ## 附录A：端到端执行链路速查
 
@@ -523,5 +525,6 @@ Production Session → Runtime Safe Adapter → Evidence Stage
 | 2026-08-11 | DEC-0017 | Production `initial_model_views`与Runtime合同之间只有计划中的轻量adapter边界，尚不能证明raw backend row、GT/K-U/split与source identity不会跨层进入Traffic Expert/Supervisor | 冻结`production_runtime_adapter_v1`：exact source allow-list→字段级model-safe校验→typed `EvidenceItem`/`CapabilityStatus`；backend provenance严格分离；1–8包+whole-session summary、9–16包、strict past-only temporal与匿名relation使用已物化资产；Application/payload/production RAG不可用时真实返回UNAVAILABLE；U_final只在外层formal-final授权后进入只读Runtime | 真实v2六类smoke、past/no-past、packet expansion、sensitive value/renderer/backend bypass、phase/U_final、determinism与254项完整回归均通过；不需要PCAP/TShark/canonical重建，也没有调用模型 | adapter/evidence schema版本冻结；未来application/payload/RAG或高吞吐索引可向后兼容扩展，改变model-visible字段/权限须新增Decision | Qwen部署只能面对Runtime renderer，不得直接读取Parquet/SQLite/PCAP；graph只报告真实支持的匿名角色/repeated relation；Unknown与Qwen正式Schema仍未冻结 |
 | 2026-08-11 | DEC-0018 | Adapter已安全集成，但缺少required safe字段的最终正向值级证明、官方raw模型本地服务和真实Runtime→Qwen证据 | 登记部署事实：`PRODUCTION_RUNTIME_EVIDENCE_CONTRACT_V1`与正向/fail-closed Fidelity Gate通过；官方`Qwen/Qwen3.5-9B` revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`以独立vLLM 0.25.1、BF16、text-only、8192 context、non-thinking/direct-response部署；`RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0`仅作smoke | 272条deterministic stratified PLAN_B审计的最大prompt为initial 971、packet-expanded 1607、temporal 1288 tokens；provider raw、typed fake-safe、六类真实Production、9–16包与past-only temporal均parse PASS且无显式reasoning，完整回归261 passed | 模型revision与本次可复现部署manifest固定；runtime小版本和资源参数可在新增部署审计后升级；Training Protocol、正式Prompt/Schema、LoRA target/rank、classification head、Tokenizer adaptation及Unknown均未冻结 | 权重/venv/cache/log保持Git外；原生Tokenizer继续使用，后续只建议先比较compact serialization；raw输出不作为性能或论文结论；SFT/RL/正式benchmark仍为NOT RUN |
 | 2026-08-11 | DEC-0019 | Training Protocol仍把classification head/生成式fine二选一、PPO/GRPO非主线、Near/Far/Mixed并行推进、DeepSeek角色与Application/Payload/RAG最终职责写成未冻结 | 冻结`ONE_MAINLINE_FIRST`与Near Training Protocol v1：Near先完成全闭环；trained Qwen采用冻结base+LoRA+Linear Fine Head+保留LM Head，coarse使用确定性映射；Training #1为classification-first Multi-task SFT，Training #2为RLAIF-GRPO并用独立classification CE保持Fine Head；DeepSeek Flash是可配置Teacher/Judge/Supervisor默认且三角色隔离；Unknown在Qwen冻结后用K validation+U_dev独立开发；新类先用Class Memory；Application/Payload/RAG是按需最终能力 | Qwen3.5真实架构/hidden-state审计确认classification head需training-side harness；同input Fine Head correctness在LM rollout group内为常数，不能提供GRPO relative advantage；同时开发全部preset/ablation会阻碍第一条可审计端到端结果 | 主架构、权限、Near-first顺序和checkpoint lineage冻结；pooling、LoRA/训练数值、Unknown算法/阈值、RAG top-k、Supervisor budget仍按validation-safe小范围选择 | DEC-0011的BF16/text-only/独立Unknown继续有效，但其“PPO/GRPO不属于主线”及分类头未冻结口径被本Decision替代；SFT/RL仍NOT RUN；Far/Mixed/IoT-23与其他ablation延后至Near完成 |
+| 2026-08-12 | DEC-0020 | Final Teacher pilot暴露旧实现把`classification CE eligible`与`Teacher.evidence_sufficient`相乘，导致合法primary Fine Head监督被Agent取证停止变量错误门控 | 冻结`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`：每个合法TRAIN K-known session由deterministic protocol选择一个真实primary并计算classification CE，无论Teacher sufficiency true/false；controlled lower-evidence auxiliary只训练Evidence LM并mask CE；Teacher/Judge sufficiency只表达当前可见Evidence是否足以停止额外取证 | PLAN_B 16,979个session逐一primary审计覆盖全部11类且无model-visible GT/backend identity；V2 pilot极端保守证明旧耦合不可行，Prompt V3校准把sufficiency定义为operational classification sufficiency并保留grounding/Observation–Knowledge边界 | CE eligibility、primary/auxiliary、session weighting和GT backend-only边界冻结；sufficiency比例不作class quota或50/50优化，final Teacher/corpus必须通过独立质量Gate | 不是恢复裸GT或label shortcut；允许`classification_ce_eligible=true`且`evidence_sufficient=false`；未来RLAIF仍以semantic Judge reward加并行classification CE，Judge sufficiency不得门控CE |
 
-生效关系：DEC-0001至DEC-0018作为历史记录完整保留。DEC-0005中的sample-level信息隔离原则继续有效；旧CICIoMT、传统Reviewer、Flow-only、IoT待验收、本地Production、over-dedup、旧physical split与未验证provenance口径依次由DEC-0006至DEC-0018替代。DEC-0011冻结的BF16 LoRA、text-only、non-thinking与Independent Unknown边界继续有效，但其分类头未冻结和PPO/GRPO非主线表述由DEC-0019替代。当前训练/Open-world主线以DEC-0019及`docs/training/near_mainline_training_protocol_v1.md`为准；Production identity/split/SFT candidate/provenance/Runtime安全边界与raw部署事实仍分别以DEC-0012至DEC-0018为准。
+生效关系：DEC-0001至DEC-0018作为历史记录完整保留。DEC-0005中的sample-level信息隔离原则继续有效；旧CICIoMT、传统Reviewer、Flow-only、IoT待验收、本地Production、over-dedup、旧physical split与未验证provenance口径依次由DEC-0006至DEC-0018替代。DEC-0011冻结的BF16 LoRA、text-only、non-thinking与Independent Unknown边界继续有效，但其分类头未冻结和PPO/GRPO非主线表述由DEC-0019替代；DEC-0020进一步取代任何“Teacher sufficiency门控classification CE”的旧口径。当前训练/Open-world主线以DEC-0019、DEC-0020及`docs/training/near_mainline_training_protocol_v1.md`为准；Production identity/split/SFT candidate/provenance/Runtime安全边界与raw部署事实仍分别以DEC-0012至DEC-0018为准。

@@ -172,9 +172,10 @@ def main() -> int:
             ),
             lm_labels=torch.tensor([labels], device="cuda", dtype=torch.long),
             fine_labels=torch.tensor([class_map[snapshot.fine_label]], device="cuda"),
-            classification_supervision_valid=torch.tensor(
+            classification_ce_eligible=torch.tensor(
                 [snapshot.classification_supervision_valid], device="cuda"
             ),
+            record_weights=torch.tensor([1.0], device="cuda"),
         )
         loss = output["loss"]
         if not bool(torch.isfinite(loss)):

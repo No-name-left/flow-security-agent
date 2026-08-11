@@ -110,6 +110,26 @@ def pool_hidden_state(
     raise ValueError(f"unsupported classification pooling method: {method}")
 
 
+def per_record_causal_lm_loss(logits: Tensor, labels: Tensor) -> tuple[Tensor, Tensor]:
+    """Return target-token mean loss per record and its valid-target mask."""
+
+    require_torch()
+    if logits.ndim != 3 or labels.ndim != 2 or logits.shape[:2] != labels.shape:
+        raise ValueError("causal LM loss expects [batch, sequence, vocab] logits and labels")
+    shifted_logits = logits[:, :-1, :].contiguous()
+    shifted_labels = labels[:, 1:].contiguous()
+    token_losses = F.cross_entropy(
+        shifted_logits.view(-1, shifted_logits.shape[-1]),
+        shifted_labels.view(-1),
+        reduction="none",
+        ignore_index=-100,
+    ).view(shifted_labels.shape)
+    valid = shifted_labels.ne(-100)
+    counts = valid.sum(dim=1)
+    per_record = (token_losses * valid).sum(dim=1) / counts.clamp_min(1)
+    return per_record, counts.gt(0)
+
+
 if nn is not None:
 
     class FineClassificationHead(nn.Module):
@@ -153,7 +173,8 @@ if nn is not None:
             classification_attention_mask: Tensor | None = None,
             lm_labels: Tensor | None = None,
             fine_labels: Tensor | None = None,
-            classification_supervision_valid: Tensor | None = None,
+            classification_ce_eligible: Tensor | None = None,
+            record_weights: Tensor | None = None,
         ) -> dict[str, Tensor | Any]:
             outputs = self.language_model(
                 input_ids=input_ids,
@@ -182,9 +203,9 @@ if nn is not None:
             classification_loss = fine_logits.sum() * 0.0
             supervised_count = torch.zeros((), device=fine_logits.device, dtype=torch.long)
             if fine_labels is not None:
-                if classification_supervision_valid is None:
+                if classification_ce_eligible is None:
                     raise ValueError("classification labels require an explicit supervision mask")
-                mask = classification_supervision_valid.to(
+                mask = classification_ce_eligible.to(
                     device=fine_logits.device, dtype=torch.bool
                 )
                 if mask.ndim != 1 or mask.shape[0] != fine_logits.shape[0]:
@@ -194,9 +215,18 @@ if nn is not None:
                 if int(supervised_count.item()) > 0:
                     classification_loss = per_record[mask].mean()
 
-            lm_loss = getattr(outputs, "loss", None)
-            if lm_loss is None:
-                lm_loss = fine_logits.sum() * 0.0
+            lm_loss = fine_logits.sum() * 0.0
+            if lm_labels is not None:
+                per_record_lm, lm_valid = per_record_causal_lm_loss(outputs.logits, lm_labels)
+                if record_weights is None:
+                    raise ValueError("LM-supervised training requires explicit session record weights")
+                weights = record_weights.to(device=fine_logits.device, dtype=per_record_lm.dtype)
+                if weights.ndim != 1 or weights.shape[0] != fine_logits.shape[0]:
+                    raise ValueError("record weight shape is invalid")
+                if not bool(torch.isfinite(weights).all()) or bool((weights <= 0).any()):
+                    raise ValueError("record weights must be finite and positive")
+                if bool(lm_valid.any()):
+                    lm_loss = (per_record_lm[lm_valid] * weights[lm_valid]).sum() / lm_valid.sum()
             combined_loss = (
                 self.classification_loss_weight * classification_loss
                 + self.evidence_loss_weight * lm_loss

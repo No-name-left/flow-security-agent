@@ -15,7 +15,7 @@ EVIDENCE_STATE_SCHEMA_VERSION = "EVIDENCE_STATE_SCHEMA_V1"
 APPLICATION_EVIDENCE_VERSION = "APPLICATION_EVIDENCE_V1"
 SANITIZED_PAYLOAD_VERSION = "SANITIZED_PAYLOAD_V1"
 RAG_EVIDENCE_SCHEMA_VERSION = "RAG_EVIDENCE_SCHEMA_V1"
-SFT_CORPUS_VERSION = "NEAR_SFT_CORPUS_V1"
+SFT_CORPUS_VERSION = "NEAR_SFT_CORPUS_V2"
 RL_PROMPT_POOL_VERSION = "RL_PROMPT_POOL_V1"
 
 
@@ -186,7 +186,8 @@ class SFTRecordV1(FrozenModel):
     evidence_state_id: str = Field(pattern=r"^state_[0-9a-f]{24}$")
     fine_label: str = Field(min_length=1, repr=False)
     class_index: int = Field(ge=0)
-    classification_supervision_valid: bool
+    classification_ce_eligible: bool
+    state_role: str = Field(pattern=r"^(primary|auxiliary)$")
     serialized_model_input: str = Field(min_length=1)
     evidence_state_target: EvidenceStateV1
     stage_type: StageType
@@ -213,6 +214,34 @@ class SFTRecordV1(FrozenModel):
     def validate_training_scope(self) -> "SFTRecordV1":
         if self.source_split != "train" or self.source_role != "K_known":
             raise ValueError("SFT record escaped K_known TRAIN scope")
+        if (self.state_role == "primary") != self.classification_ce_eligible:
+            raise ValueError("only the legal primary state may receive classification CE")
+        if self.state_role == "auxiliary" and self.stage_type is not StageType.CONTROLLED_MASK:
+            raise ValueError("auxiliary SFT states must use the controlled lower-evidence protocol")
+        return self
+
+
+class NearValidationRecordV1(FrozenModel):
+    sample_id: str = Field(pattern=r"^fs1_[0-9a-f]{40}$", repr=False)
+    fine_label: str = Field(min_length=1, repr=False)
+    class_index: int = Field(ge=0)
+    serialized_model_input: str = Field(min_length=1)
+    prompt_version: str
+    serialization_version: str
+    source_split: str = Field(default="validation", repr=False)
+    source_role: str = Field(default="K_known", repr=False)
+    dataset_digest: str = Field(pattern=r"^[0-9a-f]{64}$", repr=False)
+
+    @field_validator("serialized_model_input")
+    @classmethod
+    def validate_serialized_input(cls, value: str) -> str:
+        validate_model_visible_value(value, location="validation.serialized_model_input")
+        return value
+
+    @model_validator(mode="after")
+    def validate_scope(self) -> "NearValidationRecordV1":
+        if self.source_split != "validation" or self.source_role != "K_known":
+            raise ValueError("validation record escaped K_known validation scope")
         return self
 
 

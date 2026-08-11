@@ -1,10 +1,12 @@
 version: NEAR_SFT_CONFIG_V1
-status: READY_AFTER_TEACHER_CORPUS_GATE
-formal_run_authorized: false
+supervision_contract: CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1
+status: FROZEN_READY
+formal_run_authorized: true
 
 model:
   model_id: Qwen/Qwen3.5-9B
   revision: c202236235762e1c871ad0ccb60c8ee5ba337b9a
+  tokenizer_revision: c202236235762e1c871ad0ccb60c8ee5ba337b9a
   local_path_env: QWEN_MODEL_PATH
   dtype: bfloat16
   vision: unused_frozen
@@ -16,6 +18,12 @@ data:
   artifact_root_env: ARTIFACT_ROOT
   production_asset_version: edge_split_revision_v2
   pretraining_asset_version: near_pretraining_v1
+  corpus_path: sft_corpus/final/near_sft_corpus_v2.jsonl
+  corpus_manifest: sft_corpus/final/manifest.json
+  teacher_quality_manifest: manifests/teacher_v3_bulk_quality_audit.json
+  supervision_audit_manifest: manifests/supervision_contract_audit_v1.json
+  evidence_pair_audit_manifest: manifests/payload_rag_gap_pair_audit.json
+  manual_review_manifest: manifests/final_manual_sft_record_review.json
   preset: Near
   candidate_policy: CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1
   candidate_plan: PLAN_B
@@ -27,10 +35,13 @@ data:
 
 architecture:
   harness: TrafficExpertTrainingHarness
+  hidden_size: 4096
   fine_head: Linear(hidden_size, dynamic_near_k_known_count)
   coarse_head: none_deterministic_fine_to_coarse_mapping
   pooling: ATTENTION_MASKED_MEAN_V1
   serialization: COMPACT_SAFE_EVIDENCE_V1
+  traffic_expert_prompt: TRAFFIC_EXPERT_PROMPT_V2
+  teacher_prompt: TEACHER_PROMPT_V3
   evidence_state_schema: EVIDENCE_STATE_SCHEMA_V1
   classification_loss_weight: 1.0
   evidence_lm_loss_weight: 0.35
@@ -60,6 +71,7 @@ optimizer:
   name: AdamW
   learning_rate: 0.0002
   weight_decay: 0.01
+  scheduler: cosine
   warmup_ratio: 0.03
   max_grad_norm: 1.0
 
@@ -70,19 +82,64 @@ schedule:
   max_sequence_length: 3072
   gradient_checkpointing: true
   use_cache: false
+  dataloader_workers: 0
+  shuffle: deterministic_per_epoch
   seed: 20260809
-  save_strategy: epoch
+  eval_strategy: epoch
+  save_strategy: steps_and_epoch
+  save_steps: 500
   save_total_limit: 2
+
+validation:
+  corpus_path: validation/near_known_validation_v1.jsonl
+  manifest_path: validation/manifest.json
+  scope: Near_K_known_validation_only
+  primary_checkpoint_metric: known_validation_macro_f1
+  evidence_state_quality_gate:
+    schema_valid_rate_min: 0.95
+    severe_hallucination_count_max: 0
+    sufficiency_regression: block
+  checkpoint_selection: maximize_macro_f1_subject_to_evidence_state_quality_gate
+  test_usage: final_results_only
+  u_final_usage: forbidden
+  early_stop:
+    enabled: false
+    reason: first_formal_v1_uses_fixed_two_epochs
+
+output:
+  relative_root: training_runs/near_sft
+  run_id: generated_timestamp_plus_corpus_digest
+  refuse_overwrite: true
+  save_config_snapshot: true
+  save_git_commit: true
+  save_artifact_digests: true
+  save_model_revision: true
+  save_seed: true
+  save_metrics: true
+
+resume:
+  supported: true
+  compatibility: strict_config_model_corpus_validation_supervision_audit_digests
+  optimizer_state: required
+  scheduler_state: required
+  rng_state: required
+  lora: required
+  fine_head: required
 
 quality_gates:
   require_teacher_annotation_pass: true
+  classification_sufficiency_decoupled: true
+  teacher_sufficiency_never_gates_classification_ce: true
   classification_ce_requires_explicit_valid_mask: true
-  session_weighting: inverse_states_per_session
+  evidence_lm_session_weighting: inverse_states_per_session
+  classification_supervised_states_per_session: exactly_one_legal_primary_independent_of_teacher_sufficiency
   max_states_per_session: 2
   rag_exposure_target_fraction: [0.05, 0.10]
   payload_default_visible: false
   trainable_parameter_policy: lora_plus_fine_head_only
   require_u_final_count: 0
+  require_sequence_overflow_count: 0
+  require_label_collision_count: 0
 
 validation_tunable:
   - optimizer.learning_rate

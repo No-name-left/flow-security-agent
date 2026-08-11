@@ -1,6 +1,6 @@
 # 网络流量开放识别与自适应取证智能体研究计划（导师简版）
 
-> 2026-08-11同步；详细语义以`research_plan_detailed.md`为准，训练/Open-world执行以`../training/near_mainline_training_protocol_v1.md`为准。
+> 2026-08-12同步；详细语义以`research_plan_detailed.md`为准，训练/Open-world执行以`../training/near_mainline_training_protocol_v1.md`为准。
 
 ## 一、论文问题与第一主线
 
@@ -32,7 +32,7 @@ Training #1：classification-first Multi-task BF16 LoRA SFT。
 L_SFT = lambda_cls * Fine Head CE + lambda_ev * Evidence generation
 ```
 
-GT只监督分类；Evidence targets来自规则、受控mask/stage、DeepSeek Flash Teacher、一致性过滤和有界人工审查。Teacher不能决定标签或创造Observation。
+GT只监督分类；Evidence targets来自规则、受控mask/stage、DeepSeek Flash Teacher、一致性过滤和有界人工审查。`classification_ce_eligible`与`evidence_sufficient`互不门控：每个合法TRAIN K-known session的真实primary计算CE，即使当前Evidence不足；controlled lower-evidence auxiliary只训练Evidence LM并mask CE。GT只在backend target，绝不进入model-visible input。Teacher不能决定标签或创造Observation。
 
 Training #2：从独立SFT checkpoint继续RLAIF-GRPO，并保留Fine Head classification CE。GRPO优化grounding、sufficiency、missing evidence、gap、backoff/abstention、幻觉和schema；Fine correctness在同input rollout group内是常数，不是主要组内reward。DeepSeek Flash Judge在线/异步评价current-policy rollouts，不提前生成完整RL dataset。
 
@@ -50,6 +50,6 @@ DeepSeek Flash Teacher、Judge、Supervisor是三个权限隔离角色。Supervi
 
 Production Freeze、Edge v2 split、PLAN_B、Safe Adapter、Evidence Fidelity和官方raw Qwen本地/runtime smoke均已完成；这些不是论文结果。SFT、RL、Unknown、正式baseline、Agent与few-shot实验均未运行。
 
-当前协议已在架构/权限层冻结；pooling、LoRA数值、LR/loss weight、Unknown threshold、RAG top-k和Supervisor budget仍只允许小规模train/validation-safe选择，不得看formal test/U_final。
+Phase B harness、pooling、LoRA inventory、serialization、Prompt/schema与TRAIN-only Application/Payload/RAG sidecars已完成。DEC-0020已冻结classification/sufficiency解耦；Teacher V3 bulk、22,957-record final corpus、pre-training acceptance与formal launcher preflight均PASS。Unknown threshold、formal RAG top-k和Supervisor budget仍只允许在后续合法阶段选择，不得看formal test/U_final。
 
-**NEXT IMPLEMENTATION PHASE：Phase B Training Protocol Readiness。** 实现training-side Transformers/PEFT harness，冻结pooling、LoRA module assertion、serialization v1、Traffic Expert Prompt/schema v1、Application/Payload contracts和RAG Evidence Contract。不要在文档阶段启动训练或benchmark。
+**`READY_TO_START_FORMAL_NEAR_SFT=true`；NEXT ACTION=`START_FORMAL_NEAR_MULTI_TASK_SFT`。** 仍需单独明确授权和`--execute`；本任务未启动训练，SFT、RL、Unknown、U_final和Agent benchmark仍未运行。

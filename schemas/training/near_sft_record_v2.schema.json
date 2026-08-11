@@ -1,0 +1,242 @@
+{
+  "$defs": {
+    "EvidenceGapType": {
+      "enum": [
+        "none",
+        "packet",
+        "temporal",
+        "relation",
+        "application",
+        "payload",
+        "knowledge",
+        "ambiguous"
+      ],
+      "title": "EvidenceGapType",
+      "type": "string"
+    },
+    "EvidenceStateV1": {
+      "additionalProperties": false,
+      "description": "Frozen LM-branch target. It deliberately contains no fine-class field.",
+      "properties": {
+        "behavior_summary": {
+          "maxLength": 360,
+          "minLength": 1,
+          "title": "Behavior Summary",
+          "type": "string"
+        },
+        "evidence_sufficient": {
+          "title": "Evidence Sufficient",
+          "type": "boolean"
+        },
+        "gap_type": {
+          "$ref": "#/$defs/EvidenceGapType"
+        },
+        "missing_evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MissingEvidenceV1"
+          },
+          "title": "Missing Evidence",
+          "type": "array"
+        },
+        "supporting_evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SupportingEvidenceV1"
+          },
+          "title": "Supporting Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "behavior_summary",
+        "evidence_sufficient",
+        "gap_type"
+      ],
+      "title": "EvidenceStateV1",
+      "type": "object"
+    },
+    "MissingEvidenceV1": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EvidenceGapType"
+        }
+      },
+      "required": [
+        "type",
+        "description"
+      ],
+      "title": "MissingEvidenceV1",
+      "type": "object"
+    },
+    "StageType": {
+      "enum": [
+        "initial",
+        "packet",
+        "temporal",
+        "relation",
+        "application",
+        "payload",
+        "knowledge",
+        "controlled_mask"
+      ],
+      "title": "StageType",
+      "type": "string"
+    },
+    "SupportingEvidenceV1": {
+      "additionalProperties": false,
+      "properties": {
+        "claim": {
+          "maxLength": 320,
+          "minLength": 1,
+          "title": "Claim",
+          "type": "string"
+        },
+        "evidence_id": {
+          "pattern": "^ev_[a-z0-9_]{8,80}$",
+          "title": "Evidence Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "claim"
+      ],
+      "title": "SupportingEvidenceV1",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "available_capability_mask": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Available Capability Mask",
+      "type": "array"
+    },
+    "class_index": {
+      "minimum": 0,
+      "title": "Class Index",
+      "type": "integer"
+    },
+    "classification_ce_eligible": {
+      "title": "Classification Ce Eligible",
+      "type": "boolean"
+    },
+    "dataset_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Dataset Digest",
+      "type": "string"
+    },
+    "evidence_state_id": {
+      "pattern": "^state_[0-9a-f]{24}$",
+      "title": "Evidence State Id",
+      "type": "string"
+    },
+    "evidence_state_target": {
+      "$ref": "#/$defs/EvidenceStateV1"
+    },
+    "fine_label": {
+      "minLength": 1,
+      "title": "Fine Label",
+      "type": "string"
+    },
+    "prompt_version": {
+      "title": "Prompt Version",
+      "type": "string"
+    },
+    "sample_id": {
+      "pattern": "^fs1_[0-9a-f]{40}$",
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "EVIDENCE_STATE_SCHEMA_V1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "serialization_version": {
+      "title": "Serialization Version",
+      "type": "string"
+    },
+    "serialized_model_input": {
+      "minLength": 1,
+      "title": "Serialized Model Input",
+      "type": "string"
+    },
+    "session_weight": {
+      "exclusiveMinimum": 0.0,
+      "maximum": 1.0,
+      "title": "Session Weight",
+      "type": "number"
+    },
+    "source_role": {
+      "default": "K_known",
+      "title": "Source Role",
+      "type": "string"
+    },
+    "source_split": {
+      "default": "train",
+      "title": "Source Split",
+      "type": "string"
+    },
+    "stage_type": {
+      "$ref": "#/$defs/StageType"
+    },
+    "state_role": {
+      "pattern": "^(primary|auxiliary)$",
+      "title": "State Role",
+      "type": "string"
+    },
+    "teacher_annotation_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Teacher Annotation Digest",
+      "type": "string"
+    },
+    "teacher_model": {
+      "minLength": 1,
+      "title": "Teacher Model",
+      "type": "string"
+    },
+    "teacher_prompt_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Teacher Prompt Digest",
+      "type": "string"
+    },
+    "teacher_request_id": {
+      "minLength": 1,
+      "title": "Teacher Request Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "sample_id",
+    "evidence_state_id",
+    "fine_label",
+    "class_index",
+    "classification_ce_eligible",
+    "state_role",
+    "serialized_model_input",
+    "evidence_state_target",
+    "stage_type",
+    "available_capability_mask",
+    "prompt_version",
+    "serialization_version",
+    "teacher_annotation_digest",
+    "teacher_model",
+    "teacher_prompt_digest",
+    "teacher_request_id",
+    "dataset_digest",
+    "session_weight"
+  ],
+  "title": "SFTRecordV1",
+  "type": "object"
+}

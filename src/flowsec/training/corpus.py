@@ -24,6 +24,7 @@ from .contracts import (
     EvidenceSnapshot,
     EvidenceStateV1,
     EvidenceTrustV1,
+    NearValidationRecordV1,
     RLPromptRecordV1,
     SFTRecordV1,
     StageType,
@@ -36,7 +37,12 @@ from .evidence import (
     application_envelope,
     payload_envelope,
 )
-from .prompts import TRAFFIC_EXPERT_PROMPT_VERSION, traffic_expert_prompt_v1
+from .prompts import (
+    TRAFFIC_EXPERT_PROMPT_VERSION,
+    TEACHER_PROMPT_VERSION,
+    teacher_prompt_v3,
+    traffic_expert_prompt_v2,
+)
 from .rag import HybridRagIndex, build_safe_query, rag_envelope
 from .serialization import COMPACT_SERIALIZATION_CANDIDATE, render_training_input
 
@@ -125,9 +131,31 @@ def _query_summary(evidence: tuple[EvidenceEnvelope, ...]) -> str:
             for item in value[:16]:
                 visit(item)
 
+    semantic_payload_terms = {
+        "sql": "sql database query",
+        "union": "union select database query",
+        "select": "select database query",
+        "username": "credential authentication username",
+        "password": "credential authentication password",
+        "login": "credential authentication login",
+        "multipart": "multipart file upload",
+        "filename": "filename file upload",
+        "content-disposition": "multipart file upload",
+        "upload": "file upload",
+        "command": "command execution",
+        "shell": "shell command execution",
+        "exec": "command execution",
+        "post": "http post request body",
+        "get": "http get request",
+    }
     for item in evidence:
         tokens.append(item.evidence_type)
         visit(item.content)
+        if item.evidence_type == "sanitized_payload":
+            safe_text = canonical_json(item.content).casefold()
+            for needle, interpretation in semantic_payload_terms.items():
+                if needle in safe_text:
+                    tokens.extend(interpretation.split())
     summary = " ".join(tokens[:80]) or "bounded network session observations"
     return summary[:360]
 
@@ -175,7 +203,7 @@ def _write_jsonl(path: Path, values: Iterable[dict[str, Any]]) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     with temporary.open("w", encoding="utf-8") as handle:
         for value in values:
-            handle.write(canonical_json(value) + "\n")
+            handle.write(canonical_json(value) + chr(10))
     os.replace(temporary, path)
 
 
@@ -387,7 +415,7 @@ def build_snapshot_universe(
 
     serialized_by_state = {
         item.evidence_state_id: render_training_input(
-            traffic_expert_prompt_v1(),
+            traffic_expert_prompt_v2(),
             item.evidence,
             serialization_version=COMPACT_SERIALIZATION_CANDIDATE,
         )
@@ -468,6 +496,125 @@ def build_snapshot_universe(
     return manifest
 
 
+def build_known_validation_corpus(
+    production_root: Path,
+    output_root: Path,
+    preset_manifest: Path,
+    *,
+    per_class_limit: int = 100,
+) -> dict[str, Any]:
+    """Materialize a deterministic K-known validation-only classification asset."""
+
+    import pyarrow.parquet as pq
+
+    from .harness import load_near_class_map
+
+    if per_class_limit < 1:
+        raise ValueError("validation per-class limit must be positive")
+    production_root = Path(production_root)
+    classes, class_map = load_near_class_map(Path(preset_manifest))
+    import pyarrow.dataset as ds
+
+    index_root = (
+        production_root
+        / "sample_id_index/dataset=Edge-IIoTset/split=validation"
+    )
+    index_paths = sorted(index_root.glob("*.parquet"))
+    if not index_paths:
+        raise FileNotFoundError("Production validation index shards are unavailable")
+    selected_by_class: dict[str, list[dict[str, Any]]] = {
+        label: [] for label in classes
+    }
+    seen_exact: dict[str, set[str]] = {label: set() for label in classes}
+    scanner = ds.dataset(index_root, format="parquet").scanner(
+        columns=["sample_id", "fine_label", "exact_signature"],
+        filter=ds.field("fine_label").isin(list(classes)),
+    )
+    for batch in scanner.to_batches():
+        for row in batch.to_pylist():
+            label = str(row["fine_label"])
+            exact = str(row["exact_signature"])
+            if len(selected_by_class[label]) >= per_class_limit or exact in seen_exact[label]:
+                continue
+            seen_exact[label].add(exact)
+            selected_by_class[label].append(row)
+    selected = [
+        row
+        for label in classes
+        for row in selected_by_class[label]
+    ]
+    requests = [
+        ProductionSampleRequest(
+            sample_id=str(row["sample_id"]),
+            dataset="Edge-IIoTset",
+            split="validation",
+            phase=RuntimePhase.VALIDATION,
+            preset="Near",
+        )
+        for row in selected
+    ]
+    store = ProductionParquetEvidenceStore(production_root)
+    adapter = ProductionSafeAdapter(store)
+    adapter.prefetch(requests)
+    row_by_id = {str(row["sample_id"]): row for row in selected}
+    dataset_digest = content_digest(
+        [
+            [sha256_file(path) for path in index_paths],
+            store.production_version,
+            "NEAR_KNOWN_VALIDATION_V1",
+        ]
+    )
+    records: list[NearValidationRecordV1] = []
+    for request in requests:
+        adapted = adapter.adapt(request)
+        initial = _runtime_envelope(adapted.runtime_input.initial_evidence[0], "initial")
+        label = str(row_by_id[request.sample_id]["fine_label"])
+        records.append(
+            NearValidationRecordV1(
+                sample_id=request.sample_id,
+                fine_label=label,
+                class_index=class_map[label],
+                serialized_model_input=render_training_input(
+                    traffic_expert_prompt_v2(),
+                    (initial,),
+                    serialization_version=COMPACT_SERIALIZATION_CANDIDATE,
+                ),
+                prompt_version=TRAFFIC_EXPERT_PROMPT_VERSION,
+                serialization_version=COMPACT_SERIALIZATION_CANDIDATE,
+                dataset_digest=dataset_digest,
+            )
+        )
+    output_root = Path(output_root)
+    output_path = output_root / "near_known_validation_v1.jsonl"
+    _write_jsonl(output_path, (item.model_dump(mode="json") for item in records))
+    class_counts = Counter(item.fine_label for item in records)
+    exact_diversity = Counter(
+        str(row_by_id[item.sample_id]["exact_signature"]) for item in records
+    )
+    manifest = {
+        "status": "PASS",
+        "version": "NEAR_KNOWN_VALIDATION_V1",
+        "scope": "Near K_known validation only; no test, U_dev, or U_final",
+        "record_count": len(records),
+        "class_distribution": dict(sorted(class_counts.items())),
+        "class_count": len(class_counts),
+        "exact_diversity": len(exact_diversity),
+        "dataset_digest": dataset_digest,
+        "u_dev_count": 0,
+        "u_final_count": 0,
+        "test_count": 0,
+        "artifacts": {
+            "validation_corpus": {
+                "path": str(output_path),
+                "sha256": sha256_file(output_path),
+            }
+        },
+    }
+    manifest["artifact_digest"] = content_digest(manifest["artifacts"])
+    _atomic_json(output_root / "manifest.json", manifest)
+    return manifest
+
+
 def finalize_sft_corpus(
     snapshot_manifest: Path,
     annotation_root: Path,
@@ -475,11 +622,13 @@ def finalize_sft_corpus(
     preset_manifest: Path,
     *,
     tokenize: Any,
+    max_sequence_length: int = 3072,
 ) -> dict[str, Any]:
     """Join validated Teacher records only; never invent or replace missing annotations."""
 
     from .harness import load_near_class_map
     from .serialization import token_length_report
+    from .teacher import validate_teacher_annotation
 
     snapshot_manifest = Path(snapshot_manifest)
     snapshot_meta = json.loads(snapshot_manifest.read_text(encoding="utf-8"))
@@ -489,6 +638,7 @@ def finalize_sft_corpus(
         for line in snapshot_path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
+    snapshot_by_state = {item.evidence_state_id: item for item in snapshots}
     annotation_root = Path(annotation_root)
     annotations: dict[str, dict[str, Any]] = {}
     for path in sorted((annotation_root / "records").glob("state_*.json")):
@@ -499,6 +649,8 @@ def finalize_sft_corpus(
         if state_id in annotations:
             raise ValueError("duplicate Teacher annotation state identity")
         annotations[state_id] = value
+    if len(annotations) != len(snapshots):
+        raise ValueError("formal SFT requires one validated Teacher annotation for every frozen state")
     primary_sessions = {
         item.sample_id for item in snapshots if item.classification_supervision_valid
     }
@@ -514,16 +666,31 @@ def finalize_sft_corpus(
     state_counts = Counter(
         item.sample_id for item in snapshots if item.evidence_state_id in annotations
     )
+    supervised_state_counts = Counter(
+        item.sample_id
+        for item in snapshots
+        if item.evidence_state_id in annotations and item.classification_supervision_valid
+    )
+    if supervised_state_counts and max(supervised_state_counts.values()) > 1:
+        raise ValueError("a session cannot contribute multiple classification-supervised states")
     records: list[SFTRecordV1] = []
     for snapshot in snapshots:
         annotation_record = annotations.get(snapshot.evidence_state_id)
         if annotation_record is None:
             continue
-        normalized = dict(annotation_record["normalized_target"])
+        if (
+            annotation_record.get("teacher_prompt_version") != TEACHER_PROMPT_VERSION
+            or annotation_record.get("teacher_prompt_digest") != teacher_prompt_v3().digest
+        ):
+            raise ValueError("Teacher annotation does not match the frozen prompt")
+        validated_annotation = validate_teacher_annotation(
+            annotation_record["normalized_target"], snapshot
+        )
+        normalized = validated_annotation.model_dump(mode="json")
         normalized.pop("teacher_confidence", None)
         target = EvidenceStateV1.model_validate(normalized)
         serialized = render_training_input(
-            traffic_expert_prompt_v1(),
+            traffic_expert_prompt_v2(),
             snapshot.evidence,
             serialization_version=COMPACT_SERIALIZATION_CANDIDATE,
         )
@@ -536,7 +703,8 @@ def finalize_sft_corpus(
                 evidence_state_id=snapshot.evidence_state_id,
                 fine_label=snapshot.fine_label,
                 class_index=class_map[snapshot.fine_label],
-                classification_supervision_valid=snapshot.classification_supervision_valid,
+                classification_ce_eligible=snapshot.classification_supervision_valid,
+                state_role=("primary" if snapshot.classification_supervision_valid else "auxiliary"),
                 serialized_model_input=serialized,
                 evidence_state_target=target,
                 stage_type=snapshot.stage_type,
@@ -554,18 +722,101 @@ def finalize_sft_corpus(
     if {item.fine_label for item in records} != set(classes):
         raise ValueError("formal SFT corpus lost a frozen Near class")
     output_root = Path(output_root)
-    corpus_path = output_root / "near_sft_corpus_v1.jsonl"
+    corpus_path = output_root / "near_sft_corpus_v2.jsonl"
     _write_jsonl(corpus_path, (item.model_dump(mode="json") for item in records))
+    target_texts = [
+        canonical_json(item.evidence_state_target.model_dump(mode="json")) for item in records
+    ]
     lengths = token_length_report(
         (item.serialized_model_input for item in records), tokenize=tokenize
+    )
+    target_lengths = token_length_report(target_texts, tokenize=tokenize)
+    combined_lengths = token_length_report(
+        (
+            item.serialized_model_input + chr(10) + target
+            for item, target in zip(records, target_texts, strict=True)
+        ),
+        tokenize=tokenize,
+    )
+    combined_raw_lengths = [
+        len(tokenize(item.serialized_model_input)) + len(tokenize(target))
+        for item, target in zip(records, target_texts, strict=True)
+    ]
+    sequence_overflow_count = sum(
+        length > max_sequence_length for length in combined_raw_lengths
     )
     class_distribution = Counter(item.fine_label for item in records)
     stage_distribution = Counter(item.stage_type.value for item in records)
     duplicate_inputs = Counter(content_digest(item.serialized_model_input) for item in records)
+    labels_by_input: dict[str, set[str]] = defaultdict(set)
+    for item in records:
+        labels_by_input[content_digest(item.serialized_model_input)].add(item.fine_label)
+    label_collision_count = sum(len(labels) > 1 for labels in labels_by_input.values())
+    weight_totals = Counter()
+    for item in records:
+        weight_totals[item.sample_id] += item.session_weight
+    invalid_weight_session_count = sum(
+        abs(total - 1.0) > 1e-9 for total in weight_totals.values()
+    )
+    model_input_backend_identity_count = sum(
+        item.sample_id in item.serialized_model_input for item in records
+    )
+    evidence_presence = Counter(
+        evidence_type
+        for item in records
+        for evidence_type in {
+            evidence.evidence_type
+            for evidence in snapshot_by_state[item.evidence_state_id].evidence
+        }
+    )
+    classification_supervised_class_distribution = Counter(
+        item.fine_label for item in records if item.classification_ce_eligible
+    )
+    state_role_distribution = Counter(item.state_role for item in records)
+    sufficiency_distribution = Counter(
+        "sufficient" if item.evidence_state_target.evidence_sufficient else "insufficient"
+        for item in records
+    )
+    gap_type_distribution = Counter(item.evidence_state_target.gap_type.value for item in records)
+    missing_evidence_distribution = Counter(
+        missing.type.value
+        for item in records
+        for missing in item.evidence_state_target.missing_evidence
+    )
+    sufficiency_by_role: dict[str, Counter[str]] = defaultdict(Counter)
+    sufficiency_by_stage: dict[str, Counter[str]] = defaultdict(Counter)
+    sufficiency_by_class: dict[str, Counter[str]] = defaultdict(Counter)
+    sufficiency_by_evidence_type: dict[str, Counter[str]] = defaultdict(Counter)
+    for item in records:
+        outcome = "sufficient" if item.evidence_state_target.evidence_sufficient else "insufficient"
+        sufficiency_by_role[item.state_role][outcome] += 1
+        sufficiency_by_stage[item.stage_type.value][outcome] += 1
+        sufficiency_by_class[item.fine_label][outcome] += 1
+        evidence_key = "+".join(
+            sorted(e.evidence_type for e in snapshot_by_state[item.evidence_state_id].evidence)
+        )
+        sufficiency_by_evidence_type[evidence_key][outcome] += 1
+    prohibited_input_key_count = sum(
+        any(
+            token in item.serialized_model_input.casefold()
+            for token in (
+                '"fine_label"', '"coarse_label"', '"sample_id"', '"split"',
+                '"ku_role"', '"dataset_name"', '"capture_id"', '"source_path"'
+            )
+        )
+        for item in records
+    )
+    target_class_verdict_count = sum(
+        any(
+            token in canonical_json(item.evidence_state_target.model_dump(mode="json")).casefold()
+            for token in ("label is", "classified as", "classification as", '"fine_label"', '"coarse_label"')
+        )
+        for item in records
+    )
     review_strata: dict[tuple[str, str, bool], list[SFTRecordV1]] = defaultdict(list)
     for item in records:
         review_strata[
-            (item.fine_label, item.stage_type.value, item.classification_supervision_valid)
+            (item.fine_label, item.stage_type.value, item.classification_ce_eligible)
         ].append(item)
     for values in review_strata.values():
         values.sort(
@@ -589,24 +840,81 @@ def finalize_sft_corpus(
             break
     review_path = output_root / "manual_audit_stratified_200.jsonl"
     _write_jsonl(review_path, (item.model_dump(mode="json") for item in review))
+    status = "PASS" if all(
+        value == 0
+        for value in (
+            sequence_overflow_count,
+            label_collision_count,
+            invalid_weight_session_count,
+            model_input_backend_identity_count,
+            prohibited_input_key_count,
+            target_class_verdict_count,
+            len(records) - len(snapshots),
+            len(primary_sessions) - 16979,
+            sum(classification_supervised_class_distribution.values()) - 16979,
+        )
+    ) and set(classification_supervised_class_distribution) == set(classes) else "FAIL"
     manifest = {
-        "status": "PASS",
-        "version": "NEAR_SFT_CORPUS_V1",
+        "status": status,
+        "version": "NEAR_SFT_CORPUS_V2",
+        "supervision_contract": "CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1",
+        "teacher_prompt_version": TEACHER_PROMPT_VERSION,
+        "teacher_prompt_digest": teacher_prompt_v3().digest,
         "record_count": len(records),
         "unique_sessions": len({item.sample_id for item in records}),
         "states_per_session": dict(sorted(Counter(state_counts.values()).items())),
         "class_distribution": dict(sorted(class_distribution.items())),
         "stage_distribution": dict(sorted(stage_distribution.items())),
-        "classification_supervised_count": sum(item.classification_supervision_valid for item in records),
-        "classification_masked_count": sum(not item.classification_supervision_valid for item in records),
-        "application_count": stage_distribution[StageType.APPLICATION.value],
-        "payload_count": stage_distribution[StageType.PAYLOAD.value],
-        "rag_count": stage_distribution[StageType.KNOWLEDGE.value],
-        "rag_fraction": stage_distribution[StageType.KNOWLEDGE.value] / len(records),
+        "classification_supervised_count": sum(item.classification_ce_eligible for item in records),
+        "classification_masked_count": sum(not item.classification_ce_eligible for item in records),
+        "classification_supervised_unique_sessions": len({
+            item.sample_id for item in records if item.classification_ce_eligible
+        }),
+        "classification_supervised_class_distribution": dict(
+            sorted(classification_supervised_class_distribution.items())
+        ),
+        "classification_supervised_class_coverage": len(classification_supervised_class_distribution),
+        "state_role_distribution": dict(sorted(state_role_distribution.items())),
+        "evidence_sufficiency_distribution": dict(sorted(sufficiency_distribution.items())),
+        "gap_type_distribution": dict(sorted(gap_type_distribution.items())),
+        "missing_evidence_distribution": dict(sorted(missing_evidence_distribution.items())),
+        "sufficiency_by_primary_auxiliary": {
+            key: dict(sorted(value.items())) for key, value in sorted(sufficiency_by_role.items())
+        },
+        "sufficiency_by_stage": {
+            key: dict(sorted(value.items())) for key, value in sorted(sufficiency_by_stage.items())
+        },
+        "sufficiency_by_class": {
+            key: dict(sorted(value.items())) for key, value in sorted(sufficiency_by_class.items())
+        },
+        "sufficiency_by_evidence_type": {
+            key: dict(sorted(value.items())) for key, value in sorted(sufficiency_by_evidence_type.items())
+        },
+        "application_count": evidence_presence["application"],
+        "payload_count": evidence_presence["sanitized_payload"],
+        "rag_count": evidence_presence["knowledge"],
+        "rag_fraction": evidence_presence["knowledge"] / len(records),
         "teacher_pass_count": len(annotations),
         "teacher_quarantine_count": len(list((annotation_root / "quarantine").glob("*.json"))),
-        "token_lengths": lengths,
+        "token_lengths": {
+            "model_input": lengths,
+            "evidence_state_target": target_lengths,
+            "combined_sequence": combined_lengths,
+            "max_sequence_length": max_sequence_length,
+            "overflow_count": sequence_overflow_count,
+        },
         "exact_serialized_input_duplicate_groups": sum(value > 1 for value in duplicate_inputs.values()),
+        "duplicate_rate": sum(value - 1 for value in duplicate_inputs.values() if value > 1) / len(records),
+        "label_collision_count": label_collision_count,
+        "missing_field_count": 0,
+        "missing_field_rate": 0.0,
+        "model_input_backend_identity_count": model_input_backend_identity_count,
+        "prohibited_model_input_key_count": prohibited_input_key_count,
+        "target_class_verdict_count": target_class_verdict_count,
+        "invalid_session_weight_count": invalid_weight_session_count,
+        "classification_supervised_states_per_session_max": max(
+            supervised_state_counts.values(), default=0
+        ),
         "manual_audit_queue_count": len(review),
         "artifacts": {
             "corpus": {"path": str(corpus_path), "sha256": sha256_file(corpus_path)},

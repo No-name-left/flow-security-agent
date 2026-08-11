@@ -8,7 +8,11 @@ from pathlib import Path
 
 from flowsec.training.audit import audit_u_final_isolation
 from flowsec.training.contracts import EvidenceSnapshot
-from flowsec.training.corpus import build_snapshot_universe, finalize_sft_corpus
+from flowsec.training.corpus import (
+    build_known_validation_corpus,
+    build_snapshot_universe,
+    finalize_sft_corpus,
+)
 from flowsec.training.materialization import materialize_application_payload
 from flowsec.training.rag import (
     DEFAULT_EMBEDDING_MODEL,
@@ -55,6 +59,7 @@ def main() -> int:
             "provider-status",
             "teacher-pilot",
             "teacher-bulk",
+            "validation-corpus",
             "finalize-sft",
             "isolation-audit",
         ),
@@ -77,6 +82,7 @@ def main() -> int:
         default=Path("configs/rag/near_kb_sources_v1.json"),
     )
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--teacher-concurrency", type=int, default=4)
     args = parser.parse_args()
 
     if args.phase == "application-payload":
@@ -117,16 +123,38 @@ def main() -> int:
         client = make_live_teacher_client()
         if args.phase == "teacher-pilot":
             snapshots = select_teacher_pilot(snapshots, target=250)
-            destination = args.output_root / "teacher_annotations/pilot"
+            destination = args.output_root / "teacher_annotations/v3/pilot"
         else:
-            pilot_manifest = args.output_root / "teacher_annotations/pilot/manifest.json"
+            pilot_manifest = args.output_root / "teacher_annotations/v3/pilot/manifest.json"
             if not pilot_manifest.is_file():
                 raise RuntimeError("Teacher bulk requires a completed pilot manifest")
             pilot = json.loads(pilot_manifest.read_text(encoding="utf-8"))
             if pilot.get("status") != "PASS":
                 raise RuntimeError("Teacher bulk requires a zero-quarantine pilot PASS")
-            destination = args.output_root / "teacher_annotations/bulk"
-        result = annotate_snapshots(snapshots, destination, client=client, concurrency=4)
+            quality_path = args.output_root / "manifests/teacher_v3_pilot_quality_audit.json"
+            if not quality_path.is_file():
+                raise RuntimeError("Teacher bulk requires the V3 pilot quality audit")
+            quality = json.loads(quality_path.read_text(encoding="utf-8"))
+            if quality.get("status") != "PASS":
+                raise RuntimeError("Teacher bulk requires calibrated V3 pilot quality PASS")
+            destination = args.output_root / "teacher_annotations/v3/bulk"
+        result = annotate_snapshots(
+            snapshots,
+            destination,
+            client=client,
+            concurrency=args.teacher_concurrency,
+            seed_cache_roots=(
+                (args.output_root / "teacher_annotations/v3/pilot/cache",)
+                if args.phase == "teacher-bulk"
+                else ()
+            ),
+        )
+    elif args.phase == "validation-corpus":
+        result = build_known_validation_corpus(
+            args.production_root,
+            args.output_root / "validation",
+            args.production_root / "manifests/edge_known_unknown_presets.json",
+        )
     elif args.phase == "finalize-sft":
         qwen_path = os.environ.get("QWEN_MODEL_PATH")
         if not qwen_path:
@@ -136,7 +164,7 @@ def main() -> int:
         tokenizer = AutoTokenizer.from_pretrained(qwen_path, local_files_only=True)
         result = finalize_sft_corpus(
             args.output_root / "manifests/snapshot_corpus_rl_manifest.json",
-            args.output_root / "teacher_annotations/bulk",
+            args.output_root / "teacher_annotations/v3/bulk",
             args.output_root / "sft_corpus/final",
             args.production_root / "manifests/edge_known_unknown_presets.json",
             tokenize=lambda text: tokenizer(text, add_special_tokens=True)["input_ids"],

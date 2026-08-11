@@ -1,8 +1,8 @@
 # Agent / Runtime 暂定架构与实施约束
 
-> Status: **PROVISIONAL IMPLEMENTATION DESIGN with DEC-0019 HARD CONSTRAINTS**
+> Status: **PROVISIONAL IMPLEMENTATION DESIGN with DEC-0019/DEC-0020 HARD CONSTRAINTS**
 >
-> Updated: 2026-08-11
+> Updated: 2026-08-12
 >
 > Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is the highest research authority; the [Near training protocol](../training/near_mainline_training_protocol_v1.md) is authoritative for training/Open-world execution. This document is authoritative for Agent/Runtime/Supervisor/RAG/Memory design within those constraints. [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implemented state and cannot override them.
 
@@ -44,7 +44,7 @@ No traditional classifier routes samples to Qwen. No Supervisor, Judge, RAG or R
 
 **[HARD CONSTRAINT]** The trained Traffic Expert uses frozen Qwen base + trainable LoRA + one trainable Linear Fine Classification Head + retained original LM Head. The Fine Head consumes `h_session` and is the sole formal known fine-class decision source. Coarse class is produced by the frozen fine→coarse mapping; there is no competing Coarse Head.
 
-Pooling is **[VALIDATION TUNABLE]**, with a dedicated classification marker as preferred default. The training-side harness must expose hidden states and assert real Qwen3.5 Gated DeltaNet/Gated Attention/FFN LoRA targets. The vLLM OpenAI-compatible raw service remains useful for raw inference but cannot implement the Fine Head.
+Pooling is frozen as `ATTENTION_MASKED_MEAN_V1`. The implemented training-side harness exposes hidden states and asserts real Qwen3.5 Gated DeltaNet/Gated Attention/FFN LoRA targets. The vLLM OpenAI-compatible raw service remains useful for raw inference but cannot implement the Fine Head.
 
 ### 3.2 LM Evidence State
 
@@ -63,7 +63,7 @@ It does not generate an independent competing fine label. Long Chain-of-Thought 
 
 The Traffic Expert must learn bounded legal stages from Initial Evidence through packet, Temporal, Graph, Application, Sanitized Payload and Knowledge evidence. Only real AVAILABLE evidence may be present. Stage multiplicity is bounded so a single session cannot dominate SFT.
 
-Training #1 is classification-first Multi-task SFT. Training #2 is RLAIF-GRPO for rollout-varying Evidence behavior plus a separate classification CE term that preserves Fine Head/LoRA classification. Fine correctness is constant within an LM rollout group and is not the primary group-relative reward.
+Training #1 is classification-first Multi-task SFT. Under `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`, one legal real primary per TRAIN K-known session is classification-CE eligible independently of `evidence_sufficient`; controlled lower-evidence auxiliaries mask CE and retain Evidence LM supervision. GT is backend-only. This separates the Fine Head known-class posterior task from the LM Evidence-State stopping/acquisition task. Training #2 is RLAIF-GRPO for rollout-varying Evidence behavior plus a separate classification CE term that preserves Fine Head/LoRA classification. Judge sufficiency cannot gate CE; Fine correctness is constant within an LM rollout group and is not the primary group-relative reward.
 
 ## 4. Independent Unknown boundary
 
@@ -244,10 +244,45 @@ When Temporal, Graph or Memory is active, process formal sessions in capture/sce
 
 ## 17. Current implementation state and deferred items
 
-Current implementation: Runtime foundation, Production Safe Adapter v1, Initial/packet/Temporal/limited Relation evidence, provider-neutral adapters, raw local Qwen service/smoke and Evidence Fidelity Gate.
+Current implementation: Runtime foundation, Production Safe Adapter v1, Initial/packet/Temporal/limited Relation evidence, provider-neutral adapters, raw local Qwen service/smoke, Evidence Fidelity Gate, training-side Fine Head/harness, frozen Prompt/schema/serialization, role-isolated DeepSeek request/provider paths, TRAIN-only Application/Payload sidecars and generic hybrid RAG, complete Teacher V3 pilot/bulk, frozen final SFT corpus, pair/manual/token audits, and real Qwen dry-run/resume smoke. Final pre-training acceptance and launcher preflight pass; these assets are not formal online Agent tools, a training run or paper results.
 
-Not implemented: training-side Fine Head/harness, formal Prompt/schema/serialization, DeepSeek Teacher/Judge/Supervisor runs, Application, Sanitized Payload, Production RAG, Independent Unknown, formal Agent benchmark and Memory experiments.
+Not implemented/run: formal SFT/RLAIF, Independent Unknown, formal online Application/Payload/RAG Runtime actions, formal Supervisor/Agent benchmark and Memory experiments.
 
 **[DEFERRED until Near completion]** Pure Generative SFT, DPO, Far/Mixed/IoT-23 execution, tokenizer training, QLoRA main experiment, thinking-on, Low-Resource stress, LearnablePolicy RL, continual LoRA and Agent Growth.
 
 **[VALIDATION TUNABLE]** pooling, LoRA target/rank/alpha/dropout, SFT/RL hyperparameters, Unknown threshold, RAG top-k, Supervisor max rounds/budget and Memory retrieval settings. They cannot be silently upgraded to frozen values without the protocol's small reproducible validation process.
+
+
+## Final DeepSeek task-state boundary
+
+The formal architecture is persistent at the episode level but least-privilege
+at every API call. Runtime owns the complete episode and sends only a typed,
+role-specific allowlist projection. Full task state means the current allowed
+Evidence, Qwen result, Unknown status, capabilities, action history, budget and
+validated memory needed by a role; it does not mean repository or machine
+access.
+
+Three code paths are isolated:
+
+- Teacher: current legal TRAIN Evidence, immutable verified TRAIN class,
+  capability names and rubric. No K/U role, split, sample/capture identity,
+  backend path, raw PCAP, test/U_final, or future Evidence content.
+- Judge: current Evidence, current Qwen Evidence-State rollout, deterministic
+  check summary and semantic rubric. The training driver selects prompts,
+  combines rewards, performs GRPO/classification CE updates and decides stop.
+- Supervisor: Qwen fine/top-k and Evidence State, Unknown state, acquired
+  Evidence, available capabilities, prior actions, remaining budget and
+  validated memory. No GT, raw backend identity, future evidence, shell, Git or
+  direct Evidence Store access.
+
+The Supervisor may autonomously choose only one frozen action inside the action
+space. Runtime validates and executes it, then repackages Evidence for Qwen. For
+RAG, Supervisor states a knowledge need and Runtime builds the safe query; the
+retriever chooses chunks. For Payload, Supervisor requests the capability and
+Runtime reads the frozen sanitized sidecar. Payload/RAG text remains untrusted
+data and cannot override prompts.
+
+Formal inference and RLAIF therefore use the same provider differently:
+Supervisor is episode-persistent within the frozen action space, while Judge is
+strictly invoked by the training driver as a semantic evaluator. Neither role
+is a second Traffic Expert or an autonomous machine/repository agent.
