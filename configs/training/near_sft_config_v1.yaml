@@ -1,0 +1,91 @@
+version: NEAR_SFT_CONFIG_V1
+status: READY_AFTER_TEACHER_CORPUS_GATE
+formal_run_authorized: false
+
+model:
+  model_id: Qwen/Qwen3.5-9B
+  revision: c202236235762e1c871ad0ccb60c8ee5ba337b9a
+  local_path_env: QWEN_MODEL_PATH
+  dtype: bfloat16
+  vision: unused_frozen
+  base_language_weights: frozen
+  embedding: frozen
+  original_lm_head: frozen
+
+data:
+  artifact_root_env: ARTIFACT_ROOT
+  production_asset_version: edge_split_revision_v2
+  pretraining_asset_version: near_pretraining_v1
+  preset: Near
+  candidate_policy: CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1
+  candidate_plan: PLAN_B
+  physical_split: train
+  ku_role: K_known
+  expected_unique_sessions: 16979
+  preset_manifest: manifests/edge_known_unknown_presets.json
+  u_final_allowed: false
+
+architecture:
+  harness: TrafficExpertTrainingHarness
+  fine_head: Linear(hidden_size, dynamic_near_k_known_count)
+  coarse_head: none_deterministic_fine_to_coarse_mapping
+  pooling: ATTENTION_MASKED_MEAN_V1
+  serialization: COMPACT_SAFE_EVIDENCE_V1
+  evidence_state_schema: EVIDENCE_STATE_SCHEMA_V1
+  classification_loss_weight: 1.0
+  evidence_lm_loss_weight: 0.35
+
+lora:
+  implementation: PEFT
+  quantization: none
+  rank: 8
+  alpha: 16
+  dropout: 0.05
+  bias: none
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - in_proj_qkv
+    - in_proj_z
+    - in_proj_a
+    - in_proj_b
+    - out_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+optimizer:
+  name: AdamW
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  warmup_ratio: 0.03
+  max_grad_norm: 1.0
+
+schedule:
+  epochs: 2
+  micro_batch_size: 1
+  gradient_accumulation_steps: 16
+  max_sequence_length: 3072
+  gradient_checkpointing: true
+  use_cache: false
+  seed: 20260809
+  save_strategy: epoch
+  save_total_limit: 2
+
+quality_gates:
+  require_teacher_annotation_pass: true
+  classification_ce_requires_explicit_valid_mask: true
+  session_weighting: inverse_states_per_session
+  max_states_per_session: 2
+  rag_exposure_target_fraction: [0.05, 0.10]
+  payload_default_visible: false
+  trainable_parameter_policy: lora_plus_fine_head_only
+  require_u_final_count: 0
+
+validation_tunable:
+  - optimizer.learning_rate
+  - schedule.epochs
+  - schedule.gradient_accumulation_steps
+  - architecture.evidence_lm_loss_weight

@@ -1,0 +1,36 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "frame_count": {
+      "minimum": 1,
+      "title": "Frame Count",
+      "type": "integer"
+    },
+    "observations": {
+      "default": [],
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "protocol": {
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Protocol",
+      "type": "string"
+    },
+    "truncated": {
+      "default": false,
+      "title": "Truncated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "protocol",
+    "frame_count"
+  ],
+  "title": "ApplicationEvidenceV1",
+  "type": "object"
+}

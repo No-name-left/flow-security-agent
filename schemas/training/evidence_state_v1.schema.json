@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "EvidenceGapType": {
+      "enum": [
+        "none",
+        "packet",
+        "temporal",
+        "relation",
+        "application",
+        "payload",
+        "knowledge",
+        "ambiguous"
+      ],
+      "title": "EvidenceGapType",
+      "type": "string"
+    },
+    "MissingEvidenceV1": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EvidenceGapType"
+        }
+      },
+      "required": [
+        "type",
+        "description"
+      ],
+      "title": "MissingEvidenceV1",
+      "type": "object"
+    },
+    "SupportingEvidenceV1": {
+      "additionalProperties": false,
+      "properties": {
+        "claim": {
+          "maxLength": 320,
+          "minLength": 1,
+          "title": "Claim",
+          "type": "string"
+        },
+        "evidence_id": {
+          "pattern": "^ev_[a-z0-9_]{8,80}$",
+          "title": "Evidence Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "claim"
+      ],
+      "title": "SupportingEvidenceV1",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Frozen LM-branch target. It deliberately contains no fine-class field.",
+  "properties": {
+    "behavior_summary": {
+      "maxLength": 360,
+      "minLength": 1,
+      "title": "Behavior Summary",
+      "type": "string"
+    },
+    "evidence_sufficient": {
+      "title": "Evidence Sufficient",
+      "type": "boolean"
+    },
+    "gap_type": {
+      "$ref": "#/$defs/EvidenceGapType"
+    },
+    "missing_evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/MissingEvidenceV1"
+      },
+      "title": "Missing Evidence",
+      "type": "array"
+    },
+    "supporting_evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SupportingEvidenceV1"
+      },
+      "title": "Supporting Evidence",
+      "type": "array"
+    }
+  },
+  "required": [
+    "behavior_summary",
+    "evidence_sufficient",
+    "gap_type"
+  ],
+  "title": "EvidenceStateV1",
+  "type": "object"
+}

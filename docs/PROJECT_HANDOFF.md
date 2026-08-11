@@ -1,10 +1,10 @@
 # Flow Security Agent 项目交接指南
 
-> 最近核验：2026-08-11。
+> 最近核验：2026-08-12。
 >
-> 当前文档同步分支：`docs/sync-near-mainline-protocol`，基于`main`已审计提交`e28c3f4806aa56dcdeb9e561cf6201e71f98a2a5`（其父提交`ec191725...`为Qwen部署审计）。本分支不push。
+> 当前实现分支：`feat/near-pretraining-readiness-v1`，基于已进入`main`的文档同步提交`ff4eca8fc6e00196666a9a3768679e3ddfefea60`。本分支只提交代码、配置、schema、测试、小型报告和状态文档，不push。
 >
-> 当前状态：Production、Edge v2 split、PLAN_B、Runtime Safe Adapter、Evidence Fidelity和官方raw Qwen部署smoke已完成；Near Training Protocol v1已在架构/权限层冻结；SFT、RL、Unknown、正式baseline与Agent实验均未运行。
+> 当前状态：Production、Edge v2 split、PLAN_B、Runtime Safe Adapter、Evidence Fidelity和官方raw Qwen部署smoke保持完成；Near Phase B的非API准备（training harness、Fine Head、pooling/LoRA/serialization、Prompt/schema、Application/Payload sidecar、formal RAG、snapshot universe、RL prompt pool与真实9B两步dry-run）已完成。`DEEPSEEK_API_KEY`缺失是Teacher annotation与最终SFT corpus的唯一blocker；SFT、RL、Unknown、正式baseline与Agent实验均未运行。
 
 ## 1. 权威链与必读顺序
 
@@ -80,11 +80,11 @@ Unknown不是K+1类。它在primary Qwen冻结后，只用Known validation与U_d
 | Packet expansion | AVAILABLE_PER_SESSION | 已物化packet 9–16，不在Runtime临时读PCAP |
 | Temporal | AVAILABLE | strict past-only |
 | Graph/Relation | AVAILABLE_WITH_LIMITATION | 匿名角色与真实repeated relation |
-| Application | UNAVAILABLE | 最终Near需实现真实结构化应用字段 |
-| Sanitized Payload | UNAVAILABLE | 最终Near需实现有界按需sanitizer |
-| Production RAG | UNAVAILABLE | 最终Near需实现冻结KB/retriever/tool |
+| Application | TRAINING_SIDECAR_READY | `APPLICATION_EVIDENCE_V1`已从合法K-known TRAIN PCAP materialize；formal Runtime tool wiring待后续Agent阶段 |
+| Sanitized Payload | TRAINING_SIDECAR_READY | `SANITIZED_PAYLOAD_V1`有界、脱敏、按需；formal Runtime tool wiring待后续Agent阶段 |
+| Knowledge RAG | PRETRAINING_INDEX_READY | 30-source generic KB与BM25+dense index已冻结；formal Runtime/Supervisor integration待后续Agent阶段 |
 
-后三项UNAVAILABLE是当前工程事实，不是永久禁用。任何能力缺失必须fail-closed并显式报告，不能临时从PCAP/Payload补造。
+后三项已从contract-only推进为Git-external预训练资产，但不能误写成正式Agent Runtime已集成。能力缺失仍须fail-closed并显式报告，不能在在线路径临时从PCAP/Payload补造。
 
 ## 6. Qwen部署事实
 
@@ -94,13 +94,13 @@ Unknown不是K+1类。它在primary Qwen冻结后，只用Known validation与U_d
 - independent env：`/root/autodl-tmp/conda/qwen35-runtime`；
 - vLLM 0.25.1；Torch 2.11.0+cu130；BF16；text-only；8192 context；non-thinking/direct-response；
 - audit final health/model service PASS；六类Production、packet 9–16、past-only Temporal和repeated deterministic smoke PASS；GT不进入request；
-- deployment audit full pytest：261 passed；当前仓库在后续CI portability修复后完整server回归：264 passed。
+- deployment audit full pytest：261 passed；CI portability修复后264 passed；Phase B完整server回归：274 passed。
 
 Raw六类smoke没有稳定fine candidate，不是benchmark。vLLM API不暴露hidden states；Fine Head需要Transformers/PEFT training-side harness。
 
 ## 7. Training Protocol v1
 
-`TRAINING_PROTOCOL_FROZEN=true`表示架构、权限、阶段和隔离已冻结，不表示训练已运行或数值已选。
+`TRAINING_PROTOCOL_FROZEN=true`表示架构、权限、阶段和隔离已冻结。Phase B现已冻结`ATTENTION_MASKED_MEAN_V1`、`COMPACT_SAFE_EVIDENCE_V1`、Prompt/schema v1、真实Qwen module inventory与`NEAR_SFT_CONFIG_V1`；这仍不表示正式训练已运行。
 
 Training #1：classification-first Multi-task SFT。
 
@@ -134,9 +134,9 @@ Official Base @ c202236...
 
 三者必须独立Prompt、Schema、permissions、cache和logs。Codex负责provider abstraction、调用、retry/rate-limit/batch/cache、验证、实验和审计，不是正式Teacher/Judge。
 
-RAG不是always-on。Observation gap只能由真实packet/Temporal/Graph/Application/Payload回答；knowledge gap才请求Knowledge RAG。第一版KB只含generic protocol/RFC、attack、CVE/security与threat knowledge，不得含dataset/capture/U_final shortcut。
+RAG不是always-on。Observation gap只能由真实packet/Temporal/Graph/Application/Payload回答；knowledge gap才请求Knowledge RAG。第一版已物化30个generic权威源、2,263 chunks与pinned MiniLM BM25+dense hybrid index；SFT snapshot中Knowledge exposure为5.075%，未含dataset/capture/U_final shortcut。
 
-Payload默认不给，只能on-demand、bounded、protocol-aware、sanitized、untrusted，并在TRAIN/legal validation上完成`PAYLOAD_SHORTCUT_RISK` audit。
+Payload默认不给，只能on-demand、bounded、protocol-aware、sanitized、untrusted。当前合法Near TRAIN sidecar覆盖11,481/16,979 session（67.619%），Application覆盖7,410/16,979（43.642%）；`PAYLOAD_SHORTCUT_AUDIT=PASS`、risk=LOW。完整sidecar保持Git-external，formal Runtime wiring尚未执行。
 
 Experience Memory只存externally verified TRAIN `State→Action→Outcome`，validation/test/U_final只读。Class Memory单独保存人工/oracle 1/5/10-shot新类support与prototype；第一版不continual LoRA。
 
@@ -156,9 +156,9 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 10. 已实现与未实现
 
-已实现：Production与split；PLAN_B；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；通用cache/resume/trace和RAG ingestion foundation。
+已实现：Production与split；PLAN_B；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；Transformers/PEFT training harness、dynamic Linear Fine Head、真实LoRA inventory、pooling/serialization/Prompt/schema v1；Application/Payload Git-external sidecar；generic RAG KB/index；22,957个合法snapshot、6,000条RL prompt pool；真实9B两步可逆dry-run与U_final隔离audit。
 
-未实现：training-side Fine Head/harness；正式Prompt/schema/serialization；Application/Payload/Production RAG；DeepSeek Teacher/Judge/Supervisor formal calls；正式传统/Raw baseline；SFT；GRPO；Independent Unknown；Agent benchmark；Experience/Class Memory实验；论文结果。
+未实现/未运行：DeepSeek provider smoke、Teacher pilot/bulk与最终Teacher-grounded SFT corpus（唯一原因是无`DEEPSEEK_API_KEY`）；formal Runtime Application/Payload/RAG tool wiring；正式传统/Raw baseline；SFT；GRPO；Independent Unknown；Agent benchmark；Experience/Class Memory实验；论文结果。
 
 状态：
 
@@ -170,27 +170,25 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 11. 下一实施阶段与停止规则
 
-**NEXT IMPLEMENTATION PHASE：Phase B — Training Protocol Readiness。**
+**CURRENT STOP POINT：Phase B provider-blocked finalization。**
 
-只应实现：
+只允许在用户提供runtime `DEEPSEEK_API_KEY`后继续以下固定顺序：
 
-1. Transformers/PEFT training-side harness与Linear Fine Head；
-2. classification pooling小规模validation-safe选择；
-3. Qwen3.5 real module inventory LoRA assertion；
-4. current vs compact safe serialization并冻结`SERIALIZATION_V1`；
-5. Traffic Expert Prompt/response schema v1；
-6. Application/Payload contracts；
-7. RAG Evidence Contract。
+1. `provider-status`完成model-list与structured-response smoke；
+2. 分层250条Teacher pilot，自动grounding/schema检查并要求零quarantine；
+3. bulk Teacher annotation与cache/resume；
+4. final SFT corpus join、token gate及分层200条Teacher-target人工审计；
+5. 重跑U_final isolation与完整回归。
 
-本次文档任务不授权启动Raw benchmark、传统正式baseline、DeepSeek批量Teacher/Judge、SFT、GRPO、Unknown、U_final、Agent或few-shot实验。
+只有上述全部通过，才可报告`READY_FOR_FORMAL_NEAR_SFT=true`。即使ready，仍不得自动启动正式SFT；Training #1需要用户单独授权。本状态不授权Raw/传统正式baseline、Judge/RL、Unknown、U_final、Agent或few-shot实验。
 
 绝对禁止：修改Production、split、K/U、PLAN_B；用test/U_final调参；把Unknown作为K+1类；让Teacher决定GT；让Supervisor改fine label；让RAG发明Observation；默认每样本RAG；无限raw Payload；把model/data/cache/log/checkpoint提交Git。
 
 ## 12. Git与环境提示
 
-当前docs分支基于`e28c3f4`，包含Qwen部署提交`ec19172`和CI portability修复。不要假设历史短期分支仍是唯一最新状态。禁止reset/rebase/clean/force push；本任务不push。
+当前实现分支基于`ff4eca8`；禁止reset/rebase/clean/force push，本任务不push。Phase B小型审计入口为`reports/training_readiness/near_pretraining_readiness_v1.md`。
 
-数据环境：`/root/autodl-tmp/conda/flow-data`。Qwen inference环境：`/root/autodl-tmp/conda/qwen35-runtime`。Production v2 root通过现有`ARTIFACT_ROOT`约定解析，GitHub CI无Git-external资产时真实数据测试应安全skip。
+数据环境：`/root/autodl-tmp/conda/flow-data`。Qwen training/runtime环境：`/root/autodl-tmp/conda/qwen35-runtime`。Production v2 root通过现有`ARTIFACT_ROOT`约定解析，Phase B Git-external root为`$ARTIFACT_ROOT/near_pretraining_v1`；GitHub CI无外部资产时真实数据测试安全skip。DeepSeek只读runtime环境中的`DEEPSEEK_API_KEY`，不得写入repo/report/log。
 
 ## 13. 新接手者自检
 

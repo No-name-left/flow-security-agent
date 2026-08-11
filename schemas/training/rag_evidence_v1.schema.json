@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "retrieval_score": {
+      "title": "Retrieval Score",
+      "type": "number"
+    },
+    "retrieved_text": {
+      "maxLength": 2400,
+      "minLength": 40,
+      "title": "Retrieved Text",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "RAG_EVIDENCE_SCHEMA_V1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^src_[a-z0-9_]{3,64}$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_title": {
+      "maxLength": 180,
+      "minLength": 3,
+      "title": "Source Title",
+      "type": "string"
+    },
+    "source_type": {
+      "maxLength": 40,
+      "minLength": 2,
+      "title": "Source Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "source_title",
+    "source_type",
+    "retrieved_text",
+    "retrieval_score"
+  ],
+  "title": "RagEvidenceV1",
+  "type": "object"
+}

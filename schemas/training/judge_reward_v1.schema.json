@@ -1,0 +1,58 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "backoff_appropriateness": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Backoff Appropriateness",
+      "type": "number"
+    },
+    "evidence_sufficiency": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Evidence Sufficiency",
+      "type": "number"
+    },
+    "gap_correctness": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Gap Correctness",
+      "type": "number"
+    },
+    "grounding": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Grounding",
+      "type": "number"
+    },
+    "hallucination_avoidance": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Hallucination Avoidance",
+      "type": "number"
+    },
+    "missing_evidence_quality": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Missing Evidence Quality",
+      "type": "number"
+    },
+    "reliability_note": {
+      "maxLength": 240,
+      "minLength": 1,
+      "title": "Reliability Note",
+      "type": "string"
+    }
+  },
+  "required": [
+    "grounding",
+    "evidence_sufficiency",
+    "missing_evidence_quality",
+    "gap_correctness",
+    "hallucination_avoidance",
+    "backoff_appropriateness",
+    "reliability_note"
+  ],
+  "title": "JudgeRewardV1",
+  "type": "object"
+}

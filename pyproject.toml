@@ -22,6 +22,15 @@ data = [
 test = [
   "pytest>=8.0.0",
 ]
+training = [
+  "accelerate>=1.10,<2",
+  "numpy>=1.26.0",
+  "peft>=0.18,<0.19",
+  "pyarrow>=19.0.0",
+  "safetensors>=0.5.0",
+  "torch>=2.6.0",
+  "transformers>=5.0.0",
+]
 
 [project.scripts]
 flowsec-production-data = "flowsec.production.cli:main"

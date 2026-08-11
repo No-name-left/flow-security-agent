@@ -1,0 +1,46 @@
+{
+  "$defs": {
+    "SupervisorActionV1": {
+      "enum": [
+        "expand_packets",
+        "expand_temporal_context",
+        "expand_graph_context",
+        "request_application_evidence",
+        "request_sanitized_payload",
+        "retrieve_knowledge",
+        "reclassify",
+        "accept_fine",
+        "backoff_coarse",
+        "reject_unknown",
+        "abstain"
+      ],
+      "title": "SupervisorActionV1",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "$ref": "#/$defs/SupervisorActionV1"
+    },
+    "short_reason": {
+      "maxLength": 240,
+      "minLength": 1,
+      "title": "Short Reason",
+      "type": "string"
+    },
+    "target": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Target",
+      "type": "string"
+    }
+  },
+  "required": [
+    "action",
+    "target",
+    "short_reason"
+  ],
+  "title": "SupervisorDecisionV1",
+  "type": "object"
+}

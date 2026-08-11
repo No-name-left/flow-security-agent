@@ -1,0 +1,231 @@
+{
+  "PRETRAINING_READINESS_STATUS": "BLOCKED",
+  "READY_FOR_FORMAL_NEAR_SFT": false,
+  "SOLE_REMAINING_BLOCKER": "DEEPSEEK_API_KEY",
+  "application_payload": {
+    "application_coverage": 0.4364214618057601,
+    "application_protocol_counts": {
+      "dns": 149,
+      "http": 7240,
+      "modbus": 13,
+      "tls": 8
+    },
+    "application_sessions": 7410,
+    "artifact_digest": "251f502cf6c7e9e183e69507c9de02a28ef8b7ab0dad780f4491ca0388070e33",
+    "candidate_sessions": 16979,
+    "capture_count": 20,
+    "payload_coverage": 0.6761882325225278,
+    "payload_sessions": 11481,
+    "payload_shortcut_risk": "LOW",
+    "u_final_count": 0
+  },
+  "data": {
+    "candidate_plan": "PLAN_B",
+    "candidate_policy": "CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1",
+    "candidate_sessions": 16979,
+    "physical_split": "CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2",
+    "preset": "Near",
+    "production_asset_revision": "edge_split_revision_v2",
+    "scope": "K_known intersection physical train only",
+    "seed": 20260809
+  },
+  "dry_run": {
+    "checkpoint_reload": "PASS",
+    "checkpoint_size_bytes": 86727538,
+    "dtype": "bfloat16",
+    "elapsed_seconds": 5.5102834310382605,
+    "fine_head_changed": true,
+    "frozen_parameter_digest_unchanged": true,
+    "lora_changed": true,
+    "micro_batch_size": 1,
+    "optimizer_steps": 2,
+    "peak_vram_bytes": 29598407168,
+    "purpose": "real 9B training-side dry-run; not formal SFT",
+    "sequence_lengths": [
+      2830,
+      609
+    ],
+    "temporary_checkpoint_deleted": true,
+    "tokens_per_second": 624.1058274114977
+  },
+  "external_artifacts": {
+    "git_tracked": false,
+    "root": "/root/autodl-tmp/processed/near_pretraining_v1",
+    "size": "85M"
+  },
+  "gates": {
+    "APPLICATION_EVIDENCE_V1_READY": true,
+    "CLASSIFICATION_POOLING_V1": "ATTENTION_MASKED_MEAN_V1",
+    "DEEPSEEK_FLASH_PROVIDER_READY": false,
+    "EVIDENCE_STATE_SCHEMA_V1": "EVIDENCE_STATE_SCHEMA_V1",
+    "FINE_CLASSIFICATION_HEAD_READY": true,
+    "JUDGE_PROMPT_V1_READY": true,
+    "NEAR_SFT_CORPUS_V1_READY": false,
+    "NEAR_SFT_RECORD_COUNT": 0,
+    "PAYLOAD_SHORTCUT_AUDIT": "PASS",
+    "RAG_EVIDENCE_SCHEMA_V1_READY": true,
+    "RAG_INDEX_V1_READY": true,
+    "RAG_KB_V1_READY": true,
+    "RL_PROMPT_COUNT": 6000,
+    "RL_PROMPT_POOL_V1_READY": true,
+    "RL_RUN": false,
+    "SANITIZED_PAYLOAD_V1_READY": true,
+    "SERIALIZATION_V1": "COMPACT_SAFE_EVIDENCE_V1",
+    "SFT_RUN": false,
+    "SUPERVISOR_PROMPT_CONTRACT_V1_READY": true,
+    "TEACHER_ANNOTATION_READY": false,
+    "TEACHER_PROMPT_V1_READY": true,
+    "TRAFFIC_EXPERT_PROMPT_V1": "TRAFFIC_EXPERT_PROMPT_V1",
+    "TRAINABLE_PARAMETER_AUDIT": "PASS",
+    "TRAINING_DRY_RUN_PASS": true,
+    "TRAINING_HARNESS_READY": true,
+    "U_FINAL_PRETRAINING_ISOLATION_GATE": "PASS"
+  },
+  "generated_at_utc": "2026-08-12",
+  "git": {
+    "branch": "feat/near-pretraining-readiness-v1",
+    "implementation_commit": "commit containing this manifest",
+    "push_performed": false,
+    "source_parent": "ff4eca8fc6e00196666a9a3768679e3ddfefea60"
+  },
+  "isolation": {
+    "audit": "PASS",
+    "audit_digest": "1cae7b9ef8f305743ac453cc332489ed04c55531e6704c6313c60baa742afbdc",
+    "candidate_u_final_count": 0,
+    "dry_run_u_final_count": 0,
+    "rl_u_final_count": 0,
+    "sidecar_u_final_count": 0,
+    "snapshot_u_final_count": 0
+  },
+  "known_limitations": [
+    "DeepSeek provider, Teacher pilot/bulk, final Teacher-grounded SFT corpus, and Teacher cost estimate are blocked by the missing runtime API key.",
+    "One Vulnerability_scanner PCAP has corrupt trailing packets; extraction was bounded to the highest candidate frame and all required candidate frames were covered.",
+    "Application coverage is protocol/traffic dependent; unavailable evidence remains explicit and is not fabricated.",
+    "Payload shortcut audit retains two generic semantic tokens (include/open) as LOW risk; fixed lab/tool/identity markers were removed.",
+    "The 200-record snapshot review passed, but final Teacher-target manual review remains pending until annotations exist.",
+    "Dry-run resource time uses deterministic schema targets; actual Teacher target length can change formal throughput."
+  ],
+  "lora": {
+    "alpha": 16,
+    "dropout": 0.05,
+    "family_counts": {
+      "ffn": 96,
+      "gated_attention": 32,
+      "gated_deltanet": 120
+    },
+    "fine_head_parameters": 45067,
+    "lora_parameters": 21639168,
+    "matched_modules": 248,
+    "other_trainable_parameters": 0,
+    "rank": 8,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "in_proj_qkv",
+      "in_proj_z",
+      "in_proj_a",
+      "in_proj_b",
+      "out_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "total_parameters": 9431497979,
+    "trainable_parameters": 21684235,
+    "trainable_ratio": 0.002299129475326371
+  },
+  "model": {
+    "architecture": "Qwen3_5ForConditionalGeneration",
+    "hidden_size": 4096,
+    "local_weights_git_external": true,
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a"
+  },
+  "rag": {
+    "artifact_digest": "91ab9c70813dc69e8f4bdcd351325c618880004dfb43fca71ccbcd4af8803122",
+    "chunk_count": 2263,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf",
+    "index_version": "NEAR_HYBRID_RAG_INDEX_V1",
+    "kb_version": "NEAR_GENERIC_SECURITY_KB_V1",
+    "retriever": "BM25+dense hybrid",
+    "source_count": 30,
+    "u_final_term_hits": 0
+  },
+  "resource_plan": {
+    "checkpoint_adapter_head_mib": 82.71,
+    "formal_rlaif_estimated_api_cost": "NOT_ESTIMABLE_UNTIL_KEYED_JUDGE_PILOT",
+    "measured_peak_vram_gib": 27.57,
+    "measured_proxy_hours_per_epoch": 9.66,
+    "planned_hours_for_two_epochs_range": "20-24",
+    "planned_hours_per_epoch_range": "10-12",
+    "proxy_tokens_per_epoch": 21698392,
+    "recommended_new_checkpoint_disk_gib": 2,
+    "recommended_vram_gib": 32
+  },
+  "serialization": {
+    "max": 2746,
+    "mean_reduction_vs_current": 0.02089034621824526,
+    "mean_tokens": 870.123,
+    "p50": 868,
+    "p90": 1260,
+    "p95": 1453,
+    "p99": 1675,
+    "semantic_equivalence_failures": 0,
+    "snapshot_count": 22957
+  },
+  "snapshot_and_rl": {
+    "auxiliary_count": 5978,
+    "classification_masked_count": 5978,
+    "classification_supervised_count": 16979,
+    "exact_serialized_input_duplicate_groups": 0,
+    "primary_count": 16979,
+    "rag_exposure_rate": 0.050747048830422095,
+    "rl_prompt_count": 6000,
+    "rl_prompt_sha256": "042003c1cd020657f9c23d88aa5f50329d173bd01f141b5954ef8347ac1866f5",
+    "snapshot_artifact_digest": "5c97eece113c812ec82dd2d4ce04ac1ce03662eb7fd0b83171b473eec04e002b",
+    "snapshot_count": 22957,
+    "states_per_session": {
+      "1": 11001,
+      "2": 5978
+    },
+    "structured_review_count": 200,
+    "structured_review_failures": 0,
+    "teacher_target_review": "PENDING_DEEPSEEK_ANNOTATION",
+    "unique_sessions": 16979
+  },
+  "teacher": {
+    "api_requests_made": 0,
+    "base_url": "https://api.deepseek.com",
+    "bulk_annotation_count": 0,
+    "cost_estimate": "NOT_ESTIMABLE_WITHOUT_REAL_PILOT_USAGE",
+    "model": "deepseek-v4-flash",
+    "pilot_count": 0,
+    "provider": "DEEPSEEK_FLASH_PROVIDER_V1",
+    "provider_status": "BLOCKED_NO_API_KEY",
+    "quarantine_count": 0,
+    "secret_reference": "DEEPSEEK_API_KEY"
+  },
+  "verification": {
+    "ci_without_external_assets": "2 safely skipped",
+    "compileall": "PASS",
+    "conflict_scan": "PASS",
+    "full_pytest": "274 passed",
+    "git_diff_check": "PASS",
+    "targeted_pytest": "10 passed"
+  },
+  "version": "NEAR_PRETRAINING_READINESS_MANIFEST_V1",
+  "versions": {
+    "application_payload_materializer": "near_application_payload_materializer_v5",
+    "judge_prompt_sha256": "a76d188c209db16132ced3baeba5dc1a205a1988e8aa9a249d0707f07958119f",
+    "runtime_adapter": "production_runtime_adapter_v1",
+    "serialization_sha256": "66af2ccb338b1b3601b14721e3626bfbf93b4323edb2dd149ebb3d2bc91891a6",
+    "sft_config": "NEAR_SFT_CONFIG_V1",
+    "sft_config_sha256": "4a858251b96c6afecdc1a11bef5caaa4d0c03c63513ab103eab1aa73de979e81",
+    "supervisor_prompt_sha256": "326989e9e07e684fad72a86f6f6ec8af32baf1458e2d20c90489e130d026d20f",
+    "teacher_prompt_sha256": "8d19d2beaffccf5785bd95fc832f7b6f86f95092e5ec3c42dc4b29c09c742bd1",
+    "traffic_expert_prompt_sha256": "a5506044c26fe73a20f2302b303528244040054030577f5ca77264adba215b40"
+  }
+}

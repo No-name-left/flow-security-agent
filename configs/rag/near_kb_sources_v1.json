@@ -1,0 +1,246 @@
+{
+  "version": "NEAR_GENERIC_SECURITY_KB_SOURCES_V1",
+  "policy": "Authoritative generic protocol/security material only; no dataset, capture, label, or U_final-specific design source.",
+  "sources": [
+    {
+      "source_id": "src_rfc9293_tcp",
+      "title": "RFC 9293 Transmission Control Protocol",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc9293.txt",
+      "topics": ["TCP", "state", "flags", "connection"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc5681_congestion",
+      "title": "RFC 5681 TCP Congestion Control",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc5681.txt",
+      "topics": ["TCP", "congestion", "loss", "retransmission"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc6298_retransmission",
+      "title": "RFC 6298 Computing TCP Retransmission Timer",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc6298.txt",
+      "topics": ["TCP", "retransmission", "timing"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc7414_tcp_roadmap",
+      "title": "RFC 7414 A Roadmap for TCP Specification Documents",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc7414.txt",
+      "topics": ["TCP", "protocol", "behavior"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc1122_hosts",
+      "title": "RFC 1122 Requirements for Internet Hosts Communication Layers",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc1122.txt",
+      "topics": ["IP", "TCP", "UDP", "ICMP"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc768_udp",
+      "title": "RFC 768 User Datagram Protocol",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc768.txt",
+      "topics": ["UDP", "datagram", "ports"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc9110_http_semantics",
+      "title": "RFC 9110 HTTP Semantics",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.txt",
+      "topics": ["HTTP", "methods", "status", "headers"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc9112_http11",
+      "title": "RFC 9112 HTTP/1.1",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc9112.txt",
+      "topics": ["HTTP", "framing", "request", "response"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc1035_dns",
+      "title": "RFC 1035 Domain Names Implementation and Specification",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc1035.txt",
+      "topics": ["DNS", "query", "response", "record"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc7766_dns_tcp",
+      "title": "RFC 7766 DNS Transport over TCP",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc7766.txt",
+      "topics": ["DNS", "TCP", "transport"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc8446_tls13",
+      "title": "RFC 8446 The Transport Layer Security Protocol Version 1.3",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc8446.txt",
+      "topics": ["TLS", "handshake", "encryption"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_rfc5246_tls12",
+      "title": "RFC 5246 The Transport Layer Security Protocol Version 1.2",
+      "source_type": "IETF_RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc5246.txt",
+      "topics": ["TLS", "handshake", "record"],
+      "license_note": "IETF Trust legal provisions apply; indexed as attributed technical reference."
+    },
+    {
+      "source_id": "src_owasp_sql_injection",
+      "title": "OWASP SQL Injection",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/attacks/SQL_Injection",
+      "topics": ["SQL injection", "HTTP", "input"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_owasp_upload",
+      "title": "OWASP Unrestricted File Upload",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload",
+      "topics": ["file upload", "HTTP", "content type"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_owasp_credential_stuffing",
+      "title": "OWASP Credential Stuffing",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/attacks/Credential_stuffing",
+      "topics": ["credentials", "password", "authentication"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_owasp_brute_force",
+      "title": "OWASP Brute Force Attack",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/attacks/Brute_force_attack",
+      "topics": ["password", "authentication", "repetition"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_owasp_command_injection",
+      "title": "OWASP Command Injection",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/attacks/Command_Injection",
+      "topics": ["command injection", "payload", "input"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_owasp_dos",
+      "title": "OWASP Denial of Service",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/attacks/Denial_of_Service",
+      "topics": ["denial of service", "resource exhaustion", "traffic"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_owasp_path_traversal",
+      "title": "OWASP Path Traversal",
+      "source_type": "OWASP",
+      "url": "https://owasp.org/www-community/attacks/Path_Traversal",
+      "topics": ["path traversal", "HTTP", "input"],
+      "license_note": "OWASP community content; indexed with source attribution for research use."
+    },
+    {
+      "source_id": "src_mitre_t1046_discovery",
+      "title": "MITRE ATT&CK T1046 Network Service Discovery",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1046/",
+      "topics": ["service discovery", "port scanning", "network"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1110_bruteforce",
+      "title": "MITRE ATT&CK T1110 Brute Force",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1110/",
+      "topics": ["brute force", "password", "credentials"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1190_public_service",
+      "title": "MITRE ATT&CK T1190 Exploit Public-Facing Application",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1190/",
+      "topics": ["vulnerability", "public service", "exploitation"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1505_003_webshell",
+      "title": "MITRE ATT&CK T1505.003 Web Shell",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1505/003/",
+      "topics": ["backdoor", "web shell", "command"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1095_nonapp",
+      "title": "MITRE ATT&CK T1095 Non-Application Layer Protocol",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1095/",
+      "topics": ["malware", "command and control", "protocol"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1071_001_web",
+      "title": "MITRE ATT&CK T1071.001 Web Protocols",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1071/001/",
+      "topics": ["HTTP", "command and control", "malware"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1486_encrypted_impact",
+      "title": "MITRE ATT&CK T1486 Data Encrypted for Impact",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1486/",
+      "topics": ["ransomware", "encryption", "impact"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_mitre_t1557_adversary_middle",
+      "title": "MITRE ATT&CK T1557 Adversary-in-the-Middle",
+      "source_type": "MITRE_ATTACK",
+      "url": "https://attack.mitre.org/techniques/T1557/",
+      "topics": ["man in the middle", "spoofing", "network"],
+      "license_note": "MITRE ATT&CK terms of use apply; indexed with attribution."
+    },
+    {
+      "source_id": "src_nist_sp800_83_malware",
+      "title": "NIST SP 800-83 Rev. 1 Malware Incident Prevention and Handling",
+      "source_type": "NIST",
+      "url": "https://csrc.nist.gov/pubs/sp/800/83/r1/final",
+      "topics": ["malware", "incident", "network behavior"],
+      "license_note": "United States government publication; source attribution retained."
+    },
+    {
+      "source_id": "src_nist_sp1800_26_ransomware",
+      "title": "NIST SP 1800-26 Data Integrity and Ransomware",
+      "source_type": "NIST",
+      "url": "https://csrc.nist.gov/pubs/sp/1800/26/final",
+      "topics": ["ransomware", "data integrity", "malware"],
+      "license_note": "United States government publication; source attribution retained."
+    },
+    {
+      "source_id": "src_nist_sp800_115_testing",
+      "title": "NIST SP 800-115 Technical Guide to Information Security Testing",
+      "source_type": "NIST",
+      "url": "https://csrc.nist.gov/pubs/sp/800/115/final",
+      "topics": ["vulnerability scanning", "network discovery", "testing"],
+      "license_note": "United States government publication; source attribution retained."
+    }
+  ]
+}

@@ -34,7 +34,9 @@ This repository currently provides:
 - a deterministic Agent Runtime foundation with model-safe views, capability/budget enforcement, memory permissions, one-action-per-round validation and structured traces;
 - provider-neutral Traffic Expert/Supervisor transport contracts, strict parsers, versioned prompt profiles, a Fake Provider, and an explicitly injected OpenAI-compatible chat transport;
 - an exact allow-list `production_runtime_adapter_v1` that reads materialized Production v2 evidence, emits typed Runtime inputs/tools, enforces phase/U_final permissions and keeps backend provenance out of model prompts;
-- reproducible Qwen3.5-9B text-only serve/model-audit/real-smoke tools plus small Evidence Fidelity and model-readiness reports; model weights, environments and runtime logs remain Git-external.
+- reproducible Qwen3.5-9B text-only serve/model-audit/real-smoke tools plus small Evidence Fidelity and model-readiness reports; model weights, environments and runtime logs remain Git-external;
+- a Transformers/PEFT training harness with a dynamic Linear Fine Head, masked multi-task loss, real Qwen LoRA inventory, frozen pooling/serialization/Prompt/schema v1, and a real two-step 9B dry-run;
+- Git-external Near K-known TRAIN Application/Payload sidecars, a 30-source BM25+dense Knowledge RAG index, a 22,957-state pre-Teacher snapshot universe, and a frozen 6,000-prompt RL pool.
 
 These components are engineering infrastructure, not claimed paper contributions. The Gate models and scores are audit probes, not formal paper results.
 
@@ -42,14 +44,16 @@ These components are engineering infrastructure, not claimed paper contributions
 
 The following model and experiment components remain future work:
 
+- DeepSeek provider preflight, Teacher pilot/bulk and the final Teacher-grounded SFT corpus; the sole current blocker is a missing runtime `DEEPSEEK_API_KEY`;
 - formal traditional-model baselines and Qwen3.5-9B SFT/few-shot checkpoints;
+- formal Runtime wiring for the prepared Application/Payload/RAG assets;
 - a frozen production Unknown scoring algorithm and calibration threshold;
 - Near RLAIF-GRPO Training #2, followed by Independent Unknown and Agent experiments; DPO, full-parameter 9B and formal 27B remain deferred;
 - formal experiments and paper metrics.
 
-The remote bootstrap, Production Data Freeze, Edge label-provenance/class-role Gates, paper-grade `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, PLAN_B candidates, Production Runtime Safe Adapter, Evidence Fidelity Gate and official raw `Qwen/Qwen3.5-9B` local/runtime smoke are complete. These are infrastructure facts, not paper benchmarks; no SFT, RLAIF/GRPO, Unknown or formal Agent experiment has run. DEC-0019 now freezes `ONE_MAINLINE_FIRST`: Edge Near seed `20260809` is the first full route, using its unchanged K/U and 16,979 PLAN_B `K_known ∩ train` candidates. The trained design is frozen Qwen base + LoRA + one Linear Fine Classification Head + LM Evidence State, followed by Independent Unknown and a DeepSeek Flash Supervisor under deterministic Runtime. Application, sanitized payload and Production RAG are currently unavailable but are planned on-demand Near capabilities. Far, Mixed, IoT-23 execution and optional ablations wait until Near completes. See the [Near training protocol](docs/training/near_mainline_training_protocol_v1.md), [server migration guide](docs/SERVER_MIGRATION.md) and [Production freeze report](reports/production_data_freeze_20260809/README.md).
+The remote bootstrap, Production Data Freeze, Edge label-provenance/class-role Gates, paper-grade `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, PLAN_B candidates, Production Runtime Safe Adapter, Evidence Fidelity Gate and official raw `Qwen/Qwen3.5-9B` local/runtime smoke are complete. Phase B has additionally completed every non-API pre-training preparation and a reversible two-step real-9B dry-run. These are infrastructure facts, not paper benchmarks; no formal SFT, RLAIF/GRPO, Unknown or Agent experiment has run. DEC-0019 freezes `ONE_MAINLINE_FIRST`: Edge Near seed `20260809` is the first full route, using unchanged K/U and 16,979 PLAN_B `K_known ∩ train` candidates. The trained design remains frozen Qwen base + LoRA + one Linear Fine Classification Head + LM Evidence State, followed by Independent Unknown and a DeepSeek Flash Supervisor under deterministic Runtime. Prepared Application/Payload/RAG artifacts are Git-external and not yet formal Runtime tools. Far, Mixed, IoT-23 execution and optional ablations wait until Near completes. See the [Phase B readiness report](reports/training_readiness/near_pretraining_readiness_v1.md), [Near training protocol](docs/training/near_mainline_training_protocol_v1.md), and [server migration guide](docs/SERVER_MIGRATION.md).
 
-The unique long-term code branch is `main`; the audited baseline for this documentation synchronization is `e28c3f4806aa56dcdeb9e561cf6201e71f98a2a5`, which contains Edge v2, the Production Runtime Adapter, official raw Qwen deployment smoke and the CI portability fix. Protocol synchronization is isolated on `docs/sync-near-mainline-protocol`; training remains separately authorized future work.
+The unique long-term code branch is `main`; the audited source baseline is `ff4eca8fc6e00196666a9a3768679e3ddfefea60`. Phase B implementation is isolated on `feat/near-pretraining-readiness-v1`; it must not be interpreted as authorization to start formal training.
 
 ## Research Plan and Change Control
 

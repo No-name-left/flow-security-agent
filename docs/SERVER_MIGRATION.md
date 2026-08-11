@@ -1,6 +1,6 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-11）：Production Data Freeze、Edge v2/PLAN_B、`production_runtime_adapter_v1`、Evidence Fidelity与官方Qwen3.5-9B text-only本地/真实Runtime smoke均已进入审计`main`基线`e28c3f4806aa56dcdeb9e561cf6201e71f98a2a5`；当前在`docs/sync-near-mainline-protocol`同步Near-first协议。`PRODUCTION_DATA_READY=true`，SFT/RL/Unknown/正式benchmark均未运行。
+> 当前状态（2026-08-12）：Production、Edge v2/PLAN_B、Runtime Adapter、Evidence Fidelity、官方Qwen smoke与Near协议已进入`main`基线`ff4eca8fc6e00196666a9a3768679e3ddfefea60`。`feat/near-pretraining-readiness-v1`已完成全部非API Phase B准备与真实9B两步dry-run；唯一blocker为缺少runtime `DEEPSEEK_API_KEY`。`PRODUCTION_DATA_READY=true`，正式SFT/RL/Unknown/benchmark均未运行。
 
 ## 1. 已冻结的数据角色
 
@@ -8,7 +8,7 @@
 - **IoT-23：**独立scenario外部验证数据集，Gate状态为`PASS_WITH_LIMITATIONS`。保留原生标签和独立train/validation/scenario-held-out test，不与Edge细类物理合并训练。
 - 两者分别解析，通过`CanonicalSessionRecord`统一方法接口。Gate Adapter仍保留为历史验收参考；正式实现位于`src/flowsec/production/`。
 
-正式原始数据位于服务器`/root/autodl-tmp/datasets/`；原始Production Freeze资产位于`/root/autodl-tmp/processed/production_data_freeze_v1/`，其完整报告位于`/root/autodl-tmp/experiments/production_data_freeze_20260809/`。Edge v2 split-dependent资产位于`/root/autodl-tmp/processed/edge_split_revision_v2/`，完整小型运行manifest位于`/root/autodl-tmp/experiments/edge_split_revision_v2/`；它们都在Git仓库外。代码、配置、测试与小型复现报告进入Git。Edge完整归档与解压成员已在服务器逐项验哈希，当前不得擅自删除。
+正式原始数据位于服务器`/root/autodl-tmp/datasets/`；原始Production Freeze资产位于`/root/autodl-tmp/processed/production_data_freeze_v1/`，其完整报告位于`/root/autodl-tmp/experiments/production_data_freeze_20260809/`。Edge v2 split-dependent资产位于`/root/autodl-tmp/processed/edge_split_revision_v2/`，Phase B Application/Payload、RAG、snapshot、Teacher cache和RL pool统一位于`/root/autodl-tmp/processed/near_pretraining_v1/`；完整小型运行manifest分别位于对应`manifests/`。这些资产都在Git仓库外。代码、配置、schema、测试与小型复现报告进入Git。Edge完整归档与解压成员已逐项验哈希，当前不得擅自删除。
 
 ## 2. 官方来源与校验
 
@@ -58,8 +58,13 @@ export EDGE_DATA_ROOT=/root/autodl-tmp/datasets/edge_iiotset
 export IOT23_DATA_ROOT=/root/autodl-tmp/datasets/iot23
 export ARTIFACT_ROOT=/root/autodl-tmp/processed
 export MODEL_ROOT=/root/autodl-tmp/models
+export QWEN_MODEL_PATH=/root/autodl-tmp/models/Qwen3.5-9B
+export NEAR_EMBEDDING_MODEL_PATH=/root/autodl-tmp/models/all-MiniLM-L6-v2
+export DEEPSEEK_BASE_URL=https://api.deepseek.com
+export DEEPSEEK_MODEL=deepseek-v4-flash
 export TSHARK_BIN="$(command -v tshark)"
 export CAPINFOS_BIN="$(command -v capinfos)"
+# DEEPSEEK_API_KEY只允许由外部secret/runtime environment注入；不要写进本文件或repo。
 ```
 
 不要把数据根目录设置在Git仓库内；即使误放，`.gitignore`也只是一道防线，不能替代提交前检查。
@@ -84,7 +89,8 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 8. **已完成：**Production Data Freeze、Runtime foundation与provider-neutral backend preparation已审查、测试并进入唯一长期`main`基线。
 9. **已完成并进入main：**只重建Edge split-dependent assets，完成paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C、PLAN_B SFT候选和label provenance final verification；未重新TShark/canonical/sessionize。
 10. **已完成：**白名单式Production→Runtime adapter、Evidence Fidelity正向审计、独立Qwen环境、官方固定revision下载、text-only vLLM服务和raw/backend/Production多轮smoke；
-11. **当前停止点：**Near Training Protocol v1已在架构/权限层冻结；下一实施阶段仅为Phase B training-side harness、pooling/LoRA inventory、serialization、Prompt/schema及Application/Payload/RAG contracts。不得从本状态文档自行启动Raw benchmark、SFT、RLAIF/GRPO、Unknown、U_final或Supervisor实验。
+11. **已完成：**Phase B非API部分，包括training harness/Fine Head、真实LoRA inventory、pooling/serialization/Prompt/schema、Application/Payload sidecar、30-source hybrid RAG、22,957 snapshots、6,000 RL prompts、真实9B两步dry-run和U_final isolation；full pytest 274 passed。
+12. **当前停止点：**`DEEPSEEK_API_KEY`未配置，provider/Teacher pilot/bulk/final corpus未运行。恢复时只执行`provider-status → teacher-pilot → teacher-bulk → finalize-sft → manual/isolation/full regression`；即使ready也不得从本状态文档自行启动正式SFT、RLAIF/GRPO、Unknown、U_final或Supervisor实验。
 
 现有Gate脚本仍只负责七场景验收，并支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。正式生产CLI默认读取本服务器实际Edge解压根与包含八个场景的IoT-23根；Capture-3的精确恢复URL/hash/size保存在服务器下载manifest和Production Freeze source manifest中。
 
@@ -101,8 +107,9 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - `tools/dataset_download/`：官方数据下载与校验入口。
 - `reports/production_data_freeze_20260809/`：正式冻结的小型复现摘要、schema/split/KU/training/audit关键manifest；完整source/统计与Parquet位于上述Git外实验/资产路径。
 - `reports/edge_split_revision_v2/`：Edge paper-grade split、Phase A candidates、provenance、readiness、SFT PLAN_B、leakage/sensitivity与low-resource小型报告；完整Parquet保持Git外。
+- `reports/training_readiness/near_pretraining_readiness_v1.md`：Phase B小型Gate、版本、coverage、dry-run与唯一blocker；完整sidecar/index/snapshot/Teacher/RL资产位于`$ARTIFACT_ROOT/near_pretraining_v1/`。
 
-## 6. 2026-08-11服务器状态快照
+## 6. 2026-08-12服务器状态快照
 
 - Edge官方归档为`1,746,605,436` bytes，MD5 `d0f9be0185845a1ef4ed31cc6db4a9b2`；解压清单为52个成员，其中24个PCAP、26个CSV，24/24 capture provenance通过。
 - IoT-23 source manifest共19项且大小/哈希检查无缺失；正式数据角色覆盖8个scenario。
@@ -110,6 +117,7 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - Edge v2保留全部7,619,032 stable identity，physical assignment为train 5,294,777、validation 1,073,539、test 1,110,343、quarantine 140,373；v2全部split-dependent canonical/index资产总计7,670,824行（含未改变的IoT-23部分），PLAN_B SFT候选Near/Far/Mixed为16,979/15,895/15,404。
 - Production `_state/checkpoints`保留24个Edge和8个IoT checkpoint；checkpoint reuse audit为PASS，已完成capture不需要重新TShark。
 - 独立`flow-data`环境仍为Python 3.11.15且未安装Torch；Qwen使用单独Python 3.12 venv `/root/autodl-tmp/conda/qwen35-runtime`。官方revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`位于`/root/autodl-tmp/models/Qwen3.5-9B`，16/16文件完整、总计19,329,393,661 bytes；顶层`/root/autodl-tmp/checkpoints`仍为空。
+- Phase B Git-external root约85 MB；Application覆盖7,410/16,979，Payload覆盖11,481/16,979，RAG为30 sources/2,263 chunks，snapshot universe为22,957，RL pool为6,000。真实9B两步dry-run峰值27.57 GiB，临时checkpoint已删除，GPU恢复空闲。
 - 当前服务器HTTPS GitHub push dry-run因没有可读用户名/凭据而失败。不要据此配置PAT、创建SSH key或安装`gh`；现有本地分支和两个bundle继续保留。
 
-尚未完成：training-side Fine Head/harness、正式Prompt/response/serialization、Application/Payload/Production RAG、DeepSeek Teacher/Judge/Supervisor调用、BF16 LoRA SFT、RLAIF/GRPO、正式传统基线、Independent Unknown和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`与协议冻结均不等于模型训练已开始。
+尚未完成：DeepSeek provider smoke、Teacher pilot/bulk、最终Teacher-grounded SFT corpus及其人工审计（唯一当前原因是无`DEEPSEEK_API_KEY`）；formal Runtime Application/Payload/RAG wiring；BF16 LoRA正式SFT、RLAIF/GRPO、正式传统基线、Independent Unknown和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`、Phase B资产ready或dry-run PASS均不等于模型训练已开始。

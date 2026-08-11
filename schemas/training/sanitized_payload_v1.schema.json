@@ -1,0 +1,47 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "fragments": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Fragments",
+      "type": "array"
+    },
+    "max_fragment_chars": {
+      "maximum": 2048,
+      "minimum": 64,
+      "title": "Max Fragment Chars",
+      "type": "integer"
+    },
+    "protocol": {
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Protocol",
+      "type": "string"
+    },
+    "raw_fragment_count": {
+      "minimum": 1,
+      "title": "Raw Fragment Count",
+      "type": "integer"
+    },
+    "sanitizer_version": {
+      "default": "SANITIZED_PAYLOAD_V1",
+      "title": "Sanitizer Version",
+      "type": "string"
+    },
+    "truncated": {
+      "title": "Truncated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "protocol",
+    "fragments",
+    "raw_fragment_count",
+    "max_fragment_chars",
+    "truncated"
+  ],
+  "title": "SanitizedPayloadV1",
+  "type": "object"
+}

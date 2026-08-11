@@ -2,7 +2,7 @@
 
 > Status: **FROZEN / Training and Open-World Execution Authority**
 >
-> Protocol date: 2026-08-11
+> Protocol date: 2026-08-11; implementation status revalidated 2026-08-12
 >
 > Scope: first complete Edge-IIoTset Near mainline, from training readiness through SFT, RLAIF-GRPO, Independent Unknown, Agent evaluation, Experience Memory and novel-class onboarding.
 >
@@ -18,7 +18,7 @@
 - **DEFERRED**: outside the first Near end-to-end completion condition.
 - **OPTIONAL**: may be skipped without blocking the first Near mainline.
 
-Freezing this protocol does not claim that training has run, that numerical hyperparameters have been selected, or that planned Application/Payload/RAG capabilities are implemented.
+Freezing this protocol by itself does not claim that training has run or that planned capabilities are implemented. Verified implementation selections and remaining blockers are recorded in Section 18 and PROJECT_HANDOFF; formal SFT/RL status remains independently gated.
 
 ## 2. ONE_MAINLINE_FIRST
 
@@ -331,20 +331,20 @@ Class Memory stores safe labeled support representation, prototype, description 
 | Phase | Required work | Exit condition |
 | --- | --- | --- |
 | A | Production, split, Adapter, fidelity and raw Qwen deployment | **COMPLETE** with recorded limitations |
-| B | Training-side Transformers/PEFT harness; LoRA inventory checks; pooling; serialization v1; Prompt/schema v1; Application/Payload contracts; RAG Evidence Contract | readiness artifacts frozen, no U_final access |
+| B | Training-side Transformers/PEFT harness; LoRA inventory checks; pooling; serialization v1; Prompt/schema v1; Application/Payload contracts; RAG Evidence Contract | **COMPLETE** for non-API readiness; no U_final access |
 | C | Raw Near Qwen and strong traditional baselines | reproducible baseline manifests |
-| D | Build bounded, diversity-aware multi-stage Near SFT corpus | only legal K_known TRAIN stages, digests frozen |
-| E | DeepSeek Flash Teacher annotation, automatic consistency filtering and bounded human audit | accepted/rejected audit trail frozen |
+| D | Build bounded, diversity-aware multi-stage Near SFT corpus | snapshot universe/digest ready; final Teacher-grounded corpus waits Phase E |
+| E | DeepSeek Flash Teacher annotation, automatic consistency filtering and bounded human audit | **BLOCKED: NO_API_KEY**; no annotation fabricated |
 | F | Training #1 classification-first multi-task LoRA SFT | Checkpoint A + manifest |
 | G | SFT validation/evaluation | no formal test-driven tuning |
-| H | Build fixed reproducible RL Prompt Pool from legal K_known TRAIN states | prompt-pool digest frozen |
+| H | Build fixed reproducible RL Prompt Pool from legal K_known TRAIN states | **READY**; 6,000 prompts and digest frozen, RL not run |
 | I | Training #2 RLAIF-GRPO + classification CE preservation | Checkpoint B + rollout/Judge manifests |
 | J | RL validation/evaluation | final primary candidate selected without U_final |
 | K | Freeze final primary Qwen checkpoint | Checkpoint B immutable |
 | L | Independent Unknown development using K validation + U_dev | candidate comparison complete |
 | M | Freeze Unknown | algorithm and threshold immutable |
 | N | First U_final open-set evaluation | one-way sealed evaluation; no feedback to development |
-| O | Complete/finalize Application, Payload and RAG if not already production-ready | required tool contracts/assets frozen |
+| O | Complete/finalize Application, Payload and RAG if not already production-ready | pretraining sidecar/KB/index ready; formal Runtime tool wiring remains pending |
 | P | Agent: Basic, Fixed Full, RulePolicy, DeepSeek Flash Supervisor | budget-matched results |
 | Q | Experience Memory experiment | read/write protocol audited |
 | R | 1/5/10-shot Class Memory onboarding | novel-class and old-class results |
@@ -385,11 +385,11 @@ Model weights, optimizer state, caches, rollouts and large logs stay Git-externa
 
 ## 18. Current stop point and next implementation phase
 
-Completed infrastructure facts include Production Data Freeze, Edge v2 split, Near PLAN_B candidates, Production Runtime Safe Adapter v1, Evidence Fidelity Gate and official raw Qwen local/runtime smoke. Current capabilities are Initial, packets 9–16, Temporal and limited anonymous Relation; Application, Sanitized Payload and Production RAG remain unavailable.
+Completed facts now include Production Data Freeze, Edge v2/PLAN_B, Runtime Adapter/Fidelity, official raw Qwen smoke, and Phase B non-API readiness. The training harness exposes hidden states, dynamic Linear Fine Head logits, LM logits and combined masked loss; real Qwen inventory covers 248 Gated Attention/DeltaNet/FFN targets. `ATTENTION_MASKED_MEAN_V1`, `COMPACT_SAFE_EVIDENCE_V1`, Prompt/schema v1 and `NEAR_SFT_CONFIG_V1` are frozen. Application/Payload TRAIN sidecars, a 30-source/2,263-chunk hybrid RAG index, 22,957 legal snapshots and a 6,000-prompt RL pool are Git-external and ready; formal Runtime tool wiring remains pending.
 
-No SFT, LoRA training, Fine Head training, RLAIF/GRPO, Unknown development, DeepSeek Teacher/Judge/Supervisor formal run or benchmark has started.
+A real Qwen3.5-9B two-step BF16 dry-run passed frozen/trainable, CE-mask, LM-loss and checkpoint reload gates; the temporary checkpoint was deleted. No formal SFT, RLAIF/GRPO, Unknown development, DeepSeek Teacher/Judge/Supervisor run or benchmark has started. U_final pretraining isolation is PASS.
 
-**NEXT IMPLEMENTATION PHASE: Phase B — Training Protocol Readiness.** Implement the training-side model harness and freeze pooling, LoRA target inventory checks, serialization v1, Prompt/schema v1, Application/Payload contracts and RAG Evidence Contract. This document does not authorize executing Phase C or later.
+**CURRENT STOP POINT: DEEPSEEK_PROVIDER_BLOCKED=NO_API_KEY.** The next authorized readiness continuation is provider structured smoke → stratified 250-state Teacher pilot → bulk annotation → final SFT corpus/manual audit → isolation/regression. Only after those pass may PROJECT_HANDOFF report readiness for a separately authorized Training #1. This document does not authorize automatically starting SFT or any later experiment.
 
 ## 19. End-to-end flow
 

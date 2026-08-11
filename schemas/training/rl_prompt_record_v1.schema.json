@@ -1,0 +1,74 @@
+{
+  "$defs": {
+    "StageType": {
+      "enum": [
+        "initial",
+        "packet",
+        "temporal",
+        "relation",
+        "application",
+        "payload",
+        "knowledge",
+        "controlled_mask"
+      ],
+      "title": "StageType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "classification_supervision_valid": {
+      "title": "Classification Supervision Valid",
+      "type": "boolean"
+    },
+    "evidence_state_id": {
+      "pattern": "^state_[0-9a-f]{24}$",
+      "title": "Evidence State Id",
+      "type": "string"
+    },
+    "fine_label": {
+      "minLength": 1,
+      "title": "Fine Label",
+      "type": "string"
+    },
+    "prompt_id": {
+      "pattern": "^rlp_[0-9a-f]{24}$",
+      "title": "Prompt Id",
+      "type": "string"
+    },
+    "sample_id": {
+      "pattern": "^fs1_[0-9a-f]{40}$",
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "serialized_model_input": {
+      "minLength": 1,
+      "title": "Serialized Model Input",
+      "type": "string"
+    },
+    "source_role": {
+      "default": "K_known",
+      "title": "Source Role",
+      "type": "string"
+    },
+    "source_split": {
+      "default": "train",
+      "title": "Source Split",
+      "type": "string"
+    },
+    "stage_type": {
+      "$ref": "#/$defs/StageType"
+    }
+  },
+  "required": [
+    "prompt_id",
+    "evidence_state_id",
+    "sample_id",
+    "fine_label",
+    "stage_type",
+    "classification_supervision_valid",
+    "serialized_model_input"
+  ],
+  "title": "RLPromptRecordV1",
+  "type": "object"
+}
