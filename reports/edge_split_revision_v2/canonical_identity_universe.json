@@ -1,0 +1,16 @@
+{
+  "after": {
+    "count": 7619032,
+    "distinct_sample_ids": 7619032,
+    "ordered_sample_id_sha256": "bf1d1f554b62bdec977e17554d9cbd3b2f3fc6a9592245cd1e981fe3caa83ce3"
+  },
+  "before": {
+    "count": 7619032,
+    "distinct_sample_ids": 7619032,
+    "ordered_sample_id_sha256": "bf1d1f554b62bdec977e17554d9cbd3b2f3fc6a9592245cd1e981fe3caa83ce3"
+  },
+  "sessionization_reexecuted": false,
+  "source_catalog": "/root/autodl-tmp/processed/production_data_freeze_v1/_state/production_catalog.sqlite",
+  "tshark_reexecuted": false,
+  "unchanged": true
+}

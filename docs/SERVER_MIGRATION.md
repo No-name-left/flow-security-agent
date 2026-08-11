@@ -1,6 +1,6 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-11）：远程服务器初始化、官方数据恢复、Gate复核和Production Data Freeze已完成；Production、Runtime与provider-neutral backend preparation已进入唯一长期分支`main`，pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`。`PRODUCTION_DATA_READY=true`；尚未下载Qwen、调用真实模型/API或启动训练。
+> 当前状态（2026-08-11）：远程服务器初始化、官方数据恢复、Gate复核和Production Data Freeze已完成；Production、Runtime与provider-neutral backend preparation已进入唯一长期分支`main`，当前同步基线为`607c40bf3c494411503be6e960d3b88450332e22`，并包含tagged pre-model integration基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`。Edge paper-grade split/SFT revision已在短期分支完成并等待Git冻结；`PRODUCTION_DATA_READY=true`，尚未下载Qwen、调用真实模型/API或启动训练。
 
 ## 1. 已冻结的数据角色
 
@@ -8,7 +8,7 @@
 - **IoT-23：**独立scenario外部验证数据集，Gate状态为`PASS_WITH_LIMITATIONS`。保留原生标签和独立train/validation/scenario-held-out test，不与Edge细类物理合并训练。
 - 两者分别解析，通过`CanonicalSessionRecord`统一方法接口。Gate Adapter仍保留为历史验收参考；正式实现位于`src/flowsec/production/`。
 
-正式原始数据位于服务器`/root/autodl-tmp/datasets/`，派生生产资产位于`/root/autodl-tmp/processed/production_data_freeze_v1/`，完整运行报告位于`/root/autodl-tmp/experiments/production_data_freeze_20260809/`；它们都在Git仓库外。代码、配置、测试与小型复现报告进入Git。Edge完整归档与解压成员已在服务器逐项验哈希，当前不得擅自删除。
+正式原始数据位于服务器`/root/autodl-tmp/datasets/`；原始Production Freeze资产位于`/root/autodl-tmp/processed/production_data_freeze_v1/`，其完整报告位于`/root/autodl-tmp/experiments/production_data_freeze_20260809/`。Edge v2 split-dependent资产位于`/root/autodl-tmp/processed/edge_split_revision_v2/`，完整小型运行manifest位于`/root/autodl-tmp/experiments/edge_split_revision_v2/`；它们都在Git仓库外。代码、配置、测试与小型复现报告进入Git。Edge完整归档与解压成员已在服务器逐项验哈希，当前不得擅自删除。
 
 ## 2. 官方来源与校验
 
@@ -80,7 +80,8 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 6. **已完成：**将Adapter和Canonical schema重构为生产模块，命令入口为`flowsec-production-data`。
 7. **已完成：**冻结全量split、K/U、support/query、异常文件处置和training manifest；最终`PASS_WITH_LIMITATIONS`且`PRODUCTION_DATA_READY=true`。
 8. **已完成：**Production Data Freeze、Runtime foundation与provider-neutral backend preparation已审查、测试并进入唯一长期`main`基线。
-9. **当前下一步：**实现轻量、白名单式Production→Runtime adapter及跨层泄漏测试。真实provider smoke、GPU模型环境、Qwen3.5-9B下载和text-only BF16 LoRA SFT仍须分别获得明确授权；不得从本状态文档直接推导为可执行任务。
+9. **已完成、待短期分支Git冻结：**只重建Edge split-dependent assets，完成paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C、PLAN_B SFT候选和label provenance final verification；未重新TShark/canonical/sessionize。
+10. **当前下一步：**完成本轮分支冻结后，实现轻量、白名单式Production→Runtime adapter及跨层泄漏测试。真实provider smoke、GPU模型环境、Qwen3.5-9B下载和text-only BF16 LoRA SFT仍须分别获得明确授权；不得从本状态文档直接推导为可执行任务。
 
 现有Gate脚本仍只负责七场景验收，并支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。正式生产CLI默认读取本服务器实际Edge解压根与包含八个场景的IoT-23根；Capture-3的精确恢复URL/hash/size保存在服务器下载manifest和Production Freeze source manifest中。
 
@@ -96,14 +97,16 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - `reports/data_feasibility_gate_20260806/run_final_gate.py`：可复现Gate脚本；
 - `tools/dataset_download/`：官方数据下载与校验入口。
 - `reports/production_data_freeze_20260809/`：正式冻结的小型复现摘要、schema/split/KU/training/audit关键manifest；完整source/统计与Parquet位于上述Git外实验/资产路径。
+- `reports/edge_split_revision_v2/`：Edge paper-grade split、Phase A candidates、provenance、readiness、SFT PLAN_B、leakage/sensitivity与low-resource小型报告；完整Parquet保持Git外。
 
 ## 6. 2026-08-11服务器状态快照
 
 - Edge官方归档为`1,746,605,436` bytes，MD5 `d0f9be0185845a1ef4ed31cc6db4a9b2`；解压清单为52个成员，其中24个PCAP、26个CSV，24/24 capture provenance通过。
 - IoT-23 source manifest共19项且大小/哈希检查无缺失；正式数据角色覆盖8个scenario。
-- Production后台记录数为7,818,954，canonical session为7,569,346；`CLASS_ROLE_SUPPORT_GATE=PASS`、`CAPTURE_PROVENANCE_GATE=PASS`、`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`。
+- 原始Production Freeze后台记录数为7,818,954，canonical session为7,569,346；`CLASS_ROLE_SUPPORT_GATE=PASS`、`CAPTURE_PROVENANCE_GATE=PASS`、`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`。
+- Edge v2保留全部7,619,032 stable identity，physical assignment为train 5,294,777、validation 1,073,539、test 1,110,343、quarantine 140,373；v2全部split-dependent canonical/index资产总计7,670,824行（含未改变的IoT-23部分），PLAN_B SFT候选Near/Far/Mixed为16,979/15,895/15,404。
 - Production `_state/checkpoints`保留24个Edge和8个IoT checkpoint；checkpoint reuse audit为PASS，已完成capture不需要重新TShark。
 - 独立`flow-data`环境为Python 3.11.15；TShark 3.6.2可用，Zeek未安装且当前冻结资产不依赖它。`/root/autodl-tmp/models`为空，没有模型权重；顶层`/root/autodl-tmp/checkpoints`为空。
 - 当前服务器HTTPS GitHub push dry-run因没有可读用户名/凭据而失败。不要据此配置PAT、创建SSH key或安装`gh`；现有本地分支和两个bundle继续保留。
 
-尚未完成：Production→Runtime白名单adapter、正式证据工具、真实provider transport/smoke、Qwen模型环境与下载、原始模型冒烟、BF16 LoRA SFT、正式传统基线、独立Unknown算法/校准和Agent/论文实验。`PRODUCTION_DATA_READY=true`不等于模型训练已开始。
+尚未完成：本轮短期分支的最终Git冻结、Production→Runtime白名单adapter、正式证据工具、真实provider transport/smoke、Qwen模型环境与下载、原始模型冒烟、BF16 LoRA SFT、正式传统基线、独立Unknown算法/校准和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`不等于模型训练已开始。

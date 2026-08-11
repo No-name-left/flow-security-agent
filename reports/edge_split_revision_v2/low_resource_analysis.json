@@ -1,0 +1,109 @@
+{
+  "LOW_RESOURCE_KNOWN": [
+    "DDoS_UDP",
+    "MITM",
+    "OS_Fingerprinting"
+  ],
+  "LOW_RESOURCE_STRESS_TEST_STATUS": "PLANNED_OPTIONAL_NOT_RUN",
+  "LOW_RESOURCE_UNKNOWN_CANDIDATE_POOL": [
+    {
+      "class": "Backdoor",
+      "coarse_parent": "Malware",
+      "remaining_parent_siblings": [
+        "Ransomware"
+      ],
+      "selection_rationale": [
+        "raw_session_scarcity"
+      ],
+      "sessions": 1424,
+      "shared_parent_possible": true,
+      "train_exact_groups": 568,
+      "train_near_groups": 34,
+      "train_sessions": 995
+    },
+    {
+      "class": "DDoS_UDP",
+      "coarse_parent": "Availability",
+      "remaining_parent_siblings": [
+        "DDoS_HTTP",
+        "DDoS_ICMP",
+        "DDoS_TCP"
+      ],
+      "selection_rationale": [
+        "train_exact_diversity_scarcity",
+        "train_near_diversity_scarcity"
+      ],
+      "sessions": 3215242,
+      "shared_parent_possible": true,
+      "train_exact_groups": 5,
+      "train_near_groups": 5,
+      "train_sessions": 2232637
+    },
+    {
+      "class": "MITM",
+      "coarse_parent": "ManInTheMiddle",
+      "remaining_parent_siblings": [],
+      "selection_rationale": [
+        "raw_session_scarcity"
+      ],
+      "sessions": 227,
+      "shared_parent_possible": false,
+      "train_exact_groups": 36,
+      "train_near_groups": 36,
+      "train_sessions": 151
+    },
+    {
+      "class": "OS_Fingerprinting",
+      "coarse_parent": "Reconnaissance",
+      "remaining_parent_siblings": [
+        "Port_Scanning",
+        "Vulnerability_scanner"
+      ],
+      "selection_rationale": [
+        "raw_session_scarcity",
+        "train_near_diversity_scarcity"
+      ],
+      "sessions": 214,
+      "shared_parent_possible": true,
+      "train_exact_groups": 73,
+      "train_near_groups": 11,
+      "train_sessions": 144
+    },
+    {
+      "class": "Ransomware",
+      "coarse_parent": "Malware",
+      "remaining_parent_siblings": [
+        "Backdoor"
+      ],
+      "selection_rationale": [
+        "raw_session_scarcity"
+      ],
+      "sessions": 1364,
+      "shared_parent_possible": true,
+      "train_exact_groups": 419,
+      "train_near_groups": 30,
+      "train_sessions": 1019
+    },
+    {
+      "class": "XSS",
+      "coarse_parent": "Injection",
+      "remaining_parent_siblings": [
+        "SQL_injection"
+      ],
+      "selection_rationale": [
+        "raw_session_scarcity"
+      ],
+      "sessions": 1913,
+      "shared_parent_possible": true,
+      "train_exact_groups": 859,
+      "train_near_groups": 320,
+      "train_sessions": 1334
+    }
+  ],
+  "STRUCTURALLY_INSUFFICIENT_KNOWN": [
+    "DDoS_UDP",
+    "OS_Fingerprinting"
+  ],
+  "candidate_rule": "pre-model metadata only: total sessions <2000 or train exact/near diversity below the preregistered 30-group reference",
+  "changes_known_unknown_membership": false
+}

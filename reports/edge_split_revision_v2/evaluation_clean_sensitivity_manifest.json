@@ -1,0 +1,194 @@
+{
+  "canonical_training_distribution_changed": false,
+  "future_training_scale_policy": "use a separate reproducible sampling layer; never model-view deduplication",
+  "near_signature_rule": {
+    "decimal_places": 2,
+    "id": "initial_model_view_recursive_float_round_v1",
+    "input": "primary_no_service_v1",
+    "integer_values_unchanged": true,
+    "operation": "recursively round floating-point values"
+  },
+  "near_signature_rule_sha256": "7bcf1effd9b94bfd8ca13a73cb96782c6ef4e3b5356bbd547c57e5bdc07c2575",
+  "primary": {
+    "counts": {
+      "Edge-IIoTset": {
+        "test": 1110343,
+        "train": 5294777,
+        "validation": 1073539
+      },
+      "IoT-23": {
+        "test": 23251,
+        "train": 10855,
+        "validation": 6494
+      }
+    },
+    "id": "PRIMARY_CHRONOLOGICAL",
+    "policy": "real retained chronological/scenario-held distribution"
+  },
+  "superseded_variant": {
+    "SUPERSEDED_BEFORE_ANY_MODEL_RUN": true,
+    "id": "NEAR_DUPLICATE_SENSITIVITY_VARIANT",
+    "old_policy": "retain highest-isolation split and delete lower-isolation splits",
+    "result_driven_change": false
+  },
+  "variants": {
+    "EXACT_EVAL_CLEAN": {
+      "counts": {
+        "Edge-IIoTset": {
+          "effective": {
+            "test": 117160,
+            "train": 5294777,
+            "validation": 116276
+          },
+          "excluded": {
+            "test": 993183,
+            "train": 0,
+            "validation": 957263
+          },
+          "primary": {
+            "test": 1110343,
+            "train": 5294777,
+            "validation": 1073539
+          },
+          "train_unchanged": true
+        },
+        "IoT-23": {
+          "effective": {
+            "test": 19526,
+            "train": 10855,
+            "validation": 4298
+          },
+          "excluded": {
+            "test": 3725,
+            "train": 0,
+            "validation": 2196
+          },
+          "primary": {
+            "test": 23251,
+            "train": 10855,
+            "validation": 6494
+          },
+          "train_unchanged": true
+        }
+      },
+      "exclusion_id_asset": {
+        "bytes": 39657212,
+        "files": [
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00000.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00001.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00002.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00003.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00004.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00005.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00006.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00007.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00008.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00009.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00010.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00011.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00012.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00013.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00014.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00015.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00016.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00017.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00018.parquet",
+          "sensitivity_variants/EXACT_EVAL_CLEAN/part-00019.parquet"
+        ],
+        "logical_sha256": "978b050e7e5b16fa496bdbf9c21ebfeb7b069ca5c9376ee2176fc103a2d096ec",
+        "rows": 1956367
+      },
+      "exclusion_reasons": {
+        "signature_seen_in_effective_validation": 125,
+        "signature_seen_in_train": 1956242
+      },
+      "primary_replaced": false,
+      "signature_column": "evidence_signature",
+      "signature_semantics": "exact Initial Model View equality",
+      "status": "REGISTERED",
+      "test_policy": "exclude evaluation rows whose signature exists in train or effective validation",
+      "training_policy": "training set is unchanged",
+      "validation_policy": "exclude evaluation rows whose signature exists in train"
+    },
+    "NEAR_EVAL_CLEAN": {
+      "counts": {
+        "Edge-IIoTset": {
+          "effective": {
+            "test": 3970,
+            "train": 5294777,
+            "validation": 2941
+          },
+          "excluded": {
+            "test": 1106373,
+            "train": 0,
+            "validation": 1070598
+          },
+          "primary": {
+            "test": 1110343,
+            "train": 5294777,
+            "validation": 1073539
+          },
+          "train_unchanged": true
+        },
+        "IoT-23": {
+          "effective": {
+            "test": 16419,
+            "train": 10855,
+            "validation": 3107
+          },
+          "excluded": {
+            "test": 6832,
+            "train": 0,
+            "validation": 3387
+          },
+          "primary": {
+            "test": 23251,
+            "train": 10855,
+            "validation": 6494
+          },
+          "train_unchanged": true
+        }
+      },
+      "exclusion_id_asset": {
+        "bytes": 44310573,
+        "files": [
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00000.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00001.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00002.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00003.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00004.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00005.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00006.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00007.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00008.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00009.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00010.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00011.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00012.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00013.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00014.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00015.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00016.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00017.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00018.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00019.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00020.parquet",
+          "sensitivity_variants/NEAR_EVAL_CLEAN/part-00021.parquet"
+        ],
+        "logical_sha256": "1d483c077eda3840cd5405559f7e21878d41bfe013f05d523d5ac66ee1cd811f",
+        "rows": 2187190
+      },
+      "exclusion_reasons": {
+        "signature_seen_in_effective_validation": 625,
+        "signature_seen_in_train": 2186565
+      },
+      "primary_replaced": false,
+      "signature_column": "near_signature",
+      "signature_semantics": "pre-registered recursively quantized Initial Model View equality",
+      "status": "REGISTERED",
+      "test_policy": "exclude evaluation rows whose signature exists in train or effective validation",
+      "training_policy": "training set is unchanged",
+      "validation_policy": "exclude evaluation rows whose signature exists in train"
+    }
+  }
+}

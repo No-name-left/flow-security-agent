@@ -26,7 +26,9 @@
 | CICIoMT2024、X-IIoTID等 | 历史候选/备选 | 既有审计保留，不再是当前立即执行主线 |
 | 其他NF3/NF-ToN/CICIoT2023等 | 退出当前主线 | 停止广泛候选搜索；仅在IoT-23生产构建出现新阻断并新增Decision时重选第二数据集 |
 | 会话表示 | 接口和初始包预算已定 | 两个Adapter输出`CanonicalSessionRecord`；序列最多保存16包，首次分类使用前8包，Agent可请求第9至16包 |
-| K_known/U_dev/U_final | **已冻结** | Edge Near/Far/Mixed与IoT-23原生coarse预设均已进入Production manifest；`U_final`继续严格隔离 |
+| K_known/U_dev/U_final | **已冻结且本轮未改变** | Edge Near/Far/Mixed与IoT-23原生coarse预设均已进入Production manifest；`U_final`继续严格隔离 |
+| Edge paper-grade split | **v2已完成（带限制）** | `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`保留7,619,032个identity；ZERO/CRITICAL_LOW均降为0；DDoS_UDP与OS_Fingerprinting仍为structural limitation |
+| SFT候选 | **PLAN_B已物化，尚未训练** | `CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`仅取`K_known ∩ train`；Near/Far/Mixed为16,979/15,895/15,404条唯一sample |
 | Qwen3.5-9B SFT/DPO | 尚未开始 | Qwen是主分类器；默认text-only BF16 LoRA SFT、冻结视觉模块并使用non-thinking输出，QLoRA仅为降级路线，DPO保持条件性 |
 | Supervisor/Runtime/Policy | **工程foundation已实现** | deterministic Runtime、RulePolicy合同与provider-neutral Supervisor backend preparation已通过synthetic/Fake Provider审计；真实provider、正式配置与实验尚未开始 |
 
@@ -38,6 +40,7 @@ DEC-0009与双数据集最终Gate同步（已完成）
 → Production Data Freeze、provenance、K/U、support/query和training manifest（已完成）
 → deterministic Runtime与provider-neutral backend preparation（已完成）
 → 提升至main唯一长期基线并标记baseline-pre-model-20260811（已完成）
+→ Edge paper-grade split、Paper Evaluation Readiness、PLAN_A/B/C与PLAN_B候选物化（已完成）
 → Production→Runtime白名单adapter与跨层泄漏测试
 → 经另行授权后配置GPU模型环境
 → Qwen3.5-9B加载与text-only BF16 LoRA SFT小规模冒烟
@@ -58,6 +61,8 @@ DEC-0009与双数据集最终Gate同步（已完成）
 - `K_known`进入Qwen SFT和传统基线；`U_dev`不得作为主分类监督进入SFT，只用于Unknown算法、校准/阈值、证据扩展与策略开发；`U_final`对SFT/DPO、Prompt、known-only RAG、Unknown算法选择、阈值、Agent/策略训练和人工调参完全隔离。
 - Unknown至少覆盖Near、Far和Mixed多套预注册组合并使用多个随机种子。
 - 阶段A使用known-only知识做Unknown拒识；阶段B只对已拒识样本开放full-frozen RAG做Top-k候选；阶段C获得sample-level 1/5/10-shot后注册新类，并在无相同记录或精确重复的query上评价。
+- Edge physical assignment使用capture内chronological v2：complete-session crossing quarantine加local 5秒embargo；不random shuffle，不跨capture混切。Paper readiness与Production integrity分开报告。
+- 完整Production保持真实分布；正式SFT候选单独使用`PLAN_B`，按near diversity→exact diversity→bounded multiplicity选择，sample ID唯一，不让百万级高重复类按raw frequency支配examples/tokens/loss/gradient updates。
 - 只使用锚点之前的信息；训练、验证、测试分别构造会话和上下文，不跨split检索邻居。
 
 ### 3.2 Qwen与Agent
@@ -87,6 +92,8 @@ RulePolicy是必须保留的强可复现baseline，Strong Static继续包含合�
 
 在传统开放集基线完成后，实现“Unknown拒识+被拒识样本随机分配至候选新类”的零信息标签扩展诊断，并输出Known-to-Novel FPR、新类Macro-F1、混淆矩阵及多随机种子结果；该诊断不替代合理的传统Unknown拒识基线。
 
+主Near/Far/Mixed完成后可按时间与readiness决定是否执行独立的`OPTIONAL: Low-Resource Unknown Stress Test`。候选只依据pre-model session support与exact/near diversity，禁止根据模型结果事后挑类；若执行，必须与主结果分开报告scarcity-driven Unknown拒识和few-shot Class Memory注册，且不改变现有K/U。当前状态为`PLANNED_OPTIONAL_NOT_RUN`。
+
 ## 4. 当前可执行工作与停止项
 
 ### 4.1 本阶段已执行
@@ -101,7 +108,8 @@ RulePolicy是必须保留的强可复现baseline，Strong Static继续包含合�
 8. 完成本地收尾、GitHub `main`可复现停止点与受限数据清理；
 9. 完成远程服务器初始化、官方数据恢复、Production全量冻结、provenance与class-role复审；
 10. 完成deterministic Runtime foundation、provider-neutral backend preparation及其安全集成；
-11. 将全部必要历史提升至唯一长期分支`main`，并将pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`。
+11. 将全部必要历史提升至唯一长期分支`main`，并将pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`；
+12. 完成Edge paper-grade split revision、label provenance final verification、Paper Evaluation Readiness、SFT PLAN_A/B/C simulation、PLAN_B候选物化和Low-Resource pre-model candidate analysis；Low-Resource Unknown Stress Test只登记为OPTIONAL且未运行。
 
 ### 4.2 本阶段停止
 
@@ -123,7 +131,8 @@ T0定义为：生产级`CanonicalSessionRecord`和两个Adapter通过回归，Ed
 | 服务器初始化 | **已完成：**验证Git同步，初始化独立数据/资产/模型目录，确认硬件/GPU、权限与数据处理环境 | 仓库和基础环境可复现；不把具体平台、GPU型号或路径冻结为研究方法 |
 | 生产Adapter与manifest冻结 | **已完成：**固化`CanonicalSessionRecord`和两个Adapter；冻结全量split、K/U、support/query、异常文件处置和training manifest | `PRODUCTION_DATA_READY=true`，限制已记录 |
 | Main基线同步 | **已完成：**集成Production、Runtime与provider-neutral backend preparation，完整审计后提升至唯一长期分支`main`并打基线标签 | 审计起点`main=origin/main=3ab33e36...`，`baseline-pre-model-20260811`指向该提交；状态同步commit不自动push |
-| T0后第1周 | 配置GPU模型环境；加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；完成传统和原始Qwen基线 | 模型、独立Unknown评分接口与数据链路可运行，无Final泄漏 |
+| Edge数据协议修订 | **已完成：**只重建split-dependent资产，完成v2 split、readiness、PLAN_A/B/C、PLAN_B候选及provenance final Gate | identity universe与K/U不变，`SPLIT_REVISION_STATUS=PASS_WITH_LIMITATIONS`，无Qwen/SFT运行 |
+| T0后第1周 | 配置GPU模型环境；加载Qwen3.5-9B并使用冻结PLAN_B候选完成text-only BF16 LoRA SFT小规模冒烟；完成传统和原始Qwen基线 | 模型、独立Unknown评分接口与数据链路可运行，无Final泄漏 |
 | T0后第2周 | 完成Edge Qwen主训练、闭集/coarse/fine和强Static | Qwen稳定输出fine/coarse、证据状态和开放集模型信号，冻结Unknown层产生可复现决策 |
 | T0后第3周 | 完成Edge Near/Far/Mixed Unknown、deterministic Runtime、RulePolicy和High-Capability LLM Supervisor；LearnablePolicy与DPO仅作条件性判断 | Edge实验一、实验二和utility-cost结果冻结 |
 | T0后第4周 | 完成Edge sample-level 1/5/10-shot、错误/成本分析及IoT-23压缩外部验证；同步论文初稿 | 实验三、实验四、限制和复现清单完成 |
@@ -147,10 +156,11 @@ Edge单capture、固定端点和时间捷径通过capture内时间块、隔离ga
 
 ## 8. 下一执行顺序
 
-1. **当前下一步：**实现轻量、白名单式Production→Runtime adapter，将安全投影显式封装为Runtime证据并加入跨层泄漏测试；
-2. 在另行授权后实现最小真实provider transport/smoke；
-3. 在另行授权后配置GPU模型环境、加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；
-4. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证。
+1. **当前收尾：**完成本轮Edge split/SFT data protocol的回归、报告和Git冻结；
+2. 随后实现轻量、白名单式Production→Runtime adapter，将安全投影显式封装为Runtime证据并加入跨层泄漏测试；
+3. 在另行授权后实现最小真实provider transport/smoke；
+4. 在另行授权后配置GPU模型环境、加载Qwen3.5-9B并使用PLAN_B候选完成text-only BF16 LoRA SFT小规模冒烟；
+5. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证；主实验与时间允许时，再按预注册规则决定是否执行独立的OPTIONAL Low-Resource Unknown Stress Test。
 
 ## 9. 端到端流程速查（压缩版）
 
@@ -158,7 +168,7 @@ Edge单capture、固定端点和时间捷径通过capture内时间块、隔离ga
 
 1. **数据与Gate：**冻结Edge-IIoTset主实验和IoT-23独立scenario外部验证职责，从官方来源下载、校验并归档原始数据。
 2. **Production构建：**已解析packet、重建双向session、对齐标签并生成`CanonicalSessionRecord`。Edge Label Provenance Audit与24-capture guard已通过（带记录限制），hash、purity、fallback与quarantine规则不得绕过。
-3. **数据冻结：**按immutable backend identity处理真正重复，冻结chronological/scenario split、gap、split内past-only上下文、字段白名单、exact/near sensitivity、K/U、support/query和训练manifest。
+3. **数据冻结：**按immutable backend identity处理真正重复；Edge现采用paper-grade capture-local chronological v2、crossing quarantine与5秒embargo，并冻结split内past-only上下文、字段白名单、exact/near sensitivity、K/U、support/query和PLAN_B SFT候选manifest。
 4. **版本集成：**Production、Runtime与provider-neutral backend preparation已审查、测试并进入统一`main`基线`3ab33e36...`。
 5. **环境与基线：**部署Qwen3.5-9B训练环境，在冻结数据上运行传统模型和Raw Qwen基线；传统模型不承担前置路由。
 6. **SFT：**仅从`K_known/train`构造监督数据，先smoke test，再执行默认text-only BF16 LoRA SFT；QLoRA只作资源/兼容性fallback或量化消融。

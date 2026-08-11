@@ -27,7 +27,9 @@
 
 基础输入采用会话级混合表示：双向会话前8个包的方向、长度、包间时间、协议与TCP flags，加会话持续时间、双向包数/字节数、包长/IAT统计和缺失字段声明；序列最多保存16包，Agent可按需请求第9至16包。完整Payload不默认输入；past-only跨会话关系、应用层字段、有限脱敏Payload和RAG知识由Agent在需要且合法时获取。
 
-训练、验证和测试分别构造会话与历史上下文，不跨split检索邻居。IP可用于后台关联，但固定真实身份、文件名、绝对时间、capture名称和攻击脚本编号不得成为标签捷径。
+训练、验证和测试分别构造会话与历史上下文，不跨split检索邻居。IP可用于后台关联，但固定真实身份、文件名、绝对时间、capture名称和攻击脚本编号不得成为标签捷径。Edge现采用capture-local chronological v2与边界隔离；完整Production保持真实分布，正式SFT另用仅含`K_known ∩ train`的class-balanced、diversity-aware PLAN_B候选。
+
+主Near/Far/Mixed之外，可在时间允许时执行独立的OPTIONAL Low-Resource Unknown Stress Test，以pre-model稀缺性选取held-out攻击类，研究scarcity-driven Unknown拒识与few-shot Class Memory注册；该实验不改变现有K/U且当前未运行。
 
 ## 三、核心方法
 
@@ -56,6 +58,6 @@ Agent根据证据充分度与缺失证据类型按需选择包、时间/关系�
 
 ## 五、实施计划与当前进度
 
-当前已完成通用LLM调用、结构化输出、缓存/resume/trace、RAG摄取、数据合同、研究架构回溯、双数据集最终可行性验收，以及服务器官方数据恢复和Production Data Freeze。正式`CanonicalSessionRecord`、两个Adapter、60秒session、identity dedup、标签provenance、全量split、K/U、support/query和training manifest均已冻结并通过postfix审计（带记录限制）；`PRODUCTION_DATA_READY=true`。Edge多数攻击类只有一个主要capture，IoT-23部分外部验证支持仍偏少，因此两者的结论限制不变。Qwen训练和正式实验尚未开始。
+当前已完成通用LLM调用、结构化输出、缓存/resume/trace、RAG摄取、数据合同、研究架构回溯、双数据集最终可行性验收，以及服务器官方数据恢复和Production Data Freeze。正式`CanonicalSessionRecord`、两个Adapter、60秒session、identity dedup、标签provenance、K/U、support/query和training manifest均已冻结并通过postfix审计（带记录限制）；后续Edge paper-grade split revision、Paper Evaluation Readiness与PLAN_B SFT候选物化也已完成，`PRODUCTION_DATA_READY=true`。Edge多数攻击类只有一个主要capture，IoT-23部分外部验证支持仍偏少，因此两者的结论限制不变。Qwen训练和正式实验尚未开始。
 
-deterministic Runtime foundation、Memory/预算/终止安全合同及provider-neutral Traffic Expert/Supervisor backend preparation也已完成synthetic/Fake Provider工程审计，并与Production共同进入唯一长期分支`main`；pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`。当前唯一推荐下一步是轻量、白名单式Production→Runtime adapter及跨层泄漏测试；真实provider、Qwen配置/下载和text-only BF16 LoRA冒烟均须另行授权。研究计划不绑定具体平台、GPU型号或目录；分类头或标签Token、Unknown具体算法、SFT格式、Agent学习算法和条件性DPO仍待后续实验决定。
+deterministic Runtime foundation、Memory/预算/终止安全合同及provider-neutral Traffic Expert/Supervisor backend preparation也已完成synthetic/Fake Provider工程审计，并与Production共同进入唯一长期分支`main`；pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`标记为`baseline-pre-model-20260811`。本轮split/SFT data protocol完成回归与Git冻结后的唯一推荐工程下一步，是轻量、白名单式Production→Runtime adapter及跨层泄漏测试；真实provider、Qwen配置/下载和text-only BF16 LoRA冒烟均须另行授权。研究计划不绑定具体平台、GPU型号或目录；分类头或标签Token、Unknown具体算法、SFT格式、Agent学习算法和条件性DPO仍待后续实验决定。

@@ -1,0 +1,559 @@
+{
+  "assignment_asset": {
+    "bytes": 162248851,
+    "files": [
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00000.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00001.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00002.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00003.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00004.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00005.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00006.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00007.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00008.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00009.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00010.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00011.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00012.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00013.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00014.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00015.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00016.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00017.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00018.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00019.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00020.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00021.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00022.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00023.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00024.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00025.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00026.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00027.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00028.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00029.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00030.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00031.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00032.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00033.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00034.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00035.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00036.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00037.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00038.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00039.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00040.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00041.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00042.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00043.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00044.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00045.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00046.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00047.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00048.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00049.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00050.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00051.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00052.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00053.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00054.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00055.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00056.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00057.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00058.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00059.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00060.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00061.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00062.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00063.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00064.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00065.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00066.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00067.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00068.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00069.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00070.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00071.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00072.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00073.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00074.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00075.parquet",
+      "/root/autodl-tmp/processed/edge_split_revision_v2/split_assignments/Edge-IIoTset/part-00076.parquet"
+    ],
+    "logical_sha256": "e24ad110fbf4d12d958e9023d02f65444de4550cb9e8de1818c147660afc0004",
+    "rows": 7619032
+  },
+  "captures": {
+    "Attack_Backdoor": {
+      "boundary": {
+        "capture_id": "Attack_Backdoor",
+        "fine_label": "Backdoor",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1638733389.94931,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1638734092.899195,
+        "source_session_count": 1424
+      },
+      "split_counts": {
+        "quarantine": 5,
+        "test": 213,
+        "train": 995,
+        "validation": 211
+      }
+    },
+    "Attack_DDoS_HTTP": {
+      "boundary": {
+        "capture_id": "Attack_DDoS_HTTP",
+        "fine_label": "DDoS_HTTP",
+        "first_anchor_fraction": 0.77,
+        "first_timestamp": 1637836697.775798,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.92,
+        "second_timestamp": 1637836737.946117,
+        "source_session_count": 12145
+      },
+      "split_counts": {
+        "quarantine": 5762,
+        "test": 842,
+        "train": 5379,
+        "validation": 162
+      }
+    },
+    "Attack_DDoS_ICMP": {
+      "boundary": {
+        "capture_id": "Attack_DDoS_ICMP",
+        "fine_label": "DDoS_ICMP",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1637792574.840962,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1637792636.289991,
+        "source_session_count": 2407981
+      },
+      "split_counts": {
+        "quarantine": 32287,
+        "test": 355305,
+        "train": 1674160,
+        "validation": 346229
+      }
+    },
+    "Attack_DDoS_TCP": {
+      "boundary": {
+        "capture_id": "Attack_DDoS_TCP",
+        "fine_label": "DDoS_TCP",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1637777323.817447,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1637777403.34473,
+        "source_session_count": 1176049
+      },
+      "split_counts": {
+        "quarantine": 20186,
+        "test": 172237,
+        "train": 818189,
+        "validation": 165437
+      }
+    },
+    "Attack_DDoS_UDP": {
+      "boundary": {
+        "capture_id": "Attack_DDoS_UDP",
+        "fine_label": "DDoS_UDP",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1637793104.208532,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1637793167.281623,
+        "source_session_count": 3215242
+      },
+      "split_counts": {
+        "quarantine": 78866,
+        "test": 461556,
+        "train": 2232637,
+        "validation": 442183
+      }
+    },
+    "Attack_MITM": {
+      "boundary": {
+        "capture_id": "Attack_MITM",
+        "fine_label": "MITM",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1638036018.428865,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1638036366.314095,
+        "source_session_count": 227
+      },
+      "split_counts": {
+        "quarantine": 12,
+        "test": 31,
+        "train": 151,
+        "validation": 33
+      }
+    },
+    "Attack_OS_Fingerprinting": {
+      "boundary": {
+        "capture_id": "Attack_OS_Fingerprinting",
+        "fine_label": "OS_Fingerprinting",
+        "first_anchor_fraction": 0.69,
+        "first_timestamp": 1640640258.12781,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1640640379.128695,
+        "source_session_count": 214
+      },
+      "split_counts": {
+        "quarantine": 6,
+        "test": 31,
+        "train": 144,
+        "validation": 33
+      }
+    },
+    "Attack_Password": {
+      "boundary": {
+        "capture_id": "Attack_Password",
+        "fine_label": "Password",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1638642962.136717,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1638645092.799601,
+        "source_session_count": 96081
+      },
+      "split_counts": {
+        "quarantine": 72,
+        "test": 14394,
+        "train": 67237,
+        "validation": 14378
+      }
+    },
+    "Attack_Port_Scanning": {
+      "boundary": {
+        "capture_id": "Attack_Port_Scanning",
+        "fine_label": "Port_Scanning",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1637773250.743305,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1637774717.404549,
+        "source_session_count": 10908
+      },
+      "split_counts": {
+        "quarantine": 22,
+        "test": 1634,
+        "train": 7632,
+        "validation": 1620
+      }
+    },
+    "Attack_Ransomware": {
+      "boundary": {
+        "capture_id": "Attack_Ransomware",
+        "fine_label": "Ransomware",
+        "first_anchor_fraction": 0.75,
+        "first_timestamp": 1638572072.313459,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.9,
+        "second_timestamp": 1638573156.990517,
+        "source_session_count": 1364
+      },
+      "split_counts": {
+        "quarantine": 9,
+        "test": 136,
+        "train": 1019,
+        "validation": 200
+      }
+    },
+    "Attack_SQL_injection": {
+      "boundary": {
+        "capture_id": "Attack_SQL_injection",
+        "fine_label": "SQL_injection",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1638218481.951129,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.84,
+        "second_timestamp": 1638218549.300805,
+        "source_session_count": 4433
+      },
+      "split_counts": {
+        "quarantine": 135,
+        "test": 669,
+        "train": 3044,
+        "validation": 585
+      }
+    },
+    "Attack_Uploading": {
+      "boundary": {
+        "capture_id": "Attack_Uploading",
+        "fine_label": "Uploading",
+        "first_anchor_fraction": 0.68,
+        "first_timestamp": 1638828761.20677,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.84,
+        "second_timestamp": 1638828847.173169,
+        "source_session_count": 7635
+      },
+      "split_counts": {
+        "quarantine": 208,
+        "test": 1209,
+        "train": 5187,
+        "validation": 1031
+      }
+    },
+    "Attack_Vulnerability_scanner": {
+      "boundary": {
+        "capture_id": "Attack_Vulnerability_scanner",
+        "fine_label": "Vulnerability_scanner",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1638816527.394863,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1638816965.072448,
+        "source_session_count": 2912
+      },
+      "split_counts": {
+        "quarantine": 28,
+        "test": 433,
+        "train": 2019,
+        "validation": 432
+      }
+    },
+    "Attack_XSS": {
+      "boundary": {
+        "capture_id": "Attack_XSS",
+        "fine_label": "XSS",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1638209805.166035,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1638210912.129358,
+        "source_session_count": 1913
+      },
+      "split_counts": {
+        "quarantine": 8,
+        "test": 286,
+        "train": 1334,
+        "validation": 285
+      }
+    },
+    "Normal_Distance": {
+      "boundary": {
+        "capture_id": "Normal_Distance",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1640647015.717356,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1640647266.167616,
+        "source_session_count": 72045
+      },
+      "split_counts": {
+        "quarantine": 457,
+        "test": 10693,
+        "train": 50316,
+        "validation": 10579
+      }
+    },
+    "Normal_Flame_Sensor": {
+      "boundary": {
+        "capture_id": "Normal_Flame_Sensor",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1641358736.268801,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1641358948.451131,
+        "source_session_count": 67381
+      },
+      "split_counts": {
+        "quarantine": 493,
+        "test": 9986,
+        "train": 47036,
+        "validation": 9866
+      }
+    },
+    "Normal_Heart_Rate": {
+      "boundary": {
+        "capture_id": "Normal_Heart_Rate",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1640656935.314032,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1640657174.169895,
+        "source_session_count": 10573
+      },
+      "split_counts": {
+        "quarantine": 77,
+        "test": 1566,
+        "train": 7381,
+        "validation": 1549
+      }
+    },
+    "Normal_IR_Receiver": {
+      "boundary": {
+        "capture_id": "Normal_IR_Receiver",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1641341369.733814,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1641341637.999435,
+        "source_session_count": 82585
+      },
+      "split_counts": {
+        "quarantine": 493,
+        "test": 12261,
+        "train": 57690,
+        "validation": 12141
+      }
+    },
+    "Normal_Modbus": {
+      "boundary": {
+        "capture_id": "Normal_Modbus",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1641360733.112213,
+        "local_embargo_seconds": 5.0,
+        "search_applied": true,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1641362002.802672,
+        "source_session_count": 1065
+      },
+      "split_counts": {
+        "quarantine": 7,
+        "test": 157,
+        "train": 744,
+        "validation": 157
+      }
+    },
+    "Normal_Soil_Moisture": {
+      "boundary": {
+        "capture_id": "Normal_Soil_Moisture",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1641374896.731838,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1641375926.170227,
+        "source_session_count": 71260
+      },
+      "split_counts": {
+        "quarantine": 100,
+        "test": 10664,
+        "train": 49857,
+        "validation": 10639
+      }
+    },
+    "Normal_Sound_Sensor": {
+      "boundary": {
+        "capture_id": "Normal_Sound_Sensor",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1641354970.558891,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1641355268.565939,
+        "source_session_count": 95031
+      },
+      "split_counts": {
+        "quarantine": 470,
+        "test": 14132,
+        "train": 66387,
+        "validation": 14042
+      }
+    },
+    "Normal_Temperature_and_Humidity": {
+      "boundary": {
+        "capture_id": "Normal_Temperature_and_Humidity",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1637614269.340338,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1637688478.462652,
+        "source_session_count": 89851
+      },
+      "split_counts": {
+        "quarantine": 17,
+        "test": 13475,
+        "train": 62890,
+        "validation": 13469
+      }
+    },
+    "Normal_Water_Level": {
+      "boundary": {
+        "capture_id": "Normal_Water_Level",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1640665550.312741,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1641333637.645857,
+        "source_session_count": 145157
+      },
+      "split_counts": {
+        "quarantine": 555,
+        "test": 21624,
+        "train": 101485,
+        "validation": 21493
+      }
+    },
+    "Normal_phValue": {
+      "boundary": {
+        "capture_id": "Normal_phValue",
+        "fine_label": "Normal",
+        "first_anchor_fraction": 0.7,
+        "first_timestamp": 1640651212.729185,
+        "local_embargo_seconds": 5.0,
+        "search_applied": false,
+        "second_anchor_fraction": 0.85,
+        "second_timestamp": 1640651879.344489,
+        "source_session_count": 45556
+      },
+      "split_counts": {
+        "quarantine": 98,
+        "test": 6809,
+        "train": 31864,
+        "validation": 6785
+      }
+    }
+  },
+  "context_scope": "capture_or_scenario_and_split",
+  "counts": {
+    "quarantine": 140373,
+    "test": 1110343,
+    "train": 5294777,
+    "validation": 1073539
+  },
+  "policy": "CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2",
+  "safety": "complete-session crossing quarantine plus capture-local 5-second embargo",
+  "session_timeout_seconds": 60.0,
+  "target_ratios": {
+    "test": 0.15,
+    "train": 0.7,
+    "validation": 0.15
+  }
+}

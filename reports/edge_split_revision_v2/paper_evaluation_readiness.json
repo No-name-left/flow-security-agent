@@ -1,0 +1,444 @@
+{
+  "PAPER_EVALUATION_READINESS_GATE": "PASS_WITH_LIMITATIONS",
+  "classes": [
+    {
+      "class": "Backdoor",
+      "coarse_parent": "Malware",
+      "splits": {
+        "test": {
+          "count": 213,
+          "exact_groups": 140,
+          "near_groups": 11,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 995,
+          "exact_groups": 568,
+          "near_groups": 34,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 211,
+          "exact_groups": 147,
+          "near_groups": 19,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "DDoS_HTTP",
+      "coarse_parent": "Availability",
+      "splits": {
+        "test": {
+          "count": 842,
+          "exact_groups": 789,
+          "near_groups": 391,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 5379,
+          "exact_groups": 5371,
+          "near_groups": 5106,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 162,
+          "exact_groups": 161,
+          "near_groups": 157,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "DDoS_ICMP",
+      "coarse_parent": "Availability",
+      "splits": {
+        "test": {
+          "count": 355305,
+          "exact_groups": 478,
+          "near_groups": 223,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 1674160,
+          "exact_groups": 3765,
+          "near_groups": 1817,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 346229,
+          "exact_groups": 786,
+          "near_groups": 225,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "DDoS_TCP",
+      "coarse_parent": "Availability",
+      "splits": {
+        "test": {
+          "count": 172237,
+          "exact_groups": 330,
+          "near_groups": 6,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 818189,
+          "exact_groups": 1038,
+          "near_groups": 46,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 165437,
+          "exact_groups": 442,
+          "near_groups": 8,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "DDoS_UDP",
+      "coarse_parent": "Availability",
+      "splits": {
+        "test": {
+          "count": 461556,
+          "exact_groups": 222,
+          "near_groups": 6,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 2232637,
+          "exact_groups": 5,
+          "near_groups": 5,
+          "reference_exact_ready": false,
+          "reference_near_ready": false
+        },
+        "validation": {
+          "count": 442183,
+          "exact_groups": 28,
+          "near_groups": 6,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "TRAIN_INSUFFICIENT"
+    },
+    {
+      "class": "MITM",
+      "coarse_parent": "ManInTheMiddle",
+      "splits": {
+        "test": {
+          "count": 31,
+          "exact_groups": 4,
+          "near_groups": 4,
+          "paper_status": "LOW"
+        },
+        "train": {
+          "count": 151,
+          "exact_groups": 36,
+          "near_groups": 36,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 33,
+          "exact_groups": 11,
+          "near_groups": 11,
+          "paper_status": "LOW"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "Normal",
+      "coarse_parent": "Benign",
+      "splits": {
+        "test": {
+          "count": 101367,
+          "exact_groups": 100002,
+          "near_groups": 5616,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 475650,
+          "exact_groups": 469897,
+          "near_groups": 16045,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 100720,
+          "exact_groups": 99425,
+          "near_groups": 5087,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "OS_Fingerprinting",
+      "coarse_parent": "Reconnaissance",
+      "splits": {
+        "test": {
+          "count": 31,
+          "exact_groups": 19,
+          "near_groups": 3,
+          "paper_status": "LOW"
+        },
+        "train": {
+          "count": 144,
+          "exact_groups": 73,
+          "near_groups": 11,
+          "reference_exact_ready": true,
+          "reference_near_ready": false
+        },
+        "validation": {
+          "count": 33,
+          "exact_groups": 23,
+          "near_groups": 4,
+          "paper_status": "LOW"
+        }
+      },
+      "training_diversity_status": "TRAIN_INSUFFICIENT"
+    },
+    {
+      "class": "Password",
+      "coarse_parent": "CredentialAccess",
+      "splits": {
+        "test": {
+          "count": 14394,
+          "exact_groups": 14204,
+          "near_groups": 1772,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 67237,
+          "exact_groups": 66249,
+          "near_groups": 9384,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 14378,
+          "exact_groups": 14190,
+          "near_groups": 1682,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "Port_Scanning",
+      "coarse_parent": "Reconnaissance",
+      "splits": {
+        "test": {
+          "count": 1634,
+          "exact_groups": 151,
+          "near_groups": 32,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 7632,
+          "exact_groups": 231,
+          "near_groups": 35,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 1620,
+          "exact_groups": 148,
+          "near_groups": 34,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "Ransomware",
+      "coarse_parent": "Malware",
+      "splits": {
+        "test": {
+          "count": 136,
+          "exact_groups": 74,
+          "near_groups": 23,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 1019,
+          "exact_groups": 419,
+          "near_groups": 30,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 200,
+          "exact_groups": 111,
+          "near_groups": 26,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "SQL_injection",
+      "coarse_parent": "Injection",
+      "splits": {
+        "test": {
+          "count": 669,
+          "exact_groups": 661,
+          "near_groups": 627,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 3044,
+          "exact_groups": 3014,
+          "near_groups": 2620,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 585,
+          "exact_groups": 585,
+          "near_groups": 565,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "Uploading",
+      "coarse_parent": "FileTransfer",
+      "splits": {
+        "test": {
+          "count": 1209,
+          "exact_groups": 1057,
+          "near_groups": 132,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 5187,
+          "exact_groups": 3647,
+          "near_groups": 283,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 1031,
+          "exact_groups": 944,
+          "near_groups": 113,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "coarse_parent": "Reconnaissance",
+      "splits": {
+        "test": {
+          "count": 433,
+          "exact_groups": 403,
+          "near_groups": 389,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 2019,
+          "exact_groups": 1867,
+          "near_groups": 1674,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 432,
+          "exact_groups": 390,
+          "near_groups": 388,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    },
+    {
+      "class": "XSS",
+      "coarse_parent": "Injection",
+      "splits": {
+        "test": {
+          "count": 286,
+          "exact_groups": 190,
+          "near_groups": 90,
+          "paper_status": "ADEQUATE"
+        },
+        "train": {
+          "count": 1334,
+          "exact_groups": 859,
+          "near_groups": 320,
+          "reference_exact_ready": true,
+          "reference_near_ready": true
+        },
+        "validation": {
+          "count": 285,
+          "exact_groups": 188,
+          "near_groups": 62,
+          "paper_status": "ADEQUATE"
+        }
+      },
+      "training_diversity_status": "ADEQUATE"
+    }
+  ],
+  "critical_low_class_count": 0,
+  "policy": "PAPER_EVALUATION_READINESS_V1",
+  "presets": {
+    "Far": {
+      "K_known_count": 12,
+      "imbalance_counts": {
+        "ADEQUATE": 11,
+        "CRITICAL_LOW": 0,
+        "LOW": 1,
+        "ZERO": 0
+      },
+      "training_insufficient": [
+        "DDoS_UDP",
+        "OS_Fingerprinting"
+      ]
+    },
+    "Mixed": {
+      "K_known_count": 11,
+      "imbalance_counts": {
+        "ADEQUATE": 10,
+        "CRITICAL_LOW": 0,
+        "LOW": 1,
+        "ZERO": 0
+      },
+      "training_insufficient": [
+        "DDoS_UDP",
+        "OS_Fingerprinting"
+      ]
+    },
+    "Near": {
+      "K_known_count": 11,
+      "imbalance_counts": {
+        "ADEQUATE": 10,
+        "CRITICAL_LOW": 0,
+        "LOW": 1,
+        "ZERO": 0
+      },
+      "training_insufficient": []
+    }
+  },
+  "thresholds": {
+    "ADEQUATE": ">=100",
+    "CRITICAL_LOW": "1-29",
+    "LOW": "30-99",
+    "ZERO": "0",
+    "train_exact_reference": 30,
+    "train_near_reference": 30
+  },
+  "zero_class_count": 0
+}

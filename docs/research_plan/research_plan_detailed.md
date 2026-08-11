@@ -2,7 +2,7 @@
 
 > 文档状态：Canonical / Authoritative
 >
-> 冻结日期：2026-08-09
+> 冻结日期：2026-08-11
 >
 > 解释顺序：本文件高于执行时间表和导师简版；审计产生新证据但尚未写入Decision Log时，不自动改变研究方案。
 
@@ -71,7 +71,7 @@ Agent读取Qwen第一次分类的粗细类别、证据状态、supporting/missin
 
 Agent的基本闭环进一步明确为`Evidence State → 识别缺失证据 → 选择对应证据源/合法动作 → 更新状态 → 重分类或停止`。动态性来自根据当前证据缺口、可用能力和剩余预算选择下一步，而不是在Qwen不确定时无差别调用全部工具；这一细化不改变Qwen首次分类、独立Unknown层和Agent所在位置。
 
-架构回溯、Edge-IIoTset Phase 2客观审查、双数据集最终可行性验收和Production Data Freeze已经完成。生产级`CanonicalSessionRecord`、两个Adapter、60秒会话构造、全量split、K/U、support/query、provenance guard、字段白名单与training manifest均已冻结并通过postfix审计（带已记录限制）。deterministic Runtime foundation及provider-neutral Traffic Expert/Supervisor backend preparation已经实现并通过synthetic/fake-provider工程审计；Production安全投影到Runtime `EvidenceItem`/`CapabilityStatus`的轻量adapter、真实provider/model、分类输出最终Schema、Unknown算法、SFT格式和Agent实验算法仍未完成或未冻结。Qwen训练和正式实验尚未开始。
+架构回溯、Edge-IIoTset Phase 2客观审查、双数据集最终可行性验收和Production Data Freeze已经完成。生产级`CanonicalSessionRecord`、两个Adapter、60秒会话构造、K/U、support/query、provenance guard、字段白名单与training manifest均已冻结并通过postfix审计（带已记录限制）。随后完成的paper-grade split revision以`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`替换Edge旧physical assignment，并以`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`的`PLAN_B`物化三套preset的SFT候选；该修订不改变canonical identity、sessionization、label或Near/Far/Mixed成员。deterministic Runtime foundation及provider-neutral Traffic Expert/Supervisor backend preparation已经实现并通过synthetic/fake-provider工程审计；Production安全投影到Runtime `EvidenceItem`/`CapabilityStatus`的轻量adapter、真实provider/model、分类输出最终Schema、Unknown算法、SFT renderer和Agent实验算法仍未完成或未冻结。Qwen训练和正式实验尚未开始。
 
 ## 1. 研究动机、核心假设与预期贡献
 
@@ -183,6 +183,18 @@ IoT23Adapter:
 启动SFT前至少冻结：Edge原生标签Schema、生产级会话重建规则、`CanonicalSessionRecord`、EdgeAdapter冒烟结果、包级/摘要字段白名单、split、K/U、support/query、known-only与full-frozen知识域、精确重复控制和直接泄漏检查。Edge主结论限定为同采集环境内、控制直接捷径后的方法效果。
 
 IoT-23范围受限验收已完成：7个官方capture的Zeek标签可解析，PCAP与`conn.log.labeled`最低匹配率为81.54%，可构造训练、验证、完全留出测试和完整留出Unknown场景；IoT23Adapter与EdgeAdapter输出同一Schema。其通过结论带三项限制：Somfy-01仍有24条日志未匹配，Capture-42 PCAP被TShark报告为尾部截断但已匹配全部4,426条官方日志，且该场景未知恶意支持数仅6。外部正式实验必须在生产Adapter、独立split及K/U预注册后启动，不得把本轮RF探针当作论文结果。
+
+### 2.5 Edge paper-grade physical split与SFT候选层
+
+Edge完整Production Dataset继续保留真实session分布，Primary dedup只依据immutable backend identity。类别不平衡、模型视图重复或SFT算力预算不得反向删除canonical session；完整数据仍服务真实分布统计、evaluation、Unknown、past-only Temporal/Graph Context、sensitivity和复现审计。
+
+正式Edge physical assignment采用`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`：每个capture内部按`timestamp_start, sample_id`排序；大capture使用70%/15%/15%的session-rank时间边界，小capture在预先固定的候选网格内以evaluation support、合法train diversity、比例与quarantine为顺序做deterministic boundary search；任何跨边界session以及边界两侧合计5秒local embargo内的session均进入quarantine。禁止random shuffle或跨capture混合切分。split revision只重建assignment及其依赖资产，不重新TShark、canonical或sessionize；7,619,032个Edge stable identity的计数、有序SHA256和唯一性在修订前后完全一致。正式新分配为train 5,294,777、validation 1,073,539、test 1,110,343、quarantine 140,373；ZERO从1降为0，CRITICAL_LOW从2降为0，因此`PAPER_EVALUATION_READINESS_GATE=PASS_WITH_LIMITATIONS`。MITM与OS_Fingerprinting的validation/test仍属LOW；DDoS_UDP和OS_Fingerprinting因train evidence diversity不足标记为`STRUCTURALLY_INSUFFICIENT_KNOWN`，这些只是分析/readiness状态，不改变任何K/U角色。
+
+Phase A必须报告而不能把model-view equality误作identity：相对旧split，Edge-only exact cross-split collision group增加104、near-signature collision group增加303，但backend identity cross-split leakage保持0；Primary继续保留现实重复行为，`EXACT_EVAL_CLEAN`与`NEAR_EVAL_CLEAN`只作为train不变的evaluation sensitivity。候选比较和最终矩阵保存在`reports/edge_split_revision_v2/phase_a_split_candidate_comparison.json`。
+
+SFT训练候选与完整Production资产严格分层。`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`只允许`K_known ∩ physical train`进入候选，禁止validation、test、`U_dev`或`U_final`。每类先覆盖distinct near groups，再覆盖distinct exact groups，之后才允许每个exact group内有限且deterministic的multiplicity；真实`sample_id`保持唯一，不复制JSONL伪造样本。PLAN_A/B/C分别比较较小、平衡中等和较大高覆盖预算；当前选择`PLAN_B`，Near/Far/Mixed分别物化16,979、15,895和15,404条候选。该采样用于减少高重复大类对examples、tokens、loss contribution和gradient updates的不成比例支配，不意味着LLM为每类分配固定参数，也不要求所有类机械等量。renderer与Tokenizer尚未冻结，因此token量仅为estimate。
+
+Edge标签正式语义保持`DIRECT_EVIDENCE_UNANIMOUS_ONLY`优先；当前官方CSV缺乏稳定frame number或绝对frame time，无法形成formal packet/frame direct mapping，故7,619,032个session使用`VERIFIED_CAPTURE_FALLBACK`。该fallback只在PCAP/CSV hash、100%单标签purity、expected label一致和session不跨capture全部通过时成立；24/24 capture通过，conflict与unmatched均为0。论文必须描述为official single-label capture + verified companion CSV + within-capture session reconstruction，不得声称人工session-level ground truth。
 
 ## 3. K/U预注册与信息隔离
 
@@ -299,7 +311,9 @@ Experience Memory保存经可靠反馈验证的`State→Action→Outcome`经验�
 
 ## 6. 训练边界与启动条件
 
-SFT仅在正式数据、会话样本、split、K/U、字段白名单、信息域和泄漏控制冻结后启动。正式默认训练路线为Qwen3.5-9B post-trained模型的text-only BF16 LoRA SFT：冻结视觉编码器和多模态对齐模块，LoRA只作用于需要训练的语言模型模块，使用原生Tokenizer、固定Session Evidence Card序列化和non-thinking/direct-response输出。QLoRA只在显存不足、框架兼容性问题或量化消融时作为降级/备用路线。
+SFT仅在正式数据、会话样本、split、K/U、字段白名单、信息域和泄漏控制冻结后启动。正式监督资产使用`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`的`PLAN_B`，且只来自各preset的`K_known ∩ physical train`；完整Production分布不因SFT预算改变。candidate manifest必须记录per-class raw/selected count、exact/near coverage、selection fraction、class share、compression、唯一ID、token estimate和relative compute，未来若增加sampling weight或有限oversampling须单独版本化，不能复制sample伪装新记录。
+
+正式默认训练路线为Qwen3.5-9B post-trained模型的text-only BF16 LoRA SFT：冻结视觉编码器和多模态对齐模块，LoRA只作用于需要训练的语言模型模块，使用原生Tokenizer、固定Session Evidence Card序列化和non-thinking/direct-response输出。QLoRA只在显存不足、框架兼容性问题或量化消融时作为降级/备用路线。
 
 DPO仅在SFT后确认存在证据幻觉、过度自信、错误拒识或动作偏好问题，且能构造可靠chosen/rejected对时开展LoRA DPO。DPO不是当前必做项，也不代表完整PPO-RLHF。9B全参数训练、27B正式训练、PPO/GRPO和大规模领域继续预训练均不属于当前主线。
 
@@ -356,6 +370,12 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 
 本实验评价统一接口、Qwen分类协议、Unknown生命周期和Agent决策方法在另一采集环境与原生标签Schema中的适用性，不要求Edge最终分类器直接零样本识别IoT-23细类，不进行物理合并训练，也不把两个标签空间的绝对Macro-F1直接比较。
 
+### 实验五（OPTIONAL）：Low-Resource Unknown Stress Test
+
+该实验是预注册的辅助压力测试，不属于当前主线完成条件，不改变Near/Far/Mixed，也不与其主结果混合平均。它研究数据稀缺驱动的Unknown难度是否不同于主实验的semantic near/far难度：将一个或少数low-resource fine class从该实验对应的SFT监督中完全held out，评价系统能否避免高置信度误归Known、由Independent Unknown识别，并在少量人工support后通过Class Memory改善后续识别。
+
+候选只能依据任何Qwen运行前的session support、exact diversity、near diversity和coarse-parent结构预注册，禁止根据`U_final`或模型结果事后挑选最差类别。当前`LOW_RESOURCE_UNKNOWN_CANDIDATE_POOL`为Backdoor、DDoS_UDP、MITM、OS_Fingerprinting、Ransomware和XSS；它是候选池而不是冻结最终held-out集合。若执行，至少分别报告数据允许的`LOW_RESOURCE_SHARED_PARENT`与`LOW_RESOURCE_ABSENT_PARENT`情况，并报告Unknown AUROC/AUPR、FPR@target TPR、unknown recall、误分类去向、backoff/abstain、Agent evidence usage和few-shot registration performance。流程继续使用同一Independent Unknown、Supervisor、Runtime和Class Memory，不新增专门的low-resource Agent；状态保持`PLANNED_OPTIONAL_NOT_RUN`。
+
 ## 8. 评价、复现与统计
 
 - 每套Unknown preset至少使用多个随机种子；具体数量在数据与算力确认后冻结。
@@ -376,6 +396,7 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 | 服务器初始化 | **已完成：**验证Git同步，初始化独立存储/资产/模型目录，确认硬件与GPU，配置数据处理环境 | 仓库、目录、权限、基础软件和数据下载条件可复现；研究计划不绑定具体平台、GPU型号或目录 |
 | 服务器数据与生产接口冻结 | **已完成：**从官方来源下载和校验数据；将验收Adapter固化为生产流水线，冻结全量split、K/U、support/query、异常文件处置和training manifest | `PRODUCTION_DATA_READY=true`、`CLASS_ROLE_SUPPORT_GATE=PASS`、postfix audit为`PASS_WITH_LIMITATIONS` |
 | T0前冻结 | **已完成：**冻结两个数据集的split、各自K/U、support/query、字段白名单和training manifest；完成信息隔离、重建、恢复与Git冻结 | 正式资产在服务器可复现，大型数据资产保持Git外 |
+| T0后数据协议修订 | **已完成：**Edge paper-grade physical split、Paper Evaluation Readiness、class-balanced diversity-aware SFT candidate与label provenance final verification | `SPLIT_REVISION_STATUS=PASS_WITH_LIMITATIONS`；PLAN_B候选物化；canonical identity与Near/Far/Mixed不变 |
 | T0后第1周 | 加载Qwen3.5-9B并完成text-only BF16 LoRA SFT小规模冒烟；完成传统与原始Qwen基线 | 模型、数据、独立Unknown评分接口和结构化输出链路可运行，无Final泄漏 |
 | 第2周 | 完成Edge Qwen主训练、闭集/coarse/fine与强Static基线 | 主Qwen稳定输出fine/coarse、证据状态和开放集模型信号，冻结Unknown层产生可复现决策 |
 | 第3周 | 在已实现deterministic Runtime foundation与provider-neutral backend preparation上完成Production adapter、正式证据工具、Edge Near/Far/Mixed Unknown、RulePolicy与High-Capability LLM Supervisor实验；LearnablePolicy和DPO仅作条件性判断 | Edge实验一、实验二及utility-cost主结果冻结 |
@@ -404,13 +425,13 @@ T0定义为生产级`CanonicalSessionRecord`、两个Adapter、Edge与IoT-23各�
 
 ## 11. 当前已完成、未完成与下一步
 
-已完成：旧资产选择性迁移；通用OpenAI-compatible LLM调用、结构化验证、缓存/resume/trace；RAG文档摄取；数据合同、精确重复、Ground Truth匹配、分组与审计工具；多轮历史数据审计；架构回溯与方案纠偏；Edge-IIoTset完整官方数据获取及Phase 2审查；双数据集角色冻结；Edge/IoT-23最终可行性验收；远程服务器初始化与官方数据恢复；生产级`CanonicalSessionRecord`、EdgeAdapter/IoT23Adapter、60秒session、全量split/K/U/support/query、provenance、identity dedup、leakage/determinism/readiness及Git冻结；deterministic Runtime foundation、Memory/预算/终止安全合同、provider-neutral LLM backend preparation和Fake Provider集成审计。
+已完成：旧资产选择性迁移；通用OpenAI-compatible LLM调用、结构化验证、缓存/resume/trace；RAG文档摄取；数据合同、精确重复、Ground Truth匹配、分组与审计工具；多轮历史数据审计；架构回溯与方案纠偏；Edge-IIoTset完整官方数据获取及Phase 2审查；双数据集角色冻结；Edge/IoT-23最终可行性验收；远程服务器初始化与官方数据恢复；生产级`CanonicalSessionRecord`、EdgeAdapter/IoT23Adapter、60秒session、K/U/support/query、provenance、identity dedup及Git冻结；Edge paper-grade split revision、Paper Evaluation Readiness、PLAN_A/B/C simulation、PLAN_B SFT candidate materialization、Low-Resource pre-model candidate analysis和split-dependent leakage/determinism verification；deterministic Runtime foundation、Memory/预算/终止安全合同、provider-neutral LLM backend preparation和Fake Provider集成审计。
 
 尚未完成：Production安全投影到Runtime合同的轻量白名单adapter；生产证据工具与正式Session Evidence Card封装；真实provider transport/smoke；传统模型正式基线；Qwen SFT/DPO；Unknown算法；High-Capability LLM Supervisor、强Static和可选LearnablePolicy的正式配置与实验；四组论文实验。现有Runtime/LLM结果仅来自mock、synthetic或Fake Provider工程审计，不是模型或论文结果。
 
 下一执行顺序：
 
-1. 实现轻量、白名单式Production→Runtime adapter，将`initial_model_views`显式封装为`EvidenceItem`并映射`CapabilityStatus`，加入禁止backend/canonical字段泄漏的跨层测试；
+1. 将本轮Edge split/SFT data protocol分支完成回归与Git冻结；随后实现轻量、白名单式Production→Runtime adapter，将`initial_model_views`显式封装为`EvidenceItem`并映射`CapabilityStatus`，加入禁止backend/canonical字段泄漏的跨层测试；
 2. 在另行授权后实现最小真实provider transport/smoke，冻结前仍不得把Fake Provider结果描述为真实模型结果；
 3. 配置GPU模型环境和Qwen3.5-9B，完成text-only BF16 LoRA SFT小规模冒烟；
 4. 按冻结协议选择Unknown scoring并执行Edge-IIoTset主实验和IoT-23压缩外部验证。
@@ -493,5 +514,9 @@ Raw Traffic → Packet Parsing → Bidirectional Session → CanonicalSessionRec
 | 2026-08-06 | DEC-0010 | 正式数据处理默认继续在本地进行，再把冻结派生数据交给GPU服务器 | 正式原始数据下载、全量解析、会话化和训练资产生成迁移至远程服务器；本地只保留可复现代码、测试、报告、manifest、校验和、下载说明和必要小型fixture。唯一Edge官方完整归档在目标服务器下载尚未实测前保守保留 | 双数据集Gate已通过，本地继续存放约十余GB解压副本没有研究收益；服务器侧统一数据处理、资产路径和后续训练可减少重复搬运。官方来源、文件规模、哈希及恢复工具已归档于`docs/SERVER_MIGRATION.md`和Gate manifest | 数据角色、实验协议和模型架构不变；执行位置可在新增Decision后调整 | 执行顺序冻结为push仓库→选择服务器→配置存储/环境→官方数据下载与校验→Production Adapter→manifest冻结→GPU模型环境与Qwen冒烟；不得把迁移写成正式预处理或训练已开始 |
 | 2026-08-09 | DEC-0011 | 当前生效方案仍把QLoRA写成默认SFT路线，并可能将Qwen自报Unknown分数理解为正式开放集评分；文本/多模态与thinking模式未明确 | 正式主训练冻结为Qwen3.5-9B post-trained模型的text-only BF16 LoRA SFT，冻结视觉编码器与多模态对齐模块，默认non-thinking/direct-response；QLoRA仅为资源或兼容性降级。Qwen学习`K_known`分类、证据状态和可供开放集计算的模型信号，正式Unknown由独立Frozen Unknown Scoring / Calibration层产生 | 单卡服务器已进入初始化阶段，需要在下载模型和生成训练资产前消除训练精度、监督权限与Unknown接口歧义；独立评分层可避免把未经验证的LLM自报概率直接当作开放集分数，并保持算法可比较 | BF16 LoRA、text-only和独立Unknown接口冻结；Unknown具体算法、分类头/标签Token及SFT格式仍可通过`K_known`和`U_dev`实验确定 | `U_dev`不得作为主分类监督进入SFT，`U_final`继续完全隔离；DPO仍为条件性LoRA DPO；不开展9B全参、27B正式训练、PPO/GRPO或大规模领域继续预训练 |
 | 2026-08-09 | DEC-0012 | 初版Production Freeze把完整`NO_SERVICE_VIEW`签名作为全局winner去重键，误将不同真实session的相同模型输入视为同一记录，并通过`test > validation > train`等隔离优先级删除合法重复行为 | 冻结Production数据的身份去重与跨split相似性处理原则：Primary dedup只使用由dataset/version、source content hash、canonical bidirectional session identity、确定性source span/ordinal与session start构成的immutable backend identity（当前稳定`sample_id`）；model-view equality不等于sample identity，different backend identity即使exact/near view相同或标签不同也保留。exact/near cross-split collision只进入audit和预注册sensitivity；`EXACT_EVAL_CLEAN`/`NEAR_EVAL_CLEAN`固定train不变，仅从validation/test移除更早split已见signature。现实重复行为不用于控制规模或平衡，后续由独立可复现training sampler处理；readiness必须检查每个preset/role的class support与few-shot support/query可实现性 | Pre-Commit Scientific Audit发现Edge 7,619,032条constructed session仅保留790,708条，6,562,147条由跨split model-view全局winner删除，DDoS_UDP train变为0；该机制改变真实分布而非仅消除身份泄漏。决定在任何Qwen下载、训练或推理前作出，因此废止旧near“保留最高隔离split”规则不属于结果驱动修改 | backend identity定义、Primary retention原则与evaluation-clean方向冻结；near量化精度、后续training sampler和Unknown算法仍只能通过新增Decision或预注册实验修订 | 不修改DEC-0008/0009冻结的Edge/IoT角色、Near/Far/Mixed及IoT K/U、60秒session、capture内chronological 70/15/15+gap、Capture-3 unknown pool、`PRIMARY_VIEW=NO_SERVICE_VIEW`、past-only context或U_final隔离；旧over-dedup资产必须标为`superseded_overdedup_run`并全量重建 |
+| 2026-08-11 | DEC-0013 | Production physical split以wall-clock span 70/15/15和长session gap为主，导致Ransomware validation=0并令多个小类evaluation support不足 | 冻结Edge `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`：capture内按时间与stable sample ID排序，complete-session crossing quarantine加capture-local 5秒embargo；小capture使用pre-model deterministic readiness search，大capture使用70/15/15 rank boundary；只重建split-dependent资产 | 7,619,032条真实Production session的只读候选比较显示v2将ZERO 1→0、CRITICAL_LOW 2→0，identity leakage=0；selected assignment与正式manifest完全一致。Edge-only exact/near collision分别增加104/303，作为不改train的sensitivity披露而非identity删除依据 | physical split规则冻结；若未来修订必须在任何模型结果前新增Decision | canonical identity、60秒session、labels、Near/Far/Mixed、IoT角色与Primary identity dedup均不变；`PAPER_EVALUATION_READINESS_GATE=PASS_WITH_LIMITATIONS` |
+| 2026-08-11 | DEC-0014 | DEC-0012只规定未来由独立training sampler控制规模，尚未冻结SFT候选的class/diversity协议 | 冻结`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`并选择`PLAN_B`：仅`K_known ∩ physical train`，依次覆盖near group、exact group和有限group内multiplicity；sample ID唯一，完整Production分布不变 | pre-model PLAN_A/B/C simulation显示百万级高重复类若按raw frequency进入训练会支配examples/tokens/loss/gradient updates；PLAN_B在小类合法evidence与总体BF16 LoRA规模之间提供中等折中 | policy、eligibility、seed和PLAN_B候选manifest冻结；renderer/token estimate仍待训练前冻结 | Near/Far/Mixed候选分别16,979/15,895/15,404；validation/test/U_dev/U_final禁止进入SFT；未来oversampling必须单独记录权重而不得复制sample |
+| 2026-08-11 | DEC-0015 | Edge Adapter的capture fallback已有provenance guard，但本轮split/SFT冻结前缺少最终统一确认 | 正式确认label assignment仍为direct evidence unanimous only优先；direct mapping不可用时，仅在PCAP/CSV hash、100% purity、expected label和within-capture isolation均通过后使用`VERIFIED_CAPTURE_FALLBACK` | 24/24 official capture通过；14 attack和10 Normal companion CSV均为预期单标签；7,619,032 session fallback、0 conflict、0 unmatched；官方CSV无稳定frame number/absolute frame time，故不得声称人工session-level ground truth | provenance policy冻结；若官方发布可精确frame mapping的新资产可新增Decision升级direct evidence | 论文措辞固定为verified single-label capture provenance + within-capture session reconstruction；不改变标签Schema |
+| 2026-08-11 | DEC-0016 | 主Near/Far/Mixed只研究semantic near/far unknown，尚未单独预注册真实低资源类别的scarcity-driven Unknown问题 | 登记`Low-Resource Unknown Stress Test`为`OPTIONAL / PRE-REGISTERED EXPERIMENT IDEA`，候选仅依pre-model support与exact/near diversity选取，单独报告shared-parent/absent-parent、Unknown与few-shot registration结果 | v2 readiness确认DDoS_UDP、MITM、OS_Fingerprinting为LOW_RESOURCE_KNOWN，其中DDoS_UDP与OS_Fingerprinting为STRUCTURALLY_INSUFFICIENT_KNOWN；需要区分数据稀缺与语义距离，但不应阻塞主论文或事后挑类 | 非主线、可不执行；若执行须在模型结果前冻结最终held-out类和seed | 不改变Near/Far/Mixed或K/U；状态`PLANNED_OPTIONAL_NOT_RUN`；使用同一Independent Unknown、Supervisor与Class Memory，不新增Agent |
 
-生效关系：DEC-0001至DEC-0011作为历史记录完整保留。DEC-0005中的sample-level信息隔离原则继续有效；其中CICIoMT立即主线、传统模型主分类和Tree-aware Reviewer相关安排由DEC-0006/0007替代，未冻结主数据与第二数据集、可选多数据集实验和N=8/16/32候选口径由DEC-0008替代；IoT-23“待验收”状态和Adapter未实测口径由DEC-0009替代；本地继续生产数据和“服务器只接收冻结派生数据”的安排由DEC-0010替代；正式训练精度/模式与Unknown评分接口以DEC-0011为准；Production Primary去重、cross-split exact/near collision和evaluation-clean sensitivity以DEC-0012为准。历史Decision中的QLoRA与旧相似性处置原文只保留当时状态，不再代表当前默认路线。
+生效关系：DEC-0001至DEC-0011作为历史记录完整保留。DEC-0005中的sample-level信息隔离原则继续有效；其中CICIoMT立即主线、传统模型主分类和Tree-aware Reviewer相关安排由DEC-0006/0007替代，未冻结主数据与第二数据集、可选多数据集实验和N=8/16/32候选口径由DEC-0008替代；IoT-23“待验收”状态和Adapter未实测口径由DEC-0009替代；本地继续生产数据和“服务器只接收冻结派生数据”的安排由DEC-0010替代；正式训练精度/模式与Unknown评分接口以DEC-0011为准；Production Primary去重、cross-split exact/near collision和evaluation-clean sensitivity以DEC-0012为准；Edge physical split以DEC-0013为准；SFT候选以DEC-0014为准；Edge标签provenance最终口径以DEC-0015为准；DEC-0016只登记非阻塞OPTIONAL实验 idea，不改变正式K/U。历史Decision中的QLoRA与旧相似性处置原文只保留当时状态，不再代表当前默认路线。

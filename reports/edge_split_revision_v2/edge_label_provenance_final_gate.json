@@ -1,0 +1,1053 @@
+{
+  "LABEL_PROVENANCE_FINAL_GATE": "PASS",
+  "capture_gate": {
+    "CAPTURE_PROVENANCE_GATE": "PASS",
+    "capture_count": 24,
+    "capture_fallback_policy": "VERIFIED_CAPTURE_FALLBACK",
+    "captures": [
+      {
+        "capture_id": "Attack_Backdoor",
+        "combined_source_sha256": "125c712d2063c8f188a4c174aa308433afcc4928af3ca0a5a7a4399a83d88cd1",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "a3da7bfd919c5f238e5c721cbd0e24a0b2b717d7f231c87c3bc9bc083582295b",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|Backdoor": 24862
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "Backdoor"
+          }
+        ],
+        "csv_rows": 24862,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "a3da7bfd919c5f238e5c721cbd0e24a0b2b717d7f231c87c3bc9bc083582295b",
+        "expected_label": "Backdoor",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "Backdoor"
+        },
+        "expected_pcap_sha256": "2f22c751442017f745397d517df9837da378362f670ad238faeac0decd58e3e9",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9979128201011479,
+        "pcap_identity_verified": true,
+        "pcap_packets": 24914,
+        "pcap_sha256": "2f22c751442017f745397d517df9837da378362f670ad238faeac0decd58e3e9",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Backdoor_attack.csv",
+          "expected_capture_label": "Backdoor",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Backdoor_attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_DDoS_HTTP",
+        "combined_source_sha256": "16e12425ef945bea88e99bc333ef76b5cbedb861caebdb05d9c1dabb9f313bfc",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "526ef4221d74c046d35db948e7aa534f2660270321510726f312409d6036ca33",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|DDoS_HTTP": 229022
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "DDoS_HTTP"
+          }
+        ],
+        "csv_rows": 229022,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "526ef4221d74c046d35db948e7aa534f2660270321510726f312409d6036ca33",
+        "expected_label": "DDoS_HTTP",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "DDoS_HTTP"
+        },
+        "expected_pcap_sha256": "2fb2558d51defd1704a54a7a76df787048e9281d2efd8177703d66a7f78620ba",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9994763072679823,
+        "pcap_identity_verified": true,
+        "pcap_packets": 229142,
+        "pcap_sha256": "2fb2558d51defd1704a54a7a76df787048e9281d2efd8177703d66a7f78620ba",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS_HTTP_Flood_attack.csv",
+          "expected_capture_label": "DDoS_HTTP",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS HTTP Flood Attacks.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_DDoS_ICMP",
+        "combined_source_sha256": "5ad3d48dc06199e9652ed5fee201e688843833c21e76c3147814ae7fdd7bc12c",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "bd3a180a18e331976b1e320aa0def408fa9adeff002035758cd2d3e36f25d325",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|DDoS_ICMP": 2914354
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "DDoS_ICMP"
+          }
+        ],
+        "csv_rows": 2914354,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "bd3a180a18e331976b1e320aa0def408fa9adeff002035758cd2d3e36f25d325",
+        "expected_label": "DDoS_ICMP",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "DDoS_ICMP"
+        },
+        "expected_pcap_sha256": "1152be31c21b9b0f146eaef63ede8092946ebe999a91935f557c5083b490e30b",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9999993137420411,
+        "pcap_identity_verified": true,
+        "pcap_packets": 2914356,
+        "pcap_sha256": "1152be31c21b9b0f146eaef63ede8092946ebe999a91935f557c5083b490e30b",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS_ICMP_Flood_attack.csv",
+          "expected_capture_label": "DDoS_ICMP",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS ICMP Flood Attacks.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_DDoS_TCP",
+        "combined_source_sha256": "326dc0d889246eb5c7bae63d33c654fb7b028d041cd4703d571cae61d86ed3ed",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "623e8a331af6412b002a6ee18df1fb914d026de4906bdebdc3d29890487283e1",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|DDoS_TCP": 2020120
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "DDoS_TCP"
+          }
+        ],
+        "csv_rows": 2020120,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "623e8a331af6412b002a6ee18df1fb914d026de4906bdebdc3d29890487283e1",
+        "expected_label": "DDoS_TCP",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "DDoS_TCP"
+        },
+        "expected_pcap_sha256": "5fa4d774b6b03c160e2c4c619c79ca55c5a673581c5c40d6f46350f50d55ae80",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9999841596077919,
+        "pcap_identity_verified": true,
+        "pcap_packets": 2020152,
+        "pcap_sha256": "5fa4d774b6b03c160e2c4c619c79ca55c5a673581c5c40d6f46350f50d55ae80",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS_TCP_SYN_Flood_attack.csv",
+          "expected_capture_label": "DDoS_TCP",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS TCP SYN Flood Attacks.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_DDoS_UDP",
+        "combined_source_sha256": "1d22e2c9f869f40c35ad7d7b2990c03fdfaea9b7c01b6818048d9a9c77f0cca6",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "62dcd279cd2068d2f7055028fd823dfec526bd6167a5b6180eca460e1b5c9333",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|DDoS_UDP": 3201626
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "DDoS_UDP"
+          }
+        ],
+        "csv_rows": 3201626,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "62dcd279cd2068d2f7055028fd823dfec526bd6167a5b6180eca460e1b5c9333",
+        "expected_label": "DDoS_UDP",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "DDoS_UDP"
+        },
+        "expected_pcap_sha256": "6de0341f27093cac8a5eba657b8a49ecbac4dd5bf6c452a6274472df69172ce5",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9956134404235178,
+        "pcap_identity_verified": true,
+        "pcap_packets": 3215732,
+        "pcap_sha256": "6de0341f27093cac8a5eba657b8a49ecbac4dd5bf6c452a6274472df69172ce5",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS_UDP_Flood_attack.csv",
+          "expected_capture_label": "DDoS_UDP",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/DDoS UDP Flood Attacks.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_MITM",
+        "combined_source_sha256": "54bb7442e08a48284ac79b3754f1b0cce0fd9bb888e56eb0603e3fdec1b28f1a",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "c4fd9f0d33c1bcbf37a0c4e0cc378157d6af650300e657340ae3d86b40cfd498",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|MITM": 1229
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "MITM"
+          }
+        ],
+        "csv_rows": 1229,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "c4fd9f0d33c1bcbf37a0c4e0cc378157d6af650300e657340ae3d86b40cfd498",
+        "expected_label": "MITM",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "MITM"
+        },
+        "expected_pcap_sha256": "ef952aff57dd30f04a98511cae2f34f642a64720fcde31df8b2f6dcf0351d536",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 1.0,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1229,
+        "pcap_sha256": "ef952aff57dd30f04a98511cae2f34f642a64720fcde31df8b2f6dcf0351d536",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/MITM_attack.csv",
+          "expected_capture_label": "MITM",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/MITM (ARP spoofing + DNS) Attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_OS_Fingerprinting",
+        "combined_source_sha256": "3a91bb28e17e0e577a6369754c336fc747d25ae2fa00563374a4e9f756736b14",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "b2dc428e1b5159ccbfff0e252b5fb096cd5c67fecca169f348a8d30342088613",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|OS_Fingerprinting": 1001
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "OS_Fingerprinting"
+          }
+        ],
+        "csv_rows": 1001,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "b2dc428e1b5159ccbfff0e252b5fb096cd5c67fecca169f348a8d30342088613",
+        "expected_label": "OS_Fingerprinting",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "OS_Fingerprinting"
+        },
+        "expected_pcap_sha256": "68c0464ac92f1d08a050f4e013dd5e0d0e870f39b8f70f26acde133b6d7e00c4",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.8511904761904762,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1176,
+        "pcap_sha256": "68c0464ac92f1d08a050f4e013dd5e0d0e870f39b8f70f26acde133b6d7e00c4",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/OS_Fingerprinting_attack.csv",
+          "expected_capture_label": "OS_Fingerprinting",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/OS Fingerprinting attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_Password",
+        "combined_source_sha256": "af621315917cab97d7d75658b6975adca47084354ec199d9900ed5931455626d",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "e8458c89e71706226ecd9d3730e3b0db5ae2d5f3fb87655fccf1d6e5f1730eba",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|Password": 1053385
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "Password"
+          }
+        ],
+        "csv_rows": 1053385,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "e8458c89e71706226ecd9d3730e3b0db5ae2d5f3fb87655fccf1d6e5f1730eba",
+        "expected_label": "Password",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "Password"
+        },
+        "expected_pcap_sha256": "5e2393acebb92806205eb87bff5dd82cdece3cd183e760b1cf737ed1c8a663c2",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9995179776315053,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1053893,
+        "pcap_sha256": "5e2393acebb92806205eb87bff5dd82cdece3cd183e760b1cf737ed1c8a663c2",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Password_attack.csv",
+          "expected_capture_label": "Password",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Password attacks.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_Port_Scanning",
+        "combined_source_sha256": "06be2050d12327cfe868934a7d7cf905e581e20491298087d95c5956532a0b8b",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "26f7f094254daa23e85ec7df1b7ad9352cf208d9ee9b55d7d7928d3415c793ad",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|Port_Scanning": 22564
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "Port_Scanning"
+          }
+        ],
+        "csv_rows": 22564,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "26f7f094254daa23e85ec7df1b7ad9352cf208d9ee9b55d7d7928d3415c793ad",
+        "expected_label": "Port_Scanning",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "Port_Scanning"
+        },
+        "expected_pcap_sha256": "9fa4c8527951c2ea935b1ae5e932063c1b7fb8cc1e2b0f24defbe3a7b99058d9",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9672081958077928,
+        "pcap_identity_verified": true,
+        "pcap_packets": 23329,
+        "pcap_sha256": "9fa4c8527951c2ea935b1ae5e932063c1b7fb8cc1e2b0f24defbe3a7b99058d9",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Port_Scanning_attack.csv",
+          "expected_capture_label": "Port_Scanning",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Port Scanning attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_Ransomware",
+        "combined_source_sha256": "504b570674bc6b283abd9c62b55c4cccd8dd5bf9b60aafb5b708b05add08fa78",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "60fa5257c73f0eef6736a56953c7afe6a99e08942a32c3b9716a64abd2be0c7a",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|Ransomware": 10925
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "Ransomware"
+          }
+        ],
+        "csv_rows": 10925,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "60fa5257c73f0eef6736a56953c7afe6a99e08942a32c3b9716a64abd2be0c7a",
+        "expected_label": "Ransomware",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "Ransomware"
+        },
+        "expected_pcap_sha256": "f38a731096f61391384adad975537de2de6cea89f38e1c1421e5b328f4b17116",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9904805077062556,
+        "pcap_identity_verified": true,
+        "pcap_packets": 11030,
+        "pcap_sha256": "f38a731096f61391384adad975537de2de6cea89f38e1c1421e5b328f4b17116",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Ransomware_attack.csv",
+          "expected_capture_label": "Ransomware",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Ransomware attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_SQL_injection",
+        "combined_source_sha256": "027fb87efe062462fe40a42965f792aeeb1ef8ffc993894d6f5a858713a5af49",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "59d62ccfab6b708ce1c437a33b4c285e20e614e612edcd86260d4e5c2461c63d",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|SQL_injection": 51203
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "SQL_injection"
+          }
+        ],
+        "csv_rows": 51203,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "59d62ccfab6b708ce1c437a33b4c285e20e614e612edcd86260d4e5c2461c63d",
+        "expected_label": "SQL_injection",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "SQL_injection"
+        },
+        "expected_pcap_sha256": "374b06418c3dddd831561a8b5521c18a47bd1cd9bfa83f83e33b70d134517491",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.999511985632857,
+        "pcap_identity_verified": true,
+        "pcap_packets": 51228,
+        "pcap_sha256": "374b06418c3dddd831561a8b5521c18a47bd1cd9bfa83f83e33b70d134517491",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/SQL_injection_attack.csv",
+          "expected_capture_label": "SQL_injection",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/SQL injection attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_Uploading",
+        "combined_source_sha256": "826de27e215755336006121e4ba80992a16de595da12f2d7cf25661d7bd22ac5",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "f65ae75444183004a47fcda9e197daa42b38e485ea58ebc28464e21f830197e3",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|Uploading": 37634
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "Uploading"
+          }
+        ],
+        "csv_rows": 37634,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "f65ae75444183004a47fcda9e197daa42b38e485ea58ebc28464e21f830197e3",
+        "expected_label": "Uploading",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "Uploading"
+        },
+        "expected_pcap_sha256": "29a16de3410e3c2ff5c3dad8a54d0092dd98c63ea3c13994f4416414bd74d490",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9997343534162151,
+        "pcap_identity_verified": true,
+        "pcap_packets": 37644,
+        "pcap_sha256": "29a16de3410e3c2ff5c3dad8a54d0092dd98c63ea3c13994f4416414bd74d490",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Uploading_attack.csv",
+          "expected_capture_label": "Uploading",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Uploading attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_Vulnerability_scanner",
+        "combined_source_sha256": "eabffd73a180328d8b9e1c19e316c80b96dc19909543f76303282ed0acf28fb8",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "5b8d9bca352875d9b8c76d517ecb33808c45d6a1259f718e21bd1c4d6fea7d59",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|Vulnerability_scanner": 145869
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "Vulnerability_scanner"
+          }
+        ],
+        "csv_rows": 145869,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "5b8d9bca352875d9b8c76d517ecb33808c45d6a1259f718e21bd1c4d6fea7d59",
+        "expected_label": "Vulnerability_scanner",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "Vulnerability_scanner"
+        },
+        "expected_pcap_sha256": "af8cb9e7707000bab20618f5f6c4efe09b637b21e7d0e3cb2a055a6d75524083",
+        "failure_reasons": [],
+        "packet_row_count_ratio": null,
+        "pcap_identity_verified": true,
+        "pcap_packets": null,
+        "pcap_sha256": "af8cb9e7707000bab20618f5f6c4efe09b637b21e7d0e3cb2a055a6d75524083",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Vulnerability_scanner_attack.csv",
+          "expected_capture_label": "Vulnerability_scanner",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Vulnerability scanner attack.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Attack_XSS",
+        "combined_source_sha256": "31fb97cc2269b0ce04e10a40ef8132233ee499da354f0e5a4ec8c24a40a202a6",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "acce72d7e9f8d373d4be61d67576c10c55b3eb59063f4a9a1a63715ab85ebf48",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "1|XSS": 15915
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "1",
+            "Attack_type": "XSS"
+          }
+        ],
+        "csv_rows": 15915,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "acce72d7e9f8d373d4be61d67576c10c55b3eb59063f4a9a1a63715ab85ebf48",
+        "expected_label": "XSS",
+        "expected_official_label": {
+          "Attack_label": "1",
+          "Attack_type": "XSS"
+        },
+        "expected_pcap_sha256": "9e155d46254db96acdf0f97245da6734a7de2c82a0c3e31936c9e5792fc8f92e",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9814986123959297,
+        "pcap_identity_verified": true,
+        "pcap_packets": 16215,
+        "pcap_sha256": "9e155d46254db96acdf0f97245da6734a7de2c82a0c3e31936c9e5792fc8f92e",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/XSS_attack.csv",
+          "expected_capture_label": "XSS",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/XSS attacks.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Distance",
+        "combined_source_sha256": "f77e9152da5077ce0d750c69a49456f7da460007f03b3aad7a264193c5f82b50",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "067fcf364a6c4e35a6aa436e6263466ef4c8f3f84c423d0aadf932f65d6e1ee5",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 1143540
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 1143540,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "067fcf364a6c4e35a6aa436e6263466ef4c8f3f84c423d0aadf932f65d6e1ee5",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "6b16348f1139dcb83c12e6855e7202f7ae5b77bbca8eed467ab0b6aa3ab78922",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9996433404315581,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1143948,
+        "pcap_sha256": "6b16348f1139dcb83c12e6855e7202f7ae5b77bbca8eed467ab0b6aa3ab78922",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Distance/Distance.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Distance/Distance.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Flame_Sensor",
+        "combined_source_sha256": "667ab2545d7238513bd478a96bdeec5506f5c22dacec2a9864af963f6f7d8f1d",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "e0f6812bd54e564d18e6f87d8d0566f86bde384f822d3252d7535f4239160528",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 1070196
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 1070196,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "e0f6812bd54e564d18e6f87d8d0566f86bde384f822d3252d7535f4239160528",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "57bf51ae5cd8848c688affee6b71f4b10a6bae4fa297aa18e57cf3ba85cdc2db",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9997066818619162,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1070510,
+        "pcap_sha256": "57bf51ae5cd8848c688affee6b71f4b10a6bae4fa297aa18e57cf3ba85cdc2db",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Flame_Sensor/Flame_Sensor.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Flame_Sensor/Flame_Sensor.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Heart_Rate",
+        "combined_source_sha256": "f212706b807371fd9d0b3ed8c2b93f869fdbd7fd5b46b30e9cacbc2ce5e9418a",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "f5104511c7b67988ec67fc2f8262913b4ad6d4285db047500a04307491f4b9d5",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 165319
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 165319,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "f5104511c7b67988ec67fc2f8262913b4ad6d4285db047500a04307491f4b9d5",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "45af68c5dc56f1e135102069ee6d86a62e5d2b14dd23cac0bee39dcc40e832fb",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9699826913486079,
+        "pcap_identity_verified": true,
+        "pcap_packets": 170435,
+        "pcap_sha256": "45af68c5dc56f1e135102069ee6d86a62e5d2b14dd23cac0bee39dcc40e832fb",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Heart_Rate/Heart_Rate.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Heart_Rate/Heart_Rate.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_IR_Receiver",
+        "combined_source_sha256": "7af2a7ade51426d4d624cd45f214f128aede4724f226726bdb262a4268d1c0c1",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "40325a578b4edc4714eef585095a1f92e1cc076e510ad93edc3507dea8e4eef7",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 1307778
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 1307778,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "40325a578b4edc4714eef585095a1f92e1cc076e510ad93edc3507dea8e4eef7",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "bcaa33d74dc03e34b7d6ed3f427cc69c6457f2c0ad52b4deab2861526209ec84",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9996483820222314,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1308238,
+        "pcap_sha256": "bcaa33d74dc03e34b7d6ed3f427cc69c6457f2c0ad52b4deab2861526209ec84",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/IR_Receiver/IR_Receiver.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/IR_Receiver/IR_Receiver.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Modbus",
+        "combined_source_sha256": "63d4140e589dce117269ceeac559ec8ed88017786822e243c3f1e88f788a7441",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "6ae11be7ebd506429f43a0ebb7aa38e836ffea39165fc0247e2a6c96c019c37a",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 159502
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 159502,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "6ae11be7ebd506429f43a0ebb7aa38e836ffea39165fc0247e2a6c96c019c37a",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "1e9d186b5846402cd52e6048a39423f104cb19d68de501ad0a0ac8dbb2cc63c9",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9999247714934112,
+        "pcap_identity_verified": true,
+        "pcap_packets": 159514,
+        "pcap_sha256": "1e9d186b5846402cd52e6048a39423f104cb19d68de501ad0a0ac8dbb2cc63c9",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Modbus/Modbus.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Modbus/Modbus.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Soil_Moisture",
+        "combined_source_sha256": "6a709d2a6f9fb964d7ecea2bbf56a7fab18d4fed03677a43975193b8c357bdf8",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "d3bf5662fd28b515e29c2b1b296b3b79ffc415836cb5a5da1666e164c099c440",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 1192777
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 1192777,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "d3bf5662fd28b515e29c2b1b296b3b79ffc415836cb5a5da1666e164c099c440",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "7d8d1304aa403e0b937eb475e637d8466101999c93c0052164a056f3abef00d1",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9933591560614982,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1200751,
+        "pcap_sha256": "7d8d1304aa403e0b937eb475e637d8466101999c93c0052164a056f3abef00d1",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Soil_Moisture/Soil_Moisture.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Soil_Moisture/Soil_Moisture.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Sound_Sensor",
+        "combined_source_sha256": "6eb23886e3ede647ef9470467a8f20e939bb3f74e7e673cccbeeaac4bbfb2537",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "1ac318ea539be09ac0ae4c9ae6d7e0e2d0013633131354c37d4f76663c3dc52b",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 1512883
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 1512883,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "1ac318ea539be09ac0ae4c9ae6d7e0e2d0013633131354c37d4f76663c3dc52b",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "8e33158f8fa935e48852ba4a1a5c760588aacecbf1427cf7a3b6ec90b0ebc276",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9997125521536121,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1513318,
+        "pcap_sha256": "8e33158f8fa935e48852ba4a1a5c760588aacecbf1427cf7a3b6ec90b0ebc276",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Sound_Sensor/Sound_Sensor.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Sound_Sensor/Sound_Sensor.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Temperature_and_Humidity",
+        "combined_source_sha256": "2d9d6567432a73f44a1547e2a705f97f86c8ff88bef104b8576670999b8492c5",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "2b48ddce8f1d60dbd0d189568c614ee04d4bc57b65f1c9089ea731b1a02a0c21",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 1615722
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 1615722,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "2b48ddce8f1d60dbd0d189568c614ee04d4bc57b65f1c9089ea731b1a02a0c21",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "2b37027b1575f1d5bba7ab6cf87503df303ea2c9ab07a69b20f8d0f28696da6f",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9913931531788024,
+        "pcap_identity_verified": true,
+        "pcap_packets": 1629749,
+        "pcap_sha256": "2b37027b1575f1d5bba7ab6cf87503df303ea2c9ab07a69b20f8d0f28696da6f",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Temperature_and_Humidity/Temperature_and_Humidity.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Temperature_and_Humidity/Temperature_and_Humidity.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_Water_Level",
+        "combined_source_sha256": "08aaadcd42a8ae49b2dc32c493a2dc824eb77efa12ff202a4b5ae85001856b60",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "19153cba2da0c69e2fd4f682a9e872af787fd04af5d7806cebb2ec01a6d83025",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 2295288
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 2295288,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "19153cba2da0c69e2fd4f682a9e872af787fd04af5d7806cebb2ec01a6d83025",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "1b76b1881bde98a15d311da6f9be2ac2fdeeee97d60e99e044e097afae6c2b4e",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9968690512951809,
+        "pcap_identity_verified": true,
+        "pcap_packets": 2302497,
+        "pcap_sha256": "1b76b1881bde98a15d311da6f9be2ac2fdeeee97d60e99e044e097afae6c2b4e",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Water_Level/Water_Level.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/Water_Level/Water_Level.pcap"
+        },
+        "status": "PASS"
+      },
+      {
+        "capture_id": "Normal_phValue",
+        "combined_source_sha256": "3b9b442c47942634a3f2720f88b74bbadba0aebc3ce692407cd67e49ed537418",
+        "companion_csv_identity_verified": true,
+        "companion_csv_sha256": "7cd2d143bd079f2a6744bf22b1930c81ab034cf85ea4f8e3a815114d8b7fe07b",
+        "csv_label_purity": 1.0,
+        "csv_observed_label_counts": {
+          "0|Normal": 746908
+        },
+        "csv_observed_labels": [
+          {
+            "Attack_label": "0",
+            "Attack_type": "Normal"
+          }
+        ],
+        "csv_rows": 746908,
+        "direct_match_capability": {
+          "formal_packet_frame_direct_match_coverage": null,
+          "reason": "official CSV has no stable frame number or absolute frame.time_epoch",
+          "status": "UNAVAILABLE"
+        },
+        "expected_companion_csv_sha256": "7cd2d143bd079f2a6744bf22b1930c81ab034cf85ea4f8e3a815114d8b7fe07b",
+        "expected_label": "Normal",
+        "expected_official_label": {
+          "Attack_label": "0",
+          "Attack_type": "Normal"
+        },
+        "expected_pcap_sha256": "7676af0ae72776ae54fb128adcb55959bbe95729d10313e30b74d96f8c9010f6",
+        "failure_reasons": [],
+        "packet_row_count_ratio": 0.9832070715381122,
+        "pcap_identity_verified": true,
+        "pcap_packets": 759665,
+        "pcap_sha256": "7676af0ae72776ae54fb128adcb55959bbe95729d10313e30b74d96f8c9010f6",
+        "policy_version": "edge_label_provenance_v1",
+        "session_crosses_capture": false,
+        "session_scope": "one source capture only",
+        "source_mapping": {
+          "companion_csv": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/phValue/phValue.csv",
+          "expected_capture_label": "Normal",
+          "pcap": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Normal traffic/phValue/phValue.pcap"
+        },
+        "status": "PASS"
+      }
+    ],
+    "failed_capture_count": 0,
+    "generated_at": "2026-08-10T19:33:34.684667+00:00",
+    "passed_capture_count": 24,
+    "policy_version": "edge_label_provenance_v1",
+    "session_label_policy": "DIRECT_EVIDENCE_UNANIMOUS_ONLY"
+  },
+  "session_assignment_methods": {
+    "DIRECT_EVIDENCE_UNANIMOUS_ONLY": 0,
+    "LABEL_CONFLICT_QUARANTINE": 0,
+    "UNMATCHED_PROVENANCE_QUARANTINE": 0,
+    "VERIFIED_CAPTURE_FALLBACK": 7619032
+  }
+}
