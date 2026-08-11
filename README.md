@@ -44,22 +44,24 @@ The following model and experiment components remain future work:
 
 - formal traditional-model baselines and Qwen3.5-9B SFT/few-shot checkpoints;
 - a frozen production Unknown scoring algorithm and calibration threshold;
-- conditional LoRA DPO experiments; PPO/GRPO and full-parameter 9B or formal 27B training are outside the current mainline;
+- Near RLAIF-GRPO Training #2, followed by Independent Unknown and Agent experiments; DPO, full-parameter 9B and formal 27B remain deferred;
 - formal experiments and paper metrics.
 
-The remote server bootstrap, official data recovery, identity-based-dedup Production Data Freeze rebuild, Edge label-provenance guard and class-role support audit are complete. The final postfix audit is `PASS_WITH_LIMITATIONS`, `CLASS_ROLE_SUPPORT_GATE=PASS`, and `PRODUCTION_DATA_READY=true`; no data Gate blocker remains. A subsequent pre-model Edge revision uses `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, preserves all 7,619,032 stable identities, reduces paper-readiness ZERO/CRITICAL_LOW classes to zero, and materializes class-balanced diversity-aware `PLAN_B` SFT candidates from `K_known ∩ train` only. Near/Far/Mixed K/U are unchanged; DDoS_UDP and OS_Fingerprinting remain documented structural-diversity limitations. The optional Low-Resource Unknown Stress Test is preregistered but not run. Edge 1/5/10-shot and the registered IoT-23 coarse `Exploitation` 1/5-shot variants are ready. The official `Qwen/Qwen3.5-9B` raw model is now deployed Git-externally and has passed controlled text-only provider/backend/Production smoke; this is infrastructure validation, not a paper benchmark. No formal model training started. Formal training defaults to text-only BF16 LoRA with visual modules frozen and non-thinking structured output; QLoRA is only a resource/compatibility fallback. See [server migration and data recovery](docs/SERVER_MIGRATION.md) and the [production freeze report](reports/production_data_freeze_20260809/README.md). The repository retains code, small reports, manifests, download instructions and synthetic fixtures, not raw traffic or model artifacts.
+The remote bootstrap, Production Data Freeze, Edge label-provenance/class-role Gates, paper-grade `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, PLAN_B candidates, Production Runtime Safe Adapter, Evidence Fidelity Gate and official raw `Qwen/Qwen3.5-9B` local/runtime smoke are complete. These are infrastructure facts, not paper benchmarks; no SFT, RLAIF/GRPO, Unknown or formal Agent experiment has run. DEC-0019 now freezes `ONE_MAINLINE_FIRST`: Edge Near seed `20260809` is the first full route, using its unchanged K/U and 16,979 PLAN_B `K_known ∩ train` candidates. The trained design is frozen Qwen base + LoRA + one Linear Fine Classification Head + LM Evidence State, followed by Independent Unknown and a DeepSeek Flash Supervisor under deterministic Runtime. Application, sanitized payload and Production RAG are currently unavailable but are planned on-demand Near capabilities. Far, Mixed, IoT-23 execution and optional ablations wait until Near completes. See the [Near training protocol](docs/training/near_mainline_training_protocol_v1.md), [server migration guide](docs/SERVER_MIGRATION.md) and [Production freeze report](reports/production_data_freeze_20260809/README.md).
 
-The unique long-term code branch is `main`; its current local baseline is `c1ae5da5bef242a1e811f178a84bc16fb894bfd1`, which contains the Edge split/SFT revision, Production Runtime Adapter, and tagged pre-model integration baseline `3ab33e36c8508bcd31afac2e12c094ae1fe0a964`. Audited raw deployment changes are on `feat/local-qwen35-9b-runtime`; training remains separately authorized future work.
+The unique long-term code branch is `main`; the audited baseline for this documentation synchronization is `e28c3f4806aa56dcdeb9e561cf6201e71f98a2a5`, which contains Edge v2, the Production Runtime Adapter, official raw Qwen deployment smoke and the CI portability fix. Protocol synchronization is isolated on `docs/sync-near-mainline-protocol`; training remains separately authorized future work.
 
 ## Research Plan and Change Control
 
 The canonical research plan is stored in:
 
-- [Detailed research and implementation specification](docs/research_plan/research_plan_detailed.md) — the single authoritative source;
+- [Detailed research and implementation specification](docs/research_plan/research_plan_detailed.md) — highest research authority;
+- [Near-first training and Open-world protocol](docs/training/near_mainline_training_protocol_v1.md) — training/Open-world execution authority;
+- [Agent / Runtime architecture](docs/design/agent_architecture_provisional.md) — Runtime/Supervisor/RAG/Memory design authority within the first two;
 - [Timeline and stage-control view](docs/research_plan/research_plan_and_timeline.md);
 - [Brief research overview](docs/research_plan/research_plan_brief.md).
 
-Developers and agents must read the detailed specification before changing dataset roles, data splits, label definitions, sample or episode construction, model structure, trainable parameters, training stages, losses, SFT/DPO/RLAIF, Known/Unknown/few-shot protocols, calibration, external tests, or anything that may change the paper's conclusions.
+Developers and agents must read the canonical specification before research changes, then the Near training protocol before model/training/Unknown/novel-class work, and the Agent architecture before Runtime/Supervisor/RAG/Memory work. PROJECT_HANDOFF records current state but cannot override these authorities.
 
 If a code change intentionally deviates from the plan and changes research meaning, comparability or conclusions, the same PR or commit must update the detailed specification and record the previous decision, new decision, reason, affected data/stages/metrics and a `Confirmed`, `Provisional` or `Experimental` status. Update the timeline or brief when their scope is affected.
 

@@ -1,6 +1,6 @@
 # Model-call infrastructure contract
 
-This document defines the minimum engineering contract for future Reviewer, Teacher and Agent model calls.
+This document defines the minimum engineering contract for Traffic Expert, DeepSeek Flash Teacher/Judge/Supervisor, RAG and other formal model calls. The three DeepSeek roles must use distinct prompt/schema/permission/log identities even when they share one configurable provider.
 
 ## Required identity
 
@@ -36,4 +36,4 @@ Per-record cache writes use a temporary file followed by an atomic replace. Aggr
 
 ## Scope
 
-This contract is reusable experiment infrastructure. It does not define the future Reviewer schema, routing policy, causal-context representation or Agent strategy.
+This contract is reusable experiment infrastructure. It does not define the Fine Head, Traffic Expert schema, Teacher/Judge/Supervisor rubrics, Unknown algorithm, RAG policy or Agent strategy; those follow the canonical plan, Near training protocol and Agent architecture.

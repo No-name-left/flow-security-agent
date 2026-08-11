@@ -1,298 +1,253 @@
 # Agent / Runtime 暂定架构与实施约束
 
-> Status: **PROVISIONAL**
+> Status: **PROVISIONAL IMPLEMENTATION DESIGN with DEC-0019 HARD CONSTRAINTS**
 >
-> Purpose: 本文件记录当前阶段Agent / Runtime / Supervisor / Memory的工作设计，主要用于帮助Codex和开发者准确理解当前需求。
+> Updated: 2026-08-11
 >
-> 本文件不是不可修改的最终协议。实验结果、实现约束或后续用户Decision可以修改其中的CURRENT DEFAULT。
->
-> 优先级：**正式Decision / 已冻结research plan约束 > 本文件中的HARD CONSTRAINT > CURRENT DEFAULT > DEFERRED / OPTIONAL**。
->
-> 如果本文件与后续明确Decision冲突，应更新本文件，不得为了遵守旧内容而强行维持过时设计。Codex不得因为实现方便而自行将DEFERRED内容升级为最终Decision。
+> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is the highest research authority; the [Near training protocol](../training/near_mainline_training_protocol_v1.md) is authoritative for training/Open-world execution. This document is authoritative for Agent/Runtime/Supervisor/RAG/Memory design within those constraints. [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implemented state and cannot override them.
 
-## 1. 状态标签
+## 1. Status labels
 
-- **[HARD CONSTRAINT]：**当前实现和实验不得绕过的安全、信息隔离或正式架构边界；如需改变，必须先检查是否构成material deviation。
-- **[CURRENT DEFAULT]：**当前优先实现和评测的工作方案，可由实验、资源约束或后续Decision调整。
-- **[DEFERRED]：**明确暂不冻结，必须等待数据、实验或实现证据后决定。
-- **[OPTIONAL]：**不属于最低主线，仅在时间、资源和结果支持时开展。
+- **[HARD CONSTRAINT]**: frozen architecture, safety or information-isolation boundary; changes require a new canonical Decision.
+- **[CURRENT DEFAULT]**: first implementation choice, selectable only through the legal validation procedure.
+- **[VALIDATION TUNABLE]**: small, reproducible train/validation-safe choice; never tune on formal test or `U_final`.
+- **[DEFERRED]**: outside the first Near mainline.
+- **[OPTIONAL]**: may be omitted without blocking Near completion.
+- **[IMPLEMENTED] / [UNAVAILABLE]**: current engineering fact, not a permanent research decision.
 
-## 2. 当前正式架构
+## 2. Formal end-to-end architecture
 
-**[HARD CONSTRAINT]** 正式主链路保持Qwen Traffic Expert首次分类、独立Unknown评分、Evidence State、确定性Runtime约束的证据循环和结构化终止结果。**[CURRENT DEFAULT]** 其中策略决策节点由High-Capability LLM Supervisor承担：
+**[HARD CONSTRAINT]** Qwen, Fine Head, LM Evidence State, Independent Unknown, DeepSeek Flash Supervisor, deterministic Runtime, Evidence Tools, Knowledge RAG, Experience Memory and Class Memory have distinct responsibilities:
 
 ```text
-Raw Traffic
-→ Packet Parsing
-→ Bidirectional Session
-→ CanonicalSessionRecord
-→ Initial Evidence Card
-→ Qwen3.5-9B Traffic Expert
+Production Session
+→ Production Runtime Safe Adapter
+→ legal Evidence Stage
+→ Qwen3.5-9B shared language representation
+→ Fine Classification Head + LM Evidence State
+→ deterministic fine→coarse mapping
 → Independent Unknown Scoring
-→ Evidence State
-→ High-Capability LLM Supervisor
-→ one legal evidence action
-→ Evidence Tool
-→ new evidence
-→ Qwen re-evaluation
-→ Unknown re-scoring
-→ Supervisor re-decision
-→ loop
+→ DeepSeek Flash Supervisor
+→ one legal Runtime action
+→ Evidence Tool / Knowledge RAG
+→ Qwen + Unknown re-evaluation
 → Fine / Coarse / Unknown / Abstain
-→ optional Few-shot Registration
+→ optional human label + Class Memory
 → Structured Result + Trace
 ```
 
-外层由deterministic Python Runtime执行状态推进、验证、权限、预算和复现约束。Qwen、Supervisor、Unknown评分、证据工具和Memory是职责分离的组件，不得由单个LLM绕过Runtime合并执行。
+No traditional classifier routes samples to Qwen. No Supervisor, Judge, RAG or Runtime component may override the Fine Head or manufacture observations.
 
-## 3. 角色职责
+## 3. Qwen Traffic Expert boundary
 
-### 3.1 Qwen3.5-9B Traffic Expert
+### 3.1 Shared backbone and Fine Head
 
-**[HARD CONSTRAINT]** Qwen是主要流量领域分类专家，第一次直接读取Session Evidence Card，不使用传统模型作为前置router。它负责输出：
+**[HARD CONSTRAINT]** The trained Traffic Expert uses frozen Qwen base + trainable LoRA + one trainable Linear Fine Classification Head + retained original LM Head. The Fine Head consumes `h_session` and is the sole formal known fine-class decision source. Coarse class is produced by the frozen fine→coarse mapping; there is no competing Coarse Head.
 
-- fine/coarse classification candidates；
-- 对当前流量的简短、可审计理解，不要求长Chain-of-Thought；
-- supporting evidence；
-- missing evidence；
-- structured gap type；
-- evidence sufficiency；
-- 可供Independent Unknown Scoring使用的模型信号。
+Pooling is **[VALIDATION TUNABLE]**, with a dedicated classification marker as preferred default. The training-side harness must expose hidden states and assert real Qwen3.5 Gated DeltaNet/Gated Attention/FFN LoRA targets. The vLLM OpenAI-compatible raw service remains useful for raw inference but cannot implement the Fine Head.
 
-Qwen不直接负责最终工具调度。SFT目标除label classification外，还包括形成Evidence State所需的证据理解、缺口表达、充分性判断、backoff和abstain能力。
+### 3.2 LM Evidence State
 
-### 3.2 High-Capability LLM Supervisor
+The LM Head produces concise, direct-response Evidence State:
 
-**[CURRENT DEFAULT]** 正式Agent主方案使用高能力LLM Supervisor。初期候选为DeepSeek高级在线模型；未来实际部署允许替换为本地较大DeepSeek或其他兼容高能力模型，因此实现应面向`SupervisorBackend`抽象，而不是绑定某个在线API或具体model identifier。
+- optional brief behavior summary;
+- supporting evidence references;
+- missing evidence;
+- evidence sufficiency;
+- gap type;
+- backoff/abstention-related state.
 
-Supervisor读取Qwen分析、Evidence State、Unknown状态、工具capabilities、budget/history和检索到的validated experience，负责选择下一步合法Action以及决定继续或停止。
+It does not generate an independent competing fine label. Long Chain-of-Thought is not a model or system interface.
 
-Supervisor不得直接创造新的fine分类来替代Qwen。如果不同意Qwen判断，只能请求进一步证据、要求Qwen重新分类、backoff、reject unknown或abstain。
+### 3.3 Evidence-stage training
 
-### 3.3 Deterministic Runtime
+The Traffic Expert must learn bounded legal stages from Initial Evidence through packet, Temporal, Graph, Application, Sanitized Payload and Knowledge evidence. Only real AVAILABLE evidence may be present. Stage multiplicity is bounded so a single session cannot dominate SFT.
 
-**[HARD CONSTRAINT]** Runtime不是智能主体，而是可复现的执行与约束层，负责：
+Training #1 is classification-first Multi-task SFT. Training #2 is RLAIF-GRPO for rollout-varying Evidence behavior plus a separate classification CE term that preserves Fine Head/LoRA classification. Fine correctness is constant within an LM rollout group and is not the primary group-relative reward.
 
-- 调用Qwen、Supervisor和证据工具；
-- action schema validation与capability enforcement；
-- budget、max rounds和停止条件；
-- request signature dedup；
-- future leakage prevention；
-- Memory读写权限；
-- failure handling与安全降级；
-- structured trace与实验复现。
+## 4. Independent Unknown boundary
 
-任何LLM均不得绕过Runtime约束或直接访问model-unsafe后台字段。
+**[HARD CONSTRAINT]** Unknown is not a K+1 training class and is independent from LLM self-reported confidence. It is developed only after the primary Qwen checkpoint is frozen, using Known validation and `U_dev` to compare margin, entropy, energy and prototype distance over Fine logits and/or `h_session`.
 
-## 4. Action与循环原则
+The score and threshold are reevaluated after each Qwen Evidence update but remain frozen during formal evaluation. `UNKNOWN_LIKELY` may still permit a high-value legal evidence action. Unknown and Abstain differ:
 
-**[CURRENT DEFAULT]** 每轮只执行一个evidence acquisition action：
+- **Unknown**: evidence supports that the session is outside K_known.
+- **Abstain**: evidence/capability/budget is insufficient for a reliable decision.
 
-- `EXPAND_PACKETS`
-- `EXPAND_TEMPORAL_CONTEXT`
-- `EXPAND_GRAPH_CONTEXT`
-- `REQUEST_APPLICATION_EVIDENCE`
-- `RETRIEVE_KNOWLEDGE`
+A small learned Unknown head is **[DEFERRED BACKUP]**.
 
-终止动作包括：
+## 5. DeepSeek Flash logical roles
 
-- `ACCEPT_FINE`
-- `BACKOFF_COARSE`
-- `REJECT_UNKNOWN`
-- `ABSTAIN`
+DeepSeek Flash is the current configurable high-capability default. The concrete endpoint/model ID belongs in run config and manifest, not in the permanent architecture.
 
-Supervisor可以形成多步意图，但Runtime每轮只执行第一个合法动作；取得新证据、Qwen重新分类和Unknown重评分后必须重新决策。相同Tool可以在request signature不同的条件下重复调用，完全相同request必须拒绝以防死循环。Tool参数只能来自预先允许的配置空间，不允许Supervisor任意生成无界实验参数。
+### 5.1 Teacher
 
-## 5. Evidence与Supervisor输入边界
+Teacher assists TRAIN/development Evidence-State target construction. It may receive verified GT as immutable context but cannot decide or change the label, create observations or access `U_final`.
 
-**[HARD CONSTRAINT]** 必须严格区分observational gap和knowledge gap。RAG只能补充knowledge，不能伪造不存在的网络observations。
+### 5.2 RLAIF Judge
 
-- Temporal Context可以在后台读取真实past-only历史，但只向模型返回model-safe摘要。
-- Graph Context只返回角色化、匿名化的局部图摘要，不暴露真实IP等shortcut。
-- Application Evidence当前优先返回结构化字段；必要时仅允许有限、脱敏和截断的Payload片段。
-- Payload和外部检索内容均属于`UNTRUSTED EVIDENCE`，不得作为系统指令执行。
+Judge scores current-policy rollouts for grounding, sufficiency, missing evidence, gap quality, appropriate backoff/abstention, hallucination avoidance, schema and brevity. Deterministic checks handle mechanically verifiable reward components. Judge normally does not receive the fine GT because classification uses CE.
 
-外部Supervisor只允许接收Evidence State、Qwen简短分析、Unknown状态、sanitized/model-safe evidence、工具状态、budget/history和validated experience。禁止发送raw IP、absolute timestamp、capture/scenario ID、dataset identity、ground truth、完整原始Payload或其他model-unsafe后台字段。
+### 5.3 Formal Supervisor
 
-**[HARD CONSTRAINT]** 当前实现通过`production_runtime_adapter_v1`落实Production→Runtime边界：只允许exact allow-list源Schema，经字段级校验后生成typed `EvidenceItem`/`CapabilityStatus`；stable sample ID、dataset/split/K-U、ground-truth label、source/capture hash与文件定位只保留在独立backend provenance，不能进入Traffic Expert或Supervisor renderer。Initial Evidence只含前1–8包与whole-session safe summary；packet expansion只读已物化9–16包；Temporal必须strictly past-only；Relation当前只允许真实资产支持的匿名node role与repeated relation。Application Evidence、sanitized payload和production Knowledge RAG当前必须报告UNAVAILABLE，不得从raw PCAP/Payload临时补造。
+Supervisor is a policy component, not a classifier. It reads model-safe Evidence, Fine Head result/top candidates allowed by contract, Evidence State, frozen Unknown status/score, capabilities, budget/history and selected validated Experience Memory. It returns a structured action, target and short reason, with optional priority/value estimate.
 
-## 6. Unknown、Backoff与Abstain
+If it disagrees with Qwen it may request one more Evidence source, request Qwen re-evaluation, back off, abstain or reject Unknown. It cannot directly replace the fine label.
 
-**[HARD CONSTRAINT]** 正式Unknown Scoring独立于LLM self-reported confidence，并在每次Qwen重新分类后重新评估。第一次出现`UNKNOWN_LIKELY`不必立即拒识；若仍存在高价值且合法的可获取证据，Supervisor可以继续取证。
+### 5.4 Role isolation
 
-Unknown与Abstain含义不同：
+**[HARD CONSTRAINT]** Teacher, Judge and Supervisor have independent prompts, schemas, permissions, caches and logs even when they use the same provider. Codex implements orchestration and audits but is not the formal Teacher/Judge model.
 
-- **Unknown：**已有证据支持样本不属于Known体系。
-- **Abstain：**证据不足、工具失败、能力不可用或预算耗尽，系统无法可靠判断。
+## 6. Deterministic Runtime authority
 
-**[DEFERRED]** Unknown具体算法仍待比较logits/margin、entropy、energy、embedding/prototype、trainable small head及其组合，不在本文件冻结。
+**[HARD CONSTRAINT]** Runtime is the sole execution and permission layer. It handles:
 
-## 7. Experience Memory与Agent成长
+- Qwen, Supervisor/provider and tool calls;
+- schema/parse validation;
+- capability and phase enforcement;
+- budget reservation, max rounds and stop conditions;
+- request-signature and evidence deduplication;
+- past-only/future-leakage prevention;
+- GT and U_final isolation;
+- Memory permissions;
+- bounded retry/fallback/failure handling;
+- structured trace, cost and reproducibility.
 
-### 7.1 Experience Memory
+LLMs cannot call tools, read Production backend rows or change system prompts outside Runtime. The first implementation remains an auditable Python state machine; LangGraph is not required.
 
-**[CURRENT DEFAULT]** Agent长期经验采用结构化`State → Action → Outcome → Verified Feedback`，不依赖无限增长的聊天历史。可以保存成功或失败工具选择、分类修正轨迹、budget/cost和经过可靠反馈验证的结果。
+## 7. Action and loop contract
 
-可靠反馈可以来自train ground truth、合法人工label、few-shot人工确认或可验证工具结果。Supervisor不得只根据自己的预测自我确认并写入“成功经验”；Memory不得保存真实IP、raw Payload或其他shortcut。
+Each round executes at most one evidence-acquisition action, followed by Qwen and Unknown re-evaluation before another decision.
 
-### 7.2 Experience Building Protocol
+Implemented/current action families:
 
-**[CURRENT DEFAULT]** 主评测协议为：
+- `EXPAND_PACKETS`;
+- `EXPAND_TEMPORAL_CONTEXT`;
+- `EXPAND_GRAPH_CONTEXT`;
+- `REQUEST_APPLICATION_EVIDENCE`;
+- `RETRIEVE_KNOWLEDGE`;
+- `RECLASSIFY`;
+- `ACCEPT_FINE`, `BACKOFF_COARSE`, `REJECT_UNKNOWN`, `ABSTAIN`;
+- `RETURN_TOPK`, `REQUEST_LABEL`, `REGISTER_NEW_CLASS`.
 
-| 数据阶段 | Memory权限 |
-| --- | --- |
-| TRAIN | 可以运行Qwen+Supervisor轨迹，并使用ground truth验证后写入positive/negative experience |
-| VALIDATION | 可以读取Memory并选择retrieval策略、memory参数和Supervisor Prompt版本；不写入validation样本 |
-| `U_dev` | 用于开放集与策略开发；默认不写入Experience Memory |
-| TEST / `U_final` | Memory冻结且只读，不进行在线自我学习 |
+Final Near capability also requires a separately bounded Sanitized Payload request. Its exact action/schema is not yet implemented and must be frozen with the sanitizer contract; it cannot be simulated through arbitrary raw payload access.
 
-训练集Experience构造须保留来源、反馈依据、版本和可撤销性。主test结果不得因样本顺序导致Memory变化或标签泄漏。
+The same tool may run again only with a distinct validated request signature. Exact duplicates are rejected. Current default maximum additional rounds is 3; the formal value is **[VALIDATION TUNABLE]**.
 
-### 7.3 Growth Experiment
+## 8. Production Evidence boundary and current capability truth
 
-**[OPTIONAL]** 后期可以预注册独立`Agent Growth Stream`：从Memory v0开始，分批处理带可靠feedback的训练样本形成v1/v2，并在固定held-out集合上重复评估分类、工具选择、调用次数、Supervisor rounds、成本/Token/延迟和重复错误率。该实验不得让正式test边评测边学习，也不属于当前论文必做项。
+**[IMPLEMENTED]** `production_runtime_adapter_v1` accepts exact allow-list Production v2 schemas and emits typed `EvidenceItem`, `CapabilityStatus` and backend-separated provenance. Sample ID, dataset/split/K-U, GT, source/capture hash and file position do not enter Traffic Expert or Supervisor prompts.
 
-## 8. Class Memory与Experience Memory
+| Capability | Current state | Contract |
+| --- | --- | --- |
+| Initial Evidence | AVAILABLE | packets 1–8 + whole-session safe summary |
+| Packet expansion | AVAILABLE_PER_SESSION | only materialized packets 9–16 |
+| Temporal | AVAILABLE | strictly past-only safe stats |
+| Graph/Relation | AVAILABLE_WITH_LIMITATION | anonymous roles + real repeated relation only |
+| Application | UNAVAILABLE | final Near method must materialize real structured observations |
+| Sanitized Payload | UNAVAILABLE | final Near method requires bounded on-demand sanitizer |
+| Production Knowledge RAG | UNAVAILABLE | final Near Agent requires frozen KB/retriever/tool |
 
-**[HARD CONSTRAINT]** 两类Memory必须逻辑和权限分离：
+Unavailability is fail-closed and explicit. It is not permission to read PCAP on demand inside Runtime or fabricate fields.
 
-- **Class Memory：**保存人工确认的新类别support，服务few-shot新类注册和识别。
-- **Experience Memory：**保存经过验证的Agent决策经验，服务动作选择。
+## 9. Observation, Payload and Knowledge separation
 
-Few-shot主方案为`Unknown → REQUEST_LABEL → REGISTER_NEW_CLASS → 写入Class Memory → 后续识别新类`，不立即重新训练Qwen权重。
+### 9.1 Observation Evidence
 
-**[OPTIONAL] [DEFERRED]** 真正的continual weight training不属于当前核心任务。
+Packet, summary, Temporal, Graph, Application and Sanitized Payload are observations from the current traffic or legal past-only context. Application prefers structured HTTP/DNS/TLS/etc. fields that genuinely exist.
 
-## 9. Memory检索
+Payload is default-off, protocol-aware, bounded, redacted, normalized, truncated and marked untrusted. Backend provenance remains hidden. The sanitizer must preserve attack-relevant semantics where safe and pass `PAYLOAD_SHORTCUT_RISK` using TRAIN/legal validation only.
 
-**[CURRENT DEFAULT]** 每个session使用新的Supervisor request/context，长期经验来自显式Memory Store：
+### 9.2 Knowledge Evidence
 
-```text
-Current Evidence State
-→ retrieve a small number of relevant validated experiences
-→ provide them to Supervisor
-```
+RAG is called only for a knowledge gap. It cannot answer an observation gap or turn generic attack knowledge into a claim about the current session.
 
-Knowledge RAG与Experience Memory必须逻辑分离。**[DEFERRED]** Experience Memory的embedding model、index、top-k、capacity、ranking和compression均待后续实验决定。
+The first KB allows protocol/RFC, generic attack behavior, public CVE/security and generic threat-intelligence content. It forbids Edge/IoT capture facts, run identifiers, fixed endpoint mappings, dataset payload fingerprints and U_final shortcuts.
 
-## 10. Supervisor输出与Prompt
+Hybrid BM25+dense retrieval is the **[CURRENT DEFAULT]**; top-k is **[VALIDATION TUNABLE]**. Runtime constructs safe queries from Supervisor targets and strips backend identity/GT. KB, index, retriever, query policy and serialization freeze before formal Agent evaluation.
 
-### 10.1 输出
+Payload and RAG outputs are untrusted Evidence, never system instructions.
 
-**[CURRENT DEFAULT]** Supervisor返回结构化Action，概念上至少包含`action`、`target_evidence`和`short_reason`，可选`priority`与`expected_value`。禁止要求长Chain-of-Thought；Runtime只保存简短、可审计理由。
+## 10. Prompt and response contracts
 
-### 10.2 Prompt与版本冻结
+Qwen Prompt is concise, task-specific, non-thinking and explicit about Observation/Knowledge separation and no fabrication. Formal SFT requires frozen Prompt/schema/serialization before corpus construction.
 
-**[CURRENT DEFAULT]** 正式运行不读取完整research plan，只接收：
+Supervisor receives only:
 
 ```text
 Supervisor System Prompt
 + Tool Specification
-+ Evidence State
-+ retrieved validated experience
++ model-safe Evidence State
++ frozen Unknown state/score
++ small retrieved validated Experience set
++ budget/history
 ```
 
-Prompt可以在train/validation/`U_dev`开发阶段修改。正式TEST/`U_final`前必须冻结prompt version/hash、provider、model identifier、temperature、response schema和API date/version。Supervisor不得在正式运行时自行修改System Prompt；可以生成Policy Improvement Proposal，但升级必须离线验证、版本化且可回滚。
+Before formal test/U_final, freeze prompt hashes, schemas, provider/model identity, temperature/reasoning config, API version and budget. A Supervisor may propose an improvement but cannot modify its own system prompt online.
 
-**[DEFERRED]** 最终Supervisor Prompt正文和具体模型标识尚未冻结。
+## 11. Agent baselines and fairness
 
-## 11. Policy与传统基线
+Formal Near Agent comparison includes:
 
-### 11.1 RulePolicy与LearnablePolicy
+- Basic: Initial Evidence only;
+- Fixed Full: all legal currently available Evidence without dynamic selection;
+- RulePolicy: deterministic evidence choice;
+- DeepSeek Flash Supervisor: dynamic evidence choice.
 
-**[HARD CONSTRAINT]** 即使主方案采用High-Capability LLM Supervisor，也必须保留RulePolicy作为强、可复现baseline，用于区分收益来自Agent循环还是Supervisor更好的工具决策。
+All share the same Traffic Expert, tools, information domain and maximum budget. Report fine/open-set metrics plus tool calls, Qwen/Supervisor/RAG tokens, latency, API cost, recovery and budget compliance. Fixed Full is an evidence upper-bound/control, not an Agent.
 
-**[OPTIONAL]** LearnablePolicy不是当前必做项。Strong Static按现有研究计划继续作为固定取证基线；是否在最终命名中并入Fixed/Rule消融暂不冻结。
+LearnablePolicy is **[DEFERRED]** until Near completion. If the Supervisor does not improve effectiveness-cost over Rule/Fixed, Rule/Fixed becomes the recommended method and the negative result is reported.
 
-### 11.2 Traditional Baseline
+## 12. Experience Memory
 
-**[CURRENT DEFAULT]** LR、RF、LightGBM和XGBoost等传统模型可使用全部合法、model-safe结构化session特征，不得故意削弱；raw IP、absolute time、capture ID、dataset identity和label-derived shortcut禁止进入模型。
+Experience Memory stores only externally verified `State → Action → Outcome → Verified Feedback` records for action selection.
 
-若SFT Qwen closed-set Macro-F1低于最强传统baseline超过约5个百分点，触发内部diagnostic red line并优先诊断数据、训练和表示问题。该阈值不是论文正式non-inferiority声明。
+| Phase | Permission |
+| --- | --- |
+| TRAIN | verified read/write |
+| Validation | read-only; may select retrieval settings |
+| U_dev | read-only by default |
+| Test/U_final | frozen read-only |
 
-**[OPTIONAL]** 传统模型加固定context强基线可在主结果需要时补充。
+Supervisor predictions cannot self-confirm. Memory excludes raw identity/payload shortcuts. The first Agent experiment runs without Experience Memory; Memory is added in a separate experiment. Optional Agent Growth is deferred and never learns during formal test.
 
-## 12. SFT Evidence Training
+## 13. Class Memory and novel classes
 
-**[CURRENT DEFAULT]** 同一session允许构造不同Evidence Stage监督样本，例如`Initial Evidence → insufficient / missing temporal`和`Expanded Evidence → sufficient / correct class`。
-
-Missing Evidence监督候选流程为：
+Class Memory is separate from Knowledge RAG and Experience Memory. It stores human/oracle-labeled 1/5/10-shot support representation, prototype, safe description and support metadata for a newly registered class.
 
 ```text
-deterministic masking/rules
-→ candidate evidence-gap supervision
-→ strong Teacher LLM assistance
-→ consistency filtering
-→ sampled human review
+Unknown → REQUEST_LABEL → REGISTER_NEW_CLASS
+→ Class Memory/prototype → later query recognition
 ```
 
-Teacher可以使用DeepSeek，但Teacher pipeline与Inference Supervisor角色必须分离，且绝对不能访问`U_final`。SFT Corpus使用class-balanced/capped sampling，Canonical Dataset保留真实数据分布；第一轮不进行激进hard mining。
+It does not store raw identity or update LoRA in the first mainline. Continual LoRA is **[DEFERRED]**.
 
-## 13. 在线评测与RAG边界
+## 14. Training/Judge orchestration boundary
 
-### 13.1 在线评测顺序
+The fixed RL Prompt Pool contains only legal Near K_known TRAIN Evidence states. Current Qwen policy generates multiple live rollouts per step; deterministic reward plus asynchronous/batched DeepSeek Flash Judge feedback produces GRPO updates. Cache/log each rollout, request, response, reward decomposition and checkpoint version, but regenerate rollouts as policy changes.
 
-**[HARD CONSTRAINT]** 需要Temporal/Graph Context的正式测试必须在dataset/capture/scenario内部按时间顺序执行，不能随机shuffle后让未来session成为context。最终主要评测单位保持`one reconstructed session → one result`，不扩展为attack-event aggregation主任务。
+DPO is a later offline chosen/rejected ablation, not the current Training #2. Formal orchestration records request IDs, role, prompt/schema, model identity, reasoning/temperature, tokens, cost, latency, retry and validation status.
 
-### 13.2 Knowledge RAG
+## 15. Evaluation order and U_final
 
-**[HARD CONSTRAINT]** 主实验Knowledge RAG只允许包含通用protocol knowledge、attack knowledge、CVE/technical descriptions和公开网络安全知识。禁止加入针对Edge/IoT数据集的固定端口、设备、文件或其他shortcut知识；正式Agent test前冻结KB/index版本。
+When Temporal, Graph or Memory is active, process formal sessions in capture/scenario chronological order. One reconstructed session remains one primary result.
 
-## 14. Failure Handling
+**[HARD CONSTRAINT]** `U_final` cannot tune Qwen, pooling, serialization, LoRA, Teacher/Judge rubrics, Unknown, sanitizer, RAG, Supervisor budget/prompt or Memory. It opens only after all components affecting that evaluated route are frozen; after opening, no result flows back into development.
 
-**[CURRENT DEFAULT]** Supervisor返回非法action时，Runtime拒绝并返回`INVALID_ACTION`，允许有限一次重新决策；再次失败后安全降级或`ABSTAIN`。
+## 16. Failure handling
 
-Qwen结构化输出失败时，先由parser处理，再允许有限一次format retry/repair；再次失败记录`MODEL_OUTPUT_FAILURE`并安全终止。正式实验中外部Supervisor API失败必须记录`SUPERVISOR_FAILURE`，不得静默换模型。实际deployment可配置RulePolicy fallback，但论文实验必须显式报告。
+- Invalid Supervisor action: Runtime returns `INVALID_ACTION`, permits at most one bounded re-decision, then safe fallback/Abstain.
+- Invalid Qwen schema: parser/one bounded format repair, then `MODEL_OUTPUT_FAILURE` and safe termination.
+- Provider failure: record role-specific failure; never silently swap models in a paper run.
+- Unavailable capability: explicit unavailable result, then legal backoff/Abstain; no fabricated evidence.
+- Repeated request or budget exhaustion: Runtime rejects/terminates deterministically.
 
-## 15. Runtime、部署与执行效率
+## 17. Current implementation state and deferred items
 
-**[CURRENT DEFAULT]** 第一版优先采用清晰的Python deterministic state machine，暂不采用LangGraph，以便审计、复现、消融、动作统计和预算控制。`SupervisorBackend`至少在概念上支持`DeepSeekAPIBackend`与`LocalLLMBackend`；当前只设计接口，不实现或下载本地DeepSeek。
+Current implementation: Runtime foundation, Production Safe Adapter v1, Initial/packet/Temporal/limited Relation evidence, provider-neutral adapters, raw local Qwen service/smoke and Evidence Fidelity Gate.
 
-系统目标为session-level streaming analysis，不承诺严格毫秒级实时IDS SLA。逻辑上每个session拥有独立Agent state，第一版优先保证single-sample correctness，后续执行层可以进行dynamic batching。
+Not implemented: training-side Fine Head/harness, formal Prompt/schema/serialization, DeepSeek Teacher/Judge/Supervisor runs, Application, Sanitized Payload, Production RAG, Independent Unknown, formal Agent benchmark and Memory experiments.
 
-**[DEFERRED]** 具体batch scheduler尚未冻结。
+**[DEFERRED until Near completion]** Pure Generative SFT, DPO, Far/Mixed/IoT-23 execution, tokenizer training, QLoRA main experiment, thinking-on, Low-Resource stress, LearnablePolicy RL, continual LoRA and Agent Growth.
 
-## 16. Agent实验与论文成功标准
-
-### 16.1 Agent实验核心
-
-**[CURRENT DEFAULT]** Agent实验在基础分类精度不过度下降的前提下，优化effectiveness与evidence/tool/token/latency cost的权衡。正式比较至少包含：
-
-- Basic；
-- Fixed Full Evidence；
-- RulePolicy；
-- High-Capability LLM Supervisor。
-
-Strong Static按现有计划保留或并入Fixed/Rule消融，最终命名后续统一；LearnablePolicy为**[OPTIONAL]**。Fixed Full与Adaptive Agent应尽量使用相同information domain和预算，避免把更多信息误认为更智能的策略。
-
-### 16.2 论文成功标准
-
-**[CURRENT DEFAULT]** 论文目标分四层：
-
-1. Closed-set：SFT Qwen不能明显落后强传统baseline；
-2. Open-world：Unknown、Near/Far/Mixed、Backoff与Abstain体现闭集模型不具备的能力；
-3. Supervisor Agent：相对Fixed Full/RulePolicy，在同信息域和预算下形成更好的effectiveness-cost trade-off；
-4. Few-shot：实现`Unknown → human label/support → register → recognize new class`。
-
-## 17. 明确DEFERRED事项
-
-以下内容当前故意不冻结：
-
-- DeepSeek最终model identifier；
-- Supervisor Prompt正文；
-- Qwen最终response JSON schema；
-- Unknown算法与阈值；
-- Experience Memory embedding/index/top-k/capacity；
-- SFT正式样本量；
-- Agent max rounds；
-- Tool cost；
-- Temporal最终窗口集合；
-- Payload截断长度；
-- RAG embedding/vector store/top-k；
-- 是否增加额外expert LLM；
-- LearnablePolicy；
-- DPO；
-- Agent Growth实验是否进入正式论文；
-- dynamic batching具体实现。
-
-Codex和开发者不得因为实现方便而自行将上述DEFERRED内容升级为最终Decision。
+**[VALIDATION TUNABLE]** pooling, LoRA target/rank/alpha/dropout, SFT/RL hyperparameters, Unknown threshold, RAG top-k, Supervisor max rounds/budget and Memory retrieval settings. They cannot be silently upgraded to frozen values without the protocol's small reproducible validation process.

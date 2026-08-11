@@ -1,5 +1,7 @@
 # Legacy migration summary
 
+> **Historical / superseded snapshot.** This file records an earlier migration or audit state and does not define the current research mainline. Current authority is `docs/research_plan/research_plan_detailed.md`, DEC-0019, and `docs/training/near_mainline_training_protocol_v1.md`.
+
 ## Result
 
 The existing Git history was retained and tagged as `legacy-pcap-competition-final`. The active working tree was rebuilt as the Flow-first `flow_security_agent` project.

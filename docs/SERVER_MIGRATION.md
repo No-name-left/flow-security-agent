@@ -1,6 +1,6 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-11）：Production Data Freeze与Edge split/SFT revision已完成；`production_runtime_adapter_v1`已进入本地`main`基线`c1ae5da5bef242a1e811f178a84bc16fb894bfd1`。`feat/local-qwen35-9b-runtime`已完成Evidence Fidelity Gate、官方Qwen3.5-9B text-only本地部署和真实Runtime端到端smoke，完整回归261 passed；`PRODUCTION_DATA_READY=true`，SFT/RL/Unknown/正式benchmark均未运行。
+> 当前状态（2026-08-11）：Production Data Freeze、Edge v2/PLAN_B、`production_runtime_adapter_v1`、Evidence Fidelity与官方Qwen3.5-9B text-only本地/真实Runtime smoke均已进入审计`main`基线`e28c3f4806aa56dcdeb9e561cf6201e71f98a2a5`；当前在`docs/sync-near-mainline-protocol`同步Near-first协议。`PRODUCTION_DATA_READY=true`，SFT/RL/Unknown/正式benchmark均未运行。
 
 ## 1. 已冻结的数据角色
 
@@ -82,9 +82,9 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 6. **已完成：**将Adapter和Canonical schema重构为生产模块，命令入口为`flowsec-production-data`。
 7. **已完成：**冻结全量split、K/U、support/query、异常文件处置和training manifest；最终`PASS_WITH_LIMITATIONS`且`PRODUCTION_DATA_READY=true`。
 8. **已完成：**Production Data Freeze、Runtime foundation与provider-neutral backend preparation已审查、测试并进入唯一长期`main`基线。
-9. **已完成、待短期分支Git冻结：**只重建Edge split-dependent assets，完成paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C、PLAN_B SFT候选和label provenance final verification；未重新TShark/canonical/sessionize。
+9. **已完成并进入main：**只重建Edge split-dependent assets，完成paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C、PLAN_B SFT候选和label provenance final verification；未重新TShark/canonical/sessionize。
 10. **已完成：**白名单式Production→Runtime adapter、Evidence Fidelity正向审计、独立Qwen环境、官方固定revision下载、text-only vLLM服务和raw/backend/Production多轮smoke；
-11. **当前停止点：**等待用户冻结Training Protocol v1。不得从本状态文档自行启动正式Raw benchmark、SFT/LoRA、Unknown、RL或Supervisor实验。
+11. **当前停止点：**Near Training Protocol v1已在架构/权限层冻结；下一实施阶段仅为Phase B training-side harness、pooling/LoRA inventory、serialization、Prompt/schema及Application/Payload/RAG contracts。不得从本状态文档自行启动Raw benchmark、SFT、RLAIF/GRPO、Unknown、U_final或Supervisor实验。
 
 现有Gate脚本仍只负责七场景验收，并支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。正式生产CLI默认读取本服务器实际Edge解压根与包含八个场景的IoT-23根；Capture-3的精确恢复URL/hash/size保存在服务器下载manifest和Production Freeze source manifest中。
 
@@ -112,4 +112,4 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - 独立`flow-data`环境仍为Python 3.11.15且未安装Torch；Qwen使用单独Python 3.12 venv `/root/autodl-tmp/conda/qwen35-runtime`。官方revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`位于`/root/autodl-tmp/models/Qwen3.5-9B`，16/16文件完整、总计19,329,393,661 bytes；顶层`/root/autodl-tmp/checkpoints`仍为空。
 - 当前服务器HTTPS GitHub push dry-run因没有可读用户名/凭据而失败。不要据此配置PAT、创建SSH key或安装`gh`；现有本地分支和两个bundle继续保留。
 
-尚未完成：本轮短期分支最终Git冻结、正式训练/实验Prompt与response schema、BF16 LoRA SFT、正式传统基线、独立Unknown算法/校准和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`不等于模型训练已开始。
+尚未完成：training-side Fine Head/harness、正式Prompt/response/serialization、Application/Payload/Production RAG、DeepSeek Teacher/Judge/Supervisor调用、BF16 LoRA SFT、RLAIF/GRPO、正式传统基线、Independent Unknown和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`与协议冻结均不等于模型训练已开始。

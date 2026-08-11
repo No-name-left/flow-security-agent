@@ -4,27 +4,29 @@ These instructions apply to the entire repository.
 
 ## Current frozen project state
 
-- The canonical research specification is `docs/research_plan/research_plan_detailed.md`; operational status is in `docs/PROJECT_HANDOFF.md`, and server/data recovery instructions are in `docs/SERVER_MIGRATION.md`.
-- The mainline is session evidence → text-only Qwen3.5-9B first classification → frozen Unknown scoring/calibration → constrained Agent evidence expansion. Do not restore a tree-first or Qwen-as-Reviewer architecture.
+- Authority order is: `docs/research_plan/research_plan_detailed.md` (highest research meaning) → `docs/training/near_mainline_training_protocol_v1.md` (training/Open-world execution) → `docs/design/agent_architecture_provisional.md` (Agent/Runtime/Supervisor/RAG/Memory design) → `docs/PROJECT_HANDOFF.md` (current implementation state only). Server/data recovery instructions are in `docs/SERVER_MIGRATION.md`.
+- The mainline is session evidence → Qwen3.5-9B shared representation → one Linear Fine Classification Head plus LM Evidence State → deterministic fine-to-coarse mapping → Independent Unknown → DeepSeek Flash Supervisor under deterministic Runtime → on-demand Evidence → optional Class Memory. Do not restore a tree-first, Qwen-as-Reviewer, competing generative-fine, Unknown-as-K+1, Supervisor-as-classifier, always-on RAG or unlimited raw-Payload architecture.
 - Agent evidence acquisition must be driven by the declared missing-evidence type under a shared state, capability and budget contract. Do not treat a fixed full-tool chain as an adaptive Agent, do not use RAG to invent missing observations, and perform component-level error attribution before deciding which component to update.
 - Edge-IIoTset is the limited primary dataset; IoT-23 is the limited independent-scenario external validation dataset. Do not reopen dataset search, replace these roles or physically merge their fine-label training without an authorized new Decision.
-- Default formal training is BF16 LoRA SFT with visual modules frozen and non-thinking output. QLoRA is only a resource/compatibility fallback. `U_dev` is not main-classifier SFT supervision; `U_final` must never be used for SFT/DPO, Prompt/RAG examples, Unknown algorithm or threshold selection, Agent training, or error-driven tuning.
+- Near Training Protocol v1 is frozen at the architecture/permission level: Training #1 is classification-first Multi-task BF16 LoRA SFT for LoRA + Fine Head; Training #2 is RLAIF-GRPO for rollout-varying Evidence behavior plus separate classification CE preservation. Fine correctness is not a group-relative GRPO reward. QLoRA is only a post-Near fallback/ablation. `U_dev` is not main-classifier supervision; `U_final` cannot select or tune Qwen, Prompt/serialization, Teacher/Judge, Unknown, sanitizer, RAG, Supervisor or Memory.
 - Production `CanonicalSessionRecord`, EdgeAdapter and IoT23Adapter are implemented. The identity-based-dedup full rebuild, Edge label-provenance guard, class-role support Gate and postfix pre-commit audit have passed with documented limitations; `PRODUCTION_DATA_READY=true`. These assets are not paper results, and no model training has started.
-- The paper-grade Edge split revision is implemented as `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`: complete-session crossing quarantine plus a capture-local 5-second embargo. It preserves all 7,619,032 canonical Edge identities, leaves Near/Far/Mixed K/U unchanged, and records `PAPER_EVALUATION_READINESS_GATE=PASS_WITH_LIMITATIONS`. `DDoS_UDP` and `OS_Fingerprinting` are `STRUCTURALLY_INSUFFICIENT_KNOWN`; this is an analytic status, not a K/U role. Formal SFT candidates use `CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`, selected `PLAN_B`, and only `K_known ∩ physical train`; no Qwen or SFT run has occurred. The Low-Resource Unknown Stress Test is `PLANNED_OPTIONAL_NOT_RUN` and must remain pre-model and separate from Near/Far/Mixed.
-- The remote server bootstrap, official dataset recovery and Production Data Freeze are complete. `main` is the unique long-term branch; its current local baseline is `3f75023f9b40e652de9c5ce1cbd6c00d8b4de5f4`, which includes the Edge split/SFT revision and the tagged pre-model integration baseline `3ab33e36c8508bcd31afac2e12c094ae1fe0a964`. `production_runtime_adapter_v1` is implemented on `feat/production-runtime-adapter`: it is an exact allow-list boundary over v2 Parquet assets, emits typed Runtime evidence/tools, keeps backend provenance separate, and passed real-data leakage/permission smoke plus 254 tests. Application evidence, sanitized payload and production Knowledge RAG remain unavailable. Keep data/artifact/model roots outside the Git checkout and configurable through environment/configuration rather than hard-coded local Windows or server paths.
+- The paper-grade Edge split is `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, preserving all 7,619,032 identities with `PAPER_EVALUATION_READINESS_GATE=PASS_WITH_LIMITATIONS`. `ONE_MAINLINE_FIRST` freezes Edge Near seed `20260809` as the first complete route, using its existing K/U and 16,979 PLAN_B `K_known ∩ train` candidates. Far, Mixed, IoT-23 and optional ablations wait until `NEAR_MAINLINE_COMPLETE=true`. Raw Qwen ran only controlled deployment smoke; SFT/RL/Unknown/formal benchmarks did not run.
+- The remote bootstrap, official recovery, Production Data Freeze, Edge v2 split, `production_runtime_adapter_v1`, Evidence Fidelity and official raw Qwen deployment smoke are complete. The audited `main` baseline is `e28c3f4806aa56dcdeb9e561cf6201e71f98a2a5`; documentation synchronization occurs on `docs/sync-near-mainline-protocol`. Application, sanitized payload and production Knowledge RAG remain UNAVAILABLE engineering capabilities but are required on-demand final Near capabilities. Keep data/artifact/model roots outside Git and configurable through existing environment/configuration.
 - Raw traffic, dataset archives, large generated tables, model weights, checkpoints, credentials and environment secrets must not enter Git.
 - A material research change must update the canonical plan and Decision Log, then synchronize the handoff. Do not commit or push unless the user explicitly authorizes it.
 
 ## Required project context
 
-Before changing the project:
+Before changing the project, inspect `git status --short` and preserve all user changes. Then read according to task meaning:
 
-1. Read `README.md`.
-2. Read `docs/PROJECT_HANDOFF.md`.
-   - On Windows PowerShell, use `Get-Content -Encoding UTF8` when reading Chinese Markdown files; the legacy Windows PowerShell default encoding may display valid UTF-8 text as mojibake.
-3. For work that can affect research meaning, data roles, labels, splits, model stages, evaluation protocols or paper conclusions, read `docs/research_plan/research_plan_detailed.md` in full. It is the canonical research specification.
-4. Before implementing Agent, Runtime, Supervisor or Memory behavior, read `docs/design/agent_architecture_provisional.md`; it is PROVISIONAL and cannot override a formal Decision or frozen research-plan constraint.
-5. Inspect `git status --short` and preserve all pre-existing user changes.
+1. Read `README.md` for repository orientation.
+2. Read `docs/research_plan/research_plan_detailed.md` before any work that can affect research meaning, model/training, data roles, labels, splits, evaluation or paper conclusions.
+3. Read `docs/training/near_mainline_training_protocol_v1.md` before any training, checkpoint, pooling, LoRA, SFT, RLAIF/GRPO, Unknown, U_dev/U_final or novel-class work.
+4. Read `docs/design/agent_architecture_provisional.md` before any Runtime, Supervisor, Evidence Tool, Application/Payload, RAG or Memory work. It cannot override the canonical plan or training protocol.
+5. Read `docs/PROJECT_HANDOFF.md` after the authorities above to learn actual implementation state, current branch/stop point and the next allowed phase. Handoff never overrides research or execution authorities.
+6. Read the specific audit/manifest named by the handoff for the component being changed.
+
+For Chinese Markdown on Windows PowerShell, use `Get-Content -Encoding UTF8`.
 
 ## Keep the handoff document synchronized
 
@@ -64,15 +66,15 @@ Do not expand a narrowly scoped task merely to rewrite the handoff document. Syn
 - Do not change dataset roles, Known/Unknown sets, label mappings, split rules, training permissions or evaluation protocols without updating the canonical detailed plan and its Decision Log when the task authorizes those files.
 - Do not use frozen test or external-test labels to tune models, thresholds, prompts, RAG content or training data.
 - Do not describe week/file proxy groups as official mission or activity identifiers.
-- Do not reintroduce PCAP, Payload, host logs or legacy competition labels into the formal Flow-only mainline unless the research plan is explicitly changed and approved.
-- Do not start formal long-running Qwen training while the current data Gate prohibits it.
+- Raw PCAP remains backend source-of-truth only. Model-visible Application/Payload must follow the frozen on-demand, bounded, sanitized, model-safe contracts; never expose raw identity, unlimited payload, host logs or legacy shortcut labels.
+- Do not start Raw benchmarks, SFT, RLAIF/GRPO, Unknown, U_final or Agent experiments without an explicitly authorized task and the preceding Near protocol Gate.
 - Do not reset, discard, overwrite or commit unrelated pre-existing working-tree changes.
 
 ## Completion check
 
 Before finalizing a material project update:
 
-1. Compare the resulting implementation and artifacts with the canonical plan.
+1. Compare the resulting implementation and artifacts with the canonical plan and, when relevant, the Near training protocol and Agent architecture.
 2. Decide whether the handoff synchronization rule was triggered.
 3. Update only the affected handoff sections when permitted.
 4. Run verification proportional to the change.

@@ -1,5 +1,7 @@
 # Phase 0：NF-ToN-IoT-v3 数据审计与 Grouping 分析
 
+> **Historical / superseded snapshot.** This file records an earlier migration or audit state and does not define the current research mainline. Current authority is `docs/research_plan/research_plan_detailed.md`, DEC-0019, and `docs/training/near_mainline_training_protocol_v1.md`.
+
 ## 1. 当前结论
 
 官方 NF-ToN-IoT-v3 压缩包已通过 ZIP CRC、BagIt SHA-1 和真实 CSV 内容交叉验证。全量 27,520,260 条 Flow 的 Schema、标签和数据质量审计已经完成。
