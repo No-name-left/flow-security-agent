@@ -8,13 +8,14 @@ the Traffic Expert and Unknown state after new evidence, and emits an auditable,
 model-safe trace.
 
 The package currently contains typed contracts, protocols, deterministic mocks,
-synthetic evidence tools, phase-aware in-memory experience storage, isolated
-class-memory contracts, experiment-variant configuration and a synthetic result
-collector. It intentionally does **not** implement a real Qwen backend, real LLM
-Supervisor backend, final prompt or response schema, final Unknown algorithm,
-production evidence tools, final experience-retrieval algorithm, model training,
-or a Production dataset adapter. Those systems must connect through the existing
-protocol and evidence boundaries after their separate research and data Gates.
+phase-aware in-memory experience storage, isolated class-memory contracts,
+experiment-variant configuration and a synthetic result collector. Production
+connects through `production_runtime_adapter_v1`, which supplies allow-listed
+Initial Evidence and bound packet/temporal/relation/application tools. It
+intentionally does **not** implement a real Qwen backend, real LLM Supervisor
+backend, final prompt or response schema, final Unknown algorithm, application or
+payload extraction, production Knowledge RAG, final experience retrieval, or
+model training.
 
 ## Integration boundary
 

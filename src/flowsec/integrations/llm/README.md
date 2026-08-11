@@ -22,3 +22,7 @@ semantics, memory permissions and final-label authority.
 Untrusted payload or retrieval text is emitted as a `DATA` block with explicit
 trust, never as a system instruction. This is a software framing guarantee, not a
 claim that a future real model is immune to prompt injection.
+
+Production Parquet rows, SQLite/catalog objects and PCAP data are not accepted
+by this boundary. They must first pass through the versioned Production safe
+adapter and arrive as revalidated, model-safe Runtime `EvidenceItem` values.

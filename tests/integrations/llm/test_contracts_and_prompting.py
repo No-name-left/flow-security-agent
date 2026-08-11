@@ -207,3 +207,19 @@ def test_model_safe_false_is_rejected_by_adapter_without_runtime_help() -> None:
     with pytest.raises(Exception):
         backend.evaluate((item,))
     assert transport.requests == []
+
+
+def test_raw_production_row_cannot_enter_traffic_expert_backend() -> None:
+    transport = fake_transport("provider_a", [envelope_a(expert_payload())])
+    backend = expert_backend(transport)
+    raw_row = {
+        "sample_id": "fs1_" + "1" * 40,
+        "fine_label": "Backdoor",
+        "coarse_label": "Malware",
+        "split": "train",
+        "raw_ip": "192.0.2.1",
+        "source_path": "/backend/capture.pcap",
+    }
+    with pytest.raises((AttributeError, TypeError, ValidationError)):
+        backend.evaluate((raw_row,))  # type: ignore[arg-type]
+    assert transport.requests == []

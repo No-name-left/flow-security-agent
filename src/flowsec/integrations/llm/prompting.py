@@ -124,6 +124,18 @@ def _evidence_block(item: EvidenceItem) -> MessageContent:
     )
 
 
+def _validated_evidence(evidence: tuple[EvidenceItem, ...]) -> tuple[EvidenceItem, ...]:
+    output: list[EvidenceItem] = []
+    for item in evidence:
+        if not isinstance(item, EvidenceItem):
+            raise TypeError("prompt renderers accept only typed EvidenceItem values")
+        validated = EvidenceItem.model_validate(item.model_dump(mode="python"))
+        if not validated.model_safe:
+            raise ValueError("prompt renderer received non-model-safe evidence")
+        output.append(validated)
+    return tuple(output)
+
+
 class TrafficExpertPromptRenderer:
     def __init__(self, profile: PromptProfile):
         self.profile = profile
@@ -133,6 +145,7 @@ class TrafficExpertPromptRenderer:
         return self.profile.identity
 
     def render(self, evidence: tuple[EvidenceItem, ...]) -> tuple[LLMMessage, ...]:
+        evidence = _validated_evidence(evidence)
         messages = (
             LLMMessage(
                 role=MessageRole.SYSTEM,
@@ -169,6 +182,8 @@ class SupervisorPromptRenderer:
         return self.profile.identity
 
     def render(self, state: SupervisorView) -> tuple[LLMMessage, ...]:
+        state = SupervisorView.model_validate(state.model_dump(mode="python"))
+        evidence = _validated_evidence(state.evidence)
         state_payload = state.model_dump(mode="json", exclude={"evidence"})
         tool_payload = {
             "allowed_actions": [item.value for item in self.tool_specification.allowed_actions],
@@ -191,7 +206,7 @@ class SupervisorPromptRenderer:
                 content=_json_data(state_payload),
             ),
         ]
-        user_parts.extend(_evidence_block(item) for item in state.evidence)
+        user_parts.extend(_evidence_block(item) for item in evidence)
         return (
             LLMMessage(
                 role=MessageRole.SYSTEM,

@@ -1,0 +1,32 @@
+{
+  "LOCAL_QWEN_DEPLOYMENT_READY": true,
+  "PRODUCTION_RUNTIME_ADAPTER_READY": true,
+  "PRODUCTION_RUNTIME_ADAPTER_STATUS": "PASS",
+  "QWEN_DOWNLOADED": false,
+  "QWEN_RUN": false,
+  "SFT_RUN": false,
+  "UNKNOWN_ALGORITHM_FROZEN": false,
+  "adapter_version": "production_runtime_adapter_v1",
+  "capabilities": {
+    "APPLICATION_EVIDENCE": "UNAVAILABLE",
+    "EXPAND_PACKETS_9_16": "AVAILABLE_PER_SESSION",
+    "GRAPH_RELATION_CONTEXT": "AVAILABLE_WITH_LIMITATION",
+    "INITIAL_EVIDENCE": "AVAILABLE",
+    "KNOWLEDGE_RAG": "UNAVAILABLE_IN_PRODUCTION_ADAPTER",
+    "SANITIZED_PAYLOAD": "UNAVAILABLE",
+    "TEMPORAL_CONTEXT": "AVAILABLE"
+  },
+  "evidence_schema_version": "production_runtime_evidence_v1",
+  "full_pytest": "254 passed",
+  "paper_split_version": "CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2",
+  "production_source_version": "canonical_session_record_v1/edge_split_revision_v2/c4824c5ee2c41eab3ee1961e4d3e0af6669ceb033d0a2a53091ce51dec0cdc88",
+  "real_data_smoke": {
+    "application_unavailable": true,
+    "class_categories": 6,
+    "model_calls": 0,
+    "packet_1_8_then_9_16": true,
+    "temporal_has_past": true,
+    "temporal_no_past": true
+  },
+  "targeted_pytest": "230 passed"
+}

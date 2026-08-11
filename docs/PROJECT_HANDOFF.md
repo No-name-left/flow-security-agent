@@ -2,9 +2,9 @@
 
 > 适用对象：首次接手本项目的开发者或Agent。
 >
-> 最近核验：2026-08-11；服务器初始化、官方数据恢复、identity-based dedup全量重建、Edge标签provenance guard与class-role定向复审均已完成；Production、Agent Runtime foundation及provider-neutral real-backend preparation已进入唯一长期分支`main`。`main`当前基线为`607c40bf3c494411503be6e960d3b88450332e22`，其pre-model tag `baseline-pre-model-20260811`仍指向被该提交包含的`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`。随后在`fix/edge-paper-split-revision`完成Edge paper-grade split、PLAN_B SFT候选与provenance final verification；`SPLIT_REVISION_STATUS=PASS_WITH_LIMITATIONS`，尚待本分支最终回归与Git冻结。尚未下载Qwen、调用真实模型/API或启动训练。
+> 最近核验：2026-08-11；服务器初始化、官方数据恢复、Production Data Freeze、Edge paper-grade split、PLAN_B SFT候选与provenance final verification均已完成；split revision已fast-forward进入本地`main`基线`3f75023f9b40e652de9c5ce1cbd6c00d8b4de5f4`。随后在`feat/production-runtime-adapter`完成`production_runtime_adapter_v1`、真实v2数据smoke和跨层泄漏/U_final测试，完整回归为254 passed，`PRODUCTION_RUNTIME_ADAPTER_READY=true`。尚未下载Qwen、调用真实模型/API或启动训练。
 >
-> 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；当前最新正式数据决定为DEC-0015，DEC-0016只登记非阻塞OPTIONAL实验idea。
+> 研究语义冲突时，以`docs/research_plan/research_plan_detailed.md`及其Decision Log为唯一权威来源；DEC-0016只登记非阻塞OPTIONAL实验idea，DEC-0017冻结Production Runtime Safe Adapter v1的跨层安全边界。
 
 ## 1. 一分钟了解当前项目
 
@@ -94,11 +94,11 @@ Label provenance final Gate为PASS：24/24 capture纯度100%；7,619,032个sessi
 
 `src/flowsec/runtime/`现提供provider-neutral deterministic Runtime foundation，包括model-safe `SupervisorView`、外部重验证、调用前预算预留、future-context与capability保护、Memory读写权限、request/evidence去重、历史保留、终止语义验证和安全失败。`src/flowsec/integrations/llm/`提供`LLMTransport`/`RawLLMResponse`、Traffic Expert与Supervisor adapter/parser、版本化Prompt profile、Fake Provider、有限retry/failure taxonomy和secret redaction；没有真实HTTP transport、API调用、模型下载或正式Prompt/模型配置。对应工程审计位于`reports/runtime_audit/`，不是论文结果。
 
-Production与Runtime的权限边界保持分离：Production `initial_model_views`是已验证的安全投影，Runtime只接受显式`EvidenceItem`与`CapabilityStatus`。当前尚缺一个轻量、白名单式Production→Runtime adapter来完成字段封装、capability命名映射及跨层泄漏回归；在该adapter完成前，不得把backend/canonical行直接传入模型。
+Production与Runtime的权限边界现由`src/flowsec/production/runtime_adapter.py`落实：`production_runtime_adapter_v1`只读取paper split v2已物化Parquet，按exact allow-list校验`initial_model_views`、packets 9–16、temporal与relation资产，并输出typed `EvidenceItem`、`CapabilityStatus`、`RuntimeInput`和绑定工具。稳定sample ID、dataset/split/K-U、label、source/capture hash保留在独立backend-only provenance中；raw Production row/catalog不能进入renderer或Traffic Expert。Application Evidence与sanitized payload仍UNAVAILABLE，production Knowledge RAG未接入；graph只输出真实支持的匿名角色与repeated-relation。审计见`reports/runtime_audit/production_runtime_adapter_v1_audit.md`。
 
 ### 2.8 服务器当前状态已同步
 
-本次审计开始时，`main`、`origin/main`与本地HEAD均为`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`，且`baseline-pre-model-20260811`指向该基线；本次状态同步commit按要求只保留在本地，等待用户决定是否push。服务器保留24个Edge PCAP、8个IoT-23正式scenario、7,818,954条backend记录和7,569,346条canonical session；24个Edge与8个IoT checkpoint均在Git外，checkpoint reuse audit为PASS且不要求重新TShark。Edge归档MD5为`d0f9be0185845a1ef4ed31cc6db4a9b2`，24/24 companion provenance通过。
+当前本地`main`已fast-forward至Edge split revision提交`3f75023f9b40e652de9c5ce1cbd6c00d8b4de5f4`；`origin/main`与`baseline-pre-model-20260811`仍保持远端pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`，本任务不push。服务器保留24个Edge PCAP、8个IoT-23正式scenario和7,818,954条backend记录；v2 logical assets含7,670,824条canonical/model-safe记录。24个Edge与8个IoT checkpoint均在Git外，checkpoint reuse audit为PASS且不要求重新TShark。Edge归档MD5为`d0f9be0185845a1ef4ed31cc6db4a9b2`，24/24 companion provenance通过。
 
 独立`flow-data`环境使用Python 3.11.15，TShark 3.6.2可用，Zeek未安装且当前任务不依赖它；`/root/autodl-tmp/models`为空，未下载模型，顶层通用checkpoint目录为空。当前HTTPS GitHub push dry-run因服务器没有可读用户名/凭据而失败；这不改变本地main完整性，也不授权配置PAT、SSH key或`gh`。Production数据、完整报告、bundle和checkpoint继续保留在Git外，不得为整理状态而删除。
 
@@ -135,7 +135,7 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 
 ## 4. 当前下一步与停止规则
 
-本阶段已完成架构审计、计划纠偏、双数据集Gate、服务器初始化、官方数据恢复、identity-based dedup全量Production Data Freeze重建、标签provenance guard、class-role复审、postfix pre-commit审计，以及Production与Agent Runtime/LLM backend preparation的Git集成；随后完成Edge paper-grade split revision、PLAN_B SFT候选层和provenance final verification。当前只剩本数据协议分支的回归与Git冻结；尚未下载Qwen、调用真实模型/API、安装完整训练栈或启动正式训练。
+本阶段已完成架构审计、计划纠偏、双数据集Gate、服务器初始化、官方数据恢复、identity-based dedup全量Production Data Freeze重建、标签provenance guard、class-role复审、postfix pre-commit审计，以及Production与Agent Runtime/LLM backend preparation的Git集成；随后完成并集成Edge paper-grade split revision、PLAN_B SFT候选层和provenance final verification，并完成Production Runtime Safe Adapter v1及真实数据smoke。尚未下载Qwen、调用真实模型/API、安装完整训练栈或启动正式训练。
 
 冻结的执行顺序如下；双数据集Gate已经完成，本地阶段只做归档、推送和经批准的数据清理：
 
@@ -147,8 +147,9 @@ IP可用于后台关联，但固定真实身份不应直接进入模型；文件
 6. **已完成：**identity-based dedup全量重建、24-capture标签provenance guard与必要checkpoint resume；
 7. **已完成：**class-role BASE/few-shot Gate纠正、最新run identity防旧manifest保护、完整pytest与postfix复审，`PRODUCTION_DATA_READY=true`；
 8. **已完成：**Production冻结分支与最终Agent/Runtime/backend preparation分支经no-ff集成、完整回归与架构审计后已提升至唯一长期`main`基线并打`baseline-pre-model-20260811`标签；
-9. **已完成、待本分支Git冻结：**Edge paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C与PLAN_B候选物化、label provenance final verification；
-10. **当前下一步：**完成本分支回归与Git冻结，随后实现并测试轻量白名单式Production→Runtime adapter；真实provider smoke、Qwen配置/下载和text-only BF16 LoRA SFT仍须另行明确授权。
+9. **已完成并进入本地main：**Edge paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C与PLAN_B候选物化、label provenance final verification；
+10. **已完成：**Edge split revision fast-forward进入本地`main`，并在`feat/production-runtime-adapter`实现/测试安全Production→Runtime adapter；真实六类Edge smoke、past/no-past、9–16包、capability truthfulness与U_final隔离通过，完整pytest 254 passed；
+11. **当前下一步：**在另行授权后部署只面对Runtime model-safe prompt的本地OpenAI-compatible Qwen Traffic Expert；Qwen下载、raw smoke和text-only BF16 LoRA SFT仍是独立任务。本任务禁止模型代码直接读取Parquet、SQLite或PCAP。
 
 IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建出现新的阻断性证据并新增Decision，否则不得重选第二数据集，也不得自动恢复“CICIoMT首选、X-IIoTID立即切换”或重新开启主数据集搜索。
 
@@ -173,10 +174,11 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 - `reports/runtime_audit/`：Runtime foundation与real-backend preparation的工程/架构审计；不包含真实模型、API、数据或论文指标。
 - `src/flowsec/production/split_revision.py`、`tools/revise_edge_split.py`与`tools/audit_edge_split_candidates.py`：Edge v2 split、Paper Evaluation Readiness、SFT candidate和只读Phase A候选比较入口。
 - `reports/edge_split_revision_v2/`：可提交的小型v2 split/provenance/readiness/SFT/leakage/low-resource报告；完整Parquet位于Git外`/root/autodl-tmp/processed/edge_split_revision_v2/`。
+- `src/flowsec/production/runtime_adapter.py`：`production_runtime_adapter_v1`、严格Parquet allow-list、phase/U_final授权、Initial Evidence与packet/temporal/graph/application工具；审计位于`reports/runtime_audit/production_runtime_adapter_v1_audit.md`。
 
 ### 尚未实现，不得描述成已有结果
 
-- Production→Runtime白名单adapter、正式Session Evidence Card封装与生产证据工具；
+- 正式Qwen Prompt/response schema与模型服务；Application Evidence/sanitized payload提取以及production Knowledge RAG工具；
 - 传统闭集/开放集正式基线；
 - Qwen3.5-9B text-only BF16 LoRA主分类SFT、正式Evidence Card renderer、独立Unknown算法/校准与条件性LoRA DPO；
 - 真实provider transport/smoke、LearnablePolicy、强Static与Agent主实验；
@@ -197,9 +199,9 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 
 ## 7. 必读顺序与事实源
 
-当前控制结构固定为：`main`是唯一长期代码主线，`fix/edge-paper-split-revision`只是待合并的短期数据协议分支；`docs/research_plan/research_plan_detailed.md`是canonical research specification；`docs/design/agent_architecture_provisional.md`是不能覆盖正式Decision的Agent/Runtime实现设计；本文件记录当前完成状态与下一步；`AGENTS.md`定义未来Codex入口和阅读规则；`docs/SERVER_MIGRATION.md`记录服务器、Git外数据与恢复说明。
+当前控制结构固定为：`main`是唯一长期代码主线并已包含Edge split revision，`feat/production-runtime-adapter`是当前已验证的短期安全集成分支；`docs/research_plan/research_plan_detailed.md`是canonical research specification；`docs/design/agent_architecture_provisional.md`是不能覆盖正式Decision的Agent/Runtime实现设计；本文件记录当前完成状态与下一步；`AGENTS.md`定义未来Codex入口和阅读规则；`docs/SERVER_MIGRATION.md`记录服务器、Git外数据与恢复说明。
 
-1. `docs/research_plan/research_plan_detailed.md`，重点阅读DEC-0006至DEC-0016；
+1. `docs/research_plan/research_plan_detailed.md`，重点阅读DEC-0006至DEC-0017；
 2. `reports/data_feasibility_gate_20260806/final_gate_report.md`、`gate_results.json`和`split_manifest.json`；
 3. `docs/SERVER_MIGRATION.md`；
 4. `reports/dataset_audit/2026-08-edge-iiotset-final-review/README.md` 与 `provisional_verdict.md`；
@@ -214,7 +216,7 @@ IoT-23已通过官方数据、标签和scenario隔离Gate；除非生产构建�
 
 ## 8. 工作树与验证提示
 
-Production冻结提交为`44ec95c1b283d1aa8d8cc75ecd1eba4a30601aa0`；最新backend preparation提交为`930d31ca154f7f5e4dc35dd5c07933ea4e1cabe3`，两者的历史已通过no-ff集成进入`main`基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`。旧本地Production与integration分支均已被`main`包含，可在未来另行授权后删除，本轮必须保留；现有Git bundle同样保留。任何后续工作不得为追求干净执行reset、checkout、rebase或clean；提交和推送仍须遵守当前任务授权。
+Production冻结提交为`44ec95c1b283d1aa8d8cc75ecd1eba4a30601aa0`；backend preparation提交为`930d31ca154f7f5e4dc35dd5c07933ea4e1cabe3`，两者的历史已通过no-ff集成进入pre-model基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`；Edge split revision提交`3f75023f9b40e652de9c5ce1cbd6c00d8b4de5f4`现为本地`main`。`feat/production-runtime-adapter`承载DEC-0017实现与审计。旧本地Production、integration和split分支必须保留；现有Git bundle同样保留。任何后续工作不得为追求干净执行reset、checkout、rebase或clean；提交和推送仍须遵守当前任务授权。
 
 最终Gate运行了官方最小数据下载、PCAP解析、会话/标签对齐、哈希、泄漏与捷径检查、两随机种子RF及Qwen输入合同冒烟；没有调用或训练Qwen，也没有运行正式论文实验。DEC-0010只改变执行位置；DEC-0011冻结BF16 LoRA/text-only/non-thinking默认模式和独立Unknown评分接口。任何后续数据角色、会话单位、输入证据、K/U、训练阶段、Unknown或Agent口径改变，必须同步更新canonical detailed的Decision Log与本交接文档。
 

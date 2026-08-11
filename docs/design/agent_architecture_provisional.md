@@ -114,6 +114,8 @@ Supervisor可以形成多步意图，但Runtime每轮只执行第一个合法动
 
 外部Supervisor只允许接收Evidence State、Qwen简短分析、Unknown状态、sanitized/model-safe evidence、工具状态、budget/history和validated experience。禁止发送raw IP、absolute timestamp、capture/scenario ID、dataset identity、ground truth、完整原始Payload或其他model-unsafe后台字段。
 
+**[HARD CONSTRAINT]** 当前实现通过`production_runtime_adapter_v1`落实Production→Runtime边界：只允许exact allow-list源Schema，经字段级校验后生成typed `EvidenceItem`/`CapabilityStatus`；stable sample ID、dataset/split/K-U、ground-truth label、source/capture hash与文件定位只保留在独立backend provenance，不能进入Traffic Expert或Supervisor renderer。Initial Evidence只含前1–8包与whole-session safe summary；packet expansion只读已物化9–16包；Temporal必须strictly past-only；Relation当前只允许真实资产支持的匿名node role与repeated relation。Application Evidence、sanitized payload和production Knowledge RAG当前必须报告UNAVAILABLE，不得从raw PCAP/Payload临时补造。
+
 ## 6. Unknown、Backoff与Abstain
 
 **[HARD CONSTRAINT]** 正式Unknown Scoring独立于LLM self-reported confidence，并在每次Qwen重新分类后重新评估。第一次出现`UNKNOWN_LIKELY`不必立即拒识；若仍存在高价值且合法的可获取证据，Supervisor可以继续取证。

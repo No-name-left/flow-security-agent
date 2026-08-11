@@ -1,6 +1,6 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-11）：远程服务器初始化、官方数据恢复、Gate复核和Production Data Freeze已完成；Production、Runtime与provider-neutral backend preparation已进入唯一长期分支`main`，当前同步基线为`607c40bf3c494411503be6e960d3b88450332e22`，并包含tagged pre-model integration基线`3ab33e36c8508bcd31afac2e12c094ae1fe0a964`。Edge paper-grade split/SFT revision已在短期分支完成并等待Git冻结；`PRODUCTION_DATA_READY=true`，尚未下载Qwen、调用真实模型/API或启动训练。
+> 当前状态（2026-08-11）：远程服务器初始化、官方数据恢复、Gate复核和Production Data Freeze已完成；Edge paper-grade split/SFT revision已进入本地`main`基线`3f75023f9b40e652de9c5ce1cbd6c00d8b4de5f4`。`feat/production-runtime-adapter`已完成`production_runtime_adapter_v1`、真实v2数据smoke和跨层泄漏/U_final测试，完整回归为254 passed；`PRODUCTION_DATA_READY=true`，尚未下载Qwen、调用真实模型/API或启动训练。
 
 ## 1. 已冻结的数据角色
 

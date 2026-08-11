@@ -31,6 +31,7 @@
 | SFT候选 | **PLAN_B已物化，尚未训练** | `CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`仅取`K_known ∩ train`；Near/Far/Mixed为16,979/15,895/15,404条唯一sample |
 | Qwen3.5-9B SFT/DPO | 尚未开始 | Qwen是主分类器；默认text-only BF16 LoRA SFT、冻结视觉模块并使用non-thinking输出，QLoRA仅为降级路线，DPO保持条件性 |
 | Supervisor/Runtime/Policy | **工程foundation已实现** | deterministic Runtime、RulePolicy合同与provider-neutral Supervisor backend preparation已通过synthetic/Fake Provider审计；真实provider、正式配置与实验尚未开始 |
+| Production→Runtime | **Safe Adapter v1已实现** | exact allow-list Initial Evidence、9–16包、strict past-only temporal、匿名relation、phase/U_final与跨层泄漏测试通过；application/payload/production RAG仍UNAVAILABLE |
 
 ## 2. 任务依赖与数据Gate
 
@@ -41,8 +42,8 @@ DEC-0009与双数据集最终Gate同步（已完成）
 → deterministic Runtime与provider-neutral backend preparation（已完成）
 → 提升至main唯一长期基线并标记baseline-pre-model-20260811（已完成）
 → Edge paper-grade split、Paper Evaluation Readiness、PLAN_A/B/C与PLAN_B候选物化（已完成）
-→ Production→Runtime白名单adapter与跨层泄漏测试
-→ 经另行授权后配置GPU模型环境
+→ Production→Runtime白名单adapter与跨层泄漏测试（已完成）
+→ 经另行授权后配置本地OpenAI-compatible Qwen Traffic Expert环境
 → Qwen3.5-9B加载与text-only BF16 LoRA SFT小规模冒烟
 → Edge-IIoTset完整主实验
 → IoT-23压缩外部验证
@@ -156,10 +157,10 @@ Edge单capture、固定端点和时间捷径通过capture内时间块、隔离ga
 
 ## 8. 下一执行顺序
 
-1. **当前收尾：**完成本轮Edge split/SFT data protocol的回归、报告和Git冻结；
-2. 随后实现轻量、白名单式Production→Runtime adapter，将安全投影显式封装为Runtime证据并加入跨层泄漏测试；
-3. 在另行授权后实现最小真实provider transport/smoke；
-4. 在另行授权后配置GPU模型环境、加载Qwen3.5-9B并使用PLAN_B候选完成text-only BF16 LoRA SFT小规模冒烟；
+1. **已完成：**Edge split/SFT data protocol回归、报告和Git冻结已进入本地main；
+2. **已完成：**Production Runtime Safe Adapter v1、真实数据smoke、phase/U_final与跨层泄漏回归；
+3. **下一步需另行授权：**实现只接收Runtime model-safe prompt的本地OpenAI-compatible Qwen Traffic Expert transport/smoke；
+4. 随后加载Qwen3.5-9B并使用PLAN_B候选完成text-only BF16 LoRA SFT小规模冒烟；
 5. 执行Edge-IIoTset完整主实验和IoT-23压缩外部验证；主实验与时间允许时，再按预注册规则决定是否执行独立的OPTIONAL Low-Resource Unknown Stress Test。
 
 ## 9. 端到端流程速查（压缩版）
