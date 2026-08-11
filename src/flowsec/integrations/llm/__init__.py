@@ -1,7 +1,7 @@
 """Provider-neutral LLM integration preparation layer.
 
-This package contains only replaceable configuration, prompt, raw-response,
-parser, retry and fake-transport boundaries. It performs no real network call.
+This package contains replaceable configuration, prompt, raw-response, parser,
+retry and transport boundaries. Real transports remain explicitly injected.
 """
 
 from .adapters import LLMSupervisorBackend, LLMTrafficExpertBackend
@@ -17,6 +17,7 @@ from .contracts import (
 from .parsing import (
     FixtureSupervisorResponseParserV0,
     FixtureTrafficExpertResponseParserV0,
+    RawSmokeTrafficExpertResponseParserV0,
 )
 from .prompting import (
     SupervisorPromptRenderer,
@@ -24,6 +25,7 @@ from .prompting import (
     TrafficExpertPromptRenderer,
     fixture_supervisor_prompt,
     fixture_traffic_expert_prompt,
+    raw_smoke_traffic_expert_prompt,
 )
 from .transport import (
     FakeFailure,
@@ -31,6 +33,7 @@ from .transport import (
     FixtureProviderAProfile,
     FixtureProviderBProfile,
     LLMTransport,
+    OpenAICompatibleChatTransport,
 )
 
 __all__ = [
@@ -47,7 +50,9 @@ __all__ = [
     "LLMTrafficExpertBackend",
     "LLMTransport",
     "LLMTransportRequest",
+    "OpenAICompatibleChatTransport",
     "RawLLMResponse",
+    "RawSmokeTrafficExpertResponseParserV0",
     "ResponseMode",
     "RetryPolicy",
     "SupervisorPromptRenderer",
@@ -55,4 +60,5 @@ __all__ = [
     "TrafficExpertPromptRenderer",
     "fixture_supervisor_prompt",
     "fixture_traffic_expert_prompt",
+    "raw_smoke_traffic_expert_prompt",
 ]

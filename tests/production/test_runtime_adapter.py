@@ -474,6 +474,42 @@ def test_sensitive_backend_values_never_reach_evidence_or_prompt(tmp_path: Path)
         adapter.adapt(raw_record)  # type: ignore[arg-type]
 
 
+@pytest.mark.parametrize(
+    "mutation",
+    (
+        "missing_packet_sequence",
+        "missing_summary_duration",
+        "missing_packet_relative_iat",
+        "null_packet_length",
+    ),
+)
+def test_required_initial_evidence_fields_fail_closed(
+    tmp_path: Path, mutation: str
+) -> None:
+    root = production_root(tmp_path)
+    row = _initial_row(EDGE_SAMPLE, "train_secret", "edge_native_v1")
+    view = json.loads(row["view_json"])
+    if mutation == "missing_packet_sequence":
+        del view["packet_sequence"]
+    elif mutation == "missing_summary_duration":
+        del view["session_summary"]["duration"]
+    elif mutation == "missing_packet_relative_iat":
+        del view["packet_sequence"][0]["relative_iat"]
+    else:
+        view["packet_sequence"][0]["packet_length"] = None
+    row["view_json"] = canonical_json(view)
+    _write_parquet(
+        root,
+        "initial_model_views",
+        "Edge-IIoTset",
+        "train_secret",
+        [row],
+    )
+    adapter = ProductionSafeAdapter(ProductionParquetEvidenceStore(root))
+    with pytest.raises(ProductionRuntimeAdapterError):
+        adapter.adapt(edge_request())
+
+
 def test_unallowlisted_initial_field_is_rejected_by_default(tmp_path: Path) -> None:
     root = production_root(tmp_path, initial_extra={"raw_ip": "192.0.2.123"})
     adapter = ProductionSafeAdapter(ProductionParquetEvidenceStore(root))

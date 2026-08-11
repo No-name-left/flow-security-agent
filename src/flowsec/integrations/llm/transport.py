@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
 import os
+import threading
+import time
 from collections import deque
 from typing import Any, Protocol
 
@@ -16,6 +19,7 @@ from .contracts import (
     RawLLMResponse,
     RawTransportFailure,
     RawUsage,
+    ResponseMode,
     SecretProvider,
     SecretRedactor,
 )
@@ -84,6 +88,165 @@ def resolve_configured_secret(
             "a secret reference was configured without a secret provider",
         )
     return provider.resolve(config.secret_reference)
+
+
+class OpenAICompatibleChatTransport:
+    # Real OpenAI-compatible transport for audited local/provider deployments.
+
+    def __init__(
+        self,
+        *,
+        api_key: str = "EMPTY",
+        max_input_tokens: int,
+        max_output_tokens: int,
+        max_latency_seconds: float,
+        trust_env: bool = True,
+    ):
+        if max_input_tokens < 1 or max_output_tokens < 1 or max_latency_seconds <= 0:
+            raise ValueError("transport estimates must be positive")
+        self._api_key = api_key
+        self.max_input_tokens = max_input_tokens
+        self.max_output_tokens = max_output_tokens
+        self.max_latency_seconds = float(max_latency_seconds)
+        self.trust_env = bool(trust_env)
+        self._local = threading.local()
+        self._redactor = SecretRedactor(() if api_key == "EMPTY" else (api_key,))
+        self.last_response_metadata: dict[str, Any] = {}
+
+    def _client(self, request: LLMTransportRequest) -> Any:
+        key = (request.base_url, request.timeout_seconds)
+        clients = getattr(self._local, "clients", None)
+        if clients is None:
+            clients = {}
+            self._local.clients = clients
+        if key not in clients:
+            import httpx
+            from openai import OpenAI
+
+            clients[key] = OpenAI(
+                base_url=request.base_url,
+                api_key=self._api_key,
+                timeout=request.timeout_seconds,
+                http_client=httpx.Client(
+                    timeout=request.timeout_seconds,
+                    trust_env=self.trust_env,
+                ),
+            )
+        return clients[key]
+
+    def estimate(self, request: LLMTransportRequest) -> CallMetrics:
+        requested = request.generation_options.get("max_tokens", self.max_output_tokens)
+        if isinstance(requested, bool) or not isinstance(requested, int) or requested < 1:
+            raise LLMTransportError(
+                LLMFailureKind.UNSUPPORTED_RESPONSE,
+                "max_tokens must be a positive integer",
+                retry_allowed=False,
+            )
+        if requested > self.max_output_tokens:
+            raise LLMTransportError(
+                LLMFailureKind.UNSUPPORTED_RESPONSE,
+                "requested output exceeds the configured transport estimate",
+                retry_allowed=False,
+            )
+        return CallMetrics(
+            abstract_tokens=self.max_input_tokens + requested,
+            abstract_latency=self.max_latency_seconds,
+        )
+
+    @staticmethod
+    def _failure_kind(exc: Exception) -> LLMFailureKind:
+        name = type(exc).__name__.casefold()
+        status = getattr(exc, "status_code", None)
+        if isinstance(exc, TimeoutError) or "timeout" in name:
+            return LLMFailureKind.TIMEOUT
+        if status == 429 or "ratelimit" in name or "rate_limit" in name:
+            return LLMFailureKind.RATE_LIMIT_LIKE_FAILURE
+        return LLMFailureKind.TRANSPORT_FAILURE
+
+    def send(self, request: LLMTransportRequest) -> RawLLMResponse:
+        self.estimate(request)
+        from .prompting import render_messages_as_tagged_text
+
+        call: dict[str, Any] = {
+            "model": request.model_id,
+            "messages": list(render_messages_as_tagged_text(request.messages)),
+            "stream": False,
+            **request.generation_options,
+        }
+        started = time.perf_counter()
+        try:
+            response = self._client(request).chat.completions.create(**call)
+        except Exception as exc:
+            raise LLMTransportError(
+                self._failure_kind(exc),
+                self._redactor.text(f"{type(exc).__name__}: {exc}"),
+            ) from exc
+        latency = time.perf_counter() - started
+        try:
+            choice = response.choices[0]
+            message = choice.message
+            content = message.content
+            if content is not None and not isinstance(content, str):
+                raise TypeError("OpenAI-compatible response content is not text")
+            reasoning = getattr(message, "reasoning_content", None)
+            usage = getattr(response, "usage", None)
+            input_tokens = getattr(usage, "prompt_tokens", None) if usage is not None else None
+            output_tokens = getattr(usage, "completion_tokens", None) if usage is not None else None
+            total_tokens = getattr(usage, "total_tokens", None) if usage is not None else None
+            structured = None
+            raw_text = content
+            if request.response_mode is ResponseMode.STRUCTURED:
+                if not content:
+                    raise ValueError("structured response content is empty")
+                structured = json.loads(content)
+                if not isinstance(structured, dict):
+                    raise TypeError("structured response is not a JSON object")
+                raw_text = None
+            metadata = {
+                "reasoning_content_present": bool(reasoning),
+                "created": getattr(response, "created", None),
+                "system_fingerprint": getattr(response, "system_fingerprint", None),
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "total_tokens": total_tokens,
+                "latency_seconds": float(latency),
+                "output_tokens_per_second": (
+                    float(output_tokens) / latency
+                    if isinstance(output_tokens, int) and latency > 0.0
+                    else None
+                ),
+            }
+            self.last_response_metadata = dict(metadata)
+            return RawLLMResponse(
+                raw_text=raw_text,
+                structured_payload=structured,
+                usage=RawUsage(
+                    input_tokens=input_tokens,
+                    output_tokens=output_tokens,
+                    total_tokens=total_tokens,
+                    abstract_latency=float(latency),
+                ),
+                finish_status=getattr(choice, "finish_reason", None),
+                provider=request.provider,
+                model_id=getattr(response, "model", None) or request.model_id,
+                request_id=getattr(response, "id", None),
+                provider_metadata=metadata,
+            )
+        except (IndexError, KeyError, TypeError, ValueError, ValidationError) as exc:
+            raise LLMTransportError(
+                LLMFailureKind.UNSUPPORTED_RESPONSE,
+                self._redactor.text(
+                    f"unsupported OpenAI-compatible response: {type(exc).__name__}"
+                ),
+                retry_allowed=False,
+            ) from exc
+
+    def __repr__(self) -> str:
+        return (
+            "OpenAICompatibleChatTransport("
+            f"max_input_tokens={self.max_input_tokens}, "
+            f"max_output_tokens={self.max_output_tokens}, secrets=[REDACTED])"
+        )
 
 
 class FixtureProviderAProfile:

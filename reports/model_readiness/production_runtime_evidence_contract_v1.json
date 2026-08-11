@@ -1,0 +1,267 @@
+{
+  "adapter_version": "production_runtime_adapter_v1",
+  "contract_id": "PRODUCTION_RUNTIME_EVIDENCE_CONTRACT_V1",
+  "evidence_schema_version": "production_runtime_evidence_v1",
+  "fail_closed": "unknown fields, missing required fields, invalid types, non-finite values, unit-invalid ranges, future-or-same temporal context, and mismatched asset capabilities raise validation errors or return explicit unavailable",
+  "float_fidelity_tolerance": {
+    "absolute": 1e-12,
+    "relative": 0.0
+  },
+  "mappings": [
+    {
+      "cardinality": "1",
+      "conversion": "exact identity validation then discard",
+      "model_visible": false,
+      "null_policy": "forbidden",
+      "ordering": "n/a",
+      "runtime": "backend validation only",
+      "source": "initial_model_views.view_json.label_schema_id",
+      "unit": "identifier"
+    },
+    {
+      "cardinality": "min(total session packets, 8)",
+      "conversion": "ordered element-wise allow-list projection",
+      "model_visible": true,
+      "null_policy": "array and every required member are non-null",
+      "ordering": "frozen source packet order",
+      "runtime": "initial_session_evidence.packet_sequence",
+      "source": "initial_model_views.view_json.packet_sequence",
+      "unit": "packet records"
+    },
+    {
+      "cardinality": "1 per packet",
+      "conversion": "identity; validated enum",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "packet order",
+      "runtime": "packet_sequence[].direction",
+      "source": "packet_sequence[].direction",
+      "unit": "initiator/responder direction"
+    },
+    {
+      "cardinality": "1 per packet",
+      "conversion": "identity integer",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "packet order",
+      "runtime": "packet_sequence[].packet_length",
+      "source": "packet_sequence[].packet_length",
+      "unit": "bytes"
+    },
+    {
+      "cardinality": "1 per packet",
+      "conversion": "identity finite float",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "packet order",
+      "runtime": "packet_sequence[].relative_iat",
+      "source": "packet_sequence[].relative_iat",
+      "unit": "seconds"
+    },
+    {
+      "cardinality": "1 per packet",
+      "conversion": "identity string",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "packet order",
+      "runtime": "packet_sequence[].l3_protocol",
+      "source": "packet_sequence[].l3_protocol",
+      "unit": "protocol name"
+    },
+    {
+      "cardinality": "1 per packet",
+      "conversion": "identity string",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "packet order",
+      "runtime": "packet_sequence[].l4_protocol",
+      "source": "packet_sequence[].l4_protocol",
+      "unit": "protocol name"
+    },
+    {
+      "cardinality": "1 per packet",
+      "conversion": "identity integer 0..255",
+      "model_visible": true,
+      "null_policy": "null only when source is non-TCP/unavailable",
+      "ordering": "packet order",
+      "runtime": "packet_sequence[].tcp_flags",
+      "source": "packet_sequence[].tcp_flags",
+      "unit": "TCP flag bitmask"
+    },
+    {
+      "cardinality": "1",
+      "conversion": "identity finite float",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "n/a",
+      "runtime": "session_summary.duration",
+      "source": "session_summary.duration",
+      "unit": "seconds"
+    },
+    {
+      "cardinality": "2 directional counts",
+      "conversion": "identity nonnegative integers",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "initiator then responder semantics retained",
+      "runtime": "same names",
+      "source": "session_summary.initiator_packets/responder_packets",
+      "unit": "packets"
+    },
+    {
+      "cardinality": "2 directional counts",
+      "conversion": "identity nonnegative integers",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "initiator then responder semantics retained",
+      "runtime": "same names",
+      "source": "session_summary.initiator_bytes/responder_bytes",
+      "unit": "bytes"
+    },
+    {
+      "cardinality": "4",
+      "conversion": "identity finite floats",
+      "model_visible": true,
+      "null_policy": "all required",
+      "ordering": "canonical JSON key order only",
+      "runtime": "same path",
+      "source": "session_summary.packet_length_stats.{min,max,mean,std}",
+      "unit": "bytes"
+    },
+    {
+      "cardinality": "4",
+      "conversion": "identity finite floats",
+      "model_visible": true,
+      "null_policy": "all required",
+      "ordering": "canonical JSON key order only",
+      "runtime": "same path",
+      "source": "session_summary.iat_stats.{min,max,mean,std}",
+      "unit": "seconds"
+    },
+    {
+      "cardinality": "1",
+      "conversion": "identity string",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "n/a",
+      "runtime": "session_summary.handshake_state",
+      "source": "session_summary.handshake_state",
+      "unit": "state category"
+    },
+    {
+      "cardinality": "0 in v1 Initial Evidence",
+      "conversion": "intentional exclusion",
+      "model_visible": false,
+      "null_policy": "n/a",
+      "ordering": "n/a",
+      "runtime": "not projected by primary_no_service_v1",
+      "source": "session_summary.service_category/service_category_source",
+      "unit": "category/provenance"
+    },
+    {
+      "cardinality": "one status per Runtime capability",
+      "conversion": "explicit asset-backed mapping; unavailable remains unavailable",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "fixed Runtime capability order",
+      "runtime": "CapabilityStatus tuple",
+      "source": "initial_model_views.view_json.capabilities",
+      "unit": "capability state"
+    },
+    {
+      "cardinality": "0..2 frozen names",
+      "conversion": "validated sorted identity set",
+      "model_visible": true,
+      "null_policy": "array required",
+      "ordering": "lexicographic",
+      "runtime": "initial_session_evidence.missing_fields",
+      "source": "initial_model_views.view_json.missing_fields",
+      "unit": "field names"
+    },
+    {
+      "cardinality": "requested intersection with materialized indices 9..16",
+      "conversion": "same packet allow-list plus runtime-local packet_index",
+      "model_visible": true,
+      "null_policy": "required members non-null under packet rules",
+      "ordering": "source packet order; indices strictly increasing",
+      "runtime": "packet_expansion.packet_sequence",
+      "source": "expandable_packet_store.packets_9_16_json",
+      "unit": "same as initial packet fields"
+    },
+    {
+      "cardinality": "current=1, latest=0..1",
+      "conversion": "require latest < current; discard absolute values",
+      "model_visible": false,
+      "null_policy": "latest null means no prior context",
+      "ordering": "strict past-only",
+      "runtime": "validation only",
+      "source": "temporal_index.timestamp/context_latest_timestamp",
+      "unit": "Unix seconds"
+    },
+    {
+      "cardinality": "all frozen context statistic fields",
+      "conversion": "field-wise validated identity",
+      "model_visible": true,
+      "null_policy": "inter_session_gap may be null; all others required",
+      "ordering": "canonical JSON",
+      "runtime": "past_only_temporal_context.context_stats",
+      "source": "temporal_index.context_stats_json",
+      "unit": "window/gap seconds; packet and byte counts; ratio dimensionless"
+    },
+    {
+      "cardinality": "3",
+      "conversion": "hash-format validation then discard",
+      "model_visible": false,
+      "null_policy": "forbidden",
+      "ordering": "n/a",
+      "runtime": "validation only",
+      "source": "temporal_index identity hashes",
+      "unit": "backend identity"
+    },
+    {
+      "cardinality": "2",
+      "conversion": "CURRENT_SOURCE,TARGET_CLUSTER to anonymous current_source,target_cluster",
+      "model_visible": true,
+      "null_policy": "forbidden",
+      "ordering": "source role then target role",
+      "runtime": "local_relation_context.node_roles",
+      "source": "relation_index.model_node_roles",
+      "unit": "anonymous role"
+    },
+    {
+      "cardinality": "1",
+      "conversion": "presence-only boolean anonymization",
+      "model_visible": true,
+      "null_policy": "empty/null means false",
+      "ordering": "n/a",
+      "runtime": "local_relation_context.repeated_relation",
+      "source": "relation_index.previous_pair_sample_ref",
+      "unit": "boolean"
+    },
+    {
+      "cardinality": "backend-only",
+      "conversion": "validate then discard identity",
+      "model_visible": false,
+      "null_policy": "previous reference may be empty",
+      "ordering": "n/a",
+      "runtime": "backend validation only",
+      "source": "relation_index identity hashes/previous sample identity",
+      "unit": "backend identity"
+    }
+  ],
+  "paper_split_version": "CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2",
+  "production_asset_version": "edge_split_revision_v2",
+  "prohibited_model_visible": [
+    "sample_id",
+    "dataset/scenario/capture identity",
+    "physical split",
+    "K/U role",
+    "fine/coarse ground truth",
+    "source path/hash",
+    "raw IP/port",
+    "absolute time",
+    "raw or unsanitized payload",
+    "SFT membership/selection reason",
+    "future context"
+  ]
+}

@@ -26,6 +26,8 @@ from .contracts import (
 FIXTURE_RENDERER_VERSION = "SYNTHETIC_FIXTURE_RENDERER_V0"
 FIXTURE_TRAFFIC_EXPERT_PROMPT_V0 = "FIXTURE_TRAFFIC_EXPERT_PROMPT_V0"
 FIXTURE_SUPERVISOR_PROMPT_V0 = "FIXTURE_SUPERVISOR_PROMPT_V0"
+RAW_SMOKE_RENDERER_VERSION = "RAW_SMOKE_RENDERER_V0"
+RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0 = "RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0"
 
 
 class PromptProfile(FrozenRuntimeModel):
@@ -92,6 +94,28 @@ def fixture_traffic_expert_prompt() -> PromptProfile:
         task_instruction=(
             "Produce candidate classes, a short analysis, supporting and missing evidence, "
             "evidence sufficiency, and opaque model signals."
+        ),
+    )
+
+
+def raw_smoke_traffic_expert_prompt() -> PromptProfile:
+    return PromptProfile(
+        prompt_id=RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0,
+        prompt_version="V0_NON_FROZEN_SMOKE_ONLY",
+        renderer_version=RAW_SMOKE_RENDERER_VERSION,
+        system_instruction=(
+            "Raw deployment smoke only. Analyze only the supplied model-safe DATA blocks. "
+            "Never infer hidden dataset identity, split, ground truth, or source identity. "
+            "Return exactly one JSON object and no markdown or thinking trace."
+        ),
+        task_instruction=(
+            "Return exactly these fields: fine_candidates and coarse_candidates as arrays of "
+            "objects with label and nullable score; short_analysis; supporting_evidence as an "
+            "array of objects with evidence_id and statement; missing_evidence as an array of "
+            "objects with description, gap_type, domain, and valuable; evidence_sufficiency as "
+            "insufficient, coarse_only, or sufficient; and model_signals as an object. Valid "
+            "gap_type values are packet, temporal, graph, application, knowledge, none, other; "
+            "domain is observational or knowledge. Keep analysis and evidence statements short."
         ),
     )
 

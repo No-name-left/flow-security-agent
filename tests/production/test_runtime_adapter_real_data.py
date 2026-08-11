@@ -44,6 +44,24 @@ def _request(sample_id: str) -> ProductionSampleRequest:
     )
 
 
+def _assert_value_fidelity(actual: object, expected: object) -> None:
+    if isinstance(expected, float):
+        assert isinstance(actual, (int, float)) and not isinstance(actual, bool)
+        assert float(actual) == pytest.approx(expected, rel=0.0, abs=1e-12)
+    elif isinstance(expected, dict):
+        assert isinstance(actual, dict)
+        assert actual.keys() == expected.keys()
+        for key in expected:
+            _assert_value_fidelity(actual[key], expected[key])
+    elif isinstance(expected, list):
+        assert isinstance(actual, list)
+        assert len(actual) == len(expected)
+        for actual_item, expected_item in zip(actual, expected, strict=True):
+            _assert_value_fidelity(actual_item, expected_item)
+    else:
+        assert actual == expected
+
+
 @pytest.mark.skipif(not REAL_ROOT.is_dir(), reason="Git-external Production v2 assets unavailable")
 def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
     store = ProductionParquetEvidenceStore(REAL_ROOT)
@@ -54,6 +72,7 @@ def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
     renderer = TrafficExpertPromptRenderer(fixture_traffic_expert_prompt())
 
     adapted_by_id = {}
+    observed_l4_protocols = set()
     for expected_label, sample_id in CLASS_SAMPLES.items():
         adapted = adapter.adapt(_request(sample_id))
         adapted_by_id[sample_id] = adapted
@@ -66,9 +85,27 @@ def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
         )
         assert index is not None
         assert index["fine_label"] == expected_label
+        source_row = store.row(
+            "initial_model_views",
+            dataset="Edge-IIoTset",
+            split="train",
+            sample_id=sample_id,
+            required=True,
+        )
+        assert source_row is not None
+        source = json.loads(source_row["view_json"])
         content = json.loads(adapted.runtime_input.initial_evidence[0].content)
-        assert 1 <= len(content["packet_sequence"]) <= 8
-        assert content["session_summary"]
+        _assert_value_fidelity(content["packet_sequence"], source["packet_sequence"])
+        _assert_value_fidelity(content["session_summary"], source["session_summary"])
+        assert content["missing_fields"] == sorted(source["missing_fields"])
+        total_packets = (
+            source["session_summary"]["initiator_packets"]
+            + source["session_summary"]["responder_packets"]
+        )
+        assert len(content["packet_sequence"]) == min(total_packets, 8)
+        observed_l4_protocols.update(
+            packet["l4_protocol"] for packet in content["packet_sequence"]
+        )
         capabilities = {
             item.capability: item.available for item in adapted.runtime_input.capabilities
         }
@@ -89,6 +126,8 @@ def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
         )
         assert all(value not in visible for value in prohibited_values)
 
+    assert observed_l4_protocols == {"TCP", "UDP"}
+
     packet_sample = adapted_by_id[CLASS_SAMPLES["Backdoor"]]
     packet_tool = next(
         item for item in packet_sample.tools if isinstance(item, ProductionPacketExpansionTool)
@@ -104,6 +143,22 @@ def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
     expanded = json.loads(packet_result.evidence[0].content)["packet_sequence"]
     assert [item["packet_index"] for item in expanded] == list(range(9, 17))
     assert not set(range(1, 9)).intersection(item["packet_index"] for item in expanded)
+    packet_source_row = store.row(
+        "expandable_packet_store",
+        dataset="Edge-IIoTset",
+        split="train",
+        sample_id=CLASS_SAMPLES["Backdoor"],
+        required=True,
+    )
+    assert packet_source_row is not None
+    source_expanded = json.loads(packet_source_row["packets_9_16_json"])
+    _assert_value_fidelity(
+        [
+            {key: value for key, value in packet.items() if key != "packet_index"}
+            for packet in expanded
+        ],
+        source_expanded,
+    )
 
     temporal_results = {}
     for sample_id in (NO_PAST_SAMPLE, HAS_PAST_SAMPLE):
@@ -134,6 +189,10 @@ def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
         assert str(row["destination_identity_hash"]) not in visible
         assert sample_id not in visible
         temporal_results[sample_id] = json.loads(result.evidence[0].content)
+        _assert_value_fidelity(
+            temporal_results[sample_id]["context_stats"],
+            json.loads(row["context_stats_json"]),
+        )
     assert temporal_results[NO_PAST_SAMPLE]["context_stats"]["prior_session_count"] == 0
     assert temporal_results[HAS_PAST_SAMPLE]["context_stats"]["prior_session_count"] > 0
 
@@ -147,6 +206,15 @@ def test_real_edge_v2_production_to_runtime_smoke_without_model_call() -> None:
     assert graph_result.status is ToolStatus.SUCCESS
     graph = json.loads(graph_result.evidence[0].content)
     assert graph["node_roles"] == ["current_source", "target_cluster"]
+    relation_row = store.row(
+        "relation_index",
+        dataset="Edge-IIoTset",
+        split="train",
+        sample_id=CLASS_SAMPLES["Backdoor"],
+        required=True,
+    )
+    assert relation_row is not None
+    assert graph["repeated_relation"] is bool(relation_row["previous_pair_sample_ref"])
     assert "identity_hash" not in graph_result.evidence[0].content
 
     application_tool = next(

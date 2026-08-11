@@ -1,16 +1,18 @@
 # Real Backend Integration Preparation v1
 
 This package is the provider-neutral boundary between the deterministic Runtime
-and future real language-model services. It defines explicit backend
+and explicitly configured language-model services. It defines explicit backend
 configuration, versioned fixture prompts, structured instruction/data message
 parts, an untrusted raw-response contract, strict replaceable parsers, bounded
 retry, secret redaction and deterministic fake provider envelopes.
 
-The package deliberately has no HTTP implementation and no production defaults.
-Provider/model identifiers, endpoint, timeout, retry policy, generation options,
-response mapping and prompt profile are caller-supplied. The current prompt and
-parser profiles are named `SYNTHETIC`/`FIXTURE`/`V0_EXAMPLE`; they are test
-fixtures, not frozen Qwen or Supervisor research schemas.
+The package has no implicit network side effects or production defaults. Its
+explicitly injected `OpenAICompatibleChatTransport` supports audited local or
+provider endpoints; provider/model identifiers, endpoint, timeout, retry policy,
+generation options, response mapping and prompt profile remain caller-supplied.
+The `SYNTHETIC`/`FIXTURE` profiles remain offline test fixtures.
+`RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0` and its strict parser exist only for local
+deployment smoke and do not freeze the later Qwen training/experiment schema.
 
 `LLMTrafficExpertBackend` and `LLMSupervisorBackend` implement the existing
 Runtime protocols without changing component authority. Raw provider output is

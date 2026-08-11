@@ -1,0 +1,551 @@
+{
+  "adapter_fidelity": {
+    "adapter_version": "production_runtime_adapter_v1",
+    "contract": "PRODUCTION_RUNTIME_EVIDENCE_CONTRACT_V1",
+    "evidence_schema": "production_runtime_evidence_v1",
+    "float_tolerance": {
+      "absolute": 1e-12,
+      "relative": 0.0
+    },
+    "initial_cardinality_rule": "min(total session packets, 8)",
+    "packet_expansion_rule": "ordered requested subset of materialized packets 9-16",
+    "prohibited_information_in_model_prompt": false,
+    "representative_classes": [
+      "Normal",
+      "DDoS_TCP",
+      "Port_Scanning",
+      "SQL_injection",
+      "Backdoor",
+      "MITM"
+    ],
+    "required_field_fail_closed": "PASS",
+    "short_and_gt8_sessions_covered": true,
+    "tcp_udp_covered": true,
+    "value_unit_order_summary_temporal_relation_checks": "PASS"
+  },
+  "architecture": {
+    "architecture": [
+      "Qwen3_5ForConditionalGeneration"
+    ],
+    "classification_head_candidates_not_frozen": [
+      "causal-LM final non-padding token hidden state",
+      "explicit EOS hidden state when renderer guarantees one",
+      "training-only pooling/head over text hidden states"
+    ],
+    "classification_head_feasibility": "REQUIRES_TRAINING_SIDE_IMPLEMENTATION",
+    "full_checkpoint_parameter_count": 9409813744,
+    "hidden_size": 4096,
+    "intermediate_size": 12288,
+    "language_parameter_count": 8953803264,
+    "layer_count": 32,
+    "layer_type_counts": {
+      "full_attention": 8,
+      "linear_attention": 24
+    },
+    "linear_module_inventory": [
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 32,
+        "example": "model.layers.0.mlp.down_proj",
+        "family": "ffn",
+        "input_dimension": 12288,
+        "module_name_pattern": "*.down_proj",
+        "output_dimension": 4096,
+        "parameter_count": 1610612736
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 32,
+        "example": "model.layers.0.mlp.gate_proj",
+        "family": "ffn",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.gate_proj",
+        "output_dimension": 12288,
+        "parameter_count": 1610612736
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 32,
+        "example": "model.layers.0.mlp.up_proj",
+        "family": "ffn",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.up_proj",
+        "output_dimension": 12288,
+        "parameter_count": 1610612736
+      },
+      {
+        "candidate_classification": "likely_lora_target",
+        "count": 8,
+        "example": "model.layers.3.self_attn.k_proj",
+        "family": "full_attention",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.k_proj",
+        "output_dimension": 1024,
+        "parameter_count": 33554432
+      },
+      {
+        "candidate_classification": "likely_lora_target",
+        "count": 8,
+        "example": "model.layers.3.self_attn.o_proj",
+        "family": "full_attention",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.o_proj",
+        "output_dimension": 4096,
+        "parameter_count": 134217728
+      },
+      {
+        "candidate_classification": "likely_lora_target",
+        "count": 8,
+        "example": "model.layers.3.self_attn.q_proj",
+        "family": "full_attention",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.q_proj",
+        "output_dimension": 8192,
+        "parameter_count": 268435456
+      },
+      {
+        "candidate_classification": "likely_lora_target",
+        "count": 8,
+        "example": "model.layers.3.self_attn.v_proj",
+        "family": "full_attention",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.v_proj",
+        "output_dimension": 1024,
+        "parameter_count": 33554432
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 24,
+        "example": "model.layers.0.linear_attn.in_proj_a",
+        "family": "gated_deltanet",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.in_proj_a",
+        "output_dimension": 32,
+        "parameter_count": 3145728
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 24,
+        "example": "model.layers.0.linear_attn.in_proj_b",
+        "family": "gated_deltanet",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.in_proj_b",
+        "output_dimension": 32,
+        "parameter_count": 3145728
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 24,
+        "example": "model.layers.0.linear_attn.in_proj_qkv",
+        "family": "gated_deltanet",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.in_proj_qkv",
+        "output_dimension": 8192,
+        "parameter_count": 805306368
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 24,
+        "example": "model.layers.0.linear_attn.in_proj_z",
+        "family": "gated_deltanet",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.in_proj_z",
+        "output_dimension": 4096,
+        "parameter_count": 402653184
+      },
+      {
+        "candidate_classification": "needs_research_decision",
+        "count": 24,
+        "example": "model.layers.0.linear_attn.out_proj",
+        "family": "gated_deltanet",
+        "input_dimension": 4096,
+        "module_name_pattern": "*.out_proj",
+        "output_dimension": 4096,
+        "parameter_count": 402653184
+      },
+      {
+        "candidate_classification": "probably_frozen",
+        "count": 1,
+        "example": "lm_head",
+        "family": "lm_head",
+        "input_dimension": 4096,
+        "module_name_pattern": "lm_head",
+        "output_dimension": 248320,
+        "parameter_count": 1017118720
+      }
+    ],
+    "lora_inventory_status": "INVENTORY_ONLY_NOT_FROZEN",
+    "normalization": {
+      "rms_norm_eps": 1e-06,
+      "type_counts": {
+        "Qwen3_5RMSNorm": 81,
+        "Qwen3_5RMSNormGated": 24
+      }
+    },
+    "vision_loaded_in_runtime": false,
+    "vision_module_exists": true,
+    "vocab_size": 248320
+  },
+  "gates": {
+    "ADAPTER_EVIDENCE_FIDELITY_GATE": "PASS",
+    "LOCAL_QWEN_DEPLOYMENT_STATUS": "PASS",
+    "LOCAL_QWEN_RAW_SMOKE": "PASS",
+    "MODEL_SERVICE_STATUS": "PASS",
+    "PRETRAINING_DESIGN_DISCUSSION_READY": true,
+    "RUNTIME_TO_QWEN_REAL_SMOKE": "PASS"
+  },
+  "git_external": [
+    "/root/autodl-tmp/models/Qwen3.5-9B",
+    "/root/autodl-tmp/conda/qwen35-runtime",
+    "/root/autodl-tmp/experiments/qwen35_runtime/real_runtime_smoke.json",
+    "vLLM/FlashInfer caches and logs"
+  ],
+  "hardware": {
+    "data_disk_available_after_download_gib": 505,
+    "data_disk_total_gib": 600,
+    "driver": "580.105.08",
+    "driver_reported_cuda": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_count": 1,
+    "gpu_memory_total_mib": 49140,
+    "ram_total_gib": 754
+  },
+  "known_limitations": [
+    "RAW_SMOKE_TRAFFIC_EXPERT_PROMPT_V0 and response schema are deliberately non-frozen.",
+    "Raw smoke produced no fine-class candidates for the six representative Production samples; this is not a benchmark and motivates later authorized training.",
+    "OpenAI-compatible non-streaming smoke did not expose TTFT.",
+    "vLLM reserves most of the configured 85% GPU budget for KV cache, so idle process memory is much larger than model weights alone.",
+    "The inference API does not expose hidden states; a classification head requires a training-side Transformers path.",
+    "Application evidence, sanitized payload and production Knowledge RAG remain unavailable.",
+    "Numeric values and repeated JSON keys are token-inefficient; compact serialization should be tested before tokenizer adaptation."
+  ],
+  "model": {
+    "download_complete": true,
+    "file_count": 16,
+    "id": "Qwen/Qwen3.5-9B",
+    "path": "/root/autodl-tmp/models/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "small_file_sha256": {
+      "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+      "config.json": "d0883072e01861ed0b2d47be3c16c36a8e81c224c7ffaa310c6558fb3f932b05",
+      "model.safetensors.index.json": "26d3539b516be613f39563617cb9d33b3f83d401298125be392c80cefb8f7fe5",
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+    },
+    "source": "https://huggingface.co/Qwen/Qwen3.5-9B",
+    "total_bytes": 19329393661
+  },
+  "resources": {
+    "checkpoint_size_gib": 17.98,
+    "idle_loaded_gpu_memory_mib": 41791,
+    "kv_cache_available_gib": 21.82,
+    "kv_cache_tokens": 583787,
+    "model_load_gpu_memory_gib": 16.8,
+    "observed_generation_tokens_per_second_range": [
+      54.2,
+      56.6
+    ],
+    "observed_request_peak_gpu_memory_mib": 41795,
+    "ttft": "UNAVAILABLE_NON_STREAMING_API"
+  },
+  "runtime": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "cuda_available": true,
+    "dtype": "bfloat16",
+    "enable_thinking": false,
+    "environment": "/root/autodl-tmp/conda/qwen35-runtime",
+    "environment_type": "python_venv",
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_utilization": 0.85,
+    "initial_startup_recovery": {
+      "first_attempt": "FAIL_MISSING_NINJA_ON_PATH",
+      "fix": "prepend independent venv bin to PATH",
+      "model_or_cuda_failure": false
+    },
+    "install_commands": [
+      "python3 -m venv /root/autodl-tmp/conda/qwen35-runtime",
+      "/root/autodl-tmp/conda/qwen35-runtime/bin/python -m pip install --index-url https://pypi.org/simple vllm==0.25.1",
+      "/root/autodl-tmp/conda/qwen35-runtime/bin/python -m pip install -e '.[data,test]' socksio"
+    ],
+    "language_model_only": true,
+    "max_model_len": 8192,
+    "openai": "2.53.0",
+    "pyarrow": "25.0.1",
+    "python": "3.12.3",
+    "reasoning_parser": "qwen3",
+    "seed": 7,
+    "serve_command": "tools/serve_qwen35_9b.sh",
+    "served_model_name": "Qwen/Qwen3.5-9B",
+    "service_health_http_status": 200,
+    "service_running_at_final_verification": true,
+    "successful_startup_seconds_approx": 108,
+    "tensor_parallel_size": 1,
+    "torch": "2.11.0+cu130",
+    "torch_cuda": "13.0",
+    "transformers": "5.15.0",
+    "vllm": "0.25.1"
+  },
+  "schema_version": "qwen35_9b_local_deployment_manifest_v1",
+  "smoke": {
+    "determinism": {
+      "classification_stability": true,
+      "labels_equal": true,
+      "parse_stability": true,
+      "schema_stability": true
+    },
+    "fake_safe_backend": {
+      "input_tokens": 409,
+      "latency_seconds": 5.462701076641679,
+      "output_tokens": 307,
+      "parse_status": "PASS",
+      "reasoning_content_present": false
+    },
+    "packet_expansion": {
+      "round1_input_tokens": 974,
+      "round2_input_tokens": 1621,
+      "round2_latency_seconds": 7.119553066790104,
+      "runtime_tool_status": "success",
+      "status": "PASS"
+    },
+    "provider_connectivity": {
+      "chat_request": {
+        "gpu_memory_after_mib": 41795,
+        "gpu_memory_before_mib": 41791,
+        "gpu_memory_observed_peak_mib": 41795,
+        "latency_seconds": 1.2242476120591164
+      },
+      "input_tokens": 37,
+      "models_request": {
+        "gpu_memory_after_mib": 41791,
+        "gpu_memory_before_mib": 41791,
+        "gpu_memory_observed_peak_mib": 41791,
+        "latency_seconds": 0.24876107089221478
+      },
+      "output_tokens": 6,
+      "reasoning_content_present": false,
+      "response_json": {
+        "status": "ok"
+      },
+      "served_models": [
+        "Qwen/Qwen3.5-9B"
+      ],
+      "status": "PASS"
+    },
+    "real_production": {
+      "Backdoor": {
+        "fine_candidate_count": 0,
+        "ground_truth_was_model_visible": false,
+        "input_tokens": 974,
+        "latency_seconds": 6.075061684474349,
+        "output_tokens": 341,
+        "parse_status": "PASS",
+        "reasoning_content_present": false
+      },
+      "DDoS_TCP": {
+        "fine_candidate_count": 0,
+        "ground_truth_was_model_visible": false,
+        "input_tokens": 638,
+        "latency_seconds": 5.488724704831839,
+        "output_tokens": 310,
+        "parse_status": "PASS",
+        "reasoning_content_present": false
+      },
+      "MITM": {
+        "fine_candidate_count": 0,
+        "ground_truth_was_model_visible": false,
+        "input_tokens": 518,
+        "latency_seconds": 6.2504227459430695,
+        "output_tokens": 354,
+        "parse_status": "PASS",
+        "reasoning_content_present": false
+      },
+      "Normal": {
+        "fine_candidate_count": 0,
+        "ground_truth_was_model_visible": false,
+        "input_tokens": 792,
+        "latency_seconds": 7.068613667041063,
+        "output_tokens": 399,
+        "parse_status": "PASS",
+        "reasoning_content_present": false
+      },
+      "Port_Scanning": {
+        "fine_candidate_count": 0,
+        "ground_truth_was_model_visible": false,
+        "input_tokens": 637,
+        "latency_seconds": 5.384062252938747,
+        "output_tokens": 303,
+        "parse_status": "PASS",
+        "reasoning_content_present": false
+      },
+      "SQL_injection": {
+        "fine_candidate_count": 0,
+        "ground_truth_was_model_visible": false,
+        "input_tokens": 954,
+        "latency_seconds": 6.608444135636091,
+        "output_tokens": 372,
+        "parse_status": "PASS",
+        "reasoning_content_present": false
+      }
+    },
+    "temporal_context": {
+      "initial_input_tokens": 523,
+      "runtime_tool_status": "success",
+      "status": "PASS",
+      "strictly_past_only": true,
+      "with_context_input_tokens": 828,
+      "with_context_latency_seconds": 6.381198195740581
+    }
+  },
+  "state": {
+    "QWEN_DOWNLOADED": true,
+    "QWEN_MODEL": "Qwen/Qwen3.5-9B",
+    "QWEN_RUN": true,
+    "RL_RUN": false,
+    "SFT_RUN": false,
+    "TOKENIZER_TRAINED": false,
+    "TRAINING_PROTOCOL_FROZEN": false,
+    "UNKNOWN_ALGORITHM_FROZEN": false
+  },
+  "tests": {
+    "compileall": "PASS",
+    "conflict_marker_scan": "PASS",
+    "full_pytest": "261 passed in 4.35s",
+    "git_diff_check": "PASS",
+    "targeted": "191 passed in 3.92s"
+  },
+  "tokenizer": {
+    "TOKENIZER_ADAPTATION_STATUS": "COMPACT_SERIALIZATION_SHOULD_BE_TESTED",
+    "character_counts": {
+      "initial": {
+        "count": 272,
+        "max": 3284,
+        "mean": 2654.0588235294117,
+        "median": 2302.0,
+        "p90": 3274.0,
+        "p95": 3278.0,
+        "p99": 3281.87
+      },
+      "initial_gt8_session": {
+        "count": 93,
+        "max": 3284,
+        "mean": 3269.494623655914,
+        "median": 3270.0,
+        "p90": 3279.0,
+        "p95": 3281.0,
+        "p99": 3284.0
+      },
+      "initial_plus_packets_9_16": {
+        "count": 93,
+        "max": 5278,
+        "mean": 4938.064516129032,
+        "median": 4913.0,
+        "p90": 5271.0,
+        "p95": 5276.0,
+        "p99": 5278.0
+      },
+      "initial_plus_temporal": {
+        "count": 272,
+        "max": 4240,
+        "mean": 3607.783088235294,
+        "median": 3267.0,
+        "p90": 4222.0,
+        "p95": 4230.45,
+        "p99": 4233.29
+      }
+    },
+    "class": "Qwen2Tokenizer",
+    "fragmentation_assessment": {
+      "conclusion": "Base tokenizer fits the observed cards comfortably, but compact field/value serialization should be ablated before any tokenizer adaptation.",
+      "excessive_fragmentation": false,
+      "numeric_inefficiency": true,
+      "protocol_term_fragmentation": "moderate",
+      "repeated_serialization_overhead": true
+    },
+    "sampling": {
+      "candidate_files": [
+        "/root/autodl-tmp/processed/edge_split_revision_v2/sft_candidates/preset=Far/part-00000.parquet",
+        "/root/autodl-tmp/processed/edge_split_revision_v2/sft_candidates/preset=Mixed/part-00000.parquet",
+        "/root/autodl-tmp/processed/edge_split_revision_v2/sft_candidates/preset=Near/part-00000.parquet"
+      ],
+      "per_class": 8,
+      "rule": "For every (preset, fine_label), sort PLAN_B K_known physical-train candidates by stable sample_id and take the first N.",
+      "selected_rows": 272,
+      "selected_unique_sample_ids": 120,
+      "strata": {
+        "Far::Backdoor": 8,
+        "Far::DDoS_HTTP": 8,
+        "Far::DDoS_ICMP": 8,
+        "Far::DDoS_TCP": 8,
+        "Far::DDoS_UDP": 8,
+        "Far::Normal": 8,
+        "Far::OS_Fingerprinting": 8,
+        "Far::Port_Scanning": 8,
+        "Far::Ransomware": 8,
+        "Far::SQL_injection": 8,
+        "Far::Vulnerability_scanner": 8,
+        "Far::XSS": 8,
+        "Mixed::Backdoor": 8,
+        "Mixed::DDoS_HTTP": 8,
+        "Mixed::DDoS_ICMP": 8,
+        "Mixed::DDoS_TCP": 8,
+        "Mixed::DDoS_UDP": 8,
+        "Mixed::Normal": 8,
+        "Mixed::OS_Fingerprinting": 8,
+        "Mixed::Port_Scanning": 8,
+        "Mixed::Uploading": 8,
+        "Mixed::Vulnerability_scanner": 8,
+        "Mixed::XSS": 8,
+        "Near::Backdoor": 8,
+        "Near::DDoS_HTTP": 8,
+        "Near::DDoS_TCP": 8,
+        "Near::MITM": 8,
+        "Near::Normal": 8,
+        "Near::Password": 8,
+        "Near::Port_Scanning": 8,
+        "Near::Ransomware": 8,
+        "Near::SQL_injection": 8,
+        "Near::Uploading": 8,
+        "Near::Vulnerability_scanner": 8
+      }
+    },
+    "token_counts": {
+      "initial": {
+        "count": 272,
+        "max": 971,
+        "mean": 744.7242647058823,
+        "median": 641.0,
+        "p90": 960.0,
+        "p95": 964.0,
+        "p99": 968.1600000000001
+      },
+      "initial_gt8_session": {
+        "count": 93,
+        "max": 971,
+        "mean": 954.989247311828,
+        "median": 957.0,
+        "p90": 965.0,
+        "p95": 966.4,
+        "p99": 971.0
+      },
+      "initial_plus_packets_9_16": {
+        "count": 93,
+        "max": 1607,
+        "mean": 1494.279569892473,
+        "median": 1488.0,
+        "p90": 1601.0,
+        "p95": 1603.0,
+        "p99": 1607.0
+      },
+      "initial_plus_temporal": {
+        "count": 272,
+        "max": 1288,
+        "mean": 1061.4816176470588,
+        "median": 965.0,
+        "p90": 1272.8000000000002,
+        "p95": 1280.0,
+        "p99": 1285.8700000000001
+      }
+    },
+    "vocab_size": 248044
+  }
+}

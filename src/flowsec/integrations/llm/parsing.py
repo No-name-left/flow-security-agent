@@ -29,6 +29,7 @@ from .contracts import (
 
 FIXTURE_TRAFFIC_EXPERT_SCHEMA_V0 = "SYNTHETIC_TRAFFIC_EXPERT_SCHEMA_V0_EXAMPLE"
 FIXTURE_SUPERVISOR_SCHEMA_V0 = "SYNTHETIC_SUPERVISOR_SCHEMA_V0_EXAMPLE"
+RAW_SMOKE_TRAFFIC_EXPERT_SCHEMA_V0 = "RAW_SMOKE_TRAFFIC_EXPERT_SCHEMA_V0"
 
 
 class TrafficExpertResponseParser(Protocol):
@@ -190,6 +191,12 @@ class FixtureTrafficExpertResponseParserV0:
                 repair_type=audit.repair_type,
             ) from exc
         return result, audit.model_copy(update={"parser_profile_id": self.profile_id})
+
+
+class RawSmokeTrafficExpertResponseParserV0(FixtureTrafficExpertResponseParserV0):
+    # Deliberately reuses the strict provisional payload shape without freezing it.
+
+    profile_id = RAW_SMOKE_TRAFFIC_EXPERT_SCHEMA_V0
 
 
 class FixtureSupervisorResponseParserV0:

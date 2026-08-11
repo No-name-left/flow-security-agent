@@ -1,6 +1,6 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-11）：远程服务器初始化、官方数据恢复、Gate复核和Production Data Freeze已完成；Edge paper-grade split/SFT revision已进入本地`main`基线`3f75023f9b40e652de9c5ce1cbd6c00d8b4de5f4`。`feat/production-runtime-adapter`已完成`production_runtime_adapter_v1`、真实v2数据smoke和跨层泄漏/U_final测试，完整回归为254 passed；`PRODUCTION_DATA_READY=true`，尚未下载Qwen、调用真实模型/API或启动训练。
+> 当前状态（2026-08-11）：Production Data Freeze与Edge split/SFT revision已完成；`production_runtime_adapter_v1`已进入本地`main`基线`c1ae5da5bef242a1e811f178a84bc16fb894bfd1`。`feat/local-qwen35-9b-runtime`已完成Evidence Fidelity Gate、官方Qwen3.5-9B text-only本地部署和真实Runtime端到端smoke，完整回归261 passed；`PRODUCTION_DATA_READY=true`，SFT/RL/Unknown/正式benchmark均未运行。
 
 ## 1. 已冻结的数据角色
 
@@ -64,6 +64,8 @@ export CAPINFOS_BIN="$(command -v capinfos)"
 
 不要把数据根目录设置在Git仓库内；即使误放，`.gitignore`也只是一道防线，不能替代提交前检查。
 
+Qwen inference恢复命令固定在`tools/serve_qwen35_9b.sh`。当前可复现栈为vLLM 0.25.1、Torch 2.11.0+cu130、Transformers 5.15.0，使用BF16、单卡、`--language-model-only`、`--max-model-len 8192`、`enable_thinking=false`。脚本必须将独立venv的`bin`加入`PATH`，因为FlashInfer warmup会调用该环境内的Ninja。权重、venv、vLLM/FlashInfer cache和runtime日志均保持Git外。
+
 ## 4. 服务器执行顺序
 
 1. **已完成：**clone/pull仓库并确认任务baseline；安装独立Python数据环境、TShark/Capinfos及项目依赖。
@@ -81,7 +83,8 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 7. **已完成：**冻结全量split、K/U、support/query、异常文件处置和training manifest；最终`PASS_WITH_LIMITATIONS`且`PRODUCTION_DATA_READY=true`。
 8. **已完成：**Production Data Freeze、Runtime foundation与provider-neutral backend preparation已审查、测试并进入唯一长期`main`基线。
 9. **已完成、待短期分支Git冻结：**只重建Edge split-dependent assets，完成paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C、PLAN_B SFT候选和label provenance final verification；未重新TShark/canonical/sessionize。
-10. **当前下一步：**完成本轮分支冻结后，实现轻量、白名单式Production→Runtime adapter及跨层泄漏测试。真实provider smoke、GPU模型环境、Qwen3.5-9B下载和text-only BF16 LoRA SFT仍须分别获得明确授权；不得从本状态文档直接推导为可执行任务。
+10. **已完成：**白名单式Production→Runtime adapter、Evidence Fidelity正向审计、独立Qwen环境、官方固定revision下载、text-only vLLM服务和raw/backend/Production多轮smoke；
+11. **当前停止点：**等待用户冻结Training Protocol v1。不得从本状态文档自行启动正式Raw benchmark、SFT/LoRA、Unknown、RL或Supervisor实验。
 
 现有Gate脚本仍只负责七场景验收，并支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。正式生产CLI默认读取本服务器实际Edge解压根与包含八个场景的IoT-23根；Capture-3的精确恢复URL/hash/size保存在服务器下载manifest和Production Freeze source manifest中。
 
@@ -106,7 +109,7 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - 原始Production Freeze后台记录数为7,818,954，canonical session为7,569,346；`CLASS_ROLE_SUPPORT_GATE=PASS`、`CAPTURE_PROVENANCE_GATE=PASS`、`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`。
 - Edge v2保留全部7,619,032 stable identity，physical assignment为train 5,294,777、validation 1,073,539、test 1,110,343、quarantine 140,373；v2全部split-dependent canonical/index资产总计7,670,824行（含未改变的IoT-23部分），PLAN_B SFT候选Near/Far/Mixed为16,979/15,895/15,404。
 - Production `_state/checkpoints`保留24个Edge和8个IoT checkpoint；checkpoint reuse audit为PASS，已完成capture不需要重新TShark。
-- 独立`flow-data`环境为Python 3.11.15；TShark 3.6.2可用，Zeek未安装且当前冻结资产不依赖它。`/root/autodl-tmp/models`为空，没有模型权重；顶层`/root/autodl-tmp/checkpoints`为空。
+- 独立`flow-data`环境仍为Python 3.11.15且未安装Torch；Qwen使用单独Python 3.12 venv `/root/autodl-tmp/conda/qwen35-runtime`。官方revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`位于`/root/autodl-tmp/models/Qwen3.5-9B`，16/16文件完整、总计19,329,393,661 bytes；顶层`/root/autodl-tmp/checkpoints`仍为空。
 - 当前服务器HTTPS GitHub push dry-run因没有可读用户名/凭据而失败。不要据此配置PAT、创建SSH key或安装`gh`；现有本地分支和两个bundle继续保留。
 
-尚未完成：本轮短期分支的最终Git冻结、Production→Runtime白名单adapter、正式证据工具、真实provider transport/smoke、Qwen模型环境与下载、原始模型冒烟、BF16 LoRA SFT、正式传统基线、独立Unknown算法/校准和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`不等于模型训练已开始。
+尚未完成：本轮短期分支最终Git冻结、正式训练/实验Prompt与response schema、BF16 LoRA SFT、正式传统基线、独立Unknown算法/校准和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`不等于模型训练已开始。
