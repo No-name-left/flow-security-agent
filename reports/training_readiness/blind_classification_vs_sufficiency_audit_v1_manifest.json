@@ -1,0 +1,1971 @@
+{
+  "AUDIT_STATUS": "PASS_WITH_LIMITATIONS",
+  "BASE_CORPUS_SHA256": "5b845cf9e5886e5e44fd46562135ba3eb5907de65fd8faf5d9b8777253149123",
+  "BEFORE_ALREADY_CORRECT_AND_STABLE_RATE": 0.15151515151515152,
+  "BEFORE_WRONG_AFTER_CORRECT_RATE": 0.16161616161616163,
+  "CROSS_MODEL_STRONG_CONTRADICTION_RATE": 0.11418685121107267,
+  "CROSS_MODEL_TOP1_AGREEMENT": 0.3799392097264438,
+  "DATASET_TASK_GRANULARITY_RISK": "NOT_ESTABLISHED",
+  "DEEPSEEK_API_CALLS": 529,
+  "DEEPSEEK_BLIND_BY_CLASS": {
+    "Backdoor": {
+      "n": 30,
+      "top1_accuracy": 0.0,
+      "top1_correct": 0,
+      "top1_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "top2_accuracy": 0.0,
+      "top2_contains_gt": 0,
+      "top2_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ]
+    },
+    "DDoS_HTTP": {
+      "n": 30,
+      "top1_accuracy": 0.0,
+      "top1_correct": 0,
+      "top1_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "top2_accuracy": 0.03333333333333333,
+      "top2_contains_gt": 1,
+      "top2_wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "DDoS_TCP": {
+      "n": 30,
+      "top1_accuracy": 0.0,
+      "top1_correct": 0,
+      "top1_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "top2_accuracy": 0.23333333333333334,
+      "top2_contains_gt": 7,
+      "top2_wilson_95": [
+        0.11792388144489496,
+        0.40928326158122164
+      ]
+    },
+    "MITM": {
+      "n": 30,
+      "top1_accuracy": 0.0,
+      "top1_correct": 0,
+      "top1_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "top2_accuracy": 0.0,
+      "top2_contains_gt": 0,
+      "top2_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ]
+    },
+    "Normal": {
+      "n": 30,
+      "top1_accuracy": 0.8333333333333334,
+      "top1_correct": 25,
+      "top1_wilson_95": [
+        0.6643564949358398,
+        0.9266345762815145
+      ],
+      "top2_accuracy": 1.0,
+      "top2_contains_gt": 30,
+      "top2_wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "Password": {
+      "n": 30,
+      "top1_accuracy": 0.16666666666666666,
+      "top1_correct": 5,
+      "top1_wilson_95": [
+        0.0733654237184855,
+        0.3356435050641603
+      ],
+      "top2_accuracy": 0.16666666666666666,
+      "top2_contains_gt": 5,
+      "top2_wilson_95": [
+        0.0733654237184855,
+        0.3356435050641603
+      ]
+    },
+    "Port_Scanning": {
+      "n": 30,
+      "top1_accuracy": 1.0,
+      "top1_correct": 30,
+      "top1_wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ],
+      "top2_accuracy": 1.0,
+      "top2_contains_gt": 30,
+      "top2_wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "Ransomware": {
+      "n": 30,
+      "top1_accuracy": 0.0,
+      "top1_correct": 0,
+      "top1_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "top2_accuracy": 0.0,
+      "top2_contains_gt": 0,
+      "top2_wilson_95": [
+        0.0,
+        0.11351339317396876
+      ]
+    },
+    "SQL_injection": {
+      "n": 30,
+      "top1_accuracy": 0.43333333333333335,
+      "top1_correct": 13,
+      "top1_wilson_95": [
+        0.2737748557646652,
+        0.6080269299918639
+      ],
+      "top2_accuracy": 0.43333333333333335,
+      "top2_contains_gt": 13,
+      "top2_wilson_95": [
+        0.2737748557646652,
+        0.6080269299918639
+      ]
+    },
+    "Uploading": {
+      "n": 30,
+      "top1_accuracy": 0.03333333333333333,
+      "top1_correct": 1,
+      "top1_wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ],
+      "top2_accuracy": 0.03333333333333333,
+      "top2_contains_gt": 1,
+      "top2_wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "Vulnerability_scanner": {
+      "n": 30,
+      "top1_accuracy": 0.23333333333333334,
+      "top1_correct": 7,
+      "top1_wilson_95": [
+        0.11792388144489496,
+        0.40928326158122164
+      ],
+      "top2_accuracy": 0.36666666666666664,
+      "top2_contains_gt": 11,
+      "top2_wilson_95": [
+        0.21873920806100708,
+        0.5448643634520511
+      ]
+    }
+  },
+  "DEEPSEEK_BLIND_BY_STAGE": {
+    "application": {
+      "n": 24,
+      "top1_accuracy": 0.2916666666666667,
+      "top1_correct": 7,
+      "top1_wilson_95": [
+        0.14914648196960875,
+        0.49167693664496637
+      ],
+      "top2_accuracy": 0.375,
+      "top2_contains_gt": 9,
+      "top2_wilson_95": [
+        0.21159367559548778,
+        0.5729003755732572
+      ]
+    },
+    "initial": {
+      "n": 111,
+      "top1_accuracy": 0.16216216216216217,
+      "top1_correct": 18,
+      "top1_wilson_95": [
+        0.10510773837466894,
+        0.2418180080397854
+      ],
+      "top2_accuracy": 0.17117117117117117,
+      "top2_contains_gt": 19,
+      "top2_wilson_95": [
+        0.11240946764147156,
+        0.2519315922019306
+      ]
+    },
+    "knowledge": {
+      "n": 25,
+      "top1_accuracy": 0.2,
+      "top1_correct": 5,
+      "top1_wilson_95": [
+        0.08860584686802572,
+        0.3913095036954033
+      ],
+      "top2_accuracy": 0.24,
+      "top2_contains_gt": 6,
+      "top2_wilson_95": [
+        0.11496313693401444,
+        0.4342968335542908
+      ]
+    },
+    "packet": {
+      "n": 20,
+      "top1_accuracy": 0.25,
+      "top1_correct": 5,
+      "top1_wilson_95": [
+        0.11186170140766569,
+        0.468700877618744
+      ],
+      "top2_accuracy": 0.4,
+      "top2_contains_gt": 8,
+      "top2_wilson_95": [
+        0.21880653237281705,
+        0.6134184992377469
+      ]
+    },
+    "payload": {
+      "n": 31,
+      "top1_accuracy": 0.7096774193548387,
+      "top1_correct": 22,
+      "top1_wilson_95": [
+        0.5340767066925007,
+        0.8390419984369939
+      ],
+      "top2_accuracy": 0.7741935483870968,
+      "top2_contains_gt": 24,
+      "top2_wilson_95": [
+        0.6018758161665794,
+        0.886048644387375
+      ]
+    },
+    "relation": {
+      "n": 58,
+      "top1_accuracy": 0.22413793103448276,
+      "top1_correct": 13,
+      "top1_wilson_95": [
+        0.1359366061140974,
+        0.3466111763891869
+      ],
+      "top2_accuracy": 0.22413793103448276,
+      "top2_contains_gt": 13,
+      "top2_wilson_95": [
+        0.1359366061140974,
+        0.3466111763891869
+      ]
+    },
+    "temporal": {
+      "n": 61,
+      "top1_accuracy": 0.18032786885245902,
+      "top1_correct": 11,
+      "top1_wilson_95": [
+        0.10379140124053363,
+        0.2947415634812107
+      ],
+      "top2_accuracy": 0.3114754098360656,
+      "top2_contains_gt": 19,
+      "top2_wilson_95": [
+        0.2093743278061527,
+        0.43591434369641446
+      ]
+    }
+  },
+  "DEEPSEEK_BLIND_TOP1_ALL": 0.24545454545454545,
+  "DEEPSEEK_BLIND_TOP1_INSUFFICIENT": 0.2103448275862069,
+  "DEEPSEEK_BLIND_TOP1_NO_NEXT_ACTION": 0.3,
+  "DEEPSEEK_BLIND_TOP2_ALL": 0.296969696969697,
+  "DEEPSEEK_BLIND_TOP2_INSUFFICIENT": 0.23793103448275862,
+  "DEEPSEEK_BLIND_TOP2_NO_NEXT_ACTION": 0.33636363636363636,
+  "DEEPSEEK_CACHE_HIT": 1,
+  "DEEPSEEK_ESTIMATED_COST_USD_RECORDED_USAGE": 0.084149,
+  "DEEPSEEK_INPUT_TOKENS_RECORDED": 520887,
+  "DEEPSEEK_OUTPUT_TOKENS_RECORDED": 40089,
+  "EVIDENCE_LIMITATION_RISK": "HIGH",
+  "EVIDENCE_SUPPORTED_CORRECT": 16,
+  "FORMAL_CORPUS_MODIFIED": false,
+  "FORMAL_SFT_STARTED": false,
+  "LUCKY_GUESS_OR_UNCLEAR": 4,
+  "NEXT_ACTION": "TARGETED_CLASS_STAGE_SUFFICIENCY_RECALIBRATION_PILOT_AND_EVIDENCE_LIMITATION_REVIEW",
+  "NO_NEXT_ACTION_SAMPLE_COUNT": 110,
+  "PAIR_AUDIT_RUN": true,
+  "PAIR_COUNT": 99,
+  "PLAUSIBLE_BUT_WEAK": 30,
+  "PRIMARY_SAMPLE_COUNT": 330,
+  "RAW_QWEN_RUN": true,
+  "RAW_QWEN_TOP1_INSUFFICIENT": 0.1314878892733564,
+  "RAW_QWEN_TOP2_INSUFFICIENT": 0.23183391003460208,
+  "READY_FOR_SUFFICIENCY_RECALIBRATION_PILOT": true,
+  "REVIEWER_CONTRADICTION_AUDIT_COUNT": 50,
+  "ROOT_CAUSE": "MIXED",
+  "SHORTCUT_OR_LEAKAGE": 0,
+  "SUFFICIENCY_CONTRADICTION_COUNT": 15,
+  "SUFFICIENCY_CONTRADICTION_RATE": 0.05172413793103448,
+  "TEACHER_INSUFFICIENT_SAMPLE_COUNT": 290,
+  "TEACHER_SUFFICIENCY_CALIBRATION_RISK": "MEDIUM",
+  "audit_version": "BLIND_CLASSIFICATION_VS_SUFFICIENCY_AUDIT_V1",
+  "calibration_affected_classes": [
+    "Normal",
+    "Port_Scanning",
+    "SQL_injection",
+    "Vulnerability_scanner"
+  ],
+  "calibration_affected_stages": [
+    "application",
+    "payload",
+    "temporal"
+  ],
+  "cross_model": {
+    "common_valid_count": 329,
+    "correctness_cells": {
+      "both_correct": 47,
+      "both_wrong": 235,
+      "deepseek_only_correct": 34,
+      "qwen_only_correct": 13
+    },
+    "cross_model_strong_contradiction_count": 33,
+    "cross_model_strong_contradiction_rate": 0.11418685121107267,
+    "teacher_insufficient_common_valid_count": 289,
+    "top1_agreement_count": 125,
+    "top1_agreement_rate": 0.3799392097264438
+  },
+  "deepseek": {
+    "all": {
+      "n": 330,
+      "top1_accuracy": 0.24545454545454545,
+      "top1_correct": 81,
+      "top1_wilson_95": [
+        0.20212643799676094,
+        0.2946406783660015
+      ],
+      "top2_accuracy": 0.296969696969697,
+      "top2_contains_gt": 98,
+      "top2_wilson_95": [
+        0.25023618544167836,
+        0.34837568118100115
+      ]
+    },
+    "by_class": {
+      "Backdoor": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "DDoS_HTTP": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.03333333333333333,
+        "top2_contains_gt": 1,
+        "top2_wilson_95": [
+          0.005908590381612455,
+          0.16670390991409173
+        ]
+      },
+      "DDoS_TCP": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.23333333333333334,
+        "top2_contains_gt": 7,
+        "top2_wilson_95": [
+          0.11792388144489496,
+          0.40928326158122164
+        ]
+      },
+      "MITM": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "Normal": {
+        "n": 30,
+        "top1_accuracy": 0.8333333333333334,
+        "top1_correct": 25,
+        "top1_wilson_95": [
+          0.6643564949358398,
+          0.9266345762815145
+        ],
+        "top2_accuracy": 1.0,
+        "top2_contains_gt": 30,
+        "top2_wilson_95": [
+          0.8864866068260312,
+          0.9999999999999999
+        ]
+      },
+      "Password": {
+        "n": 30,
+        "top1_accuracy": 0.16666666666666666,
+        "top1_correct": 5,
+        "top1_wilson_95": [
+          0.0733654237184855,
+          0.3356435050641603
+        ],
+        "top2_accuracy": 0.16666666666666666,
+        "top2_contains_gt": 5,
+        "top2_wilson_95": [
+          0.0733654237184855,
+          0.3356435050641603
+        ]
+      },
+      "Port_Scanning": {
+        "n": 30,
+        "top1_accuracy": 1.0,
+        "top1_correct": 30,
+        "top1_wilson_95": [
+          0.8864866068260312,
+          0.9999999999999999
+        ],
+        "top2_accuracy": 1.0,
+        "top2_contains_gt": 30,
+        "top2_wilson_95": [
+          0.8864866068260312,
+          0.9999999999999999
+        ]
+      },
+      "Ransomware": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "SQL_injection": {
+        "n": 30,
+        "top1_accuracy": 0.43333333333333335,
+        "top1_correct": 13,
+        "top1_wilson_95": [
+          0.2737748557646652,
+          0.6080269299918639
+        ],
+        "top2_accuracy": 0.43333333333333335,
+        "top2_contains_gt": 13,
+        "top2_wilson_95": [
+          0.2737748557646652,
+          0.6080269299918639
+        ]
+      },
+      "Uploading": {
+        "n": 30,
+        "top1_accuracy": 0.03333333333333333,
+        "top1_correct": 1,
+        "top1_wilson_95": [
+          0.005908590381612455,
+          0.16670390991409173
+        ],
+        "top2_accuracy": 0.03333333333333333,
+        "top2_contains_gt": 1,
+        "top2_wilson_95": [
+          0.005908590381612455,
+          0.16670390991409173
+        ]
+      },
+      "Vulnerability_scanner": {
+        "n": 30,
+        "top1_accuracy": 0.23333333333333334,
+        "top1_correct": 7,
+        "top1_wilson_95": [
+          0.11792388144489496,
+          0.40928326158122164
+        ],
+        "top2_accuracy": 0.36666666666666664,
+        "top2_contains_gt": 11,
+        "top2_wilson_95": [
+          0.21873920806100708,
+          0.5448643634520511
+        ]
+      }
+    },
+    "by_stage": {
+      "application": {
+        "n": 24,
+        "top1_accuracy": 0.2916666666666667,
+        "top1_correct": 7,
+        "top1_wilson_95": [
+          0.14914648196960875,
+          0.49167693664496637
+        ],
+        "top2_accuracy": 0.375,
+        "top2_contains_gt": 9,
+        "top2_wilson_95": [
+          0.21159367559548778,
+          0.5729003755732572
+        ]
+      },
+      "initial": {
+        "n": 111,
+        "top1_accuracy": 0.16216216216216217,
+        "top1_correct": 18,
+        "top1_wilson_95": [
+          0.10510773837466894,
+          0.2418180080397854
+        ],
+        "top2_accuracy": 0.17117117117117117,
+        "top2_contains_gt": 19,
+        "top2_wilson_95": [
+          0.11240946764147156,
+          0.2519315922019306
+        ]
+      },
+      "knowledge": {
+        "n": 25,
+        "top1_accuracy": 0.2,
+        "top1_correct": 5,
+        "top1_wilson_95": [
+          0.08860584686802572,
+          0.3913095036954033
+        ],
+        "top2_accuracy": 0.24,
+        "top2_contains_gt": 6,
+        "top2_wilson_95": [
+          0.11496313693401444,
+          0.4342968335542908
+        ]
+      },
+      "packet": {
+        "n": 20,
+        "top1_accuracy": 0.25,
+        "top1_correct": 5,
+        "top1_wilson_95": [
+          0.11186170140766569,
+          0.468700877618744
+        ],
+        "top2_accuracy": 0.4,
+        "top2_contains_gt": 8,
+        "top2_wilson_95": [
+          0.21880653237281705,
+          0.6134184992377469
+        ]
+      },
+      "payload": {
+        "n": 31,
+        "top1_accuracy": 0.7096774193548387,
+        "top1_correct": 22,
+        "top1_wilson_95": [
+          0.5340767066925007,
+          0.8390419984369939
+        ],
+        "top2_accuracy": 0.7741935483870968,
+        "top2_contains_gt": 24,
+        "top2_wilson_95": [
+          0.6018758161665794,
+          0.886048644387375
+        ]
+      },
+      "relation": {
+        "n": 58,
+        "top1_accuracy": 0.22413793103448276,
+        "top1_correct": 13,
+        "top1_wilson_95": [
+          0.1359366061140974,
+          0.3466111763891869
+        ],
+        "top2_accuracy": 0.22413793103448276,
+        "top2_contains_gt": 13,
+        "top2_wilson_95": [
+          0.1359366061140974,
+          0.3466111763891869
+        ]
+      },
+      "temporal": {
+        "n": 61,
+        "top1_accuracy": 0.18032786885245902,
+        "top1_correct": 11,
+        "top1_wilson_95": [
+          0.10379140124053363,
+          0.2947415634812107
+        ],
+        "top2_accuracy": 0.3114754098360656,
+        "top2_contains_gt": 19,
+        "top2_wilson_95": [
+          0.2093743278061527,
+          0.43591434369641446
+        ]
+      }
+    },
+    "no_next_action_insufficient": {
+      "n": 110,
+      "top1_accuracy": 0.3,
+      "top1_correct": 33,
+      "top1_wilson_95": [
+        0.22229896444649316,
+        0.39119860967277237
+      ],
+      "top2_accuracy": 0.33636363636363636,
+      "top2_contains_gt": 37,
+      "top2_wilson_95": [
+        0.2549203393736219,
+        0.42885040308759537
+      ]
+    },
+    "teacher_insufficient": {
+      "n": 290,
+      "top1_accuracy": 0.2103448275862069,
+      "top1_correct": 61,
+      "top1_wilson_95": [
+        0.16737899324665564,
+        0.26088412294446095
+      ],
+      "top2_accuracy": 0.23793103448275862,
+      "top2_contains_gt": 69,
+      "top2_wilson_95": [
+        0.19254958946386047,
+        0.29016465851857837
+      ]
+    },
+    "teacher_sufficient": {
+      "n": 40,
+      "top1_accuracy": 0.5,
+      "top1_correct": 20,
+      "top1_wilson_95": [
+        0.35199526933465386,
+        0.6480047306653461
+      ],
+      "top2_accuracy": 0.725,
+      "top2_contains_gt": 29,
+      "top2_wilson_95": [
+        0.5716504419378943,
+        0.8389198375233267
+      ]
+    }
+  },
+  "evidence_limited_classes": [
+    "Backdoor",
+    "DDoS_HTTP",
+    "DDoS_TCP",
+    "MITM",
+    "Ransomware",
+    "Uploading"
+  ],
+  "evidence_limited_stages": [
+    "initial",
+    "knowledge",
+    "relation",
+    "temporal"
+  ],
+  "limitations": [
+    "One strict Qwen grounding failure remains quarantined; common-valid cross-model n=329.",
+    "Reviewer sample is intentionally enriched for DeepSeek-correct contradictions.",
+    "Recorded token/cost totals exclude two failed contract-attempt usages that were not persisted.",
+    "This diagnostic does not establish dataset invalidity or paper performance."
+  ],
+  "manifest_digest": "c0106720b2c261a08fcdc404662a7a8e38580825b29c457ce722e47c6877f774",
+  "pair_audit": {
+    "before_already_correct_and_stable_rate": 0.15151515151515152,
+    "before_wrong_after_correct_rate": 0.16161616161616163,
+    "by_transition_stratum": {
+      "false_false_gap_progress": {
+        "correct_to_correct": 7,
+        "correct_to_wrong": 4,
+        "wrong_to_wrong": 39
+      },
+      "false_false_no_progress": {
+        "correct_to_correct": 1,
+        "wrong_to_wrong": 23
+      },
+      "false_to_true": {
+        "correct_to_correct": 7,
+        "wrong_to_correct": 16,
+        "wrong_to_wrong": 2
+      }
+    },
+    "classification_changes": {
+      "correct_to_correct": 15,
+      "correct_to_wrong": 4,
+      "wrong_to_correct": 16,
+      "wrong_to_wrong": 64
+    },
+    "confidence_transitions": {
+      "high_to_high": 1,
+      "high_to_low": 1,
+      "high_to_medium": 6,
+      "low_to_high": 14,
+      "low_to_low": 20,
+      "low_to_medium": 29,
+      "medium_to_high": 9,
+      "medium_to_low": 7,
+      "medium_to_medium": 12
+    },
+    "pair_count": 99,
+    "run": true
+  },
+  "pair_sample_manifest_digest": "f8c08f55bf744b4f03b9dca5ad7017b54f22f429454ed7a88877d504a9d7df96",
+  "primary_sample_ids": [
+    "fs1_2cb24775b04e0862f06be855e98c23d169f46775",
+    "fs1_b4ff8e62496786863434263d308cf48ec7b7bd23",
+    "fs1_cad50c8674357550238772754b124bb64c933e64",
+    "fs1_4c8977982f97b2b0ab8b76a4cbb2f35078c5a5ca",
+    "fs1_569c120ad4a142c4cd600de7ee6843b9257a2011",
+    "fs1_2da0a0fd57cda7a3e7368c74be61e63fec88c1dc",
+    "fs1_87c2620bbdce6cd7dcd232e911412a1bfd77269b",
+    "fs1_11d5d249e613fe0bcbb95870674a78c0cc809278",
+    "fs1_b1686a73314ecf7846200ac2e5cc9394b765a1fc",
+    "fs1_4745049b423d9255b001bf204dbd5b216d9ffc78",
+    "fs1_60e590c4fdb8be17356b5f86890d8db551d49955",
+    "fs1_db43b4d1fbce67819dca7a6474cc464337d2aedd",
+    "fs1_de473cedcbb5f066de0bad6f1d8302ff75b9b13f",
+    "fs1_551e42a4ddc41985fda71572f0dea7e516e181f0",
+    "fs1_2b90a553babbad8a8d68335242906edece707185",
+    "fs1_2fb94f7eb97b79c2454b4912ee37961de2f26da3",
+    "fs1_4c613a1060fffc802c842cab8ffa0aaecb8e6217",
+    "fs1_bea73935de5bc7de4eacb848984ea4d8fcb04847",
+    "fs1_872ed8e04d453b419e8920fad6348911ea4e2557",
+    "fs1_6c0ddeaff29279036ebdfb8035abd976b926c164",
+    "fs1_b309b5b88f6028ae6a05451dbd0e2a663a122b7c",
+    "fs1_1c58435dbf22e55358f99abfab90a9ad541cf46a",
+    "fs1_6f4e9a9b2b67ddfeb38486b7e82b42088b11269f",
+    "fs1_87eda738f4d97575ec171d8303b73c653633fc2d",
+    "fs1_504f5f0b0b398ce35938293e746002f50cf6d646",
+    "fs1_f87d1bf34b964c4cca6d387338ec38ee0716acea",
+    "fs1_f937d18a9d546e1397ff3541ca9d473a3a10fdd0",
+    "fs1_42c8153a96beaed0c5b2997548143dbca31aa7e8",
+    "fs1_f0d3150697bc2e911defba32d0549f791088969b",
+    "fs1_1da50cffee1955fae09207fc0d1167ee05473e7c",
+    "fs1_f9b8a1fbdf421ffe3bffdd4430363c9b966aa19d",
+    "fs1_910a15b5da6d371be87a270ad083a23b19593eaf",
+    "fs1_9dc00b94218020400e41dc25e3525299990a060a",
+    "fs1_e3c300257801577afe5b048f46eeff5f4fbb460d",
+    "fs1_32fe9c2482d89eb48db97351752cf05b4c34bfc0",
+    "fs1_d875f75eb0676093540217af7e46096b99606e49",
+    "fs1_4b1af0b5949d55c2036b7545582d8c1dc2ca4f00",
+    "fs1_353107df44f319b1934cfaff050f8d814caffa09",
+    "fs1_22295ddd7fb9b2989646b92e6c31ba68eafb8aa1",
+    "fs1_92e6778bfeff79ad89ccc357e24fad08fc148a47",
+    "fs1_b34cd0d6dcc15698d161bbfad49489fcc32f9ff1",
+    "fs1_f0d4b58488239fcd6cae060dbbb4717bb74c2edb",
+    "fs1_f573d64eff6c00d4f84be52a8391cc0c9648c632",
+    "fs1_67d1f61b6874914e217e974f3da53d84282663ad",
+    "fs1_39dd0af61255305ebad44a61d18e6d67b81f5029",
+    "fs1_71505f146d8f4fb460b19c89c5c7f96ca0ef68b1",
+    "fs1_7046448687025dc65652a9f434fd14c27c7f5b64",
+    "fs1_c361f676d071ab5c97ec97218da7b3e4ca119a30",
+    "fs1_ea0a16bed57992578fec7a0ee835ef2af5356fee",
+    "fs1_6dc2ca2984e0efaa0ff75831f214bd3359b5afd6",
+    "fs1_87d1075cde0f743be8bbc46ffe4192b87e9445fe",
+    "fs1_a8c8704219f5fca5b15294474e46e8a4de8b50c7",
+    "fs1_dfdfa4790d75eabf4b634d52497b2a924a34c1e1",
+    "fs1_8b16bdf8cda0b30a878b8b2caff29f58626c11a3",
+    "fs1_896b59c87466a798a01568c5165191a7946e32ec",
+    "fs1_c59d2cb5e2ac55cb834820aa077a1ddc6485902f",
+    "fs1_eafde3aea027c2c08c0a780a0442790499975593",
+    "fs1_37e8313b3b0e6454e8e718086f2f9e708fd8fafa",
+    "fs1_cd6c6609d1b854fdf88a3ac1507378ba13051cd4",
+    "fs1_93f5908ceb79818f4f9f5859432e610f9e2bef52",
+    "fs1_8f259ec1bdc060beb310d04ba1dd9c1827bd290c",
+    "fs1_b253c67ba62cf9aa22eb9801ff8d3a00c944bbf5",
+    "fs1_48251dab8f6177c77a9192a09b3dab7162a543e4",
+    "fs1_e09e163889d01fe9388514a1c2febf2f961a2fae",
+    "fs1_5bdc78a6e683d0aaa0d4f4ec1ac0a031a8619ee7",
+    "fs1_06f96514c99113041b71ca47f9413be042e9c441",
+    "fs1_def7e31199b7586b5215f31f3de67412af138f47",
+    "fs1_0f72f0f00b1e4685b7cc3683f6b662c32de3d1f7",
+    "fs1_f5e16ccb4a0173cdcb779309bff33c43413f1a4f",
+    "fs1_0c9204cb0a7020c864898c6b8f20bac1657a4693",
+    "fs1_5491aa26f984f907be30460246465ad9efb11d22",
+    "fs1_1fffe2dc6e2b554788567b5760deb1dbc8fa8516",
+    "fs1_08c99d60686b632b108bda4a5a9cacc5cfef7dd0",
+    "fs1_3ff6ec1422edee3eaca27279fec4804d95bc23b1",
+    "fs1_0f156f28e35f7094e54ca54cd19d2503141cd29a",
+    "fs1_6dc93aa396e26b94a1013b651dcbaf5407b39351",
+    "fs1_072e4cb7a0354b25fdc001ff1b5427c3de426a30",
+    "fs1_7f95620825fcf878db23890eaeeb2aa38fbb3051",
+    "fs1_43f3d0f4c31bd763d4b9fa94de0bb9dc3141675b",
+    "fs1_2eeda1adda02b5969696f47b565016760e99052a",
+    "fs1_0f73a285ee3191fdcd5963aae13d865fe314eb86",
+    "fs1_bd767147e0c882e28868a2cc9d11031cc0377fb8",
+    "fs1_0889895373a9b1c9d3c31e6a036b24ee3aebadb8",
+    "fs1_e4c8a53af74d338c72ba2092704cbae309c3537d",
+    "fs1_002dbbc3b4f87c4eeebf91f52c1b1f2c6b786fa7",
+    "fs1_522df4cf084d448cfdac919249e55c7a9b7054bf",
+    "fs1_54764a3a4979b9795a2fc244f2536014212b8975",
+    "fs1_5f65563529866524180957e5a20a8030c79ce4f4",
+    "fs1_a7582eaa31de53fee247c242c8ef75ae608d4325",
+    "fs1_33296069656bc54b128ebb1c39bcd999ac37cc22",
+    "fs1_c989f2372abf3877c20c7c8e6b86caefc2caab1e",
+    "fs1_28078c7475a5b57746432c501cd6a1735a3464df",
+    "fs1_6e3044faeaee47afdeba9c02c8926064b5eab37f",
+    "fs1_984179fdee34e1d60c2663d2c01fca1ee0db8cf8",
+    "fs1_69c5cf112d6bfd59d8a8e9abb94555548209e3d7",
+    "fs1_7944ce0b596c0ca623a60d2b4b23d5c0895f209b",
+    "fs1_7c2302c2c085c72e516f506100fe27e124248ae1",
+    "fs1_f108d25beff8f799bd9a6b1a33b2e236f1ddfc39",
+    "fs1_44b80430be867ceb6e2060a4a3d62e3fd10f80fe",
+    "fs1_3df51598206449dba07e2774d84aa7109629914b",
+    "fs1_3e48154881a67fd4e1f38fe8f8821bfe54234711",
+    "fs1_2c4b39073bbf451e766c2c76dcb209f24af574c0",
+    "fs1_45794f10671a8b781341c83f84dd1dd2cb0769f6",
+    "fs1_12232ad29f8e3b7de652f7d1277794de4fb014de",
+    "fs1_24e3275a658b7eefe17deb306fd2fa7f8aae5ef3",
+    "fs1_566a053ad956b0d0d4f8076fb97c41f7275df029",
+    "fs1_479058794fbb8741119984dacf3adf63044a553d",
+    "fs1_7cf872139c8dda4ff65577cc8692617ee3d8cc0b",
+    "fs1_8db693a758b9cf92b16f78cec63303b3da5e93d1",
+    "fs1_6d291b4df847af3e8d90b9e799d9c379a3f69feb",
+    "fs1_b6c948812012ca34bc8caa40df63e44adf13f70c",
+    "fs1_0e29bf839004b4b443325477518afc974fb7397d",
+    "fs1_06065607f7191e0b394bef0704eb94f6ccaaa90d",
+    "fs1_3efd33ba82497aba93e87652ca8c6aec78da9f91",
+    "fs1_a6556c91339c399f280b64648839caae13267ca6",
+    "fs1_045d5890a92961c4783074b0e388d1486eaf5398",
+    "fs1_e35126e2b34212961e7aa992e0a00643ff222aa2",
+    "fs1_860744666776f10b1aa1d7a984275214faede8bf",
+    "fs1_97d67072fc04a28f18dd4b5bc0e7134d475a495b",
+    "fs1_62829e7dc6dfdeabcea6c94853624023b5f14293",
+    "fs1_415d2d651a556cb1f22f38d8be96d0626f1e0b00",
+    "fs1_a7924794e18887ad506f66acf1e078ff8c4c6942",
+    "fs1_6c9a31faf842f5b456d4a1a5d9da99d257ee73d7",
+    "fs1_562d422a1cf5bae50458af41ed0043465f335f56",
+    "fs1_4b85e2d3f207c3a4c2cbae64c81ad18a65945efa",
+    "fs1_f05119286535d122d0551f92e13986364a5e885f",
+    "fs1_b56f4dc6c9a13bcea460de9b75c3894d03a40ced",
+    "fs1_99c1eab589d492072fc5e4ff6c44d413917eb10b",
+    "fs1_1ce4512d9a3e8fb79d5733b81c762d3fdb667b11",
+    "fs1_db369407ec6e5cb10d454fcaba532bba55fd8024",
+    "fs1_563b724f1ce62ba1513837263f6c6428c92dca87",
+    "fs1_5b9eece8c7ea57c14529dffa0466425221cef04e",
+    "fs1_fc9fa609f645276ef7a2c5880339994633265543",
+    "fs1_4c2595a7710404e78bedb3b5483132ab6ab039fe",
+    "fs1_b750d2545c2b3d73dd4a5ab50712094b77b08516",
+    "fs1_da4eeb2083dc7c8c776c5b2814bc6a0835d7e2b7",
+    "fs1_e7a393db8170bf8288caec6dd5d3a21ac37df279",
+    "fs1_c28dafba72d5973d00ed578223dff55d31ac4615",
+    "fs1_8fcf46a848bc8e47c9268c41f6c83a23440c84f0",
+    "fs1_e8bfa5062bb47064e70b058ba71ce3075732b2a7",
+    "fs1_f7de2b2caf8dceda4a38959f10de9f75861a189d",
+    "fs1_0a741b849fb08220ae320a1b4db71ed635b5ae41",
+    "fs1_50042e8ec99da245718264b56c8a12ef34433b28",
+    "fs1_ccf0610f9391274cc6bbbfa2d57802d7ca2d46b1",
+    "fs1_d85aa9e2f4a67f783e6348567bafca5c09343091",
+    "fs1_7937ca7428df499774fd5bf43d5bd6e526ef74b0",
+    "fs1_0dbb447317adcf9a7c5223ef1b4aaec304bcd226",
+    "fs1_c482a6bd6e5ff24c1187b7d275b9a7c255d7ae5d",
+    "fs1_cfbc4083d50ca3e92012ff79807e964cf40ba0f7",
+    "fs1_307ea5edc661b83375fa42d105f2756875bf363c",
+    "fs1_95b32d1521c8d7c45d75ee8aca8b1afaef2b5bbc",
+    "fs1_52bf05b0e3c1502ba0b5d879af6f56fadcad0a79",
+    "fs1_a2074ccbd14b8f1535792ca21b47212ac967fbb9",
+    "fs1_07baf7f5adea9f5dcf9ec7d6e15ecf7a6d2cf6e9",
+    "fs1_e3b6c99c3da4524fa5220ff1ded88482f71c1ecd",
+    "fs1_b7187a0cad1fa03ff7cafe05864ca964f04f83de",
+    "fs1_4b93bf0fa02ff5b84b4a1881cf1f7cb4f7941b83",
+    "fs1_1c60d97dc08a18d17daff845e397a30471b63ca4",
+    "fs1_aab62fdd797ca68297ec08091b79e0364e71a7b5",
+    "fs1_fc30d9dabe9b64e276815057b64791320113a0dc",
+    "fs1_63bddb75ee3cdf57e966ade90df1af2d54dc1f64",
+    "fs1_e115cc7a07bedb7be4c6b8427218aaa2d723aad7",
+    "fs1_837bb753fa3a1a89b21f39b5271380b20eb1055a",
+    "fs1_4f0f0334dd21aa853156fb3daf586d031f5d4bfe",
+    "fs1_eaf8c6414b115e6f0d09e929836ab5e2694947b3",
+    "fs1_6cfb2d7394b104dd362bb68bb0a44b88fa06dd88",
+    "fs1_77cb321c99be0f8ecdefe43af16af943cd66423f",
+    "fs1_26bb282b7e3cdeee5e09557fce0c774f43c63a24",
+    "fs1_32924838c3f6a3d191651bb956e32e34b6b73e16",
+    "fs1_ad28279ba614234b702c23db3dcbce60619c3013",
+    "fs1_bdcb8209260901f21dfd09faedbca1d0a725e24d",
+    "fs1_c21abb284d584c39737a3cf5c8d341e1290f73d7",
+    "fs1_72d42d98facb7d1c638c0f81fca10e49b2187f7c",
+    "fs1_04034edfd885cde0957e3de47b91ca9dc99778df",
+    "fs1_75de9c27df57a0645d79566b82a11545073da61d",
+    "fs1_a51c88da5e52614be24a86abf46009b873f8486e",
+    "fs1_1fba4c1b67a6fdef3de6b957f26d7a7dbc1dacd3",
+    "fs1_32ff272656088fb2b8751a09227d27fda9bbd805",
+    "fs1_8a733c5589d078c31ccd1176b9cb9eae5fd408a0",
+    "fs1_5d430200e10e6127382c6b2ae3d21f77f0550f9c",
+    "fs1_452ead5da844485654ecd333433dcefa3705d577",
+    "fs1_9b17129c1e1e30cb35521aeba320af52986bd9f3",
+    "fs1_1d734f14440d73283d32fda360e770bc80acd676",
+    "fs1_189f05e109da0d36f3d78e11e79e8084ba700954",
+    "fs1_041a372bb8a4b2d7d0adde492dad95a187f8c2bd",
+    "fs1_342212f8f9bd90020ab5ab5108f5f5f9ec85a90c",
+    "fs1_707d0f005f2af861e57242f69a0722515b4ec21e",
+    "fs1_422c834ab6daa1f7443b656eef19129c72dc93dc",
+    "fs1_735edb24073e0b66611099299a27bd25a7bea34d",
+    "fs1_8b9874fbf53987c067d32dd3c4404f4a5bfa214a",
+    "fs1_255cf5258fa070f531d460be1e24ba24eb57498e",
+    "fs1_de9eb7928b84c7ecc6d95fb1e090e3dafe3f1e3d",
+    "fs1_0c48a4459bd0e2c59ed1b14699fc8cf9931657e0",
+    "fs1_190ad8c0859248e65670c3f5f02a901b8925e8a7",
+    "fs1_1a8e620a11687cd314298f5ee1630a4560e36f16",
+    "fs1_37038b7587c465927d8e4d2167cdb0a7f828d1a5",
+    "fs1_f003bb84df55925546a354a0a991f77bf78fedc0",
+    "fs1_00ccbc51815c0a3886082c85e0fadb5c1721b167",
+    "fs1_2c55aeb26f3366b0d2610cab1f9ef6a387e99e7f",
+    "fs1_07abec1206c7dc9916c99eaf4c00349093b64b2e",
+    "fs1_388538a8021b6340edc39d3febe156571bcf19a8",
+    "fs1_0a0248e778dc7cff1b936511a6dd7dd345968a2d",
+    "fs1_a502ba01a234515b17e9d65639daaab631cfe957",
+    "fs1_8e31f0a3e0549b3a897b9c194f6401285a54080a",
+    "fs1_38e6f0ac16492b2f9cf6c0469ea89486f3b3e0b1",
+    "fs1_a45f579b8ff29c1965a1e24a6a8ba4db4e7c4490",
+    "fs1_c7dcd628629a9b7e70c55d15ff7a57f3c4858de2",
+    "fs1_ee1db15eaf52604ed28be2e848dc3026b7283141",
+    "fs1_2e2ea81459fece0b3c2e74149b5618aab4aeac3a",
+    "fs1_bc66f87b0c938ed26965bb8199dff2b1def0a990",
+    "fs1_06e852a6c8d880e020ac658ca93c6e4d4b6f5b6c",
+    "fs1_8fe1669528d5704ed451f3a7d958af4ac483e100",
+    "fs1_5a1c3cb2020c3b1d3f3062408529df44b201683c",
+    "fs1_443d462e39420622e7c38ac83f15714549b988c6",
+    "fs1_122c2557d4b659e14cbe4b42929d26af1c489e94",
+    "fs1_e89a216b27755ced39da4bf86276fd8986edbaff",
+    "fs1_81b5239b43898ec3cf49275f30c6ec92c31f656c",
+    "fs1_5e3095b81376ae3f52c4c809aa74c235e44399cb",
+    "fs1_b410a28a72af47cae798b3cced13e37df2653670",
+    "fs1_7ecf733002b85a903cea330512c3d4344ca754f8",
+    "fs1_1d3f5aefa30ad85078c4b7347f9eba7cf781fe7b",
+    "fs1_8d2f9e050ec6ab93d3d3fc01f94dd0143ea38d69",
+    "fs1_11d29bf8dd4929725051a98a5e191cca0d4c51e5",
+    "fs1_8479333abc9ff8031d4007358b109d5b091db2da",
+    "fs1_ea7cd9c5f88e6f4c64f9d2d4cc47f49f40a2acc6",
+    "fs1_43f5090b0b92da8086c93369e3447a3d7f285601",
+    "fs1_dd96ef393b96b31bade38677f2661dbae9e960af",
+    "fs1_eddb7e5073469c83c4710fa0031913e42ba4d283",
+    "fs1_dbc18aafa866290fdb818bf828598b0c67b836ce",
+    "fs1_75f2c8f7070df6b32476ae29d741bd44b265042a",
+    "fs1_f70770b3dd0d47643300b8c4b8b30e03f392bca8",
+    "fs1_732cbc1d344c855cc85c69e1647e100dc162898c",
+    "fs1_94876232963d82f2521d96a56bcf54f7e7e93b55",
+    "fs1_164906d32317fc88db91f3d6512c48925b39693b",
+    "fs1_0665840956bebd95984455f18d0b1ac0e314e74f",
+    "fs1_c3362f4ba92c1350bdb3c1ce1fdff4b755a998c8",
+    "fs1_e62f544e0b055d136920025e2df83a02965677c2",
+    "fs1_430d9ce31351896d50c2cb25b8ca757fe2d81711",
+    "fs1_2b293f617f7d50bc0ead8943c9a2213fff285c00",
+    "fs1_8fa30960c2270426ed5456deb27f656cc702ceab",
+    "fs1_31a98bb163735fed233ce0d968b4c4bb5f4dd2cc",
+    "fs1_f343cb8c691dd6591457a7a794d33afea46e86d0",
+    "fs1_19362c6f6e345525097c4ab2c75c2e3b310eba5b",
+    "fs1_48f905a81f9f52b904473744865eaa301fe2f754",
+    "fs1_f7659aae5cf07d62adc351ca91c1fa0548b9624f",
+    "fs1_4b770186c76b4cbacf86e6f662d9224a97811c62",
+    "fs1_1098ae4e848b4cd7a7f9082570edb4b5bbdd48a5",
+    "fs1_857306d8cf8ab28ad2ee7626fccbc1463eb2a1fe",
+    "fs1_d6b308a481258316b482f62b17aa09cfd3a936c7",
+    "fs1_6e375e190d3e704c81a928ed48d737774863ade4",
+    "fs1_ef596caad9f9563189be843bb7d4f4c19499b119",
+    "fs1_99b40c61f1bb124fbb6c0988d073bf741c10a812",
+    "fs1_5f92e536803e57982a18ab215bd369253bef560d",
+    "fs1_bb89cf3c968bc011ccc017c7386d2a1930eb164b",
+    "fs1_2879f9dce60654ec116e5475796750bafb5931b8",
+    "fs1_483c5ffdde8728b0d94b2a41211eb7aaf31bb991",
+    "fs1_b7d624e240307c0e4b3fb78ae3075759540c18a1",
+    "fs1_c846999eed967b00f4e148938203100ac870074b",
+    "fs1_e0122c1ef0631d1439a6766902ebbbcc399dbc0a",
+    "fs1_edab8a72476761b3e19425aba61d36b4736becf5",
+    "fs1_459b22b3e06975d51f51c15282b639155d62c9b8",
+    "fs1_4b905dbd49039da6c51cba1b7486b3ae875bdf4d",
+    "fs1_5be7a3b9019a4233e4022b9f05afecd02622d300",
+    "fs1_6bc0d7d7c55d8465fa61ba1ff3a410413afae9ca",
+    "fs1_dd7864b920a9db93b99beddd627ed922411da51c",
+    "fs1_8f5a9d87587e5a04a334396a21479f8dfd559751",
+    "fs1_7386b0f02a41e57896fdc1130ecedac8a370ab0a",
+    "fs1_f576f1693b14f22c1733ad0c635cee05bcb803dc",
+    "fs1_1cb7b0232e3c879049693276da658e3c626a6176",
+    "fs1_a61e472472cedf77313445d9fc7c26d04c6f9286",
+    "fs1_6d5417422aee805bbf33f278fbc4155dddc50b96",
+    "fs1_c895e8991b309a50ccdbaf02310b6b0d3abb4986",
+    "fs1_39fde8165872137440c063fb88acdee6cea1b753",
+    "fs1_35b09a1a5a8997669f51efbbe2ede110ff940356",
+    "fs1_263c2fcebf2c6d3f5e98b14d0ddfd0028b962d1c",
+    "fs1_704653513c4cb7ebf7b6e48153c19ee36339048e",
+    "fs1_af7ca49de3cdb055ae968a1e1ff273bb06fcc2ac",
+    "fs1_449110c5a4a1738e7a009b612303cf3e3206e7f7",
+    "fs1_769a4135477bf600aea1ca2274ad4b0655e662cd",
+    "fs1_f439f52a4b89055f1854135af6e5556cf2302da7",
+    "fs1_2719a86a0653ffc121b7b5c5bca61d95ec1a12bc",
+    "fs1_745af0f64c9c1cd20dfa6ace51ac2a237664fdd4",
+    "fs1_11740a5a1f43d1bb62da9f0c56491c065c4e6afa",
+    "fs1_3eb3fc7ea905571959c1033349042f3787db7c26",
+    "fs1_cd11df6f42f4d7c9d3766d0d8a065abdd98fcb07",
+    "fs1_14978e5a0296f46c085fc03fecafed9f1b93d2f1",
+    "fs1_fb701576d999e6c6f2f3f4a4532544622f61d364",
+    "fs1_acb4a5f9ba390ff5ec8018bbce8aecae10ba5001",
+    "fs1_e60da8b67ac79a5f7877e14c73d6e37f58f9ed14",
+    "fs1_833400dba8ae346e1197634364818123cd3705b7",
+    "fs1_f544e803cfdd84b4e6f7ca4d139cd3d4f1d34c50",
+    "fs1_1e27c41c881640c36f9719cfbbec27081f6c9471",
+    "fs1_2d88a11767885430849e53e69031acb2138fe6db",
+    "fs1_6609c51a87a2fcc9a156b221521c3201f2ea670a",
+    "fs1_32576e9a9850ce7cb235fdece331fba9abc2e5df",
+    "fs1_bee21e9ec6f2f354684706132a23679a60abbf54",
+    "fs1_fd6cada7f963a34bce71e7fa0c2334f7150c1f89",
+    "fs1_0db32ced49d17163699d174cd23a3cb979e4cbb4",
+    "fs1_41b35343d7575cdac20458e5c98595a905b61cf2",
+    "fs1_ec854010d2715560b089fe0d86b951a6a3c94f84",
+    "fs1_ab8efa226865889d84c55c6c33889b3fe6b36bd8",
+    "fs1_d877ba97d71646cd860d0286ebc33814696b1c80",
+    "fs1_a85cdc563d364275572bc0f6e8de289bcd971fd8",
+    "fs1_72b6afdd0149ef8caa6ee10cd02f782ed9c1e996",
+    "fs1_9439eb233e2a5dfaf9457b954f48676980977cfe",
+    "fs1_d6f5a8078af0d268a43aebee14eef5a7984bd803",
+    "fs1_da132c2baa3629c6b60faadac45b4e33c07ddd37",
+    "fs1_ed7ac6a65a8c1f1565778979611f2bbaf8cc8023",
+    "fs1_7060858c2294f8e4e94f4baa99af25bdb3608c83",
+    "fs1_02fbed2943db70e591b26c4856ef39f49cbe54ec",
+    "fs1_657d35cee2b1eea75b0beca860da8517dbad7bcd",
+    "fs1_58ec6b0aa32b4749bf7db82d346da6e56fdda6b6",
+    "fs1_af33611ade0fa55c753877f6b9a8a188c4e1ee4a",
+    "fs1_f54fc00ad6d1b6baf8dc708089cf7ad7b76a9b6c",
+    "fs1_e554fcbeb31ff9959479643af8bf7b3353220f8c",
+    "fs1_bc12451f6f0a6d648061fb4f12f522ce9678d1d6",
+    "fs1_b573182a229a1bafb755d3c9a4839c855a8bd85a",
+    "fs1_6ad74bec61cf2222ab6b600df833c78702a6762a",
+    "fs1_f956923564891771a9f27c5d9d0083f2b6804675",
+    "fs1_18f279f24aced3465da3b6987c27a23f4db3db31",
+    "fs1_c7a61fd0a554ea8f6e8bb57f04cbf33f4d1bbf5a",
+    "fs1_4279005886ad110f5fd179b737a28b8a9b19e549",
+    "fs1_bf876045aead19ce830ad9053df3555c310bb36e",
+    "fs1_956254ac4aa5407aac1629ec57748f5a4cb86676",
+    "fs1_00ccc687c285c1d20d8ef225297e29cb5559dd46",
+    "fs1_3174f629aa18354e37078e309f42447cd31d1d3d",
+    "fs1_e54bdcc486952bbb5543abab1d9b2a12ab5a6068",
+    "fs1_8619a5ec43ff3e1038c5fd69e0074dc35894acc9",
+    "fs1_877ec23b599565d6727c798ec86de93f1f4aaaf5",
+    "fs1_4bdb85801eb90ed19473451cea27151e35cbf185"
+  ],
+  "primary_sample_manifest_digest": "93b30ccd9075fef4925da45e3a8a287c200cfec4d54c05e2611be91d9173ca88",
+  "prompt_leakage_gate": {
+    "audited_requests": 330,
+    "counts": {
+      "BACKEND_PATH_HIT": 0,
+      "CAPTURE_ID_HIT": 0,
+      "DATASET_ID_HIT": 0,
+      "GT_LABEL_HIT": 0,
+      "K_U_ROLE_HIT": 0,
+      "RUN_ID_HIT": 0,
+      "TEACHER_GAP_HIT": 0,
+      "TEACHER_SUFFICIENCY_HIT": 0
+    },
+    "status": "PASS"
+  },
+  "raw_qwen": {
+    "all": {
+      "n": 329,
+      "top1_accuracy": 0.182370820668693,
+      "top1_correct": 60,
+      "top1_wilson_95": [
+        0.14439060847547758,
+        0.22768280827819992
+      ],
+      "top2_accuracy": 0.2887537993920973,
+      "top2_contains_gt": 95,
+      "top2_wilson_95": [
+        0.24244496786351466,
+        0.339938787776491
+      ]
+    },
+    "by_class": {
+      "Backdoor": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "DDoS_HTTP": {
+        "n": 30,
+        "top1_accuracy": 0.13333333333333333,
+        "top1_correct": 4,
+        "top1_wilson_95": [
+          0.053096554840547455,
+          0.296813266820363
+        ],
+        "top2_accuracy": 0.13333333333333333,
+        "top2_contains_gt": 4,
+        "top2_wilson_95": [
+          0.053096554840547455,
+          0.296813266820363
+        ]
+      },
+      "DDoS_TCP": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "MITM": {
+        "n": 29,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11696979849974075
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11696979849974075
+        ]
+      },
+      "Normal": {
+        "n": 30,
+        "top1_accuracy": 0.9333333333333333,
+        "top1_correct": 28,
+        "top1_wilson_95": [
+          0.7867654163738308,
+          0.9815229762087295
+        ],
+        "top2_accuracy": 1.0,
+        "top2_contains_gt": 30,
+        "top2_wilson_95": [
+          0.8864866068260312,
+          0.9999999999999999
+        ]
+      },
+      "Password": {
+        "n": 30,
+        "top1_accuracy": 0.13333333333333333,
+        "top1_correct": 4,
+        "top1_wilson_95": [
+          0.053096554840547455,
+          0.296813266820363
+        ],
+        "top2_accuracy": 0.13333333333333333,
+        "top2_contains_gt": 4,
+        "top2_wilson_95": [
+          0.053096554840547455,
+          0.296813266820363
+        ]
+      },
+      "Port_Scanning": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 1.0,
+        "top2_contains_gt": 30,
+        "top2_wilson_95": [
+          0.8864866068260312,
+          0.9999999999999999
+        ]
+      },
+      "Ransomware": {
+        "n": 30,
+        "top1_accuracy": 0.0,
+        "top1_correct": 0,
+        "top1_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ],
+        "top2_accuracy": 0.0,
+        "top2_contains_gt": 0,
+        "top2_wilson_95": [
+          0.0,
+          0.11351339317396876
+        ]
+      },
+      "SQL_injection": {
+        "n": 30,
+        "top1_accuracy": 0.43333333333333335,
+        "top1_correct": 13,
+        "top1_wilson_95": [
+          0.2737748557646652,
+          0.6080269299918639
+        ],
+        "top2_accuracy": 0.43333333333333335,
+        "top2_contains_gt": 13,
+        "top2_wilson_95": [
+          0.2737748557646652,
+          0.6080269299918639
+        ]
+      },
+      "Uploading": {
+        "n": 30,
+        "top1_accuracy": 0.06666666666666667,
+        "top1_correct": 2,
+        "top1_wilson_95": [
+          0.018477023791270378,
+          0.2132345836261692
+        ],
+        "top2_accuracy": 0.06666666666666667,
+        "top2_contains_gt": 2,
+        "top2_wilson_95": [
+          0.018477023791270378,
+          0.2132345836261692
+        ]
+      },
+      "Vulnerability_scanner": {
+        "n": 30,
+        "top1_accuracy": 0.3,
+        "top1_correct": 9,
+        "top1_wilson_95": [
+          0.16664748268243793,
+          0.47875787458714947
+        ],
+        "top2_accuracy": 0.4,
+        "top2_contains_gt": 12,
+        "top2_wilson_95": [
+          0.24590628116801852,
+          0.5767963974667752
+        ]
+      }
+    },
+    "by_stage": {
+      "application": {
+        "n": 24,
+        "top1_accuracy": 0.4583333333333333,
+        "top1_correct": 11,
+        "top1_wilson_95": [
+          0.2789133373121099,
+          0.6492513464108051
+        ],
+        "top2_accuracy": 0.5416666666666666,
+        "top2_contains_gt": 13,
+        "top2_wilson_95": [
+          0.3507486535891948,
+          0.72108666268789
+        ]
+      },
+      "initial": {
+        "n": 111,
+        "top1_accuracy": 0.06306306306306306,
+        "top1_correct": 7,
+        "top1_wilson_95": [
+          0.0308806575864322,
+          0.12447664110959537
+        ],
+        "top2_accuracy": 0.17117117117117117,
+        "top2_contains_gt": 19,
+        "top2_wilson_95": [
+          0.11240946764147156,
+          0.2519315922019306
+        ]
+      },
+      "knowledge": {
+        "n": 25,
+        "top1_accuracy": 0.12,
+        "top1_correct": 3,
+        "top1_wilson_95": [
+          0.04166817150440358,
+          0.2995579392092732
+        ],
+        "top2_accuracy": 0.24,
+        "top2_contains_gt": 6,
+        "top2_wilson_95": [
+          0.11496313693401444,
+          0.4342968335542908
+        ]
+      },
+      "packet": {
+        "n": 20,
+        "top1_accuracy": 0.4,
+        "top1_correct": 8,
+        "top1_wilson_95": [
+          0.21880653237281705,
+          0.6134184992377469
+        ],
+        "top2_accuracy": 0.45,
+        "top2_contains_gt": 9,
+        "top2_wilson_95": [
+          0.2581978582556243,
+          0.6579146575496577
+        ]
+      },
+      "payload": {
+        "n": 31,
+        "top1_accuracy": 0.7096774193548387,
+        "top1_correct": 22,
+        "top1_wilson_95": [
+          0.5340767066925007,
+          0.8390419984369939
+        ],
+        "top2_accuracy": 0.7419354838709677,
+        "top2_contains_gt": 23,
+        "top2_wilson_95": [
+          0.5675386419056621,
+          0.8629829409360625
+        ]
+      },
+      "relation": {
+        "n": 58,
+        "top1_accuracy": 0.13793103448275862,
+        "top1_correct": 8,
+        "top1_wilson_95": [
+          0.07158487019718122,
+          0.24925909433837945
+        ],
+        "top2_accuracy": 0.22413793103448276,
+        "top2_contains_gt": 13,
+        "top2_wilson_95": [
+          0.1359366061140974,
+          0.3466111763891869
+        ]
+      },
+      "temporal": {
+        "n": 60,
+        "top1_accuracy": 0.016666666666666666,
+        "top1_correct": 1,
+        "top1_wilson_95": [
+          0.0029481597947862495,
+          0.08855129727590061
+        ],
+        "top2_accuracy": 0.2,
+        "top2_contains_gt": 12,
+        "top2_wilson_95": [
+          0.11828505322897494,
+          0.317818058056279
+        ]
+      }
+    },
+    "no_next_action_insufficient": {
+      "n": 110,
+      "top1_accuracy": 0.21818181818181817,
+      "top1_correct": 24,
+      "top1_wilson_95": [
+        0.1512295618032512,
+        0.3041533835466231
+      ],
+      "top2_accuracy": 0.32727272727272727,
+      "top2_contains_gt": 36,
+      "top2_wilson_95": [
+        0.24671132610522006,
+        0.4194911242705093
+      ]
+    },
+    "quarantine_count": 1,
+    "run": true,
+    "teacher_insufficient": {
+      "n": 289,
+      "top1_accuracy": 0.1314878892733564,
+      "top1_correct": 38,
+      "top1_wilson_95": [
+        0.09731666827061748,
+        0.17532730482740205
+      ],
+      "top2_accuracy": 0.23183391003460208,
+      "top2_contains_gt": 67,
+      "top2_wilson_95": [
+        0.18689037883803333,
+        0.28381298186709825
+      ]
+    },
+    "teacher_sufficient": {
+      "n": 40,
+      "top1_accuracy": 0.55,
+      "top1_correct": 22,
+      "top1_wilson_95": [
+        0.39829091798932054,
+        0.6929469218909508
+      ],
+      "top2_accuracy": 0.7,
+      "top2_contains_gt": 28,
+      "top2_wilson_95": [
+        0.5456998118185507,
+        0.8192515477025347
+      ]
+    }
+  },
+  "reviewer_contradiction_audit": {
+    "contamination_risk": "LOW",
+    "count": 50,
+    "counts": {
+      "EVIDENCE_SUPPORTED_CORRECT": 16,
+      "LUCKY_GUESS_OR_UNCLEAR": 4,
+      "PLAUSIBLE_BUT_WEAK": 30,
+      "SHORTCUT_OR_LEAKAGE": 0
+    },
+    "rows": [
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_0d97bb506cc05ea70328cd28",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_42f864fd50de5a933a052d8a",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_d7d2a5ada0b36a9029ecb483",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_d59d1285f1906658b58cf2ba",
+        "fine_label_backend_only": "Vulnerability_scanner",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Application observations show concrete probing/path patterns and error responses.",
+        "stage_type": "application"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_819982d1fba1dd8cb51d12a4",
+        "fine_label_backend_only": "Vulnerability_scanner",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Application observations show concrete probing/path patterns and error responses.",
+        "stage_type": "application"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_0de6cab51bf75dccebc30b0a",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_141bd8b36458272f9db6a1e3",
+        "fine_label_backend_only": "Vulnerability_scanner",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Application observations show concrete probing/path patterns and error responses.",
+        "stage_type": "application"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_6cfbfbe79c31cb42a476f400",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_b88e046f9ae2cedba30fb515",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_7c2e6d08cf9a721bfe1fdc49",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_e7210aeb43ca9d795d2d2072",
+        "fine_label_backend_only": "Vulnerability_scanner",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Application observations show concrete probing/path patterns and error responses.",
+        "stage_type": "application"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_2732939ba469b67baaf10052",
+        "fine_label_backend_only": "SQL_injection",
+        "qwen_correct": true,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Sanitized Payload contains an explicit <SQL_EXPR> request pattern.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_f0d8a161b4b5e5c0d1fbfee5",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_058ce959ce4fb333aeb68999",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "payload"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_770972e1bba30ac9a1e0b99e",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_c54e3140814f083783e2c034",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_4f831180541eca0aa8901bae",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_fee154447a1870ea88b72669",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_f24e7c0ecdb1cadbea7fa416",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_9dee72309b9f0c644361aec3",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_5537f4832889556b0c4a8cef",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_38cf59f0c82c33e4a124b633",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_fad06617993ae927a0e85cc9",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_a5319e5850ac7a455c7128cc",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "knowledge"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_e6cdb97692c71255e3296295",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_e7ab5b858f81784697e88acc",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_c6b237b642b2281f37367bd1",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "packet"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_0da6696276bee14b85ccd64f",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_2b10f470090cf6a4ac78b2ef",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_933d929dae06e4259a328e26",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "packet"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_186d0a519e18838ef3e6539e",
+        "fine_label_backend_only": "Vulnerability_scanner",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "application"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_91439da97a9a12036d94078c",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "packet"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_2cd207736372e0eb3f749f03",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": true,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_ce57da1ee8780599dafcc34a",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Temporal observations show a high incomplete-handshake ratio and scanning diversity.",
+        "stage_type": "temporal"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_2c55d7b0eebc235440a25c46",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Temporal observations show a high incomplete-handshake ratio and scanning diversity.",
+        "stage_type": "temporal"
+      },
+      {
+        "deepseek_confidence": "high",
+        "evidence_state_id": "state_5d097a8d7c8a541b351f8620",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Temporal observations show a high incomplete-handshake ratio and scanning diversity.",
+        "stage_type": "temporal"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_669a859a4b814b6498394e55",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "EVIDENCE_SUPPORTED_CORRECT",
+        "review_rationale": "Temporal observations show a high incomplete-handshake ratio and scanning diversity.",
+        "stage_type": "knowledge"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_eb2680c194d9dd0d5b75b8cd",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_2f66cf9f491e56cc1abfa713",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_18548b673e114a9c172f73f3",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "LUCKY_GUESS_OR_UNCLEAR",
+        "review_rationale": "A single/incomplete connection or irrelevant Knowledge does not discriminate the fine class.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_3c6e4c21b4760df989fce738",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_47084a4332093085bcd28ac7",
+        "fine_label_backend_only": "Normal",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "packet"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_30558527f492802ee47b1224",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_5e665b0a090c475f60fbe562",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "LUCKY_GUESS_OR_UNCLEAR",
+        "review_rationale": "A single/incomplete connection or irrelevant Knowledge does not discriminate the fine class.",
+        "stage_type": "relation"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_b8fcbe32268f1f70faa258ba",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_60ca412d9daf2a6d0a779c7c",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_734d65df471267b2ac2d32d7",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "medium",
+        "evidence_state_id": "state_216eddb9823698f69173bd90",
+        "fine_label_backend_only": "Password",
+        "qwen_correct": false,
+        "review_category": "PLAUSIBLE_BUT_WEAK",
+        "review_rationale": "The model-safe pattern is compatible with the label but does not strongly exclude alternatives.",
+        "stage_type": "application"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_fb4f9c1e94f694bbffc267a0",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "LUCKY_GUESS_OR_UNCLEAR",
+        "review_rationale": "A single/incomplete connection or irrelevant Knowledge does not discriminate the fine class.",
+        "stage_type": "initial"
+      },
+      {
+        "deepseek_confidence": "low",
+        "evidence_state_id": "state_ba6604f21032bb263b375eb0",
+        "fine_label_backend_only": "Port_Scanning",
+        "qwen_correct": false,
+        "review_category": "LUCKY_GUESS_OR_UNCLEAR",
+        "review_rationale": "A single/incomplete connection or irrelevant Knowledge does not discriminate the fine class.",
+        "stage_type": "knowledge"
+      }
+    ],
+    "selection_conditioning_limitation": "Correct-prediction enrichment means reviewer proportions do not estimate full-sample prevalence.",
+    "selection_rule": "Teacher-insufficient + DeepSeek top1 correct + nonempty legal supporting IDs; both-model correct first; DeepSeek high next; seed-digest tie-break"
+  },
+  "stage_composition": {
+    "application": 24,
+    "initial": 111,
+    "knowledge": 25,
+    "packet": 20,
+    "payload": 31,
+    "relation": 58,
+    "temporal": 61
+  },
+  "sufficiency_contradiction": {
+    "by_class": {
+      "Port_Scanning": 3,
+      "SQL_injection": 8,
+      "Vulnerability_scanner": 4
+    },
+    "by_stage": {
+      "application": 4,
+      "payload": 8,
+      "temporal": 3
+    },
+    "count": 15,
+    "rate_over_teacher_insufficient": 0.05172413793103448,
+    "state_ids_backend_only": [
+      "state_ce57da1ee8780599dafcc34a",
+      "state_5d097a8d7c8a541b351f8620",
+      "state_2c55d7b0eebc235440a25c46",
+      "state_7c2e6d08cf9a721bfe1fdc49",
+      "state_6cfbfbe79c31cb42a476f400",
+      "state_42f864fd50de5a933a052d8a",
+      "state_2732939ba469b67baaf10052",
+      "state_0d97bb506cc05ea70328cd28",
+      "state_b88e046f9ae2cedba30fb515",
+      "state_0de6cab51bf75dccebc30b0a",
+      "state_d7d2a5ada0b36a9029ecb483",
+      "state_141bd8b36458272f9db6a1e3",
+      "state_819982d1fba1dd8cb51d12a4",
+      "state_d59d1285f1906658b58cf2ba",
+      "state_e7210aeb43ca9d795d2d2072"
+    ]
+  },
+  "teacher_sufficiency_by_stage": {
+    "application": {
+      "n": 24,
+      "teacher_sufficient": 9,
+      "teacher_sufficient_rate": 0.375
+    },
+    "initial": {
+      "n": 111,
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    "knowledge": {
+      "n": 25,
+      "teacher_sufficient": 4,
+      "teacher_sufficient_rate": 0.16
+    },
+    "packet": {
+      "n": 20,
+      "teacher_sufficient": 3,
+      "teacher_sufficient_rate": 0.15
+    },
+    "payload": {
+      "n": 31,
+      "teacher_sufficient": 13,
+      "teacher_sufficient_rate": 0.41935483870967744
+    },
+    "relation": {
+      "n": 58,
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    "temporal": {
+      "n": 61,
+      "teacher_sufficient": 11,
+      "teacher_sufficient_rate": 0.18032786885245902
+    }
+  },
+  "teacher_sufficiency_x_deepseek_top1": {
+    "teacher_false_blind_correct": 61,
+    "teacher_false_blind_wrong": 229,
+    "teacher_true_blind_correct": 20,
+    "teacher_true_blind_wrong": 20
+  }
+}
