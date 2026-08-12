@@ -1,0 +1,647 @@
+{
+  "BACKDOOR_FINE_CLASS_VIABILITY": "CONDITIONAL_ON_STRICT_PAST_CONTEXT_GT_60S",
+  "BASE_CORPUS_SHA256": "5b845cf9e5886e5e44fd46562135ba3eb5907de65fd8faf5d9b8777253149123",
+  "CAPTURE_TO_SESSION_LABEL_PROPAGATION_RISK": "HIGH",
+  "CAPTURE_WIDE_AUDIT_STATUS": "PASS_WITH_LIMITATIONS",
+  "CLASS_BALANCED_CONTEXT_SUPPORTED_CLASS_COUNT": 1,
+  "CLASS_BALANCED_PROPAGATION_RISK_DISTRIBUTION": {
+    "HIGH": 3,
+    "MEDIUM": 1
+  },
+  "DEEPSEEK_NEW_API_CALLS": 0,
+  "FORMAL_CORPUS_MODIFIED": false,
+  "FORMAL_SFT_STARTED": false,
+  "GENERIC_BACKGROUND_COUNT": 35517,
+  "GENERIC_BACKGROUND_RATE": 0.3334804326598062,
+  "PASSWORD_FINE_CLASS_VIABILITY": "VIABLE_WITH_SESSION_PAYLOAD_AND_PAST_CONTEXT",
+  "PAST_10S_RECOVERABLE_COUNT": 47298,
+  "PAST_10S_RECOVERABLE_RATE": 0.4440959963945016,
+  "PAST_60S_RECOVERABLE_COUNT": 47298,
+  "PAST_60S_RECOVERABLE_RATE": 0.4440959963945016,
+  "PAST_ONLY_CONTEXT_SALVAGEABILITY": "MEDIUM",
+  "QWEN_NEW_RUNS": 0,
+  "RANSOMWARE_FINE_CLASS_VIABILITY": "NOT_VIABLE_FROM_AVAILABLE_PCAP",
+  "TASK_REDEFINITION_REQUIRED": true,
+  "TOTAL_DERIVED_SESSIONS": 106504,
+  "UPLOADING_FINE_CLASS_VIABILITY": "NOT_VIABLE_FROM_AVAILABLE_PCAP",
+  "audit_version": "CAPTURE_WIDE_ATTACK_SIGNAL_AUDIT_V1",
+  "capture_run_structure": {
+    "captures_per_class": {
+      "Backdoor": 1,
+      "Password": 1,
+      "Ransomware": 1,
+      "Uploading": 1
+    },
+    "independent_run_stability_verifiable": false,
+    "reason": "one verified official source capture per target fine class"
+  },
+  "classes": [
+    {
+      "IP_session_count": 1424,
+      "application_protocol_session_distribution": {
+        "NONE": 1395,
+        "dns": 29
+      },
+      "application_signal_count": 0,
+      "application_signal_rate": 0.0,
+      "auth_related_session_count": null,
+      "auth_temporal_concentration": null,
+      "authentication_outcome_status_distribution": null,
+      "bidirectional_exchange_count": 874,
+      "capture_count": 1,
+      "capture_id_backend_only": "Attack_Backdoor",
+      "capture_inter_session_profile": {
+        "beacon_score": 0.0,
+        "interval_count": 1423,
+        "interval_cv": 18.668863558204755,
+        "interval_mean_seconds": 7.948734461716674,
+        "timestamp_count": 1424
+      },
+      "capture_to_session_label_propagation_risk": "HIGH",
+      "capture_wide_periodic_bidirectional_session_count": 42,
+      "capture_wide_periodic_established_relation_profiles_backend_only": [
+        {
+          "beacon_score": 0.9985268750403141,
+          "dominant_session_shape": {
+            "byte_count": 470,
+            "initiator_payload_bytes": 128,
+            "packet_count": 3,
+            "responder_payload_bytes": 144
+          },
+          "dominant_session_shape_count": 42,
+          "interval_count": 41,
+          "interval_cv": 0.0014731249596858442,
+          "interval_mean_seconds": 60.283528996676935,
+          "session_count": 42,
+          "source_target_service_ref_backend_only": "5fbf63794268aafdc16c056309729379dbcf15cfd87575ad5b7f8e3db7cd5486",
+          "timestamp_count": 42,
+          "unique_session_shape_count": 1
+        }
+      ],
+      "class": "Backdoor",
+      "contextual_attack_informative_count": 39,
+      "contextual_attack_informative_rate": 0.027387640449438203,
+      "derived_session_count": 1424,
+      "direct_attack_informative_count": 0,
+      "direct_attack_informative_rate": 0.0,
+      "duration_seconds": 11317.967966079712,
+      "encrypted_application_semantics": false,
+      "encrypted_application_semantics_count": 0,
+      "established_exchange_count": 42,
+      "generic_background_count": 1385,
+      "generic_background_rate": 0.9726123595505618,
+      "http_method_session_distribution": {},
+      "http_status_session_distribution": {},
+      "incomplete_handshake_session_count": 827,
+      "label_assignment_method_distribution": {
+        "VERIFIED_CAPTURE_FALLBACK": 1424
+      },
+      "max_relation_session_count": 46,
+      "max_repeated_auth_burst_size_10s": null,
+      "max_source_target_service_fanout_backend_only": 7,
+      "max_source_target_service_session_count": 831,
+      "max_target_service_source_fanin_backend_only": 2,
+      "mean_directional_byte_asymmetry": 0.4516779584086509,
+      "mean_packet_pattern_repetition_rate": 0.6883040390043255,
+      "network_observability": "PAST_CONTEXT_RECOVERABLE",
+      "non_IP_packet_count": 324,
+      "packet_count": 24914,
+      "past10s_recoverable_count": 0,
+      "past10s_recoverable_rate": 0.0,
+      "past60s_recoverable_count": 0,
+      "past60s_recoverable_rate": 0.0,
+      "payload_present_session_count": 92,
+      "payload_semantic_session_distribution": {},
+      "payload_signal_count": 0,
+      "payload_signal_rate": 0.0,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Backdoor_attack.pcap",
+      "pcap_size": 6694092,
+      "protocol_distribution": {
+        "ICMP": 1,
+        "IP_2": 137,
+        "IP_OTHER": 365,
+        "TCP": 24035,
+        "UDP": 52,
+        "arp": 324
+      },
+      "rare_source_target_service_relation_count": 3,
+      "recommended_observation_unit": "SESSION_PLUS_TEMPORAL",
+      "relation_count": 862,
+      "relation_signal_count": 39,
+      "relation_signal_rate": 0.027387640449438203,
+      "repeated_small_flow_count": 42,
+      "retain_as_fine_class": "true",
+      "script_content_direction_summary": {
+        "initiator_payload_bytes": 0,
+        "responder_payload_bytes": 0,
+        "session_count": 0
+      },
+      "source_target_service_relation_count": 23,
+      "target_only_support_count": 0,
+      "target_only_support_rate": 0.0,
+      "target_plus_past10s_support_count": 0,
+      "target_plus_past10s_support_rate": 0.0,
+      "target_plus_past60s_support_count": 0,
+      "target_plus_past60s_support_rate": 0.0,
+      "temporal_signal_count": 39,
+      "temporal_signal_rate": 0.027387640449438203,
+      "timeline_external": {
+        "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/timelines/Attack_Backdoor.parquet",
+        "sha256": "eee8b078135ef9303cca19eb7946448c0006df77ae08484d3deec93c2356490b",
+        "size_bytes": 125369
+      },
+      "unique_source_count_backend_only": 8,
+      "unique_target_count_backend_only": 16
+    },
+    {
+      "IP_session_count": 96081,
+      "application_protocol_session_distribution": {
+        "NONE": 25062,
+        "dns": 62,
+        "http": 70957
+      },
+      "application_signal_count": 0,
+      "application_signal_rate": 0.0,
+      "auth_related_session_count": 23650,
+      "auth_temporal_concentration": {
+        "active_span_fraction_of_capture": 0.999982586690747,
+        "active_span_seconds": 68504.45059800148,
+        "attempt_count": 23650,
+        "attempts_per_active_second": 0.34523304389058124
+      },
+      "authentication_outcome_status_distribution": {
+        "302": 23650
+      },
+      "bidirectional_exchange_count": 94627,
+      "capture_count": 1,
+      "capture_id_backend_only": "Attack_Password",
+      "capture_inter_session_profile": {
+        "beacon_score": 0.0,
+        "interval_count": 96080,
+        "interval_cv": 242.4448405460042,
+        "interval_mean_seconds": 0.7130059895194837,
+        "timestamp_count": 96081
+      },
+      "capture_to_session_label_propagation_risk": "MEDIUM",
+      "capture_wide_periodic_bidirectional_session_count": 0,
+      "capture_wide_periodic_established_relation_profiles_backend_only": [],
+      "class": "Password",
+      "contextual_attack_informative_count": 47298,
+      "contextual_attack_informative_rate": 0.4922721453773379,
+      "derived_session_count": 96081,
+      "direct_attack_informative_count": 23650,
+      "direct_attack_informative_rate": 0.24614648057368263,
+      "duration_seconds": 68505.64350795746,
+      "encrypted_application_semantics": false,
+      "encrypted_application_semantics_count": 0,
+      "established_exchange_count": 94621,
+      "generic_background_count": 25133,
+      "generic_background_rate": 0.2615813740489795,
+      "http_method_session_distribution": {
+        "GET": 47300,
+        "M-SEARCH": 5,
+        "POST": 23650
+      },
+      "http_status_session_distribution": {
+        "200": 47302,
+        "302": 23650
+      },
+      "incomplete_handshake_session_count": 0,
+      "label_assignment_method_distribution": {
+        "VERIFIED_CAPTURE_FALLBACK": 96081
+      },
+      "max_relation_session_count": 119,
+      "max_repeated_auth_burst_size_10s": 22676,
+      "max_source_target_service_fanout_backend_only": 20,
+      "max_source_target_service_session_count": 94498,
+      "max_target_service_source_fanin_backend_only": 2,
+      "mean_directional_byte_asymmetry": 0.37061536591046773,
+      "mean_packet_pattern_repetition_rate": 0.27072623307929944,
+      "network_observability": "MIXED",
+      "non_IP_packet_count": 408,
+      "packet_count": 1053893,
+      "past10s_recoverable_count": 47298,
+      "past10s_recoverable_rate": 0.4922721453773379,
+      "past60s_recoverable_count": 47298,
+      "past60s_recoverable_rate": 0.4922721453773379,
+      "payload_present_session_count": 71203,
+      "payload_semantic_session_distribution": {
+        "content_type": 47300,
+        "credential_structure": 23650,
+        "generic_payload": 47309,
+        "http_request": 70952,
+        "upload_method": 23650
+      },
+      "payload_signal_count": 23650,
+      "payload_signal_rate": 0.24614648057368263,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Password attacks.pcap",
+      "pcap_size": 194557494,
+      "protocol_distribution": {
+        "ICMP": 31,
+        "IP_2": 354,
+        "IP_OTHER": 968,
+        "TCP": 1051624,
+        "UDP": 508,
+        "arp": 408
+      },
+      "rare_source_target_service_relation_count": 12,
+      "recommended_observation_unit": "SESSION_PLUS_PAYLOAD",
+      "relation_count": 14326,
+      "relation_signal_count": 47298,
+      "relation_signal_rate": 0.4922721453773379,
+      "repeated_small_flow_count": 49767,
+      "retain_as_fine_class": "true",
+      "script_content_direction_summary": {
+        "initiator_payload_bytes": 0,
+        "responder_payload_bytes": 0,
+        "session_count": 0
+      },
+      "source_target_service_relation_count": 41,
+      "target_only_support_count": 23650,
+      "target_only_support_rate": 0.24614648057368263,
+      "target_plus_past10s_support_count": 70948,
+      "target_plus_past10s_support_rate": 0.7384186259510205,
+      "target_plus_past60s_support_count": 70948,
+      "target_plus_past60s_support_rate": 0.7384186259510205,
+      "temporal_signal_count": 47298,
+      "temporal_signal_rate": 0.4922721453773379,
+      "timeline_external": {
+        "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/timelines/Attack_Password.parquet",
+        "sha256": "9c1ed87e60d00bb524c27c5748fabe81567389340c9bdd7ae50e4a76d9800087",
+        "size_bytes": 5914215
+      },
+      "unique_source_count_backend_only": 11,
+      "unique_target_count_backend_only": 32
+    },
+    {
+      "IP_session_count": 7635,
+      "application_protocol_session_distribution": {
+        "NONE": 5728,
+        "dns": 2,
+        "http": 1905
+      },
+      "application_signal_count": 0,
+      "application_signal_rate": 0.0,
+      "auth_related_session_count": null,
+      "auth_temporal_concentration": null,
+      "authentication_outcome_status_distribution": null,
+      "bidirectional_exchange_count": 7584,
+      "capture_count": 1,
+      "capture_id_backend_only": "Attack_Uploading",
+      "capture_inter_session_profile": {
+        "beacon_score": 0.0,
+        "interval_count": 7634,
+        "interval_cv": 17.654673392044188,
+        "interval_mean_seconds": 0.0656431698817872,
+        "timestamp_count": 7635
+      },
+      "capture_to_session_label_propagation_risk": "HIGH",
+      "capture_wide_periodic_bidirectional_session_count": 0,
+      "capture_wide_periodic_established_relation_profiles_backend_only": [],
+      "class": "Uploading",
+      "contextual_attack_informative_count": 0,
+      "contextual_attack_informative_rate": 0.0,
+      "derived_session_count": 7635,
+      "direct_attack_informative_count": 0,
+      "direct_attack_informative_rate": 0.0,
+      "duration_seconds": 505.3178610801697,
+      "encrypted_application_semantics": false,
+      "encrypted_application_semantics_count": 0,
+      "established_exchange_count": 1926,
+      "generic_background_count": 7635,
+      "generic_background_rate": 1.0,
+      "http_method_session_distribution": {
+        "GET": 1904
+      },
+      "http_status_session_distribution": {
+        "200": 1904
+      },
+      "incomplete_handshake_session_count": 5654,
+      "label_assignment_method_distribution": {
+        "VERIFIED_CAPTURE_FALLBACK": 7635
+      },
+      "max_relation_session_count": 5,
+      "max_repeated_auth_burst_size_10s": null,
+      "max_source_target_service_fanout_backend_only": 6,
+      "max_source_target_service_session_count": 5674,
+      "max_target_service_source_fanin_backend_only": 2,
+      "mean_directional_byte_asymmetry": 0.1012057060194938,
+      "mean_packet_pattern_repetition_rate": 0.4569185396622614,
+      "network_observability": "NETWORK_OBSERVABILITY_LIMITED",
+      "non_IP_packet_count": 8,
+      "packet_count": 37644,
+      "past10s_recoverable_count": 0,
+      "past10s_recoverable_rate": 0.0,
+      "past60s_recoverable_count": 0,
+      "past60s_recoverable_rate": 0.0,
+      "payload_present_session_count": 1934,
+      "payload_semantic_session_distribution": {
+        "generic_payload": 20,
+        "http_request": 1904,
+        "script_content": 20
+      },
+      "payload_signal_count": 20,
+      "payload_signal_rate": 0.0026195153896529143,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Uploading attack.pcap",
+      "pcap_size": 5488666,
+      "protocol_distribution": {
+        "ICMP": 8,
+        "IP_2": 12,
+        "IP_OTHER": 33,
+        "TCP": 37573,
+        "UDP": 10,
+        "arp": 8
+      },
+      "rare_source_target_service_relation_count": 9,
+      "recommended_observation_unit": "NOT_RECOVERABLE_FROM_NETWORK",
+      "relation_count": 7600,
+      "relation_signal_count": 0,
+      "relation_signal_rate": 0.0,
+      "repeated_small_flow_count": 1231,
+      "retain_as_fine_class": "false",
+      "script_content_direction_summary": {
+        "initiator_payload_bytes": 41540,
+        "responder_payload_bytes": 1836356,
+        "session_count": 20
+      },
+      "source_target_service_relation_count": 22,
+      "target_only_support_count": 0,
+      "target_only_support_rate": 0.0,
+      "target_plus_past10s_support_count": 0,
+      "target_plus_past10s_support_rate": 0.0,
+      "target_plus_past60s_support_count": 0,
+      "target_plus_past60s_support_rate": 0.0,
+      "temporal_signal_count": 0,
+      "temporal_signal_rate": 0.0,
+      "timeline_external": {
+        "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/timelines/Attack_Uploading.parquet",
+        "sha256": "fa8d3290fe8166bc97c26686911ea0f9cf8254a54d4c512d4af1ffba7239dc85",
+        "size_bytes": 648844
+      },
+      "unique_source_count_backend_only": 8,
+      "unique_target_count_backend_only": 15
+    },
+    {
+      "IP_session_count": 1364,
+      "application_protocol_session_distribution": {
+        "NONE": 1327,
+        "dns": 37
+      },
+      "application_signal_count": 0,
+      "application_signal_rate": 0.0,
+      "auth_related_session_count": null,
+      "auth_temporal_concentration": null,
+      "authentication_outcome_status_distribution": null,
+      "bidirectional_exchange_count": 582,
+      "capture_count": 1,
+      "capture_id_backend_only": "Attack_Ransomware",
+      "capture_inter_session_profile": {
+        "beacon_score": 0.0,
+        "interval_count": 1363,
+        "interval_cv": 34.33743216180807,
+        "interval_mean_seconds": 85.50875464048967,
+        "timestamp_count": 1364
+      },
+      "capture_to_session_label_propagation_risk": "HIGH",
+      "capture_wide_periodic_bidirectional_session_count": 0,
+      "capture_wide_periodic_established_relation_profiles_backend_only": [],
+      "class": "Ransomware",
+      "contextual_attack_informative_count": 0,
+      "contextual_attack_informative_rate": 0.0,
+      "derived_session_count": 1364,
+      "direct_attack_informative_count": 0,
+      "direct_attack_informative_rate": 0.0,
+      "duration_seconds": 116550.44358992577,
+      "encrypted_application_semantics": false,
+      "encrypted_application_semantics_count": 0,
+      "established_exchange_count": 10,
+      "generic_background_count": 1364,
+      "generic_background_rate": 1.0,
+      "http_method_session_distribution": {},
+      "http_status_session_distribution": {},
+      "incomplete_handshake_session_count": 570,
+      "label_assignment_method_distribution": {
+        "VERIFIED_CAPTURE_FALLBACK": 1364
+      },
+      "max_relation_session_count": 65,
+      "max_repeated_auth_burst_size_10s": null,
+      "max_source_target_service_fanout_backend_only": 10,
+      "max_source_target_service_session_count": 572,
+      "max_target_service_source_fanin_backend_only": 2,
+      "mean_directional_byte_asymmetry": 0.6207124950932215,
+      "mean_packet_pattern_repetition_rate": 0.7880098527992407,
+      "network_observability": "NETWORK_OBSERVABILITY_LIMITED",
+      "non_IP_packet_count": 505,
+      "packet_count": 11030,
+      "past10s_recoverable_count": 0,
+      "past10s_recoverable_rate": 0.0,
+      "past60s_recoverable_count": 0,
+      "past60s_recoverable_rate": 0.0,
+      "payload_present_session_count": 65,
+      "payload_semantic_session_distribution": {},
+      "payload_signal_count": 0,
+      "payload_signal_rate": 0.0,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Ransomware attack.pcap",
+      "pcap_size": 2842688,
+      "protocol_distribution": {
+        "ICMP": 5,
+        "IP_2": 195,
+        "IP_OTHER": 529,
+        "TCP": 9691,
+        "UDP": 105,
+        "arp": 505
+      },
+      "rare_source_target_service_relation_count": 3,
+      "recommended_observation_unit": "NOT_RECOVERABLE_FROM_NETWORK",
+      "relation_count": 629,
+      "relation_signal_count": 0,
+      "relation_signal_rate": 0.0,
+      "repeated_small_flow_count": 10,
+      "retain_as_fine_class": "false",
+      "script_content_direction_summary": {
+        "initiator_payload_bytes": 0,
+        "responder_payload_bytes": 0,
+        "session_count": 0
+      },
+      "source_target_service_relation_count": 24,
+      "target_only_support_count": 0,
+      "target_only_support_rate": 0.0,
+      "target_plus_past10s_support_count": 0,
+      "target_plus_past10s_support_rate": 0.0,
+      "target_plus_past60s_support_count": 0,
+      "target_plus_past60s_support_rate": 0.0,
+      "temporal_signal_count": 0,
+      "temporal_signal_rate": 0.0,
+      "timeline_external": {
+        "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/timelines/Attack_Ransomware.parquet",
+        "sha256": "556381621e67edf5ea133202d857fd5ff170e436263c3b8346a9476c62ff7480",
+        "size_bytes": 115202
+      },
+      "unique_source_count_backend_only": 8,
+      "unique_target_count_backend_only": 19
+    }
+  ],
+  "external_aggregate": {
+    "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/aggregate.json",
+    "sha256": "cb2d44d5c0da95f90906bf252c408843f1d00ff0c6f5a8101dd1f2e48e88c2c9",
+    "size_bytes": 25251
+  },
+  "formal_corpus_sha256_after": "5b845cf9e5886e5e44fd46562135ba3eb5907de65fd8faf5d9b8777253149123",
+  "limitations": [
+    "One official attack capture per class prevents cross-run stability validation.",
+    "Deterministic coverage is not model accuracy or a formal paper result.",
+    "Verified pure capture provenance does not imply per-session fine semantics."
+  ],
+  "parser_extractor_loss": {
+    "Backdoor": [
+      "TEMPORAL_FEATURE_MISSING",
+      "RELATION_FEATURE_MISSING"
+    ],
+    "Password": [
+      "PAYLOAD_NOT_ALIGNED",
+      "APPLICATION_NOT_PARSED",
+      "TEMPORAL_FEATURE_MISSING"
+    ],
+    "Ransomware": [],
+    "Uploading": [
+      "APPLICATION_NOT_PARSED",
+      "PAYLOAD_NOT_ALIGNED"
+    ],
+    "interpretation": "listed only where raw observations exist; absence of a decisive raw signal is not extractor failure"
+  },
+  "raw_capture_checkpoints": [
+    {
+      "artifacts": {
+        "events": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/events/Attack_Backdoor.parquet",
+          "sha256": "9dba0b1f7594a8278dd356784b581769451d8967d973cf37f5657088e1f2395a",
+          "size_bytes": 4816
+        },
+        "raw_sessions": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/raw_sessions/Attack_Backdoor.parquet",
+          "sha256": "70e709825473afb0c38b323464514998a2dbf446a52c09477386096d26174b2a",
+          "size_bytes": 126226
+        }
+      },
+      "capture_id_backend_only": "Attack_Backdoor",
+      "duration_seconds": 11317.967966079712,
+      "event_distribution": {
+        "ARP": 324
+      },
+      "non_IP_packet_count": 324,
+      "packet_count": 24914,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Backdoor_attack.pcap",
+      "pcap_sha256": "2f22c751442017f745397d517df9837da378362f670ad238faeac0decd58e3e9",
+      "protocol_distribution": {
+        "ICMP": 1,
+        "IP_2": 137,
+        "IP_OTHER": 365,
+        "TCP": 24035,
+        "UDP": 52,
+        "arp": 324
+      }
+    },
+    {
+      "artifacts": {
+        "events": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/events/Attack_Password.parquet",
+          "sha256": "e30c5ace315356745e187d68908769d15d800a85508f86dc3d5a63ff55929d5f",
+          "size_bytes": 5933
+        },
+        "raw_sessions": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/raw_sessions/Attack_Password.parquet",
+          "sha256": "db4a0469bfbf93a1fe3685bdc95472100acf22292ea901a041e6bcafcd13d2aa",
+          "size_bytes": 6720076
+        }
+      },
+      "capture_id_backend_only": "Attack_Password",
+      "duration_seconds": 68505.64350795746,
+      "event_distribution": {
+        "ARP": 408
+      },
+      "non_IP_packet_count": 408,
+      "packet_count": 1053893,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Password attacks.pcap",
+      "pcap_sha256": "5e2393acebb92806205eb87bff5dd82cdece3cd183e760b1cf737ed1c8a663c2",
+      "protocol_distribution": {
+        "ICMP": 31,
+        "IP_2": 354,
+        "IP_OTHER": 968,
+        "TCP": 1051624,
+        "UDP": 508,
+        "arp": 408
+      }
+    },
+    {
+      "artifacts": {
+        "events": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/events/Attack_Uploading.parquet",
+          "sha256": "9004c32c3794bc1f8537ee4f145316fefd12f534e0055541b157d78093c6c6ba",
+          "size_bytes": 2292
+        },
+        "raw_sessions": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/raw_sessions/Attack_Uploading.parquet",
+          "sha256": "873121efb3081332949d5a63ccd5ab24bc746bc4d1d081a8b544d779f89e1125",
+          "size_bytes": 703188
+        }
+      },
+      "capture_id_backend_only": "Attack_Uploading",
+      "duration_seconds": 505.3178610801697,
+      "event_distribution": {
+        "ARP": 8
+      },
+      "non_IP_packet_count": 8,
+      "packet_count": 37644,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Uploading attack.pcap",
+      "pcap_sha256": "29a16de3410e3c2ff5c3dad8a54d0092dd98c63ea3c13994f4416414bd74d490",
+      "protocol_distribution": {
+        "ICMP": 8,
+        "IP_2": 12,
+        "IP_OTHER": 33,
+        "TCP": 37573,
+        "UDP": 10,
+        "arp": 8
+      }
+    },
+    {
+      "artifacts": {
+        "events": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/events/Attack_Ransomware.parquet",
+          "sha256": "c25d6521a42cf899f5d2e28aad6acad2d8bb2337632f493c82b8cb1637c141f6",
+          "size_bytes": 6259
+        },
+        "raw_sessions": {
+          "path": "/root/autodl-tmp/experiments/capture_wide_signal_audit_v1/raw_sessions/Attack_Ransomware.parquet",
+          "sha256": "618e02261a1057dd6de429a83bb1f9173995665f2c4469a286600c1728dd33a7",
+          "size_bytes": 115390
+        }
+      },
+      "capture_id_backend_only": "Attack_Ransomware",
+      "duration_seconds": 116550.44358992577,
+      "event_distribution": {
+        "ARP": 505
+      },
+      "non_IP_packet_count": 505,
+      "packet_count": 11030,
+      "pcap_path_backend_only": "/root/autodl-tmp/datasets/edge_iiotset/raw/Edge-IIoTset dataset/Attack traffic/Ransomware attack.pcap",
+      "pcap_sha256": "f38a731096f61391384adad975537de2de6cea89f38e1c1421e5b328f4b17116",
+      "protocol_distribution": {
+        "ICMP": 5,
+        "IP_2": 195,
+        "IP_OTHER": 529,
+        "TCP": 9691,
+        "UDP": 105,
+        "arp": 505
+      }
+    }
+  ],
+  "session_label_pipeline": {
+    "capture_membership_used_as_attack_signal": false,
+    "formal_frame_direct_mapping_available": false,
+    "observed": "VERIFIED_SINGLE_LABEL_CAPTURE_TO_ALL_WITHIN_CAPTURE_SESSIONS"
+  },
+  "u_final_isolation_check": {
+    "content_inspected": false,
+    "status": "PASS"
+  }
+}
