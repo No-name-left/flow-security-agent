@@ -180,7 +180,7 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 12. Git与环境提示
 
-本轮实现当前位于`feat/task-v2-clean-dataset`，只有完整回归、secret/large-file审查及最终preflight PASS后才允许显式commit并`--ff-only`落地local main；禁止push。最终报告入口为`reports/training_readiness/observable_dataset_v3_final_pretraining_acceptance.md`；旧acceptance报告作为历史审计记录保留。
+本轮实现通过`feat/task-v2-clean-dataset`完成完整回归、secret/large-file审查及最终preflight后显式commit，并按仓库策略`--ff-only`落地local main；未push。最终报告入口为`reports/training_readiness/observable_dataset_v3_final_pretraining_acceptance.md`；旧acceptance报告作为历史审计记录保留。
 
 数据环境：`/root/autodl-tmp/conda/flow-data`。Qwen training/runtime环境：`/root/autodl-tmp/conda/qwen35-runtime`。Production v2 root通过现有`ARTIFACT_ROOT`约定解析，正式v3 Git-external root为`$ARTIFACT_ROOT/near_pretraining_v3`；GitHub CI无外部资产时真实数据测试安全skip。DeepSeek只读runtime环境中的`DEEPSEEK_API_KEY`，不得写入repo/report/log。
 
