@@ -24,7 +24,7 @@ from .corpus import sha256_file
 from .harness import POOL_MEAN, TrafficExpertTrainingHarness, attach_lora, load_near_class_map
 
 
-LAUNCHER_VERSION = "FORMAL_NEAR_SFT_LAUNCHER_V1"
+LAUNCHER_VERSION = "FORMAL_NEAR_SFT_LAUNCHER_V2"
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -353,6 +353,45 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def seed_training_runtime(seed: int) -> None:
+    """Seed every RNG used by the formal manual data/optimization loop."""
+
+    import numpy as np
+    import torch
+
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+
+def capture_runtime_rng_state() -> dict[str, Any]:
+    import numpy as np
+    import torch
+
+    return {
+        "torch": torch.get_rng_state(),
+        "cuda": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],
+        "python": random.getstate(),
+        "numpy": np.random.get_state(),
+    }
+
+
+def restore_runtime_rng_state(value: dict[str, Any]) -> None:
+    import numpy as np
+    import torch
+
+    required = {"torch", "cuda", "python", "numpy"}
+    if set(value) != required:
+        raise RuntimeError(f"checkpoint RNG state is incomplete: {sorted(set(value))}")
+    torch.set_rng_state(value["torch"])
+    if torch.cuda.is_available():
+        torch.cuda.set_rng_state_all(value["cuda"])
+    random.setstate(value["python"])
+    np.random.set_state(value["numpy"])
+
+
 def initialize_run_directory(
     output_root: Path,
     run_id: str,
@@ -428,14 +467,7 @@ def _save_checkpoint(
     )
     torch.save(optimizer.state_dict(), checkpoint / "optimizer.pt")
     torch.save(scheduler.state_dict(), checkpoint / "scheduler.pt")
-    torch.save(
-        {
-            "torch": torch.get_rng_state(),
-            "cuda": torch.cuda.get_rng_state_all(),
-            "python": random.getstate(),
-        },
-        checkpoint / "rng_state.pt",
-    )
+    torch.save(capture_runtime_rng_state(), checkpoint / "rng_state.pt")
     _atomic_json(checkpoint / "trainer_state.json", trainer_state)
     _atomic_json(checkpoint / "checkpoint_manifest.json", {**metadata, **trainer_state})
     checkpoints = sorted(run_root.glob("checkpoint-step-*"))
@@ -452,41 +484,39 @@ def _load_records(path: Path, model: Any) -> list[Any]:
     ]
 
 
-def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path | None) -> Path:
+def build_training_runtime(
+    config: dict[str, Any],
+    paths: dict[str, Path],
+    *,
+    class_count: int,
+    total_steps: int,
+    checkpoint: Path | None = None,
+) -> dict[str, Any]:
+    """Instantiate the one formal BF16 LoRA + Fine Head training runtime."""
+
     import torch
     from peft import PeftModel
     from safetensors.torch import load_file
-    from transformers import AutoModelForImageTextToText, AutoTokenizer, get_cosine_schedule_with_warmup
+    from transformers import (
+        AutoModelForImageTextToText,
+        AutoTokenizer,
+        get_cosine_schedule_with_warmup,
+    )
 
-    config_path = Path(config_path).resolve()
-    config = _load_yaml(config_path)
-    paths = resolve_formal_paths(config)
-    metadata = formal_preflight(config_path)
-    run_id = run_id or (
-        "near-sft-v1-"
-        + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-        + "-"
-        + metadata["corpus_sha256"][:8]
-    )
-    run_root = initialize_run_directory(
-        paths["output_root"], run_id, metadata, config_path, resume=resume
-    )
-    classes, class_map = load_near_class_map(paths["preset_manifest"])
-    records = _load_records(paths["corpus"], _configured_sft_record_model(config))
-    validation = _load_records(paths["validation"], NearValidationRecordV1)
+    if class_count <= 1 or total_steps <= 0:
+        raise ValueError("formal training runtime requires classes and optimizer steps")
+    seed_training_runtime(int(config["schedule"]["seed"]))
     tokenizer = AutoTokenizer.from_pretrained(paths["model_root"], local_files_only=True)
-    torch.manual_seed(metadata["seed"])
-    random.seed(metadata["seed"])
-
     base = AutoModelForImageTextToText.from_pretrained(
         paths["model_root"],
         dtype=torch.bfloat16,
         device_map={"": 0},
         local_files_only=True,
     )
-    if resume:
-        checkpoint = sorted(Path(resume).glob("checkpoint-step-*"))[-1]
-        base = PeftModel.from_pretrained(base, checkpoint / "adapter", is_trainable=True)
+    if checkpoint is not None:
+        base = PeftModel.from_pretrained(
+            base, Path(checkpoint) / "adapter", is_trainable=True
+        )
     else:
         base = attach_lora(
             base,
@@ -501,9 +531,11 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
     harness = TrafficExpertTrainingHarness(
         base,
         hidden_size=int(config["architecture"]["hidden_size"]),
-        num_classes=len(classes),
+        num_classes=class_count,
         pooling_method=POOL_MEAN,
-        classification_loss_weight=float(config["architecture"]["classification_loss_weight"]),
+        classification_loss_weight=float(
+            config["architecture"]["classification_loss_weight"]
+        ),
         evidence_loss_weight=float(config["architecture"]["evidence_lm_loss_weight"]),
     )
     harness.fine_head.to(device="cuda", dtype=torch.bfloat16)
@@ -512,25 +544,142 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
         lr=float(config["optimizer"]["learning_rate"]),
         weight_decay=float(config["optimizer"]["weight_decay"]),
     )
-    accumulation = int(config["schedule"]["gradient_accumulation_steps"])
-    epochs = int(config["schedule"]["epochs"])
-    total_steps = (len(records) * epochs + accumulation - 1) // accumulation
     scheduler = get_cosine_schedule_with_warmup(
         optimizer,
         num_warmup_steps=int(total_steps * float(config["optimizer"]["warmup_ratio"])),
         num_training_steps=total_steps,
     )
-    state = {"epoch": 0, "next_record_index": 0, "optimizer_step": 0, "best_macro_f1": -1.0}
-    if resume:
-        checkpoint = sorted(Path(resume).glob("checkpoint-step-*"))[-1]
+    state = {
+        "epoch": 0,
+        "next_record_index": 0,
+        "optimizer_step": 0,
+        "best_macro_f1": -1.0,
+    }
+    if checkpoint is not None:
+        checkpoint = Path(checkpoint)
         harness.fine_head.load_state_dict(load_file(checkpoint / "fine_head.safetensors"))
-        optimizer.load_state_dict(torch.load(checkpoint / "optimizer.pt", map_location="cuda"))
-        scheduler.load_state_dict(torch.load(checkpoint / "scheduler.pt", map_location="cuda"))
-        saved_rng = torch.load(checkpoint / "rng_state.pt", map_location="cpu")
-        torch.set_rng_state(saved_rng["torch"])
-        torch.cuda.set_rng_state_all(saved_rng["cuda"])
-        random.setstate(saved_rng["python"])
+        optimizer.load_state_dict(
+            torch.load(
+                checkpoint / "optimizer.pt",
+                map_location="cuda",
+                weights_only=False,
+            )
+        )
+        scheduler.load_state_dict(
+            torch.load(
+                checkpoint / "scheduler.pt",
+                map_location="cuda",
+                weights_only=False,
+            )
+        )
+        saved_rng = torch.load(
+            checkpoint / "rng_state.pt", map_location="cpu", weights_only=False
+        )
+        restore_runtime_rng_state(saved_rng)
         state = _read_json(checkpoint / "trainer_state.json")
+    return {
+        "tokenizer": tokenizer,
+        "harness": harness,
+        "optimizer": optimizer,
+        "scheduler": scheduler,
+        "state": state,
+    }
+
+
+def forward_training_record(
+    harness: Any,
+    tokenizer: Any,
+    record: SFTRecordV1 | SFTRecordV2,
+    class_map: dict[str, int],
+    *,
+    max_length: int,
+    loss_divisor: int,
+) -> tuple[dict[str, Any], dict[str, list[int]]]:
+    """Run the exact formal encode/forward/backward micro-step."""
+
+    import torch
+
+    if loss_divisor <= 0:
+        raise ValueError("loss divisor must be positive")
+    encoded = _encode_sft(tokenizer, record, max_length)
+    input_ids = torch.tensor([encoded["input_ids"]], device="cuda")
+    attention = torch.ones_like(input_ids)
+    output = harness(
+        input_ids=input_ids,
+        attention_mask=attention,
+        classification_attention_mask=torch.tensor(
+            [encoded["classification_mask"]], device="cuda"
+        ),
+        lm_labels=torch.tensor([encoded["lm_labels"]], device="cuda"),
+        fine_labels=torch.tensor([class_map[record.fine_label]], device="cuda"),
+        classification_ce_eligible=torch.tensor(
+            [record.classification_ce_eligible], device="cuda"
+        ),
+        record_weights=torch.tensor([record.session_weight], device="cuda"),
+    )
+    (output["loss"] / loss_divisor).backward()
+    return output, encoded
+
+
+def validation_classification_forward(
+    harness: Any,
+    tokenizer: Any,
+    item: NearValidationRecordV1,
+    class_map: dict[str, int],
+) -> tuple[int, int, int]:
+    import torch
+
+    ids = tokenizer(
+        item.serialized_model_input,
+        add_special_tokens=True,
+        return_tensors="pt",
+    )
+    input_ids = ids["input_ids"].to("cuda")
+    attention = ids["attention_mask"].to("cuda")
+    with torch.no_grad():
+        result = harness(input_ids=input_ids, attention_mask=attention)
+    return (
+        int(result["fine_logits"].argmax(dim=-1).item()),
+        _validated_class_index(item, class_map, asset_name="validation corpus"),
+        int(input_ids.shape[1]),
+    )
+
+
+def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path | None) -> Path:
+    import torch
+
+    config_path = Path(config_path).resolve()
+    config = _load_yaml(config_path)
+    paths = resolve_formal_paths(config)
+    metadata = formal_preflight(config_path)
+    run_id = run_id or (
+        "near-sft-v3-"
+        + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+        + "-"
+        + metadata["corpus_sha256"][:8]
+    )
+    run_root = initialize_run_directory(
+        paths["output_root"], run_id, metadata, config_path, resume=resume
+    )
+    classes, class_map = load_near_class_map(paths["preset_manifest"])
+    records = _load_records(paths["corpus"], _configured_sft_record_model(config))
+    validation = _load_records(paths["validation"], NearValidationRecordV1)
+    accumulation = int(config["schedule"]["gradient_accumulation_steps"])
+    epochs = int(config["schedule"]["epochs"])
+    total_steps = (len(records) * epochs + accumulation - 1) // accumulation
+    checkpoint = sorted(Path(resume).glob("checkpoint-step-*"))[-1] if resume else None
+    runtime = build_training_runtime(
+        config,
+        paths,
+        class_count=len(classes),
+        total_steps=total_steps,
+        checkpoint=checkpoint,
+    )
+    tokenizer = runtime["tokenizer"]
+    harness = runtime["harness"]
+    optimizer = runtime["optimizer"]
+    scheduler = runtime["scheduler"]
+    state = runtime["state"]
 
     max_length = int(config["schedule"]["max_sequence_length"])
     save_steps = int(config["schedule"]["save_steps"])
@@ -542,23 +691,14 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
         start = int(state["next_record_index"]) if epoch == int(state["epoch"]) else 0
         for position in range(start, len(order)):
             record = records[order[position]]
-            encoded = _encode_sft(tokenizer, record, max_length)
-            input_ids = torch.tensor([encoded["input_ids"]], device="cuda")
-            attention = torch.ones_like(input_ids)
-            output = harness(
-                input_ids=input_ids,
-                attention_mask=attention,
-                classification_attention_mask=torch.tensor(
-                    [encoded["classification_mask"]], device="cuda"
-                ),
-                lm_labels=torch.tensor([encoded["lm_labels"]], device="cuda"),
-                fine_labels=torch.tensor([class_map[record.fine_label]], device="cuda"),
-                classification_ce_eligible=torch.tensor(
-                    [record.classification_ce_eligible], device="cuda"
-                ),
-                record_weights=torch.tensor([record.session_weight], device="cuda"),
+            forward_training_record(
+                harness,
+                tokenizer,
+                record,
+                class_map,
+                max_length=max_length,
+                loss_divisor=accumulation,
             )
-            (output["loss"] / accumulation).backward()
             if (position + 1) % accumulation == 0 or position + 1 == len(order):
                 torch.nn.utils.clip_grad_norm_(
                     [parameter for parameter in harness.parameters() if parameter.requires_grad],
@@ -588,20 +728,12 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
         harness.eval()
         predictions: list[int] = []
         labels: list[int] = []
-        with torch.no_grad():
-            for item in validation:
-                ids = tokenizer(
-                    item.serialized_model_input,
-                    add_special_tokens=True,
-                    return_tensors="pt",
-                )
-                input_ids = ids["input_ids"].to("cuda")
-                attention = ids["attention_mask"].to("cuda")
-                result = harness(input_ids=input_ids, attention_mask=attention)
-                predictions.append(int(result["fine_logits"].argmax(dim=-1).item()))
-                labels.append(
-                    _validated_class_index(item, class_map, asset_name="validation corpus")
-                )
+        for item in validation:
+            prediction, label, _length = validation_classification_forward(
+                harness, tokenizer, item, class_map
+            )
+            predictions.append(prediction)
+            labels.append(label)
         macro_f1 = _macro_f1(predictions, labels, len(classes))
         state.update(
             {

@@ -156,7 +156,7 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 10. 已实现与未实现
 
-已实现：Production与split；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；Transformers/PEFT training harness、dynamic Linear Fine Head、真实LoRA inventory；Dataset v3/Evidence-v2；Teacher-v2与corpus-v3；generic RAG KB/index；真实9B两步可逆dry-run与U_final隔离audit。旧PLAN_B/22,957 snapshot/6,000 RL pool仅为historical。
+已实现：Production与split；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；Transformers/PEFT training harness、dynamic Linear Fine Head、真实LoRA inventory；Dataset v3/Evidence-v2；Teacher-v2与corpus-v3；generic RAG KB/index；正式训练代码路径的真实9B BF16 LoRA四步disposable runtime smoke、checkpoint完整恢复与U_final隔离audit。旧PLAN_B/22,957 snapshot/6,000 RL pool仅为historical。
 
 历史DEC-0020 acceptance曾验证Teacher V3 22,957/22,957及V2 corpus 22,957 records / 16,979 sessions，现已superseded。当前DEC-0022 acceptance验证Teacher-v2 20,807/20,807、formal corpus 14,350 records / 11,958 sessions、3,231 EXACT_EVAL_CLEAN validation、token/weight/label/isolation/plan Gates。未完成/未运行：formal online Runtime Application/Payload/RAG tool wiring、正式传统/Raw baseline、SFT、GRPO、Independent Unknown、Agent benchmark、Experience/Class Memory实验与论文结果。
 
@@ -170,13 +170,13 @@ Experience Memory只存externally verified TRAIN `State→Action→Outcome`，va
 
 ## 11. 下一实施阶段与停止规则
 
-**CURRENT STOP POINT：FORMAL_NEAR_SFT_READY。**
+**CURRENT STOP POINT：FORMAL_NEAR_SFT_RUNTIME_PREFLIGHT_PASS。**
 
 `CLASSIFICATION_SUFFICIENCY_DECOUPLED_MULTI_GAP_V2`已冻结：每个formal TRAIN session恰有一个Basic-v2 primary计算classification CE，无论Teacher `evidence_sufficient`；2,392个controlled richer auxiliary仅训练Evidence LM并mask CE。GT保持backend-only，不进入serialized input、Prompt、RAG query、Payload或model-visible metadata。
 
 历史Teacher V3/V2 corpus统计为250 pilot、22,957 bulk、16,979 sessions及11类，明确只作superseded审计证据。正式Teacher-v2为40-state pilot与20,807/20,807 bulk、quarantine 0；formal trajectory为14,350 records / 11,958 sessions / 6类，token max 4,794<8,192，overflow/label collision/backend identity/GT-key/U_final均为0，120-record分层可读审计PASS。
 
-旧`NEAR_SFT_CONFIG_V1`保持`formal_run_authorized=false`。新`NEAR_SFT_CONFIG_V2`指向六类corpus与EXACT_EVAL_CLEAN validation；全部硬Gate和plan consistency已通过。下一任务是`START_FORMAL_NEAR_MULTI_TASK_SFT`；仍禁止提前运行GRPO、Unknown、U_final、Agent、Far/Mixed/IoT-23或few-shot实验。
+旧`NEAR_SFT_CONFIG_V1`保持`formal_run_authorized=false`。新`NEAR_SFT_CONFIG_V2`指向六类corpus与EXACT_EVAL_CLEAN validation；全部硬Gate和plan consistency已通过。2026-08-13真实runtime preflight确认base/LM Head冻结、LoRA/Fine Head梯度与optimizer边界、session weighting、多任务loss、BF16显存、checkpoint恢复和validation路径均PASS；formal output仍未创建，`FORMAL_SFT_STARTED=false`。报告为`reports/training_readiness/formal_near_multitask_sft_runtime_preflight.md`。下一任务是`START_FORMAL_NEAR_MULTI_TASK_SFT`；仍禁止提前运行GRPO、Unknown、U_final、Agent、Far/Mixed/IoT-23或few-shot实验。
 
 ## 12. Git与环境提示
 

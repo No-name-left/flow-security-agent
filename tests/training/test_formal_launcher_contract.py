@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import random
 from pathlib import Path
 
 import pytest
@@ -8,8 +9,11 @@ import yaml
 
 from flowsec.training.train_near_sft import (
     LAUNCHER_VERSION,
+    capture_runtime_rng_state,
     formal_preflight,
     initialize_run_directory,
+    restore_runtime_rng_state,
+    seed_training_runtime,
     validate_formal_record_contract,
     validate_resume_metadata,
 )
@@ -108,6 +112,31 @@ def test_run_directory_refuses_overwrite_and_resume_is_digest_strict(tmp_path: P
     changed_audit = {**_metadata(), "audit_digests": {"teacher_quality_manifest": "2" * 64}}
     with pytest.raises(RuntimeError, match="audit_digests"):
         validate_resume_metadata(changed_audit, _metadata())
+
+
+def test_formal_runtime_rng_checkpoint_covers_python_numpy_and_torch() -> None:
+    np = pytest.importorskip("numpy")
+    torch = pytest.importorskip("torch")
+    seed_training_runtime(20260809)
+    state = capture_runtime_rng_state()
+    assert set(state) == {"python", "numpy", "torch", "cuda"}
+    expected = (
+        random.random(),
+        float(np.random.random()),
+        torch.rand(4),
+    )
+    random.random()
+    np.random.random()
+    torch.rand(4)
+    restore_runtime_rng_state(state)
+    observed = (
+        random.random(),
+        float(np.random.random()),
+        torch.rand(4),
+    )
+    assert observed[0] == expected[0]
+    assert observed[1] == expected[1]
+    assert torch.equal(observed[2], expected[2])
 
 
 def test_formal_config_declares_all_reproducibility_and_safety_fields() -> None:

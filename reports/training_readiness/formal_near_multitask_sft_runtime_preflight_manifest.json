@@ -1,0 +1,124 @@
+{
+  "BF16_LORA_STATUS": "PASS",
+  "CHECKPOINT_RESUME_STATUS": "PASS",
+  "CHECKPOINT_SAVE_STATUS": "PASS",
+  "CLS_LOSS_STATUS": "PASS_FINITE_AND_MASKED_BY_CONTRACT",
+  "CORPUS_SHA256_STATUS": "PASS",
+  "EVIDENCE_LOSS_STATUS": "PASS_FINITE_SESSION_WEIGHT_APPLIED",
+  "FINE_HEAD_CHECKPOINT_STATUS": "PASS",
+  "FORMAL_CONFIG_STATUS": "PASS_FROZEN_UNCHANGED",
+  "FORMAL_SFT_RUNTIME_PREFLIGHT_STATUS": "PASS",
+  "FORMAL_SFT_STARTED": false,
+  "GRADIENT_AUDIT_STATUS": "PASS",
+  "LORA_CHECKPOINT_STATUS": "PASS",
+  "MODEL_LOAD_STATUS": "PASS",
+  "NEXT_ACTION": "START_FORMAL_NEAR_MULTI_TASK_SFT",
+  "OPTIMIZER_PARAMETER_AUDIT_STATUS": "PASS",
+  "QLORA_FALLBACK_REQUIRED": false,
+  "READY_TO_START_FORMAL_SFT": true,
+  "SESSION_WEIGHT_RUNTIME_STATUS": "PASS",
+  "SFT_RUNTIME_SMOKE_STATUS": "PASS",
+  "TOKENIZER_RUNTIME_STATUS": "PASS_MAX_4697_OF_8192",
+  "TOTAL_LOSS_STATUS": "PASS_CONFIGURED_MULTI_TASK_FORMULA",
+  "VALIDATION_RUNTIME_STATUS": "PASS_NOT_A_FORMAL_RESULT",
+  "artifact": {
+    "disposable": true,
+    "formal_output_root": "/root/autodl-tmp/processed/training_runs/near_sft_v3",
+    "formal_output_still_absent": true,
+    "not_formal": true,
+    "smoke_root": "/root/autodl-tmp/processed/sft_runtime_smoke/formal_near_multitask_sft_preflight_v1"
+  },
+  "checkpoint": {
+    "fine_head_exact_reload": true,
+    "lora_exact_reload": true,
+    "optimizer_restored": true,
+    "resumed_optimizer_step": 4,
+    "rng_restored": true,
+    "scheduler_restored": true
+  },
+  "corpus": {
+    "path": "/root/autodl-tmp/processed/near_pretraining_v3/sft_corpus/final/observable_sft_corpus_v3.jsonl",
+    "record_count": 14350,
+    "sha256": "d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca",
+    "unique_sessions": 11958
+  },
+  "formal": {
+    "command": "ARTIFACT_ROOT=/root/autodl-tmp/processed QWEN_MODEL_PATH=/root/autodl-tmp/models/Qwen3.5-9B PYTHONPATH=src /root/autodl-tmp/conda/qwen35-runtime/bin/python -m flowsec.training.train_near_sft --config configs/training/near_sft_config_v2.yaml --execute",
+    "config_path": "configs/training/near_sft_config_v2.yaml",
+    "config_sha256": "b11e651592231cf8fcc7fc503e5a09b04d19b5d3bb35c7b02f68137030444dc1",
+    "entrypoint": "python -m flowsec.training.train_near_sft",
+    "output_root": "/root/autodl-tmp/processed/training_runs/near_sft_v3",
+    "validation_path": "/root/autodl-tmp/processed/near_pretraining_v3/validation/near_known_validation_v3.jsonl",
+    "validation_sha256": "d03228c3062028316786b1483dd7086c199bc03d142c5b9bfbc4ff6e9f352fe7"
+  },
+  "loss": {
+    "auxiliary_classification_mask_seen": true,
+    "classification_max": 2.5625,
+    "classification_min": -0.0,
+    "evidence_max": 0.92578125,
+    "evidence_min": 0.1875,
+    "primary_insufficient_classification_ce_seen": true,
+    "total_max": 2.796875,
+    "total_min": 0.06640625,
+    "weighted_evidence_loss_checks": 64
+  },
+  "model": {
+    "base_model_frozen": true,
+    "bf16_supported": true,
+    "dtype": "bfloat16",
+    "fine_head_dimension": 6,
+    "fine_head_trainable": true,
+    "label_order": [
+      "Normal",
+      "DDoS_HTTP",
+      "DDoS_TCP",
+      "Password",
+      "SQL_injection",
+      "Vulnerability_scanner"
+    ],
+    "lm_head_frozen": true,
+    "local_path": "/root/autodl-tmp/models/Qwen3.5-9B",
+    "lora_trainable": true,
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "tokenizer_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a"
+  },
+  "parameters": {
+    "total": 9431477494,
+    "trainable": 21663750,
+    "trainable_base": 0,
+    "trainable_fine_head": 24582,
+    "trainable_lm_head": 0,
+    "trainable_lora": 21639168,
+    "trainable_percent": 0.2296962486925487
+  },
+  "runtime": {
+    "cuda_version": "13.0",
+    "gpu_memory_total_bytes": 50864390144,
+    "gpu_model": "NVIDIA GeForce RTX 4090",
+    "peak_gpu_memory_bytes": 38540288512,
+    "peft_version": "0.18.1",
+    "torch_version": "2.11.0+cu130",
+    "transformers_version": "5.15.0"
+  },
+  "smoke": {
+    "effective_batch_size": 16,
+    "gradient_accumulation_steps": 16,
+    "max_runtime_sequence_length": 4697,
+    "max_sequence_length": 8192,
+    "micro_batch_size": 1,
+    "optimizer_steps": 4,
+    "record_count": 64,
+    "result_semantics": "NOT_A_FORMAL_RESULT",
+    "unique_sessions": 62,
+    "validation_class_count": 6,
+    "validation_generation_tokens": 32
+  },
+  "tests": {
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_pytest": "395 passed",
+    "targeted_pytest": "25 passed"
+  },
+  "version": "FORMAL_NEAR_SFT_RUNTIME_PREFLIGHT_V1"
+}
