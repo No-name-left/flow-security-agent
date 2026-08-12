@@ -9,6 +9,7 @@ import yaml
 
 from flowsec.training.train_near_sft import (
     LAUNCHER_VERSION,
+    build_optimizer_step_log,
     capture_runtime_rng_state,
     formal_preflight,
     initialize_run_directory,
@@ -137,6 +138,37 @@ def test_formal_runtime_rng_checkpoint_covers_python_numpy_and_torch() -> None:
     assert observed[0] == expected[0]
     assert observed[1] == expected[1]
     assert torch.equal(observed[2], expected[2])
+
+
+def test_optimizer_step_log_exposes_finite_formal_runtime_progress() -> None:
+    value = build_optimizer_step_log(
+        run_id="near-sft-v3-fixture",
+        epoch=1,
+        epochs=2,
+        record_index=16,
+        records_per_epoch=14350,
+        optimizer_step=1,
+        total_loss=2.5,
+        classification_loss=1.75,
+        evidence_loss=0.75,
+        learning_rate=2e-4,
+    )
+    assert value["event"] == "formal_sft_optimizer_step"
+    assert value["optimizer_step"] == 1
+    assert value["total_loss"] == 2.5
+    with pytest.raises(FloatingPointError, match="non-finite"):
+        build_optimizer_step_log(
+            run_id="near-sft-v3-fixture",
+            epoch=1,
+            epochs=2,
+            record_index=16,
+            records_per_epoch=14350,
+            optimizer_step=1,
+            total_loss=float("nan"),
+            classification_loss=1.75,
+            evidence_loss=0.75,
+            learning_rate=2e-4,
+        )
 
 
 def test_formal_config_declares_all_reproducibility_and_safety_fields() -> None:

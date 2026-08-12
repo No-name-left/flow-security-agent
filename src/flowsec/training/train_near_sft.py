@@ -24,7 +24,7 @@ from .corpus import sha256_file
 from .harness import POOL_MEAN, TrafficExpertTrainingHarness, attach_lora, load_near_class_map
 
 
-LAUNCHER_VERSION = "FORMAL_NEAR_SFT_LAUNCHER_V2"
+LAUNCHER_VERSION = "FORMAL_NEAR_SFT_LAUNCHER_V3"
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -440,6 +440,42 @@ def _macro_f1(predictions: list[int], labels: list[int], class_count: int) -> fl
     return sum(scores) / len(scores)
 
 
+def build_optimizer_step_log(
+    *,
+    run_id: str,
+    epoch: int,
+    epochs: int,
+    record_index: int,
+    records_per_epoch: int,
+    optimizer_step: int,
+    total_loss: float,
+    classification_loss: float,
+    evidence_loss: float,
+    learning_rate: float,
+) -> dict[str, Any]:
+    """Build the machine-readable heartbeat emitted by the formal loop."""
+
+    numeric = {
+        "total_loss": total_loss,
+        "classification_loss": classification_loss,
+        "evidence_loss": evidence_loss,
+        "learning_rate": learning_rate,
+    }
+    if not all(value == value and abs(value) != float("inf") for value in numeric.values()):
+        raise FloatingPointError(f"non-finite formal training metric: {numeric}")
+    return {
+        "event": "formal_sft_optimizer_step",
+        "run_id": run_id,
+        "timestamp_utc": datetime.now(UTC).isoformat(),
+        "epoch": epoch,
+        "epochs": epochs,
+        "record_index": record_index,
+        "records_per_epoch": records_per_epoch,
+        "optimizer_step": optimizer_step,
+        **numeric,
+    }
+
+
 def _save_checkpoint(
     run_root: Path,
     harness: Any,
@@ -651,7 +687,7 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
     config_path = Path(config_path).resolve()
     config = _load_yaml(config_path)
     paths = resolve_formal_paths(config)
-    metadata = formal_preflight(config_path)
+    metadata = {**formal_preflight(config_path), "formal_sft_run": True}
     run_id = run_id or (
         "near-sft-v3-"
         + datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
@@ -660,6 +696,22 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
     )
     run_root = initialize_run_directory(
         paths["output_root"], run_id, metadata, config_path, resume=resume
+    )
+    print(
+        json.dumps(
+            {
+                "event": "formal_sft_start",
+                "run_id": run_id,
+                "timestamp_utc": datetime.now(UTC).isoformat(),
+                "config_path": str(config_path),
+                "corpus_sha256": metadata["corpus_sha256"],
+                "formal_sft_run": True,
+                "resume": resume is not None,
+                "run_root": str(run_root),
+            },
+            sort_keys=True,
+        ),
+        flush=True,
     )
     classes, class_map = load_near_class_map(paths["preset_manifest"])
     records = _load_records(paths["corpus"], _configured_sft_record_model(config))
@@ -685,13 +737,15 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
     save_steps = int(config["schedule"]["save_steps"])
     harness.train()
     optimizer.zero_grad(set_to_none=True)
+    step_loss_sums: dict[str, Any] = {}
+    step_record_count = 0
     for epoch in range(int(state["epoch"]), epochs):
         order = list(range(len(records)))
         random.Random(metadata["seed"] + epoch).shuffle(order)
         start = int(state["next_record_index"]) if epoch == int(state["epoch"]) else 0
         for position in range(start, len(order)):
             record = records[order[position]]
-            forward_training_record(
+            output, _encoded = forward_training_record(
                 harness,
                 tokenizer,
                 record,
@@ -699,7 +753,26 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
                 max_length=max_length,
                 loss_divisor=accumulation,
             )
+            for name, value in (
+                ("total_loss", output["loss"]),
+                ("classification_loss", output["classification_loss"]),
+                ("evidence_loss", output["evidence_lm_loss"]),
+            ):
+                detached = value.detach().float()
+                step_loss_sums[name] = step_loss_sums.get(name, 0.0) + detached
+            step_record_count += 1
             if (position + 1) % accumulation == 0 or position + 1 == len(order):
+                step_loss_averages = {
+                    name: value / step_record_count
+                    for name, value in step_loss_sums.items()
+                }
+                if not all(
+                    bool(torch.isfinite(value).item())
+                    for value in step_loss_averages.values()
+                ):
+                    raise FloatingPointError(
+                        "non-finite formal training loss before optimizer step"
+                    )
                 torch.nn.utils.clip_grad_norm_(
                     [parameter for parameter in harness.parameters() if parameter.requires_grad],
                     float(config["optimizer"]["max_grad_norm"]),
@@ -714,6 +787,24 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
                         "optimizer_step": int(state["optimizer_step"]) + 1,
                     }
                 )
+                step_log = build_optimizer_step_log(
+                    run_id=run_id,
+                    epoch=epoch + 1,
+                    epochs=epochs,
+                    record_index=position + 1,
+                    records_per_epoch=len(order),
+                    optimizer_step=int(state["optimizer_step"]),
+                    total_loss=float(step_loss_averages["total_loss"].cpu()),
+                    classification_loss=float(
+                        step_loss_averages["classification_loss"].cpu()
+                    ),
+                    evidence_loss=float(step_loss_averages["evidence_loss"].cpu()),
+                    learning_rate=float(optimizer.param_groups[0]["lr"]),
+                )
+                print(json.dumps(step_log, sort_keys=True), flush=True)
+                _atomic_json(run_root / "training_status.json", step_log)
+                step_loss_sums = {}
+                step_record_count = 0
                 if int(state["optimizer_step"]) % save_steps == 0:
                     _save_checkpoint(
                         run_root,
