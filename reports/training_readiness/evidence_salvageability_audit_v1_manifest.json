@@ -1,0 +1,2424 @@
+{
+  "BASE_CORPUS_SHA256": "5b845cf9e5886e5e44fd46562135ba3eb5907de65fd8faf5d9b8777253149123",
+  "BASIC_V2_RECOMMENDED": true,
+  "CURRENT_PRIMARY_PROBLEM": "MIXED",
+  "CURRENT_RELATION_FEATURES": [
+    "node_roles=current_source,target_cluster",
+    "repeated_relation"
+  ],
+  "CURRENT_TEMPORAL_FEATURES": [
+    "window_seconds",
+    "prior_session_count",
+    "unique_destination_count",
+    "unique_destination_service_category_count",
+    "same_destination_distinct_source_count",
+    "repeated_pair_count",
+    "incomplete_handshake_ratio",
+    "inter_session_gap",
+    "prior_packets",
+    "prior_bytes"
+  ],
+  "DATASET_SALVAGEABILITY": "MIXED",
+  "DEEPSEEK_NEW_API_CALLS": 0,
+  "EVIDENCE_SALVAGE_AUDIT_STATUS": "PASS_WITH_LIMITATIONS",
+  "FORMAL_CORPUS_MODIFIED": false,
+  "FORMAL_SFT_STARTED": false,
+  "QWEN_NEW_RUNS": 0,
+  "RAG_POTENTIALLY_USEFUL_RATE": 0.3181818181818182,
+  "STAGED_AGENT_VIABILITY": "MIXED",
+  "artifact_scope": {
+    "capture_summary_external": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/capture_raw_summary.json",
+    "cross_table_external": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/blind_cross_table.json",
+    "detailed_rows_external": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/sample_layer_audit.jsonl"
+  },
+  "audit_version": "CLASS_CONDITIONAL_EVIDENCE_SALVAGEABILITY_AUDIT_V1",
+  "blind_audit_cross_table": [
+    {
+      "class": "Backdoor",
+      "deepseek": {
+        "n": 20,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 20,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 20,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Backdoor",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Backdoor",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Backdoor",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 5,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_HTTP",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 5,
+      "payload_available": 5,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 4,
+        "top1_rate": 0.8,
+        "top2_contains_gt": 4,
+        "top2_rate": 0.8
+      },
+      "stage": "application",
+      "teacher_sufficient": 5,
+      "teacher_sufficient_rate": 1.0
+    },
+    {
+      "class": "DDoS_HTTP",
+      "deepseek": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 6,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_HTTP",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_HTTP",
+      "deepseek": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 2,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "packet",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_HTTP",
+      "deepseek": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 6,
+      "payload_available": 3,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_HTTP",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.14285714285714285
+      },
+      "n": 7,
+      "payload_available": 4,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_TCP",
+      "deepseek": {
+        "n": 9,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.1111111111111111
+      },
+      "n": 9,
+      "payload_available": 9,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 9,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_TCP",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_TCP",
+      "deepseek": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 3,
+      "payload_available": 3,
+      "payload_visible": 3,
+      "qwen": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "payload",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_TCP",
+      "deepseek": {
+        "n": 8,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 8,
+      "payload_available": 8,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 8,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "DDoS_TCP",
+      "deepseek": {
+        "n": 9,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 6,
+        "top2_rate": 0.6666666666666666
+      },
+      "n": 9,
+      "payload_available": 9,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 9,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 5,
+      "teacher_sufficient_rate": 0.5555555555555556
+    },
+    {
+      "class": "MITM",
+      "deepseek": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 3,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "application",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "MITM",
+      "deepseek": {
+        "n": 12,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 12,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 12,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "MITM",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "packet",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "MITM",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 7,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "MITM",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 7,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Normal",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 7,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 7,
+        "top2_rate": 1.0
+      },
+      "n": 7,
+      "payload_available": 7,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 7,
+        "top1_correct": 6,
+        "top1_rate": 0.8571428571428571,
+        "top2_contains_gt": 7,
+        "top2_rate": 1.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Normal",
+      "deepseek": {
+        "n": 2,
+        "top1_correct": 1,
+        "top1_rate": 0.5,
+        "top2_contains_gt": 2,
+        "top2_rate": 1.0
+      },
+      "n": 2,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 2,
+        "top1_correct": 2,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 2,
+        "top2_rate": 1.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Normal",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 4,
+        "top1_rate": 0.5714285714285714,
+        "top2_contains_gt": 7,
+        "top2_rate": 1.0
+      },
+      "n": 7,
+      "payload_available": 7,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 7,
+        "top1_correct": 6,
+        "top1_rate": 0.8571428571428571,
+        "top2_contains_gt": 7,
+        "top2_rate": 1.0
+      },
+      "stage": "packet",
+      "teacher_sufficient": 1,
+      "teacher_sufficient_rate": 0.14285714285714285
+    },
+    {
+      "class": "Normal",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 5,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 5,
+        "top2_rate": 1.0
+      },
+      "n": 5,
+      "payload_available": 5,
+      "payload_visible": 5,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 5,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 5,
+        "top2_rate": 1.0
+      },
+      "stage": "payload",
+      "teacher_sufficient": 3,
+      "teacher_sufficient_rate": 0.6
+    },
+    {
+      "class": "Normal",
+      "deepseek": {
+        "n": 8,
+        "top1_correct": 8,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 8,
+        "top2_rate": 1.0
+      },
+      "n": 8,
+      "payload_available": 8,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 8,
+        "top1_correct": 8,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 8,
+        "top2_rate": 1.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Normal",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 1,
+        "top2_rate": 1.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 1,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 1,
+        "top2_rate": 1.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 1,
+      "teacher_sufficient_rate": 1.0
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 1,
+        "top1_rate": 0.25,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.25
+      },
+      "n": 4,
+      "payload_available": 4,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "application",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 5,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 2,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 1,
+      "teacher_sufficient_rate": 0.5
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 3,
+      "payload_available": 3,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "packet",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 4,
+        "top1_rate": 0.5714285714285714,
+        "top2_contains_gt": 4,
+        "top2_rate": 0.5714285714285714
+      },
+      "n": 7,
+      "payload_available": 7,
+      "payload_visible": 7,
+      "qwen": {
+        "n": 7,
+        "top1_correct": 4,
+        "top1_rate": 0.5714285714285714,
+        "top2_contains_gt": 4,
+        "top2_rate": 0.5714285714285714
+      },
+      "stage": "payload",
+      "teacher_sufficient": 4,
+      "teacher_sufficient_rate": 0.5714285714285714
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Password",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 5,
+      "payload_available": 4,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Port_Scanning",
+      "deepseek": {
+        "n": 11,
+        "top1_correct": 11,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 11,
+        "top2_rate": 1.0
+      },
+      "n": 11,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 11,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 11,
+        "top2_rate": 1.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Port_Scanning",
+      "deepseek": {
+        "n": 3,
+        "top1_correct": 3,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 3,
+        "top2_rate": 1.0
+      },
+      "n": 3,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 3,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 3,
+        "top2_rate": 1.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Port_Scanning",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 5,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 5,
+        "top2_rate": 1.0
+      },
+      "n": 5,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 5,
+        "top2_rate": 1.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Port_Scanning",
+      "deepseek": {
+        "n": 11,
+        "top1_correct": 11,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 11,
+        "top2_rate": 1.0
+      },
+      "n": 11,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 11,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 11,
+        "top2_rate": 1.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 5,
+      "teacher_sufficient_rate": 0.45454545454545453
+    },
+    {
+      "class": "Ransomware",
+      "deepseek": {
+        "n": 20,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 20,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 20,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Ransomware",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Ransomware",
+      "deepseek": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 7,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 7,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Ransomware",
+      "deepseek": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 2,
+      "payload_available": 0,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 1,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 1,
+        "top2_rate": 1.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 1,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 1,
+        "top2_rate": 1.0
+      },
+      "stage": "application",
+      "teacher_sufficient": 1,
+      "teacher_sufficient_rate": 1.0
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 3,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 3,
+        "top1_correct": 1,
+        "top1_rate": 0.3333333333333333,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.3333333333333333
+      },
+      "n": 3,
+      "payload_available": 3,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 3,
+        "top1_correct": 1,
+        "top1_rate": 0.3333333333333333,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.3333333333333333
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 1,
+      "teacher_sufficient_rate": 0.3333333333333333
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "packet",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 11,
+        "top1_correct": 11,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 11,
+        "top2_rate": 1.0
+      },
+      "n": 11,
+      "payload_available": 11,
+      "payload_visible": 11,
+      "qwen": {
+        "n": 11,
+        "top1_correct": 11,
+        "top1_rate": 1.0,
+        "top2_contains_gt": 11,
+        "top2_rate": 1.0
+      },
+      "stage": "payload",
+      "teacher_sufficient": 3,
+      "teacher_sufficient_rate": 0.2727272727272727
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 6,
+      "payload_available": 5,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "SQL_injection",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 4,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 2,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "application",
+      "teacher_sufficient": 1,
+      "teacher_sufficient_rate": 0.5
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 8,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 8,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 8,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 2,
+      "teacher_sufficient_rate": 0.5
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 1,
+        "top1_rate": 0.25,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.25
+      },
+      "n": 4,
+      "payload_available": 4,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 2,
+        "top1_rate": 0.5,
+        "top2_contains_gt": 2,
+        "top2_rate": 0.5
+      },
+      "stage": "packet",
+      "teacher_sufficient": 2,
+      "teacher_sufficient_rate": 0.5
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 1,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "payload",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 5,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 5,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Uploading",
+      "deepseek": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 6,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 6,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 9,
+        "top1_correct": 5,
+        "top1_rate": 0.5555555555555556,
+        "top2_contains_gt": 7,
+        "top2_rate": 0.7777777777777778
+      },
+      "n": 9,
+      "payload_available": 8,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 9,
+        "top1_correct": 6,
+        "top1_rate": 0.6666666666666666,
+        "top2_contains_gt": 8,
+        "top2_rate": 0.8888888888888888
+      },
+      "stage": "application",
+      "teacher_sufficient": 2,
+      "teacher_sufficient_rate": 0.2222222222222222
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 9,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 9,
+      "payload_available": 7,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 9,
+        "top1_correct": 1,
+        "top1_rate": 0.1111111111111111,
+        "top2_contains_gt": 1,
+        "top2_rate": 0.1111111111111111
+      },
+      "stage": "initial",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "knowledge",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 2,
+      "payload_available": 2,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 2,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "packet",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 2,
+        "top1_rate": 0.5,
+        "top2_contains_gt": 4,
+        "top2_rate": 1.0
+      },
+      "n": 4,
+      "payload_available": 4,
+      "payload_visible": 4,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 2,
+        "top1_rate": 0.5,
+        "top2_contains_gt": 3,
+        "top2_rate": 0.75
+      },
+      "stage": "payload",
+      "teacher_sufficient": 3,
+      "teacher_sufficient_rate": 0.75
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 1,
+      "payload_available": 1,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 1,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "relation",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    },
+    {
+      "class": "Vulnerability_scanner",
+      "deepseek": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "n": 4,
+      "payload_available": 4,
+      "payload_visible": 0,
+      "qwen": {
+        "n": 4,
+        "top1_correct": 0,
+        "top1_rate": 0.0,
+        "top2_contains_gt": 0,
+        "top2_rate": 0.0
+      },
+      "stage": "temporal",
+      "teacher_sufficient": 0,
+      "teacher_sufficient_rate": 0.0
+    }
+  ],
+  "class_availability": [
+    {
+      "application_available_n": 0,
+      "application_available_rate": 0.0,
+      "application_visible_current_n": 0,
+      "application_visible_current_rate": 0.0,
+      "class": "Backdoor",
+      "payload_capability_available_n": 0,
+      "payload_capability_available_rate": 0.0,
+      "payload_raw_present_n": 0,
+      "payload_raw_present_rate": 0.0,
+      "payload_visible_current_n": 0,
+      "payload_visible_current_rate": 0.0,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 2,
+      "relation_visible_current_rate": 0.06666666666666667,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 5,
+      "temporal_visible_current_rate": 0.16666666666666666
+    },
+    {
+      "application_available_n": 18,
+      "application_available_rate": 0.6,
+      "application_visible_current_n": 5,
+      "application_visible_current_rate": 0.16666666666666666,
+      "class": "DDoS_HTTP",
+      "payload_capability_available_n": 18,
+      "payload_capability_available_rate": 0.6,
+      "payload_raw_present_n": 18,
+      "payload_raw_present_rate": 0.6,
+      "payload_visible_current_n": 0,
+      "payload_visible_current_rate": 0.0,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 8,
+      "relation_visible_current_rate": 0.26666666666666666,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 7,
+      "temporal_visible_current_rate": 0.23333333333333334
+    },
+    {
+      "application_available_n": 0,
+      "application_available_rate": 0.0,
+      "application_visible_current_n": 0,
+      "application_visible_current_rate": 0.0,
+      "class": "DDoS_TCP",
+      "payload_capability_available_n": 30,
+      "payload_capability_available_rate": 1.0,
+      "payload_raw_present_n": 30,
+      "payload_raw_present_rate": 1.0,
+      "payload_visible_current_n": 3,
+      "payload_visible_current_rate": 0.1,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 8,
+      "relation_visible_current_rate": 0.26666666666666666,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 10,
+      "temporal_visible_current_rate": 0.3333333333333333
+    },
+    {
+      "application_available_n": 16,
+      "application_available_rate": 0.5333333333333333,
+      "application_visible_current_n": 3,
+      "application_visible_current_rate": 0.1,
+      "class": "MITM",
+      "payload_capability_available_n": 0,
+      "payload_capability_available_rate": 0.0,
+      "payload_raw_present_n": 0,
+      "payload_raw_present_rate": 0.0,
+      "payload_visible_current_n": 0,
+      "payload_visible_current_rate": 0.0,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 7,
+      "relation_visible_current_rate": 0.23333333333333334,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 7,
+      "temporal_visible_current_rate": 0.23333333333333334
+    },
+    {
+      "application_available_n": 0,
+      "application_available_rate": 0.0,
+      "application_visible_current_n": 0,
+      "application_visible_current_rate": 0.0,
+      "class": "Normal",
+      "payload_capability_available_n": 30,
+      "payload_capability_available_rate": 1.0,
+      "payload_raw_present_n": 30,
+      "payload_raw_present_rate": 1.0,
+      "payload_visible_current_n": 5,
+      "payload_visible_current_rate": 0.16666666666666666,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 8,
+      "relation_visible_current_rate": 0.26666666666666666,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 3,
+      "temporal_visible_current_rate": 0.1
+    },
+    {
+      "application_available_n": 24,
+      "application_available_rate": 0.8,
+      "application_visible_current_n": 5,
+      "application_visible_current_rate": 0.16666666666666666,
+      "class": "Password",
+      "payload_capability_available_n": 24,
+      "payload_capability_available_rate": 0.8,
+      "payload_raw_present_n": 24,
+      "payload_raw_present_rate": 0.8,
+      "payload_visible_current_n": 7,
+      "payload_visible_current_rate": 0.23333333333333334,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 4,
+      "relation_visible_current_rate": 0.13333333333333333,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 5,
+      "temporal_visible_current_rate": 0.16666666666666666
+    },
+    {
+      "application_available_n": 0,
+      "application_available_rate": 0.0,
+      "application_visible_current_n": 0,
+      "application_visible_current_rate": 0.0,
+      "class": "Port_Scanning",
+      "payload_capability_available_n": 0,
+      "payload_capability_available_rate": 0.0,
+      "payload_raw_present_n": 0,
+      "payload_raw_present_rate": 0.0,
+      "payload_visible_current_n": 0,
+      "payload_visible_current_rate": 0.0,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 6,
+      "relation_visible_current_rate": 0.2,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 12,
+      "temporal_visible_current_rate": 0.4
+    },
+    {
+      "application_available_n": 3,
+      "application_available_rate": 0.1,
+      "application_visible_current_n": 0,
+      "application_visible_current_rate": 0.0,
+      "class": "Ransomware",
+      "payload_capability_available_n": 0,
+      "payload_capability_available_rate": 0.0,
+      "payload_raw_present_n": 0,
+      "payload_raw_present_rate": 0.0,
+      "payload_visible_current_n": 0,
+      "payload_visible_current_rate": 0.0,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 7,
+      "relation_visible_current_rate": 0.23333333333333334,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 3,
+      "temporal_visible_current_rate": 0.1
+    },
+    {
+      "application_available_n": 28,
+      "application_available_rate": 0.9333333333333333,
+      "application_visible_current_n": 2,
+      "application_visible_current_rate": 0.06666666666666667,
+      "class": "SQL_injection",
+      "payload_capability_available_n": 28,
+      "payload_capability_available_rate": 0.9333333333333333,
+      "payload_raw_present_n": 28,
+      "payload_raw_present_rate": 0.9333333333333333,
+      "payload_visible_current_n": 11,
+      "payload_visible_current_rate": 0.36666666666666664,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 6,
+      "relation_visible_current_rate": 0.2,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 4,
+      "temporal_visible_current_rate": 0.13333333333333333
+    },
+    {
+      "application_available_n": 11,
+      "application_available_rate": 0.36666666666666664,
+      "application_visible_current_n": 4,
+      "application_visible_current_rate": 0.13333333333333333,
+      "class": "Uploading",
+      "payload_capability_available_n": 13,
+      "payload_capability_available_rate": 0.43333333333333335,
+      "payload_raw_present_n": 13,
+      "payload_raw_present_rate": 0.43333333333333335,
+      "payload_visible_current_n": 1,
+      "payload_visible_current_rate": 0.03333333333333333,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 5,
+      "relation_visible_current_rate": 0.16666666666666666,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 7,
+      "temporal_visible_current_rate": 0.23333333333333334
+    },
+    {
+      "application_available_n": 28,
+      "application_available_rate": 0.9333333333333333,
+      "application_visible_current_n": 9,
+      "application_visible_current_rate": 0.3,
+      "class": "Vulnerability_scanner",
+      "payload_capability_available_n": 27,
+      "payload_capability_available_rate": 0.9,
+      "payload_raw_present_n": 27,
+      "payload_raw_present_rate": 0.9,
+      "payload_visible_current_n": 4,
+      "payload_visible_current_rate": 0.13333333333333333,
+      "relation_available_n": 30,
+      "relation_available_rate": 1.0,
+      "relation_visible_current_n": 2,
+      "relation_visible_current_rate": 0.06666666666666667,
+      "sample_n": 30,
+      "temporal_available_n": 30,
+      "temporal_available_rate": 1.0,
+      "temporal_visible_current_n": 4,
+      "temporal_visible_current_rate": 0.13333333333333333
+    }
+  ],
+  "existing_cache_integrity": {
+    "deepseek_valid": 330,
+    "existing_deepseek_request_count": 529,
+    "pair_manifest_digest": "f8c08f55bf744b4f03b9dca5ad7017b54f22f429454ed7a88877d504a9d7df96",
+    "pair_valid": 99,
+    "primary_manifest_digest": "93b30ccd9075fef4925da45e3a8a287c200cfec4d54c05e2611be91d9173ca88",
+    "prompt_leakage_gate": "PASS",
+    "qwen_quarantine": 1,
+    "qwen_valid": 329
+  },
+  "existing_model_cache_unchanged": true,
+  "external_artifacts": {
+    "aggregate.json": {
+      "path": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/aggregate.json",
+      "sha256": "370bfbbe29169dfd7a1254d80cbdba513b68d7212e9f21e277f9be1e046b5b8a",
+      "size_bytes": 65267
+    },
+    "blind_cross_table.json": {
+      "path": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/blind_cross_table.json",
+      "sha256": "9342ce833d3a9622e44047593fe6e9e53d43a398c37591513e2f53ed598e5316",
+      "size_bytes": 29409
+    },
+    "capture_raw_summary.json": {
+      "path": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/capture_raw_summary.json",
+      "sha256": "54cc35ff502cde3265369523d257d25de33932999e812a518277bdccf6933eac",
+      "size_bytes": 27164
+    },
+    "sample_layer_audit.jsonl": {
+      "path": "/root/autodl-tmp/experiments/evidence_salvage_audit_v1/sample_layer_audit.jsonl",
+      "sha256": "093b60f0e1f4caabe08afdc1ea45a2d8a2e6ff8a08281438ba3a5175bb1da111",
+      "size_bytes": 623546
+    }
+  },
+  "formal_corpus_sha256_after": "5b845cf9e5886e5e44fd46562135ba3eb5907de65fd8faf5d9b8777253149123",
+  "limitations": [
+    "Coverage is deterministic observational-feature audit, not trained-model or paper accuracy.",
+    "Capture-level label purity does not imply every target flow contains class semantics.",
+    "FULL_OBSERVATIONAL excludes host state, future traffic, RAG, synthetic evidence, and U_final."
+  ],
+  "per_class_evidence_coverage": [
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.0,
+      "class": "Backdoor",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "NETWORK_OBSERVABILITY_LIMITED",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E3_APPLICATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E4_TEMPORAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E5_RELATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 0,
+          "rate": 0.0
+        }
+      },
+      "failure_mode_distribution": {
+        "NETWORK_OBSERVABILITY_LIMITED": 30
+      },
+      "first8_payload_signal_rate": 0.0,
+      "full_observational_relevant_rate": 0.0,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "HIGH",
+      "payload_capability_rate": 0.0,
+      "payload_class_relevant_rate": 0.0,
+      "payload_not_primary_signal_rate": 0.06666666666666667,
+      "payload_raw_present_rate": 0.06666666666666667,
+      "payload_visible_rate": 0.0,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 0.0,
+      "recommended_basic_evidence": "summary plus bounded payload when present",
+      "recommended_next_tool": "service-normalized temporal pattern / application decoder",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "NETWORK_OBSERVABILITY_LIMITED",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.0,
+      "sessionization_risk": "HIGH",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.0,
+      "class": "DDoS_HTTP",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "TEMPORAL_FEATURE_GAP",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E3_APPLICATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E4_TEMPORAL": {
+          "count": 18,
+          "rate": 0.6
+        },
+        "E5_RELATION": {
+          "count": 18,
+          "rate": 0.6
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 18,
+          "rate": 0.6
+        }
+      },
+      "failure_mode_distribution": {
+        "NETWORK_OBSERVABILITY_LIMITED": 12,
+        "TEMPORAL_FEATURE_GAP": 18
+      },
+      "first8_payload_signal_rate": 0.0,
+      "full_observational_relevant_rate": 0.6,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "LOW",
+      "payload_capability_rate": 0.6,
+      "payload_class_relevant_rate": 0.0,
+      "payload_not_primary_signal_rate": 0.6,
+      "payload_raw_present_rate": 0.6,
+      "payload_visible_rate": 0.0,
+      "rag_potentially_useful_rate": 0.6,
+      "raw_signal_present_rate": 0.6,
+      "recommended_basic_evidence": "first-8 metadata plus cheap HTTP metadata",
+      "recommended_next_tool": "HTTP-aware 60s temporal",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SALVAGEABLE_WITH_RICHER_EVIDENCE",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.6,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 0.6
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.0,
+      "class": "DDoS_TCP",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "TEMPORAL_FEATURE_GAP",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E3_APPLICATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E4_TEMPORAL": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "E5_RELATION": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 30,
+          "rate": 1.0
+        }
+      },
+      "failure_mode_distribution": {
+        "TEMPORAL_FEATURE_GAP": 30
+      },
+      "first8_payload_signal_rate": 0.0,
+      "full_observational_relevant_rate": 1.0,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "LOW",
+      "payload_capability_rate": 1.0,
+      "payload_class_relevant_rate": 0.0,
+      "payload_not_primary_signal_rate": 1.0,
+      "payload_raw_present_rate": 1.0,
+      "payload_visible_rate": 0.1,
+      "rag_potentially_useful_rate": 1.0,
+      "raw_signal_present_rate": 1.0,
+      "recommended_basic_evidence": "first-8 metadata plus summary",
+      "recommended_next_tool": "SYN/handshake/rate temporal",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SALVAGEABLE_WITH_RICHER_EVIDENCE",
+      "sample_count": 30,
+      "session_retains_signal_rate": 1.0,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 1.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.0,
+      "class": "MITM",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "SESSIONIZATION_LOSS",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E3_APPLICATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E4_TEMPORAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E5_RELATION": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 30,
+          "rate": 1.0
+        }
+      },
+      "failure_mode_distribution": {
+        "SESSIONIZATION_LOSS": 30
+      },
+      "first8_payload_signal_rate": 0.0,
+      "full_observational_relevant_rate": 1.0,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "MEDIUM",
+      "payload_capability_rate": 0.0,
+      "payload_class_relevant_rate": 0.0,
+      "payload_not_primary_signal_rate": 0.6333333333333333,
+      "payload_raw_present_rate": 0.6333333333333333,
+      "payload_visible_rate": 0.0,
+      "rag_potentially_useful_rate": 1.0,
+      "raw_signal_present_rate": 1.0,
+      "recommended_basic_evidence": "first-8 metadata plus summary",
+      "recommended_next_tool": "ARP/DNS relation-path evidence",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SESSIONIZATION_OR_GRANULARITY_RISK",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.0,
+      "sessionization_risk": "HIGH",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 1.0,
+      "class": "Normal",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "APPLICATION_EXTRACTION_LOSS",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "E1_BASIC_V2": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "E3_APPLICATION": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "E4_TEMPORAL": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "E5_RELATION": {
+          "count": 30,
+          "rate": 1.0
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 30,
+          "rate": 1.0
+        }
+      },
+      "failure_mode_distribution": {
+        "APPLICATION_EXTRACTION_LOSS": 25,
+        "EVIDENCE_SELECTION_LOSS": 5
+      },
+      "first8_payload_signal_rate": 0.16666666666666666,
+      "full_observational_relevant_rate": 1.0,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "LOW",
+      "payload_capability_rate": 1.0,
+      "payload_class_relevant_rate": 0.16666666666666666,
+      "payload_not_primary_signal_rate": 0.8333333333333334,
+      "payload_raw_present_rate": 1.0,
+      "payload_visible_rate": 0.16666666666666666,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 1.0,
+      "recommended_basic_evidence": "first-8 metadata plus bounded payload/application metadata",
+      "recommended_next_tool": "terminal or temporal consistency",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SALVAGEABLE_WITH_BASIC_V2",
+      "sample_count": 30,
+      "session_retains_signal_rate": 1.0,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 1.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.26666666666666666,
+      "class": "Password",
+      "current_evidence_relevant_rate": 0.13333333333333333,
+      "dominant_failure_mode": "NETWORK_OBSERVABILITY_LIMITED",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 8,
+          "rate": 0.26666666666666666
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 8,
+          "rate": 0.26666666666666666
+        },
+        "E3_APPLICATION": {
+          "count": 8,
+          "rate": 0.26666666666666666
+        },
+        "E4_TEMPORAL": {
+          "count": 8,
+          "rate": 0.26666666666666666
+        },
+        "E5_RELATION": {
+          "count": 8,
+          "rate": 0.26666666666666666
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 8,
+          "rate": 0.26666666666666666
+        }
+      },
+      "failure_mode_distribution": {
+        "EVIDENCE_SELECTION_LOSS": 4,
+        "NETWORK_OBSERVABILITY_LIMITED": 22,
+        "NONE": 4
+      },
+      "first8_payload_signal_rate": 0.26666666666666666,
+      "full_observational_relevant_rate": 0.26666666666666666,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "LOW",
+      "payload_capability_rate": 0.8,
+      "payload_class_relevant_rate": 0.26666666666666666,
+      "payload_not_primary_signal_rate": 0.5333333333333333,
+      "payload_raw_present_rate": 0.8,
+      "payload_visible_rate": 0.23333333333333334,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 0.26666666666666666,
+      "recommended_basic_evidence": "first-8 bounded payload plus cheap HTTP metadata",
+      "recommended_next_tool": "payload expansion then repeated-auth temporal",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "NETWORK_OBSERVABILITY_LIMITED",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.26666666666666666,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.0,
+      "class": "Port_Scanning",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "AMBIGUOUS",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E3_APPLICATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E4_TEMPORAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E5_RELATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 0,
+          "rate": 0.0
+        }
+      },
+      "failure_mode_distribution": {
+        "AMBIGUOUS": 27,
+        "NETWORK_OBSERVABILITY_LIMITED": 3
+      },
+      "first8_payload_signal_rate": 0.0,
+      "full_observational_relevant_rate": 0.0,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "MEDIUM",
+      "payload_capability_rate": 0.0,
+      "payload_class_relevant_rate": 0.0,
+      "payload_not_primary_signal_rate": 0.03333333333333333,
+      "payload_raw_present_rate": 0.03333333333333333,
+      "payload_visible_rate": 0.0,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 0.9,
+      "recommended_basic_evidence": "first-8 metadata plus summary",
+      "recommended_next_tool": "port-diversity/probe-rate temporal",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SESSIONIZATION_OR_GRANULARITY_RISK",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.9,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.0,
+      "class": "Ransomware",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "NETWORK_OBSERVABILITY_LIMITED",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E3_APPLICATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E4_TEMPORAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E5_RELATION": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 0,
+          "rate": 0.0
+        }
+      },
+      "failure_mode_distribution": {
+        "NETWORK_OBSERVABILITY_LIMITED": 30
+      },
+      "first8_payload_signal_rate": 0.0,
+      "full_observational_relevant_rate": 0.0,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "HIGH",
+      "payload_capability_rate": 0.0,
+      "payload_class_relevant_rate": 0.0,
+      "payload_not_primary_signal_rate": 0.16666666666666666,
+      "payload_raw_present_rate": 0.16666666666666666,
+      "payload_visible_rate": 0.0,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 0.0,
+      "recommended_basic_evidence": "first-8 metadata plus bounded payload when present",
+      "recommended_next_tool": "application/payload then terminal if absent",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "NETWORK_OBSERVABILITY_LIMITED",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.0,
+      "sessionization_risk": "HIGH",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.9333333333333333,
+      "basic_v2_relevant_rate": 0.9333333333333333,
+      "class": "SQL_injection",
+      "current_evidence_relevant_rate": 0.43333333333333335,
+      "dominant_failure_mode": "EVIDENCE_SELECTION_LOSS",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 28,
+          "rate": 0.9333333333333333
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 28,
+          "rate": 0.9333333333333333
+        },
+        "E3_APPLICATION": {
+          "count": 28,
+          "rate": 0.9333333333333333
+        },
+        "E4_TEMPORAL": {
+          "count": 28,
+          "rate": 0.9333333333333333
+        },
+        "E5_RELATION": {
+          "count": 28,
+          "rate": 0.9333333333333333
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 28,
+          "rate": 0.9333333333333333
+        }
+      },
+      "failure_mode_distribution": {
+        "EVIDENCE_SELECTION_LOSS": 15,
+        "NETWORK_OBSERVABILITY_LIMITED": 2,
+        "NONE": 13
+      },
+      "first8_payload_signal_rate": 0.9333333333333333,
+      "full_observational_relevant_rate": 0.9333333333333333,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "LOW",
+      "payload_capability_rate": 0.9333333333333333,
+      "payload_class_relevant_rate": 0.9333333333333333,
+      "payload_not_primary_signal_rate": 0.0,
+      "payload_raw_present_rate": 0.9333333333333333,
+      "payload_visible_rate": 0.36666666666666664,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 0.9333333333333333,
+      "recommended_basic_evidence": "first-8 bounded payload plus cheap HTTP metadata",
+      "recommended_next_tool": "payload expansion/application",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SALVAGEABLE_WITH_BASIC_V2",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.9333333333333333,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.0,
+      "basic_v2_relevant_rate": 0.06666666666666667,
+      "class": "Uploading",
+      "current_evidence_relevant_rate": 0.0,
+      "dominant_failure_mode": "NETWORK_OBSERVABILITY_LIMITED",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 2,
+          "rate": 0.06666666666666667
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 2,
+          "rate": 0.06666666666666667
+        },
+        "E3_APPLICATION": {
+          "count": 2,
+          "rate": 0.06666666666666667
+        },
+        "E4_TEMPORAL": {
+          "count": 2,
+          "rate": 0.06666666666666667
+        },
+        "E5_RELATION": {
+          "count": 2,
+          "rate": 0.06666666666666667
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 2,
+          "rate": 0.06666666666666667
+        }
+      },
+      "failure_mode_distribution": {
+        "EVIDENCE_SELECTION_LOSS": 2,
+        "NETWORK_OBSERVABILITY_LIMITED": 28
+      },
+      "first8_payload_signal_rate": 0.06666666666666667,
+      "full_observational_relevant_rate": 0.06666666666666667,
+      "later_payload_signal_rate": 0.0,
+      "network_observability_risk": "MEDIUM",
+      "payload_capability_rate": 0.43333333333333335,
+      "payload_class_relevant_rate": 0.06666666666666667,
+      "payload_not_primary_signal_rate": 0.36666666666666664,
+      "payload_raw_present_rate": 0.43333333333333335,
+      "payload_visible_rate": 0.03333333333333333,
+      "rag_potentially_useful_rate": 0.0,
+      "raw_signal_present_rate": 0.06666666666666667,
+      "recommended_basic_evidence": "first-8 bounded payload plus cheap HTTP metadata",
+      "recommended_next_tool": "payload expansion/application",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "NETWORK_OBSERVABILITY_LIMITED",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.06666666666666667,
+      "sessionization_risk": "MEDIUM",
+      "temporal_relevant_rate": 0.0
+    },
+    {
+      "application_relevant_rate": 0.26666666666666666,
+      "basic_v2_relevant_rate": 0.43333333333333335,
+      "class": "Vulnerability_scanner",
+      "current_evidence_relevant_rate": 0.1,
+      "dominant_failure_mode": "EVIDENCE_SELECTION_LOSS",
+      "evidence_ladder": {
+        "E0_CURRENT_INITIAL": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "E1_BASIC_V2": {
+          "count": 13,
+          "rate": 0.43333333333333335
+        },
+        "E2_PACKET_PAYLOAD_EXPANSION": {
+          "count": 13,
+          "rate": 0.43333333333333335
+        },
+        "E3_APPLICATION": {
+          "count": 13,
+          "rate": 0.43333333333333335
+        },
+        "E4_TEMPORAL": {
+          "count": 27,
+          "rate": 0.9
+        },
+        "E5_RELATION": {
+          "count": 27,
+          "rate": 0.9
+        },
+        "FULL_OBSERVATIONAL": {
+          "count": 27,
+          "rate": 0.9
+        }
+      },
+      "failure_mode_distribution": {
+        "EVIDENCE_SELECTION_LOSS": 12,
+        "NETWORK_OBSERVABILITY_LIMITED": 3,
+        "NONE": 3,
+        "SESSIONIZATION_LOSS": 12
+      },
+      "first8_payload_signal_rate": 0.23333333333333334,
+      "full_observational_relevant_rate": 0.9,
+      "later_payload_signal_rate": 0.2,
+      "network_observability_risk": "LOW",
+      "payload_capability_rate": 0.9,
+      "payload_class_relevant_rate": 0.43333333333333335,
+      "payload_not_primary_signal_rate": 0.5333333333333333,
+      "payload_raw_present_rate": 0.9666666666666667,
+      "payload_visible_rate": 0.13333333333333333,
+      "rag_potentially_useful_rate": 0.9,
+      "raw_signal_present_rate": 0.9,
+      "recommended_basic_evidence": "first-8 bounded payload plus cheap HTTP metadata",
+      "recommended_next_tool": "application then probe-rate temporal",
+      "relation_relevant_rate": 0.0,
+      "salvageability": "SALVAGEABLE_WITH_RICHER_EVIDENCE",
+      "sample_count": 30,
+      "session_retains_signal_rate": 0.5,
+      "sessionization_risk": "LOW",
+      "temporal_relevant_rate": 0.0
+    }
+  ],
+  "primary_sample_count": 330,
+  "raw_capture_count": 18,
+  "raw_detailed_sample_count": 330,
+  "seed": 20260812,
+  "session_contract": {
+    "RELATION_WINDOW_ROLE": "EXTERNAL_PAST_ONLY_EXACT_PAIR_PREDECESSOR",
+    "SESSION_BOUNDARY_RULE": "SAME_CANONICAL_KEY_IDLE_GAP_GT_60_SECONDS",
+    "SESSION_DIRECTIONALITY": "BIDIRECTIONAL_FIRST_PACKET_ORIENTED",
+    "SESSION_GROUPING_KEY": "(l3,l4,sorted((ip,port),(ip,port)))",
+    "SESSION_TIMEOUT": 60.0,
+    "TEMPORAL_WINDOW_ROLE": "EXTERNAL_STRICT_PAST_ONLY_CONTEXT"
+  },
+  "u_final_isolation_check": {
+    "content_inspected": false,
+    "status": "PASS"
+  }
+}
