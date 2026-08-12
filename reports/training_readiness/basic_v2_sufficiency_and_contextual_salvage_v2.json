@@ -1,0 +1,731 @@
+{
+  "audit_version": "BASIC_V2_SUFFICIENCY_AND_CONTEXTUAL_SALVAGE_V2",
+  "basic_v2_primary_audit": {
+    "corpus_path": "/root/autodl-tmp/processed/near_pretraining_v3/sft_corpus/final/observable_sft_corpus_v3.jsonl",
+    "corpus_sha256": "d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca",
+    "old_new_direct_comparison": "NOT_VALID",
+    "old_new_direct_comparison_reason": "The superseded Teacher V3 corpus used a different population, Evidence schema, Initial representation, and non-uniform primary stage assignment; its percentage is not an estimand-equivalent Basic-v2 baseline.",
+    "overall": {
+      "insufficient_n": 1839,
+      "missing_evidence_occurrences": {
+        "APPLICATION": 337,
+        "KNOWLEDGE": 2,
+        "PACKET_PAYLOAD": 1538,
+        "RELATION": 158,
+        "TEMPORAL": 495
+      },
+      "missing_evidence_rate_over_all_primary": {
+        "APPLICATION": 0.02818197022913531,
+        "KNOWLEDGE": 0.00016725204883759825,
+        "PACKET_PAYLOAD": 0.12861682555611306,
+        "RELATION": 0.013212911858170263,
+        "TEMPORAL": 0.041394882087305566
+      },
+      "missing_evidence_rate_over_insufficient_primary": {
+        "APPLICATION": 0.18325176726481784,
+        "KNOWLEDGE": 0.001087547580206634,
+        "PACKET_PAYLOAD": 0.8363240891789016,
+        "RELATION": 0.08591625883632409,
+        "TEMPORAL": 0.26916802610114193
+      },
+      "multi_gap_n": 408,
+      "multi_gap_rate": 0.03411941796287005,
+      "primary_basic_n": 11958,
+      "single_gap_n": 1431,
+      "single_gap_rate": 0.11966884094330156,
+      "sufficient_n": 10119,
+      "sufficient_rate": 0.8462117410938284,
+      "zero_gap_n": 10119
+    },
+    "per_class": {
+      "DDoS_HTTP": {
+        "insufficient_n": 913,
+        "missing_evidence_occurrences": {
+          "APPLICATION": 264,
+          "KNOWLEDGE": 1,
+          "PACKET_PAYLOAD": 844,
+          "RELATION": 96,
+          "TEMPORAL": 154
+        },
+        "missing_evidence_rate_over_all_primary": {
+          "APPLICATION": 0.13108242303872888,
+          "KNOWLEDGE": 0.0004965243296921549,
+          "PACKET_PAYLOAD": 0.41906653426017876,
+          "RELATION": 0.047666335650446874,
+          "TEMPORAL": 0.07646474677259185
+        },
+        "missing_evidence_rate_over_insufficient_primary": {
+          "APPLICATION": 0.2891566265060241,
+          "KNOWLEDGE": 0.001095290251916758,
+          "PACKET_PAYLOAD": 0.9244249726177437,
+          "RELATION": 0.10514786418400876,
+          "TEMPORAL": 0.1686746987951807
+        },
+        "multi_gap_n": 259,
+        "multi_gap_rate": 0.12859980139026814,
+        "primary_basic_n": 2014,
+        "single_gap_n": 654,
+        "single_gap_rate": 0.3247269116186693,
+        "sufficient_n": 1101,
+        "sufficient_rate": 0.5466732869910625,
+        "zero_gap_n": 1101
+      },
+      "DDoS_TCP": {
+        "insufficient_n": 860,
+        "missing_evidence_occurrences": {
+          "APPLICATION": 64,
+          "KNOWLEDGE": 1,
+          "PACKET_PAYLOAD": 634,
+          "RELATION": 50,
+          "TEMPORAL": 334
+        },
+        "missing_evidence_rate_over_all_primary": {
+          "APPLICATION": 0.03125,
+          "KNOWLEDGE": 0.00048828125,
+          "PACKET_PAYLOAD": 0.3095703125,
+          "RELATION": 0.0244140625,
+          "TEMPORAL": 0.1630859375
+        },
+        "missing_evidence_rate_over_insufficient_primary": {
+          "APPLICATION": 0.07441860465116279,
+          "KNOWLEDGE": 0.0011627906976744186,
+          "PACKET_PAYLOAD": 0.7372093023255814,
+          "RELATION": 0.05813953488372093,
+          "TEMPORAL": 0.3883720930232558
+        },
+        "multi_gap_n": 140,
+        "multi_gap_rate": 0.068359375,
+        "primary_basic_n": 2048,
+        "single_gap_n": 720,
+        "single_gap_rate": 0.3515625,
+        "sufficient_n": 1188,
+        "sufficient_rate": 0.580078125,
+        "zero_gap_n": 1188
+      },
+      "Normal": {
+        "insufficient_n": 0,
+        "missing_evidence_occurrences": {
+          "APPLICATION": 0,
+          "KNOWLEDGE": 0,
+          "PACKET_PAYLOAD": 0,
+          "RELATION": 0,
+          "TEMPORAL": 0
+        },
+        "missing_evidence_rate_over_all_primary": {
+          "APPLICATION": 0.0,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.0,
+          "RELATION": 0.0,
+          "TEMPORAL": 0.0
+        },
+        "missing_evidence_rate_over_insufficient_primary": {
+          "APPLICATION": 0.0,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.0,
+          "RELATION": 0.0,
+          "TEMPORAL": 0.0
+        },
+        "multi_gap_n": 0,
+        "multi_gap_rate": 0.0,
+        "primary_basic_n": 1985,
+        "single_gap_n": 0,
+        "single_gap_rate": 0.0,
+        "sufficient_n": 1985,
+        "sufficient_rate": 1.0,
+        "zero_gap_n": 1985
+      },
+      "Password": {
+        "insufficient_n": 0,
+        "missing_evidence_occurrences": {
+          "APPLICATION": 0,
+          "KNOWLEDGE": 0,
+          "PACKET_PAYLOAD": 0,
+          "RELATION": 0,
+          "TEMPORAL": 0
+        },
+        "missing_evidence_rate_over_all_primary": {
+          "APPLICATION": 0.0,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.0,
+          "RELATION": 0.0,
+          "TEMPORAL": 0.0
+        },
+        "missing_evidence_rate_over_insufficient_primary": {
+          "APPLICATION": 0.0,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.0,
+          "RELATION": 0.0,
+          "TEMPORAL": 0.0
+        },
+        "multi_gap_n": 0,
+        "multi_gap_rate": 0.0,
+        "primary_basic_n": 2048,
+        "single_gap_n": 0,
+        "single_gap_rate": 0.0,
+        "sufficient_n": 2048,
+        "sufficient_rate": 1.0,
+        "zero_gap_n": 2048
+      },
+      "SQL_injection": {
+        "insufficient_n": 0,
+        "missing_evidence_occurrences": {
+          "APPLICATION": 0,
+          "KNOWLEDGE": 0,
+          "PACKET_PAYLOAD": 0,
+          "RELATION": 0,
+          "TEMPORAL": 0
+        },
+        "missing_evidence_rate_over_all_primary": {
+          "APPLICATION": 0.0,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.0,
+          "RELATION": 0.0,
+          "TEMPORAL": 0.0
+        },
+        "missing_evidence_rate_over_insufficient_primary": {
+          "APPLICATION": 0.0,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.0,
+          "RELATION": 0.0,
+          "TEMPORAL": 0.0
+        },
+        "multi_gap_n": 0,
+        "multi_gap_rate": 0.0,
+        "primary_basic_n": 2048,
+        "single_gap_n": 0,
+        "single_gap_rate": 0.0,
+        "sufficient_n": 2048,
+        "sufficient_rate": 1.0,
+        "zero_gap_n": 2048
+      },
+      "Vulnerability_scanner": {
+        "insufficient_n": 66,
+        "missing_evidence_occurrences": {
+          "APPLICATION": 9,
+          "KNOWLEDGE": 0,
+          "PACKET_PAYLOAD": 60,
+          "RELATION": 12,
+          "TEMPORAL": 7
+        },
+        "missing_evidence_rate_over_all_primary": {
+          "APPLICATION": 0.0049586776859504135,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.03305785123966942,
+          "RELATION": 0.006611570247933884,
+          "TEMPORAL": 0.003856749311294766
+        },
+        "missing_evidence_rate_over_insufficient_primary": {
+          "APPLICATION": 0.13636363636363635,
+          "KNOWLEDGE": 0.0,
+          "PACKET_PAYLOAD": 0.9090909090909091,
+          "RELATION": 0.18181818181818182,
+          "TEMPORAL": 0.10606060606060606
+        },
+        "multi_gap_n": 9,
+        "multi_gap_rate": 0.0049586776859504135,
+        "primary_basic_n": 1815,
+        "single_gap_n": 57,
+        "single_gap_rate": 0.03140495867768595,
+        "sufficient_n": 1749,
+        "sufficient_rate": 0.9636363636363636,
+        "zero_gap_n": 1749
+      }
+    },
+    "primary_role": "state_role=primary + classification_ce_eligible=true",
+    "primary_schema": "SFTRecordV2",
+    "primary_stage": "EvidenceStageV2.BASIC",
+    "zero_gap_equivalent_to_sufficient": true
+  },
+  "capture_summaries": {
+    "Attack_MITM": {
+      "arp_claim_count": 283,
+      "capture_id_backend_only": "Attack_MITM",
+      "dominant_source_destination_service_triplet_n_backend_only": 39,
+      "relation_level_distribution": {
+        "ENTITY_LINKED": 64,
+        "LOCAL_NETWORK_STATE": 140
+      },
+      "relation_shortest_horizon_distribution": {
+        "60": 204
+      },
+      "relation_supported_by_split": {
+        "quarantine": 5,
+        "test": 24,
+        "train": 150,
+        "validation": 25
+      },
+      "relation_supported_n": 204,
+      "relation_supported_rate": 0.8986784140969163,
+      "scan_context_maxima": {
+        "distinct_destination_count": 6,
+        "distinct_destination_port_count": 3,
+        "prior_same_source_session_count": 33
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 227,
+      "source_hashes": {
+        "link_events_sha256": "f4dfc7701f178830242052477a7b83e0853b6851fd5946918ecbab8fa9625265",
+        "raw_sessions_sha256": "e2ee242934ba6fe66ef005d805469c6244d9ddc1ffbf6091dde73575fa9fd07b"
+      },
+      "split_distribution": {
+        "quarantine": 12,
+        "test": 31,
+        "train": 151,
+        "validation": 33
+      }
+    },
+    "Attack_Port_Scanning": {
+      "arp_claim_count": 1746,
+      "capture_id_backend_only": "Attack_Port_Scanning",
+      "dominant_source_destination_service_triplet_n_backend_only": 9987,
+      "relation_level_distribution": {
+        "ENTITY_LINKED": 436,
+        "LOCAL_NETWORK_STATE": 38
+      },
+      "relation_shortest_horizon_distribution": {
+        "10": 8,
+        "180": 133,
+        "300": 133,
+        "60": 200
+      },
+      "relation_supported_by_split": {
+        "quarantine": 9,
+        "test": 331,
+        "validation": 134
+      },
+      "relation_supported_n": 474,
+      "relation_supported_rate": 0.043454345434543455,
+      "scan_context_maxima": {
+        "distinct_destination_count": 6,
+        "distinct_destination_port_count": 4,
+        "prior_same_source_session_count": 300
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 10908,
+      "source_hashes": {
+        "link_events_sha256": "ae2952467ff84bcc4260662ac61c5ff1c80d0a289c5315763fd44dded89ce841",
+        "raw_sessions_sha256": "3835d169201a10de81d3d7970b146a29cc7d04314e14a562a4fce38d3fddd65d"
+      },
+      "split_distribution": {
+        "quarantine": 22,
+        "test": 1634,
+        "train": 7632,
+        "validation": 1620
+      }
+    },
+    "Normal_Distance": {
+      "arp_claim_count": 57,
+      "capture_id_backend_only": "Normal_Distance",
+      "dominant_source_destination_service_triplet_n_backend_only": 71877,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 4,
+        "distinct_destination_port_count": 3,
+        "prior_same_source_session_count": 14190
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 72045,
+      "source_hashes": {
+        "link_events_sha256": "50b7ddeb4c842afc5d2a9e77e24cc049048aeb9ed0d60264c259a8939f20f4e3",
+        "raw_sessions_sha256": "4221bfe984275f46695e785247f3710118b52f594bfb2c9177694e3bfd707a67"
+      },
+      "split_distribution": {
+        "quarantine": 457,
+        "test": 10693,
+        "train": 50316,
+        "validation": 10579
+      }
+    },
+    "Normal_Flame_Sensor": {
+      "arp_claim_count": 0,
+      "capture_id_backend_only": "Normal_Flame_Sensor",
+      "dominant_source_destination_service_triplet_n_backend_only": 67249,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 4,
+        "distinct_destination_port_count": 2,
+        "prior_same_source_session_count": 14320
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 67381,
+      "source_hashes": {
+        "link_events_sha256": "545fc22b8ee3f1567673fa0fe1c3b4730013bc9b365920c481f791f9980ae207",
+        "raw_sessions_sha256": "3d6f17ea6df3d0848c8129c4bbf0d03e389c1620adf623c27116e111108f3c23"
+      },
+      "split_distribution": {
+        "quarantine": 493,
+        "test": 9986,
+        "train": 47036,
+        "validation": 9866
+      }
+    },
+    "Normal_Heart_Rate": {
+      "arp_claim_count": 172,
+      "capture_id_backend_only": "Normal_Heart_Rate",
+      "dominant_source_destination_service_triplet_n_backend_only": 9826,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 4,
+        "distinct_destination_port_count": 3,
+        "prior_same_source_session_count": 1986
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 10573,
+      "source_hashes": {
+        "link_events_sha256": "249042ed786283b9c02d6047100e9bd0fcf5126f3682f14f19f3fdaa55b4c61a",
+        "raw_sessions_sha256": "d3ff34348d24319b258126be75643be50e739328ac1329292d29388ea8208b2e"
+      },
+      "split_distribution": {
+        "quarantine": 77,
+        "test": 1566,
+        "train": 7381,
+        "validation": 1549
+      }
+    },
+    "Normal_IR_Receiver": {
+      "arp_claim_count": 34,
+      "capture_id_backend_only": "Normal_IR_Receiver",
+      "dominant_source_destination_service_triplet_n_backend_only": 82393,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 18,
+        "distinct_destination_port_count": 5,
+        "prior_same_source_session_count": 13915
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 82585,
+      "source_hashes": {
+        "link_events_sha256": "381d25a1f70272956bf990f85956a858e6ffc4307bdd54dbc31f767445c4917b",
+        "raw_sessions_sha256": "a27984d8fcb6e6b1e1366b1cbda8e1575035932dbe7bff68484862a3f7e02f91"
+      },
+      "split_distribution": {
+        "quarantine": 493,
+        "test": 12261,
+        "train": 57690,
+        "validation": 12141
+      }
+    },
+    "Normal_Modbus": {
+      "arp_claim_count": 467,
+      "capture_id_backend_only": "Normal_Modbus",
+      "dominant_source_destination_service_triplet_n_backend_only": 245,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 10,
+        "distinct_destination_port_count": 6,
+        "prior_same_source_session_count": 107
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 1065,
+      "source_hashes": {
+        "link_events_sha256": "c87fee06a3aaed196ad0480221471f01e523b6bc7f755c1ca9cba52c3af96c46",
+        "raw_sessions_sha256": "19b8fa9f518939d89121a69225c4b3fe5f3165078acc222bf44913dd93e2a746"
+      },
+      "split_distribution": {
+        "quarantine": 7,
+        "test": 157,
+        "train": 744,
+        "validation": 157
+      }
+    },
+    "Normal_Soil_Moisture": {
+      "arp_claim_count": 375,
+      "capture_id_backend_only": "Normal_Soil_Moisture",
+      "dominant_source_destination_service_triplet_n_backend_only": 69608,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 4,
+        "distinct_destination_port_count": 7,
+        "prior_same_source_session_count": 3031
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 71260,
+      "source_hashes": {
+        "link_events_sha256": "d170b4f098425160e24d0c57fd8f1559cb576b20b9fccdd8a0d9304785d81f9d",
+        "raw_sessions_sha256": "3a9e77305b72d948eee12fadc55e7cdf8ea9b25b8c103621fd875d06dac6c732"
+      },
+      "split_distribution": {
+        "quarantine": 100,
+        "test": 10664,
+        "train": 49857,
+        "validation": 10639
+      }
+    },
+    "Normal_Sound_Sensor": {
+      "arp_claim_count": 6,
+      "capture_id_backend_only": "Normal_Sound_Sensor",
+      "dominant_source_destination_service_triplet_n_backend_only": 94851,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 4,
+        "distinct_destination_port_count": 3,
+        "prior_same_source_session_count": 15444
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 95031,
+      "source_hashes": {
+        "link_events_sha256": "52bb1e1321965ad516db07079983b2c335717fa6f0635d8553bb703b68f8b39e",
+        "raw_sessions_sha256": "a5459390546fc5dcc25cf3be7d6740351cfb76e35c633934fdb8644ffacfeb2c"
+      },
+      "split_distribution": {
+        "quarantine": 470,
+        "test": 14132,
+        "train": 66387,
+        "validation": 14042
+      }
+    },
+    "Normal_Temperature_and_Humidity": {
+      "arp_claim_count": 3042,
+      "capture_id_backend_only": "Normal_Temperature_and_Humidity",
+      "dominant_source_destination_service_triplet_n_backend_only": 83017,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 9,
+        "distinct_destination_port_count": 4,
+        "prior_same_source_session_count": 308
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 89851,
+      "source_hashes": {
+        "link_events_sha256": "fe205131391e69e5d7abb071cde4daaafe9ecd8b691d7bd4ebd894ccc62714fe",
+        "raw_sessions_sha256": "633ca797d0534fc8ca495abdf7662c3cb2f0fddd0650eaf489e48f0e5c115ae6"
+      },
+      "split_distribution": {
+        "quarantine": 17,
+        "test": 13475,
+        "train": 62890,
+        "validation": 13469
+      }
+    },
+    "Normal_Water_Level": {
+      "arp_claim_count": 247,
+      "capture_id_backend_only": "Normal_Water_Level",
+      "dominant_source_destination_service_triplet_n_backend_only": 144051,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 5,
+        "distinct_destination_port_count": 5,
+        "prior_same_source_session_count": 14942
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 145157,
+      "source_hashes": {
+        "link_events_sha256": "ecd7da58280c1c24afdaaf91197482749115ada083b1247c6488ab1692d213d8",
+        "raw_sessions_sha256": "675ad08cdacbebd9c4b83f0a3c85e0e86f57d5c09fba912b0190f97fa8859566"
+      },
+      "split_distribution": {
+        "quarantine": 555,
+        "test": 21624,
+        "train": 101485,
+        "validation": 21493
+      }
+    },
+    "Normal_phValue": {
+      "arp_claim_count": 346,
+      "capture_id_backend_only": "Normal_phValue",
+      "dominant_source_destination_service_triplet_n_backend_only": 43696,
+      "relation_level_distribution": {},
+      "relation_shortest_horizon_distribution": {},
+      "relation_supported_by_split": {},
+      "relation_supported_n": 0,
+      "relation_supported_rate": 0.0,
+      "scan_context_maxima": {
+        "distinct_destination_count": 4,
+        "distinct_destination_port_count": 3,
+        "prior_same_source_session_count": 2984
+      },
+      "scan_mechanism_distribution": {},
+      "scan_shortest_horizon_distribution": {},
+      "scan_supported_by_split": {},
+      "scan_supported_n": 0,
+      "scan_supported_rate": 0.0,
+      "session_count": 45556,
+      "source_hashes": {
+        "link_events_sha256": "023b460cbed3987ae5c9f341ba8af50d6743f37ae893e0b823f34fedcf081bbd",
+        "raw_sessions_sha256": "27e8de3de22ffdb098d7ed474ab0e59bc55b1e16c6f0f4fc8ab9c556a568fb66"
+      },
+      "split_distribution": {
+        "quarantine": 98,
+        "test": 6809,
+        "train": 31864,
+        "validation": 6785
+      }
+    }
+  },
+  "consequence": {
+    "current_6_class_corpus_still_valid": true,
+    "next_action": "START_FORMAL_NEAR_MULTI_TASK_SFT",
+    "proposed_final_main_class_count": 6,
+    "proposed_final_main_classes": [
+      "DDoS_HTTP",
+      "DDoS_TCP",
+      "Normal",
+      "Password",
+      "SQL_injection",
+      "Vulnerability_scanner"
+    ],
+    "ready_for_formal_sft": true,
+    "salvage_integration_required": false
+  },
+  "controls": {
+    "mitm_scan_control_supported_n": 0,
+    "normal_capture_count": 10,
+    "normal_relation_supported_n": 0,
+    "normal_relation_supported_rate": 0.0,
+    "normal_scan_supported_n": 0,
+    "normal_scan_supported_rate": 0.0,
+    "normal_session_count": 680504,
+    "port_scanning_relation_control_supported_n": 474
+  },
+  "external_artifacts": {
+    "relation_supported_sessions": {
+      "path": "/root/autodl-tmp/experiments/contextual_evidence_salvage_v2/relation_supported_sessions.parquet",
+      "row_count": 678,
+      "sha256": "0bc0b658ad4fa3881dd587c0c6c5bce887ed2736a0d8e3d51a65e924c15ce0fb"
+    },
+    "root": "/root/autodl-tmp/experiments/contextual_evidence_salvage_v2",
+    "scan_supported_sessions": {
+      "path": "/root/autodl-tmp/experiments/contextual_evidence_salvage_v2/scan_supported_sessions.parquet",
+      "row_count": 0,
+      "sha256": "31868d27d762096b7a20570c44ca3738d6cc513cf5ef52fd267b01cc73ed174a"
+    }
+  },
+  "formal_corpus_modified": false,
+  "formal_sft_started": false,
+  "mitm_verdict": {
+    "capture_label_required": false,
+    "contextually_supported": 204,
+    "full_observational_sufficient": 204,
+    "future_context_used": false,
+    "main_class_exclusion_reason": "The relation mechanism is real and label-free, but only 150/25/24 supported train/validation/test sessions remain, most support is shared Level-B local state, and all observations come from one capture/run. This is sufficient for a bounded case study, not stable primary-class training and evaluation.",
+    "model_safe_leakage": 0,
+    "primary_relation_mechanisms": [
+      "REPEATED_SAME_MAC_MULTIPLE_IP_COMMON_TARGET",
+      "ENTITY_LINKED_OR_BOUNDED_LOCAL_NETWORK_STATE"
+    ],
+    "quarantine": 5,
+    "status": "PASS_CASE_STUDY_ONLY",
+    "test": 24,
+    "total_sessions": 227,
+    "train": 150,
+    "validation": 25
+  },
+  "salvage_contract": {
+    "deterministic": true,
+    "future_context_used": false,
+    "horizons_seconds": [
+      10,
+      60,
+      180,
+      300
+    ],
+    "horizontal_scan_rule": "Probe-like current session plus >=8 past same-source sessions, >=8 destinations, <=3 destination ports, and >=0.5 probe ratio.",
+    "label_free": true,
+    "model_safe_identity_leakage": 0,
+    "partition_local": true,
+    "relation_rule": "Repeated ARP claims: at least two claims for each of at least two source IPs by one MAC toward one common target, or a repeated same-IP multi-MAC conflict, within [target_time-horizon,target_time).",
+    "strictly_past_only": true,
+    "test_time_available": true,
+    "vertical_scan_rule": "Probe-like current session plus >=8 past same-source sessions, >=8 destination ports, <=3 destinations, and >=0.5 probe ratio."
+  },
+  "scanning_verdict": {
+    "capture_label_required": true,
+    "contextually_supported": 0,
+    "failure_reason": "The dominant 9,987-session source/destination/service triplet repeatedly targets one destination and one destination port; neither vertical port diversity nor horizontal host/service fan-out is observed under any fixed strict-past horizon.",
+    "formal_label": "UNRESOLVED_PORT_SCANNING_NOT_OBSERVED",
+    "full_observational_sufficient": 0,
+    "future_context_used": false,
+    "horizontal_scan_supported": false,
+    "model_safe_leakage": 0,
+    "original_label": "Port_Scanning",
+    "primary_scan_mechanism": "NONE",
+    "quarantine": 0,
+    "status": "FAIL",
+    "test": 0,
+    "total_sessions": 10908,
+    "train": 0,
+    "validation": 0,
+    "vertical_scan_supported": false
+  },
+  "status": "PASS"
+}
