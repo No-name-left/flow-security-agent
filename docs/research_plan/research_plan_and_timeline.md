@@ -1,6 +1,6 @@
 # 网络流量开放识别与自适应取证智能体：Near-first执行计划与时间表
 
-> Derived from the canonical `research_plan_detailed.md`; updated 2026-08-12.
+> Derived from the canonical `research_plan_detailed.md`; updated 2026-08-13.
 >
 > Research meaning follows the canonical plan. Training/Open-world execution follows `docs/training/near_mainline_training_protocol_v1.md`. This file only summarizes order, dependencies, Gates and status.
 
@@ -9,9 +9,10 @@
 The only first end-to-end route is Edge-IIoTset **Near**:
 
 ```text
-Phase A infrastructure (complete)
-→ Phase B training readiness (complete)
-→ final Teacher/corpus acceptance
+Phase A/B reusable infrastructure (complete)
+→ Task Definition v2 + Evidence-v2
+→ Observable Dataset v3 eligibility across train/validation/test
+→ Teacher-v2 + SFT corpus v3 acceptance
 → Raw/Traditional baselines
 → Multi-task SFT
 → RLAIF-GRPO + classification CE
@@ -24,18 +25,19 @@ Phase A infrastructure (complete)
 
 Far, Mixed, IoT-23 and optional ablations remain in the plan but are `DEFERRED_UNTIL_NEAR_MAINLINE_COMPLETE`. They are not parallel first-development tracks.
 
-## 2. Frozen Near inputs
+## 2. Task Definition v2 inputs
 
 | Item | Value |
 | --- | --- |
-| Seed | `20260809` |
-| K_known | Backdoor, DDoS_HTTP, DDoS_TCP, MITM, Normal, Password, Port_Scanning, Ransomware, SQL_injection, Uploading, Vulnerability_scanner |
+| Seed | Dataset selection `20260813`; formal training `20260809` |
+| Main classes | Normal, DDoS_HTTP, DDoS_TCP, Password, SQL_injection, Vulnerability_scanner（6）；MITM/Port_Scanning排除 |
 | U_dev | DDoS_ICMP, OS_Fingerprinting |
 | U_final | DDoS_UDP, XSS |
 | Physical split | `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2` |
-| SFT candidates | PLAN_B, 16,979 unique `K_known ∩ train` sessions |
+| Dataset v3 split policy | final=`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2_PER_SPLIT_ELIGIBILITY_FILTERED`；没有重分split |
+| Excluded main roles | Backdoor→Long-Horizon Temporal Case Study; Uploading/Ransomware→Observability-Limited/Abstain |
 
-Do not change K/U, seed, split or PLAN_B based on model results. Validation, test, U_dev-as-Known and U_final cannot enter SFT.
+旧11类PLAN_B、Teacher V3和22,957-record corpus为superseded historical，不能进入formal SFT。不得依据模型结果修改final classes或eligibility；validation、test、U_dev和U_final不能进入Teacher-v2/SFT。
 
 ## 3. Current infrastructure status
 
@@ -47,11 +49,12 @@ Do not change K/U, seed, split or PLAN_B based on model results. Validation, tes
 | Runtime Adapter | `production_runtime_adapter_v1`; READY=true |
 | Evidence schema | `production_runtime_evidence_v1` |
 | Evidence Fidelity | PASS |
-| Initial / packets 9–16 / Temporal / Relation | AVAILABLE / AVAILABLE_PER_SESSION / AVAILABLE / AVAILABLE_WITH_LIMITATION |
-| Application / Sanitized Payload / generic TRAIN RAG | Git-external pretraining sidecars/index ready; formal online Runtime tools remain pending |
+| v1 Initial / packets 9–16 / Temporal / Relation | REUSABLE FOUNDATION；不等于Evidence-v2完成 |
+| Basic-v2 / packet-aligned payload / Temporal-v2 / Relation-v2 / Application-v2 | **IMPLEMENTED / PASS**；17 captures Evidence-only scan |
 | Qwen raw deployment | official revision `c202236...`; local/runtime smoke PASS |
 | Full deployment-audit pytest | 261 passed; latest repository regression after CI portability fix: 264 passed |
-| Final pretraining / SFT / RL / Unknown / formal benchmark | PASS / NOT RUN / NOT RUN / NOT FROZEN / NOT RUN |
+| Dataset v3 / Teacher-v2 / corpus v3 | **PASS / PASS / PASS**；1,318,688/270,851/279,057；20,807 annotations；14,350 records |
+| SFT / RL / Unknown / formal benchmark | READY_NOT_STARTED / NOT RUN / NOT FROZEN / NOT RUN |
 
 The raw service is vLLM BF16 text-only, 8192 context, non-thinking/direct-response. It does not expose hidden states and therefore does not replace the training-side Fine Head harness.
 
@@ -79,8 +82,10 @@ The Fine Head is the sole trained fine-class source; coarse uses deterministic m
 | A | Production, v2 split, PLAN_B, Safe Adapter, Fidelity, raw Qwen deployment | **COMPLETE / PASS_WITH_LIMITATIONS** |
 | B | Transformers/PEFT harness; pooling; LoRA inventory assertion; serialization v1; Prompt/schema v1; Application/Payload contracts; RAG Evidence Contract | **COMPLETE / PASS_WITH_LIMITATIONS** |
 | C | Raw Near Qwen and LightGBM/XGBoost/RF strong baselines | NOT STARTED |
-| D | Build bounded multi-stage Near SFT corpus | **COMPLETE / PASS**; 22,957 records, legal K_known TRAIN only |
-| E | DeepSeek Flash Teacher + deterministic rules/masking + consistency filter + bounded human audit | **COMPLETE / PASS**; 22,957 valid, quarantine 0 |
+| C0 | Evidence-v2 + all-split eligibility + Observable Dataset v3 | **COMPLETE / PASS** |
+| D | Build Basic-v2 primary + at most 1–2 meaningful auxiliary states from eligible TRAIN | **COMPLETE / PASS** |
+| E | DeepSeek Teacher-v2 40-state smoke, resumable 20,807-state bulk, consistency and bounded review | **COMPLETE / PASS** |
+| E2 | Corpus v3, session-weight/label-map/preflight/blind sanity acceptance | **COMPLETE / PASS**；11,958 sessions / 14,350 records |
 | F | Training #1 classification-first Multi-task BF16 LoRA SFT | Checkpoint A |
 | G | SFT validation/evaluation | no formal test/U_final tuning |
 | H | Fixed reproducible RL Prompt Pool | K_known TRAIN only |
@@ -141,6 +146,6 @@ Temporal/Graph/Memory evaluation is chronological within capture/scenario. One r
 
 ## 10. Current stop point
 
-Final pre-training acceptance is PASS under DEC-0020. `SFT_RUN=false`, `RL_RUN=false`, `UNKNOWN_ALGORITHM_FROZEN=false`, and `READY_TO_START_FORMAL_NEAR_SFT=true`.
+DEC-0022 records completion of DEC-0021 while retaining DEC-0020's classification/sufficiency decoupling. `SFT_RUN=false`, `RL_RUN=false`, `UNKNOWN_ALGORITHM_FROZEN=false`, and `READY_FOR_FORMAL_SFT=true`.
 
-**NEXT ACTION: `START_FORMAL_NEAR_MULTI_TASK_SFT`.** This requires separate explicit authorization and `--execute`; readiness work did not auto-start it. GRPO, Unknown, U_final and Agent experiments remain unauthorized.
+**NEXT ACTION: `START_FORMAL_NEAR_MULTI_TASK_SFT`.** Formal SFT is now authorized only through`NEAR_SFT_CONFIG_V2`; no optimizer run has started. GRPO, Unknown, U_final and Agent experiments remain unauthorized.

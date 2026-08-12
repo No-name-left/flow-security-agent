@@ -50,6 +50,7 @@ from flowsec.training.harness import (
     inventory_lora_targets,
     load_near_class_map,
     pool_hidden_state,
+    session_weighted_record_loss,
 )
 from flowsec.training.materialization import CaptureSessionMatcher, SessionLocator, _tshark_command
 from flowsec.training.prompts import (
@@ -413,6 +414,35 @@ def test_pooling_head_mask_and_lora_inventory() -> None:
     assert output["fine_logits"].shape == (2, 3)
     assert output["classification_supervised_count"].item() == 1
     assert harness.fine_head.projection.weight.grad is not None
+
+
+def test_session_weight_scales_and_composes_record_loss() -> None:
+    torch = pytest.importorskip("torch")
+    one = session_weighted_record_loss(
+        torch.tensor([2.0]),
+        torch.tensor([True]),
+        torch.tensor([1.0]),
+    )
+    half = session_weighted_record_loss(
+        torch.tensor([2.0]),
+        torch.tensor([True]),
+        torch.tensor([0.5]),
+    )
+    two_halves = session_weighted_record_loss(
+        torch.tensor([2.0, 2.0]),
+        torch.tensor([True, True]),
+        torch.tensor([0.5, 0.5]),
+    )
+    assert half.item() == pytest.approx(one.item() * 0.5)
+    assert two_halves.item() == pytest.approx(one.item())
+
+    for invalid in (0.0, -0.5, 1.01, float("inf"), float("nan")):
+        with pytest.raises(ValueError, match="finite and in"):
+            session_weighted_record_loss(
+                torch.tensor([2.0]),
+                torch.tensor([True]),
+                torch.tensor([invalid]),
+            )
 
 
 

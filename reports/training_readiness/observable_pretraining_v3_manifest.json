@@ -1,0 +1,44 @@
+{
+  "application_v2_status": "PASS",
+  "basic_v2_status": "PASS",
+  "dataset_v3_freeze_digest": "8369222ba1c4a87e7e4d836896c02f1b6c412bb13067ddae5449c6525ec5dafc",
+  "dataset_v3_status": "PASS",
+  "final_main_classes": [
+    "Normal",
+    "DDoS_HTTP",
+    "DDoS_TCP",
+    "Password",
+    "SQL_injection",
+    "Vulnerability_scanner"
+  ],
+  "formal_sft_started": false,
+  "generic_main": {"test": 0, "train": 0, "validation": 0},
+  "packet_alignment_status": "PASS",
+  "plan_consistency_status": "PASS",
+  "ready_for_formal_sft": true,
+  "relation_v2_status": "PASS",
+  "sft_corpus": {
+    "record_count": 14350,
+    "session_count": 11958,
+    "sha256": "d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca"
+  },
+  "split_protocol": "CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2_PER_SPLIT_ELIGIBILITY_FILTERED",
+  "task_definition_v2_status": "PASS",
+  "teacher_v2": {
+    "bulk_valid": 20807,
+    "formal_retained": 14350,
+    "quarantine": 0,
+    "raw_terminal_inconsistent_sessions_removed_from_formal_supervision": 161,
+    "status": "PASS_WITH_EXPLICIT_TRAJECTORY_QUARANTINE"
+  },
+  "temporal_v2_status": "PASS",
+  "totals": {"test": 279057, "train": 1318688, "validation": 270851},
+  "u_final_isolation": "PASS",
+  "unobservable_main": {"test": 0, "train": 0, "validation": 0},
+  "validation": {
+    "evaluation_view": "EXACT_EVAL_CLEAN",
+    "record_count": 3231,
+    "sha256": "d03228c3062028316786b1483dd7086c199bc03d142c5b9bfbc4ff6e9f352fe7"
+  },
+  "version": "OBSERVABLE_PRETRAINING_V3_TRACKED_MANIFEST_V1"
+}

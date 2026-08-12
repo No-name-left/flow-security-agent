@@ -12,10 +12,12 @@ from flowsec.runtime.contracts import validate_model_visible_value
 
 TRAINING_PROTOCOL_VERSION = "near_pretraining_v1"
 EVIDENCE_STATE_SCHEMA_VERSION = "EVIDENCE_STATE_SCHEMA_V1"
+EVIDENCE_STATE_SCHEMA_V2 = "EVIDENCE_STATE_SCHEMA_V2"
 APPLICATION_EVIDENCE_VERSION = "APPLICATION_EVIDENCE_V1"
 SANITIZED_PAYLOAD_VERSION = "SANITIZED_PAYLOAD_V1"
 RAG_EVIDENCE_SCHEMA_VERSION = "RAG_EVIDENCE_SCHEMA_V1"
 SFT_CORPUS_VERSION = "NEAR_SFT_CORPUS_V2"
+SFT_CORPUS_VERSION_V3 = "OBSERVABLE_SFT_CORPUS_V3"
 RL_PROMPT_POOL_VERSION = "RL_PROMPT_POOL_V1"
 
 
@@ -60,6 +62,15 @@ class StageType(StrEnum):
     CONTROLLED_MASK = "controlled_mask"
 
 
+class EvidenceStageV2(StrEnum):
+    BASIC = "basic"
+    PACKET_PAYLOAD = "packet_payload"
+    TEMPORAL = "temporal"
+    RELATION = "relation"
+    APPLICATION = "application"
+    KNOWLEDGE = "knowledge"
+
+
 class EvidenceGapType(StrEnum):
     NONE = "none"
     PACKET = "packet"
@@ -69,6 +80,31 @@ class EvidenceGapType(StrEnum):
     PAYLOAD = "payload"
     KNOWLEDGE = "knowledge"
     AMBIGUOUS = "ambiguous"
+
+
+class EvidenceFamilyV2(StrEnum):
+    """Closed Evidence-v2 family vocabulary exposed to Qwen and Teacher-v2."""
+
+    PACKET_PAYLOAD = "PACKET_PAYLOAD"
+    APPLICATION = "APPLICATION"
+    TEMPORAL = "TEMPORAL"
+    RELATION = "RELATION"
+    KNOWLEDGE = "KNOWLEDGE"
+
+
+class GapDomainV2(StrEnum):
+    OBSERVATIONAL = "OBSERVATIONAL"
+    KNOWLEDGE = "KNOWLEDGE"
+    MIXED = "MIXED"
+    NONE = "NONE"
+
+
+class RecoverabilityV2(StrEnum):
+    ALREADY_SUFFICIENT = "ALREADY_SUFFICIENT"
+    RECOVERABLE_WITH_AVAILABLE_TOOLS = "RECOVERABLE_WITH_AVAILABLE_TOOLS"
+    NOT_RECOVERABLE_FROM_AVAILABLE_NETWORK_EVIDENCE = (
+        "NOT_RECOVERABLE_FROM_AVAILABLE_NETWORK_EVIDENCE"
+    )
 
 
 class EvidenceEnvelope(FrozenModel):
@@ -114,6 +150,35 @@ class EvidenceSnapshot(FrozenModel):
         identifiers = [item.evidence_id for item in self.evidence]
         if not identifiers or len(identifiers) != len(set(identifiers)):
             raise ValueError("snapshot evidence IDs must be nonempty and unique")
+        return self
+
+
+class EvidenceSnapshotV2(FrozenModel):
+    """Task Definition v2 TRAIN state; old EvidenceSnapshot stays frozen."""
+
+    sample_id: str = Field(pattern=r"^fs1_[0-9a-f]{40}$", repr=False)
+    evidence_state_id: str = Field(pattern=r"^state_[0-9a-f]{24}$")
+    fine_label: str = Field(min_length=1, repr=False)
+    coarse_label: str = Field(min_length=1, repr=False)
+    split: str = Field(min_length=1, repr=False)
+    ku_role: str = Field(min_length=1, repr=False)
+    stage_type: EvidenceStageV2
+    classification_supervision_valid: bool
+    available_capabilities: tuple[str, ...] = ()
+    evidence: tuple[EvidenceEnvelope, ...]
+    source_digest: str = Field(pattern=r"^[0-9a-f]{64}$", repr=False)
+
+    @model_validator(mode="after")
+    def validate_snapshot(self) -> "EvidenceSnapshotV2":
+        if self.split != "train" or self.ku_role != "K_known":
+            raise ValueError("formal v2 snapshots must be K_known TRAIN only")
+        identifiers = [item.evidence_id for item in self.evidence]
+        if not identifiers or len(identifiers) != len(set(identifiers)):
+            raise ValueError("snapshot evidence IDs must be nonempty and unique")
+        if self.classification_supervision_valid != (
+            self.stage_type is EvidenceStageV2.BASIC
+        ):
+            raise ValueError("only the Basic-v2 snapshot may receive classification CE")
         return self
 
 
@@ -169,8 +234,75 @@ class TeacherAnnotationV1(EvidenceStateV1):
     teacher_confidence: float = Field(ge=0.0, le=1.0)
 
 
+class EvidenceStateV2(FrozenModel):
+    """Multi-gap Evidence-v2 state with no class verdict or free-form tool name."""
+
+    behavior_summary: str | None = Field(default=None, min_length=1, max_length=360)
+    supporting_evidence: tuple[SupportingEvidenceV1, ...] = ()
+    missing_evidence: tuple[EvidenceFamilyV2, ...] = ()
+    evidence_sufficient: bool
+    primary_gap: EvidenceFamilyV2 | None = None
+    gap_type: GapDomainV2
+    recoverability: RecoverabilityV2
+
+    @model_validator(mode="after")
+    def validate_consistency(self) -> "EvidenceStateV2":
+        if self.behavior_summary is not None:
+            validate_model_visible_value(
+                self.behavior_summary, location="evidence_state_v2.summary"
+            )
+
+        supporting_ids = [item.evidence_id for item in self.supporting_evidence]
+        if len(supporting_ids) != len(set(supporting_ids)):
+            raise ValueError("supporting evidence IDs must be unique")
+        if len(self.missing_evidence) != len(set(self.missing_evidence)):
+            raise ValueError("missing evidence families must be unique")
+
+        if self.evidence_sufficient:
+            if self.missing_evidence:
+                raise ValueError("sufficient evidence cannot retain missing evidence")
+            if self.primary_gap is not None:
+                raise ValueError("sufficient evidence must have a null primary gap")
+            if self.gap_type is not GapDomainV2.NONE:
+                raise ValueError("sufficient evidence must use gap_type NONE")
+            if self.recoverability is not RecoverabilityV2.ALREADY_SUFFICIENT:
+                raise ValueError(
+                    "sufficient evidence must use recoverability ALREADY_SUFFICIENT"
+                )
+            return self
+
+        if not self.missing_evidence:
+            raise ValueError("insufficient evidence must declare at least one missing family")
+        if self.primary_gap is None or self.primary_gap not in self.missing_evidence:
+            raise ValueError("insufficient primary_gap must belong to missing_evidence")
+        if self.recoverability is RecoverabilityV2.ALREADY_SUFFICIENT:
+            raise ValueError("insufficient evidence cannot be ALREADY_SUFFICIENT")
+
+        has_knowledge = EvidenceFamilyV2.KNOWLEDGE in self.missing_evidence
+        has_observation = any(
+            item is not EvidenceFamilyV2.KNOWLEDGE for item in self.missing_evidence
+        )
+        expected_domain = (
+            GapDomainV2.MIXED
+            if has_knowledge and has_observation
+            else GapDomainV2.KNOWLEDGE
+            if has_knowledge
+            else GapDomainV2.OBSERVATIONAL
+        )
+        if self.gap_type is not expected_domain:
+            raise ValueError(
+                f"gap_type {self.gap_type.value} disagrees with missing evidence domain "
+                f"{expected_domain.value}"
+            )
+        return self
+
+
+class TeacherAnnotationV2(EvidenceStateV2):
+    teacher_confidence: float = Field(ge=0.0, le=1.0)
+
+
 def validate_evidence_grounding(
-    state: EvidenceStateV1,
+    state: EvidenceStateV1 | EvidenceStateV2,
     evidence: tuple[EvidenceEnvelope, ...],
 ) -> None:
     available = {item.evidence_id: item for item in evidence}
@@ -218,6 +350,59 @@ class SFTRecordV1(FrozenModel):
             raise ValueError("only the legal primary state may receive classification CE")
         if self.state_role == "auxiliary" and self.stage_type is not StageType.CONTROLLED_MASK:
             raise ValueError("auxiliary SFT states must use the controlled lower-evidence protocol")
+        return self
+
+
+class SFTRecordV2(FrozenModel):
+    """Task Definition v2 corpus row with a multi-gap Evidence-State target.
+
+    Historical V1 rows remain frozen and importable. V2 makes Basic-v2 the
+    sole classification-supervised state and permits a bounded richer
+    Observation state as an auxiliary without pretending that evidence was
+    randomly masked.
+    """
+
+    sample_id: str = Field(pattern=r"^fs1_[0-9a-f]{40}$", repr=False)
+    evidence_state_id: str = Field(pattern=r"^state_[0-9a-f]{24}$")
+    fine_label: str = Field(min_length=1, repr=False)
+    class_index: int = Field(ge=0)
+    classification_ce_eligible: bool
+    state_role: str = Field(pattern=r"^(primary|auxiliary)$")
+    serialized_model_input: str = Field(min_length=1)
+    evidence_state_target: EvidenceStateV2
+    stage_type: EvidenceStageV2
+    available_capability_mask: tuple[str, ...]
+    prompt_version: str
+    serialization_version: str
+    schema_version: str = Field(
+        default=EVIDENCE_STATE_SCHEMA_V2,
+        pattern=r"^EVIDENCE_STATE_SCHEMA_V2$",
+    )
+    teacher_annotation_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
+    teacher_model: str = Field(min_length=1)
+    teacher_prompt_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
+    teacher_request_id: str = Field(min_length=1)
+    source_split: str = Field(default="train", repr=False)
+    source_role: str = Field(default="K_known", repr=False)
+    dataset_digest: str = Field(pattern=r"^[0-9a-f]{64}$", repr=False)
+    session_weight: float = Field(gt=0.0, le=1.0)
+
+    @field_validator("serialized_model_input")
+    @classmethod
+    def validate_serialized_input(cls, value: str) -> str:
+        validate_model_visible_value(value, location="sft_v2.serialized_model_input")
+        return value
+
+    @model_validator(mode="after")
+    def validate_training_scope(self) -> "SFTRecordV2":
+        if self.source_split != "train" or self.source_role != "K_known":
+            raise ValueError("SFT-v2 record escaped K_known TRAIN scope")
+        if (self.state_role == "primary") != self.classification_ce_eligible:
+            raise ValueError("only the Basic-v2 primary may receive classification CE")
+        if self.state_role == "primary" and self.stage_type is not EvidenceStageV2.BASIC:
+            raise ValueError("the classification-supervised v2 state must be Basic-v2")
+        if self.state_role == "auxiliary" and self.stage_type is EvidenceStageV2.BASIC:
+            raise ValueError("a v2 auxiliary must add a real bounded Evidence family")
         return self
 
 

@@ -1,8 +1,8 @@
 # Agent / Runtime 暂定架构与实施约束
 
-> Status: **PROVISIONAL IMPLEMENTATION DESIGN with DEC-0019/DEC-0020 HARD CONSTRAINTS**
+> Status: **PROVISIONAL IMPLEMENTATION DESIGN with DEC-0019/DEC-0020/DEC-0021 HARD CONSTRAINTS**
 >
-> Updated: 2026-08-12
+> Updated: 2026-08-13
 >
 > Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is the highest research authority; the [Near training protocol](../training/near_mainline_training_protocol_v1.md) is authoritative for training/Open-world execution. This document is authoritative for Agent/Runtime/Supervisor/RAG/Memory design within those constraints. [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implemented state and cannot override them.
 
@@ -38,6 +38,8 @@ Production Session
 
 No traditional classifier routes samples to Qwen. No Supervisor, Judge, RAG or Runtime component may override the Fine Head or manufacture observations.
 
+DEC-0021 does not redesign this architecture. It replaces the old data/Evidence contract beneath it: only Dataset v3 eligible observations train the main Fine Head; Basic-v2 is the initial input; Qwen emits multi-gap Evidence State v2; Supervisor still selects exactly one legal Evidence action; Runtime remains deterministic authority.
+
 ## 3. Qwen Traffic Expert boundary
 
 ### 3.1 Shared backbone and Fine Head
@@ -46,22 +48,24 @@ No traditional classifier routes samples to Qwen. No Supervisor, Judge, RAG or R
 
 Pooling is frozen as `ATTENTION_MASKED_MEAN_V1`. The implemented training-side harness exposes hidden states and asserts real Qwen3.5 Gated DeltaNet/Gated Attention/FFN LoRA targets. The vLLM OpenAI-compatible raw service remains useful for raw inference but cannot implement the Fine Head.
 
-### 3.2 LM Evidence State
+### 3.2 LM Evidence State v2
 
-The LM Head produces concise, direct-response Evidence State:
+The LM Head produces concise, direct-response multi-gap Evidence State:
 
 - optional brief behavior summary;
 - supporting evidence references;
-- missing evidence;
+- unique `missing_evidence[]` from `PACKET_PAYLOAD`, `APPLICATION`, `TEMPORAL`, `RELATION`, `KNOWLEDGE`;
 - evidence sufficiency;
-- gap type;
+- `primary_gap`;
+- `gap_type` in `OBSERVATIONAL`, `KNOWLEDGE`, `MIXED`, `NONE`;
+- `recoverability` in `ALREADY_SUFFICIENT`, `RECOVERABLE_WITH_AVAILABLE_TOOLS`, `NOT_RECOVERABLE_FROM_AVAILABLE_NETWORK_EVIDENCE`;
 - backoff/abstention-related state.
 
-It does not generate an independent competing fine label. Long Chain-of-Thought is not a model or system interface.
+It does not generate an independent competing fine label or a free-form tool name. Multiple real gaps are allowed; the Supervisor and Runtime still resolve at most one action per round. Long Chain-of-Thought is not a model or system interface.
 
-### 3.3 Evidence-stage training
+### 3.3 Evidence-v2 training
 
-The Traffic Expert must learn bounded legal stages from Initial Evidence through packet, Temporal, Graph, Application, Sanitized Payload and Knowledge evidence. Only real AVAILABLE evidence may be present. Stage multiplicity is bounded so a single session cannot dominate SFT.
+The Traffic Expert learns one Basic-v2 primary per eligible TRAIN session and at most one or two meaningful auxiliary states based on genuine gaps. Basic-v2 contains whole-session summary, first-eight packet metadata, packet-index-aligned bounded sanitized payload and cheap deterministic Application metadata. Observation families are PACKET_PAYLOAD, APPLICATION, TEMPORAL and RELATION; KNOWLEDGE remains separate. Only real AVAILABLE evidence may be present. Random evidence deletion and combinatorial stage enumeration are prohibited.
 
 Training #1 is classification-first Multi-task SFT. Under `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`, one legal real primary per TRAIN K-known session is classification-CE eligible independently of `evidence_sufficient`; controlled lower-evidence auxiliaries mask CE and retain Evidence LM supervision. GT is backend-only. This separates the Fine Head known-class posterior task from the LM Evidence-State stopping/acquisition task. Training #2 is RLAIF-GRPO for rollout-varying Evidence behavior plus a separate classification CE term that preserves Fine Head/LoRA classification. Judge sufficiency cannot gate CE; Fine correctness is constant within an LM rollout group and is not the primary group-relative reward.
 
@@ -140,15 +144,15 @@ The same tool may run again only with a distinct validated request signature. Ex
 
 | Capability | Current state | Contract |
 | --- | --- | --- |
-| Initial Evidence | AVAILABLE | packets 1–8 + whole-session safe summary |
+| Basic-v2 | MATERIALIZED / PASS | summary + first-8 metadata + packet-aligned sanitized payload + cheap Application |
 | Packet expansion | AVAILABLE_PER_SESSION | only materialized packets 9–16 |
-| Temporal | AVAILABLE | strictly past-only safe stats |
-| Graph/Relation | AVAILABLE_WITH_LIMITATION | anonymous roles + real repeated relation only |
-| Application | UNAVAILABLE | final Near method must materialize real structured observations |
-| Sanitized Payload | UNAVAILABLE | final Near method requires bounded on-demand sanitizer |
+| Temporal v2 | MATERIALIZED / PASS | 10/60/180/300s strictly-past behavior statistics |
+| Relation v2 | MATERIALIZED / PASS | same-scope, strictly-past endpoint/MAC-linked ARP/DNS/relation context |
+| Application v2 | MATERIALIZED / PASS | real structured protocol/request/response observations |
+| Packet-aligned Sanitized Payload v2 | MATERIALIZED / PASS | packet index/direction/time/protocol alignment proved per record |
 | Production Knowledge RAG | UNAVAILABLE | final Near Agent requires frozen KB/retriever/tool |
 
-Unavailability is fail-closed and explicit. It is not permission to read PCAP on demand inside Runtime or fabricate fields.
+Old PLAN_B sidecars lack the new population/alignment contract and are historical. Evidence-v2 may perform an offline, versioned PCAP evidence scan; this is not permission for online Runtime to read raw PCAP on demand. Unavailability remains fail-closed and explicit.
 
 ## 9. Observation, Payload and Knowledge separation
 
@@ -189,7 +193,7 @@ Before formal test/U_final, freeze prompt hashes, schemas, provider/model identi
 
 Formal Near Agent comparison includes:
 
-- Basic: Initial Evidence only;
+- Basic: Basic-v2 only;
 - Fixed Full: all legal currently available Evidence without dynamic selection;
 - RulePolicy: deterministic evidence choice;
 - DeepSeek Flash Supervisor: dynamic evidence choice.
@@ -244,7 +248,7 @@ When Temporal, Graph or Memory is active, process formal sessions in capture/sce
 
 ## 17. Current implementation state and deferred items
 
-Current implementation: Runtime foundation, Production Safe Adapter v1, Initial/packet/Temporal/limited Relation evidence, provider-neutral adapters, raw local Qwen service/smoke, Evidence Fidelity Gate, training-side Fine Head/harness, frozen Prompt/schema/serialization, role-isolated DeepSeek request/provider paths, TRAIN-only Application/Payload sidecars and generic hybrid RAG, complete Teacher V3 pilot/bulk, frozen final SFT corpus, pair/manual/token audits, and real Qwen dry-run/resume smoke. Final pre-training acceptance and launcher preflight pass; these assets are not formal online Agent tools, a training run or paper results.
+Reusable implementation: Runtime foundation, Production Safe Adapter v1, provider-neutral adapters, raw local Qwen service/smoke, training-side Fine Head/harness, role-isolated DeepSeek paths and real Qwen dry-run/resume smoke. Dataset v3/Evidence-v2/Teacher-v2/corpus-v3 pretraining assets now pass acceptance; old TRAIN sidecars, Teacher V3 and V2 SFT corpus remain historical. Formal SFT is authorized through the v2 config but has not started. Production online wiring of every new Evidence-v2 family remains a later Agent-integration task and must stay fail closed until connected.
 
 Not implemented/run: formal SFT/RLAIF, Independent Unknown, formal online Application/Payload/RAG Runtime actions, formal Supervisor/Agent benchmark and Memory experiments.
 

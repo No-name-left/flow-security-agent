@@ -132,8 +132,30 @@ def decode_hex_payload(value: str) -> str | None:
     return decoded
 
 
+def _bounded_unquote(value: str) -> str:
+    decoded = value
+    for _ in range(3):
+        expanded = unquote(decoded)
+        if expanded == decoded:
+            break
+        decoded = expanded
+    return _CONTROL.sub(" ", decoded).strip()
+
+
 def _value_shape(value: str) -> str:
-    decoded = unquote(value)
+    decoded = _bounded_unquote(value)
+    # normalize_uri_shape emits these closed placeholders. Preserve them when
+    # a sanitized HTTP request is validated again; otherwise e.g. <NUM> would
+    # degrade to <TEXT> and make the sanitizer non-idempotent.
+    if decoded.upper() in {
+        "<NUM>",
+        "<SQL_EXPR>",
+        "<SCRIPT_EXPR>",
+        "<PATH_TRAVERSAL>",
+        "<EMPTY>",
+        "<TEXT>",
+    }:
+        return decoded.upper()
     lowered = decoded.casefold()
     if re.fullmatch(r"[-+]?\d+(?:\.\d+)?", decoded):
         return "<NUM>"
@@ -148,6 +170,28 @@ def _value_shape(value: str) -> str:
     return "<TEXT>"
 
 
+def _parameter_key_shape(value: str) -> str:
+    decoded = _bounded_unquote(value).casefold()
+    existing = {
+        "<command_param>": "<COMMAND_PARAM>",
+        "<file_param>": "<FILE_PARAM>",
+        "<credential_param>": "<CREDENTIAL_PARAM>",
+        "<query_param>": "<QUERY_PARAM>",
+        "<param>": "<PARAM>",
+    }
+    if decoded in existing:
+        return existing[decoded]
+    if decoded in {"cmd", "command", "exec", "execute"}:
+        return "<COMMAND_PARAM>"
+    if decoded in {"file", "filename", "upload"}:
+        return "<FILE_PARAM>"
+    if decoded in {"user", "username", "pass", "password"}:
+        return "<CREDENTIAL_PARAM>"
+    if decoded in {"id", "query", "search"}:
+        return "<QUERY_PARAM>"
+    return "<PARAM>"
+
+
 def normalize_uri_shape(value: str) -> str:
     try:
         parts = urlsplit(value)
@@ -157,8 +201,12 @@ def normalize_uri_shape(value: str) -> str:
     for segment in parts.path.split("/"):
         if not segment:
             continue
-        decoded = unquote(segment)
-        if decoded in {"..", "."}:
+        decoded = _bounded_unquote(segment)
+        if decoded.upper() in {"<SEG>", "<NUM>", "<ID>", "<APP>", "<ROUTE>"}:
+            segments.append(decoded.upper())
+        elif re.fullmatch(r"(?i)<FILE>\.[a-z0-9]{1,8}", decoded):
+            segments.append("<FILE>." + decoded.rsplit(".", 1)[-1].lower())
+        elif decoded in {"..", "."}:
             segments.append(decoded)
         elif re.fullmatch(r"\d+", decoded):
             segments.append("<NUM>")
@@ -169,7 +217,10 @@ def normalize_uri_shape(value: str) -> str:
         else:
             segments.append("<SEG>")
     path = "/" + "/".join(segments)
-    params = [f"{re.sub(r'[^a-zA-Z0-9_-]', '', key)[:32]}={_value_shape(val)}" for key, val in parse_qsl(parts.query, keep_blank_values=True)]
+    params = [
+        f"{_parameter_key_shape(key)}={_value_shape(val)}"
+        for key, val in parse_qsl(parts.query, keep_blank_values=True)
+    ]
     return path + (("?" + "&".join(params)) if params else "")
 
 
@@ -280,7 +331,9 @@ def application_observation_from_frame(frame: dict[str, str]) -> dict[str, Any] 
                 parse_qsl(urlsplit(frame["http.request.uri"]).query, keep_blank_values=True)
             )
         if frame.get("http.response.code"):
-            output["status"] = frame["http.response.code"][:3]
+            status = frame["http.response.code"][:3]
+            if status.isdigit():
+                output["status"] = int(status)
         if frame.get("http.content_type"):
             output["content_type"] = frame["http.content_type"].split(";", 1)[0].casefold()[:80]
         if frame.get("http.content_length", "").isdigit():

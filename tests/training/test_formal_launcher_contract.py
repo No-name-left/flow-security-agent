@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -7,9 +8,61 @@ import yaml
 
 from flowsec.training.train_near_sft import (
     LAUNCHER_VERSION,
+    formal_preflight,
     initialize_run_directory,
+    validate_formal_record_contract,
     validate_resume_metadata,
 )
+
+
+def _sft_record(*, sample: str, label: str, index: int, weight: float = 1.0) -> dict[str, object]:
+    return {
+        "sample_id": "fs1_" + sample * 40,
+        "evidence_state_id": "state_" + sample * 24,
+        "fine_label": label,
+        "class_index": index,
+        "classification_ce_eligible": True,
+        "state_role": "primary",
+        "serialized_model_input": "bounded traffic evidence",
+        "evidence_state_target": {
+            "behavior_summary": "One bounded traffic observation is visible.",
+            "supporting_evidence": [],
+            "missing_evidence": [],
+            "evidence_sufficient": True,
+            "gap_type": "none",
+        },
+        "stage_type": "initial",
+        "available_capability_mask": [],
+        "prompt_version": "fixture",
+        "serialization_version": "fixture",
+        "schema_version": "EVIDENCE_STATE_SCHEMA_V1",
+        "teacher_annotation_digest": "a" * 64,
+        "teacher_model": "fixture",
+        "teacher_prompt_digest": "b" * 64,
+        "teacher_request_id": "fixture-request",
+        "source_split": "train",
+        "source_role": "K_known",
+        "dataset_digest": "c" * 64,
+        "session_weight": weight,
+    }
+
+
+def _validation_record(*, sample: str, label: str, index: int) -> dict[str, object]:
+    return {
+        "sample_id": "fs1_" + sample * 40,
+        "fine_label": label,
+        "class_index": index,
+        "serialized_model_input": "bounded validation evidence",
+        "prompt_version": "fixture",
+        "serialization_version": "fixture",
+        "source_split": "validation",
+        "source_role": "K_known",
+        "dataset_digest": "d" * 64,
+    }
+
+
+def _write_jsonl(path: Path, rows: list[dict[str, object]]) -> None:
+    path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
 
 
 def _metadata() -> dict[str, object]:
@@ -69,3 +122,124 @@ def test_formal_config_declares_all_reproducibility_and_safety_fields() -> None:
     assert config["validation"]["test_usage"] == "final_results_only"
     assert config["validation"]["u_final_usage"] == "forbidden"
     assert config["resume"]["compatibility"].startswith("strict_")
+
+
+def test_superseded_formal_config_remains_fail_closed(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    model_root = tmp_path / "model"
+    model_root.mkdir()
+    monkeypatch.setenv("ARTIFACT_ROOT", str(tmp_path))
+    monkeypatch.setenv("QWEN_MODEL_PATH", str(model_root))
+    with pytest.raises(RuntimeError, match="not frozen/authorized"):
+        formal_preflight(Path("configs/training/near_sft_config_v1.yaml"))
+
+
+def test_v3_formal_config_uses_new_schema_and_bounded_state_contract() -> None:
+    config = yaml.safe_load(Path("configs/training/near_sft_config_v2.yaml").read_text())
+    assert config["status"] == "FROZEN_READY"
+    assert config["formal_run_authorized"] is True
+    assert config["data"]["corpus_version"] == "OBSERVABLE_SFT_CORPUS_V3"
+    assert config["data"]["evidence_state_schema_version"] == "EVIDENCE_STATE_SCHEMA_V2"
+    assert config["data"]["expected_unique_sessions"] == 11958
+    assert config["quality_gates"]["max_states_per_session"] == 3
+    assert config["schedule"]["max_sequence_length"] == 8192
+
+
+def test_record_preflight_uses_active_class_map_and_parameterized_session_count(
+    tmp_path: Path,
+) -> None:
+    corpus = tmp_path / "corpus.jsonl"
+    validation = tmp_path / "validation.jsonl"
+    _write_jsonl(
+        corpus,
+        [
+            _sft_record(sample="1", label="Normal", index=0),
+            _sft_record(sample="2", label="DDoS_TCP", index=1),
+        ],
+    )
+    _write_jsonl(
+        validation,
+        [_validation_record(sample="3", label="DDoS_TCP", index=1)],
+    )
+    result = validate_formal_record_contract(
+        corpus,
+        validation,
+        {"Normal": 0, "DDoS_TCP": 1},
+        expected_unique_sessions=2,
+        max_states_per_session=2,
+    )
+    assert result["corpus_unique_sessions"] == 2
+    assert result["max_states_per_session_observed"] == 1
+
+
+@pytest.mark.parametrize("asset", ["corpus", "validation"])
+def test_record_preflight_rejects_class_index_or_label_outside_active_map(
+    tmp_path: Path,
+    asset: str,
+) -> None:
+    corpus = tmp_path / "corpus.jsonl"
+    validation = tmp_path / "validation.jsonl"
+    corpus_row = _sft_record(sample="1", label="Normal", index=0)
+    validation_row = _validation_record(sample="2", label="Normal", index=0)
+    if asset == "corpus":
+        corpus_row["class_index"] = 1
+    else:
+        validation_row["fine_label"] = "Removed_Class"
+    _write_jsonl(corpus, [corpus_row])
+    _write_jsonl(validation, [validation_row])
+    with pytest.raises(RuntimeError, match="active class map"):
+        validate_formal_record_contract(
+            corpus,
+            validation,
+            {"Normal": 0},
+            expected_unique_sessions=1,
+            max_states_per_session=2,
+        )
+
+
+def test_record_preflight_enforces_state_cap_and_weight_sum(tmp_path: Path) -> None:
+    corpus = tmp_path / "corpus.jsonl"
+    validation = tmp_path / "validation.jsonl"
+    first = _sft_record(sample="1", label="Normal", index=0, weight=0.4)
+    second = _sft_record(sample="1", label="Normal", index=0, weight=0.4)
+    second["evidence_state_id"] = "state_" + "2" * 24
+    second["classification_ce_eligible"] = False
+    second["state_role"] = "auxiliary"
+    second["stage_type"] = "controlled_mask"
+    _write_jsonl(corpus, [first, second])
+    _write_jsonl(validation, [_validation_record(sample="3", label="Normal", index=0)])
+    with pytest.raises(RuntimeError, match="weights do not sum to one"):
+        validate_formal_record_contract(
+            corpus,
+            validation,
+            {"Normal": 0},
+            expected_unique_sessions=1,
+            max_states_per_session=2,
+        )
+    with pytest.raises(RuntimeError, match="max_states_per_session"):
+        validate_formal_record_contract(
+            corpus,
+            validation,
+            {"Normal": 0},
+            expected_unique_sessions=1,
+            max_states_per_session=1,
+        )
+
+
+def test_record_preflight_rejects_train_validation_identity_overlap(tmp_path: Path) -> None:
+    corpus = tmp_path / "corpus.jsonl"
+    validation = tmp_path / "validation.jsonl"
+    _write_jsonl(corpus, [_sft_record(sample="1", label="Normal", index=0)])
+    _write_jsonl(
+        validation, [_validation_record(sample="1", label="Normal", index=0)]
+    )
+    with pytest.raises(RuntimeError, match="overlap sample identity"):
+        validate_formal_record_contract(
+            corpus,
+            validation,
+            {"Normal": 0},
+            expected_unique_sessions=1,
+            max_states_per_session=1,
+        )

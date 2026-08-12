@@ -1,0 +1,209 @@
+{
+  "DATASET_V3_FREEZE_STATUS": "PASS",
+  "dataset_version": "OBSERVABLE_DATASET_V3",
+  "eligibility_policy_version": "FINE_CLASS_OBSERVATION_ELIGIBILITY_V2",
+  "exact_model_view_cross_split_collision_groups": 761,
+  "excluded_candidate_roles": {
+    "MITM": "OBSERVABILITY_LIMITED_WRONG_GRANULARITY",
+    "Port_Scanning": "OBSERVABILITY_LIMITED_CAPTURE_SEMANTICS_MISMATCH"
+  },
+  "external_artifacts": {
+    "assignments": {
+      "path": "GIT_EXTERNAL",
+      "sha256": "a56f0993dcfd9480df2fa25430f646d06ecd9eee9b46225c25c3d3a9b81b1e7a",
+      "size_bytes": 40825327
+    },
+    "sft_candidates": {
+      "path": "GIT_EXTERNAL",
+      "sha256": "147f43e1d4768174b6a9818d9cc25b0f34e8bc2c0201d75ce6535f46275132fb",
+      "size_bytes": 1106248
+    }
+  },
+  "final_main_class_count": 6,
+  "final_main_classes": [
+    "Normal",
+    "DDoS_HTTP",
+    "DDoS_TCP",
+    "Password",
+    "SQL_injection",
+    "Vulnerability_scanner"
+  ],
+  "formal_counts": {
+    "test": 279057,
+    "train": 1318688,
+    "validation": 270851
+  },
+  "freeze_version": "OBSERVABLE_DATASET_V3_FREEZE_V1",
+  "generic_main": {
+    "test": 0,
+    "train": 0,
+    "validation": 0
+  },
+  "manifest_content_digest": "8369222ba1c4a87e7e4d836896c02f1b6c412bb13067ddae5449c6525ec5dafc",
+  "near_signature_cross_split_collision_groups": 348,
+  "per_class": {
+    "DDoS_HTTP": {
+      "eligible_n": 10383,
+      "excluded_n": 7514,
+      "original_n": 12145,
+      "retain_main_class": true,
+      "test_n": 842,
+      "train_n": 3633,
+      "validation_n": 156
+    },
+    "DDoS_TCP": {
+      "eligible_n": 1175806,
+      "excluded_n": 20429,
+      "original_n": 1176049,
+      "retain_main_class": true,
+      "test_n": 172231,
+      "train_n": 817957,
+      "validation_n": 165432
+    },
+    "MITM": {
+      "eligible_n": 0,
+      "excluded_n": 227,
+      "original_n": 227,
+      "retain_main_class": false,
+      "test_n": 0,
+      "train_n": 0,
+      "validation_n": 0
+    },
+    "Normal": {
+      "eligible_n": 680504,
+      "excluded_n": 2767,
+      "original_n": 680504,
+      "retain_main_class": true,
+      "test_n": 101367,
+      "train_n": 475650,
+      "validation_n": 100720
+    },
+    "Password": {
+      "eligible_n": 23650,
+      "excluded_n": 72449,
+      "original_n": 96081,
+      "retain_main_class": true,
+      "test_n": 3552,
+      "train_n": 16532,
+      "validation_n": 3548
+    },
+    "Port_Scanning": {
+      "eligible_n": 0,
+      "excluded_n": 10908,
+      "original_n": 10908,
+      "retain_main_class": false,
+      "test_n": 0,
+      "train_n": 0,
+      "validation_n": 0
+    },
+    "SQL_injection": {
+      "eligible_n": 4264,
+      "excluded_n": 300,
+      "original_n": 4433,
+      "retain_main_class": true,
+      "test_n": 641,
+      "train_n": 2924,
+      "validation_n": 568
+    },
+    "Vulnerability_scanner": {
+      "eligible_n": 2870,
+      "excluded_n": 69,
+      "original_n": 2912,
+      "retain_main_class": true,
+      "test_n": 424,
+      "train_n": 1992,
+      "validation_n": 427
+    }
+  },
+  "sample_identity_overlap": {
+    "train_test": 0,
+    "train_validation": 0,
+    "validation_test": 0
+  },
+  "sft_candidate_selection": {
+    "class_budget": 2048,
+    "classes": {
+      "DDoS_HTTP": {
+        "bounded_selection_capacity": 3633,
+        "budget_underfill_reason": null,
+        "eligible_train": 3633,
+        "exact_groups_available": 3633,
+        "exact_groups_selected": 2048,
+        "maximum_selected_per_exact": 1,
+        "near_groups_available": 101,
+        "near_groups_selected": 101,
+        "selected": 2048
+      },
+      "DDoS_TCP": {
+        "bounded_selection_capacity": 4882,
+        "budget_underfill_reason": null,
+        "eligible_train": 817957,
+        "exact_groups_available": 1032,
+        "exact_groups_selected": 1032,
+        "maximum_selected_per_exact": 5,
+        "near_groups_available": 7,
+        "near_groups_selected": 7,
+        "selected": 2048
+      },
+      "Normal": {
+        "bounded_selection_capacity": 470031,
+        "budget_underfill_reason": null,
+        "eligible_train": 475650,
+        "exact_groups_available": 469897,
+        "exact_groups_selected": 2048,
+        "maximum_selected_per_exact": 1,
+        "near_groups_available": 226,
+        "near_groups_selected": 226,
+        "selected": 2048
+      },
+      "Password": {
+        "bounded_selection_capacity": 16532,
+        "budget_underfill_reason": null,
+        "eligible_train": 16532,
+        "exact_groups_available": 16532,
+        "exact_groups_selected": 2048,
+        "maximum_selected_per_exact": 1,
+        "near_groups_available": 33,
+        "near_groups_selected": 33,
+        "selected": 2048
+      },
+      "SQL_injection": {
+        "bounded_selection_capacity": 2924,
+        "budget_underfill_reason": null,
+        "eligible_train": 2924,
+        "exact_groups_available": 2924,
+        "exact_groups_selected": 2048,
+        "maximum_selected_per_exact": 1,
+        "near_groups_available": 58,
+        "near_groups_selected": 58,
+        "selected": 2048
+      },
+      "Vulnerability_scanner": {
+        "bounded_selection_capacity": 1879,
+        "budget_underfill_reason": "EXACT_MULTIPLICITY_CAP",
+        "eligible_train": 1992,
+        "exact_groups_available": 1841,
+        "exact_groups_selected": 1841,
+        "maximum_selected_per_exact": 16,
+        "near_groups_available": 401,
+        "near_groups_selected": 401,
+        "selected": 1879
+      }
+    },
+    "max_per_exact_group": 16,
+    "seed": 20260813,
+    "total": 12119,
+    "version": "CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V2"
+  },
+  "source_preflight": {
+    "path": "GIT_EXTERNAL",
+    "sha256": "764aebe29b87b3970105f90136f8ffdc848e23d73816c7a7eb59e8ca5c484179",
+    "size_bytes": 12180
+  },
+  "split_protocol": "CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2_PER_SPLIT_ELIGIBILITY_FILTERED",
+  "unobservable_main": {
+    "test": 0,
+    "train": 0,
+    "validation": 0
+  }
+}

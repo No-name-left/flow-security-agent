@@ -2,13 +2,15 @@
 
 > Status: **FROZEN / Training and Open-World Execution Authority**
 >
-> Protocol date: 2026-08-11; implementation status revalidated 2026-08-12
+> Protocol date: 2026-08-11; implementation status revalidated 2026-08-13
 >
 > Scope: first complete Edge-IIoTset Near mainline, from training readiness through SFT, RLAIF-GRPO, Independent Unknown, Agent evaluation, Experience Memory and novel-class onboarding.
 >
-> State: `TRAINING_PROTOCOL_FROZEN=true`; `SFT_RUN=false`; `RL_RUN=false`; `UNKNOWN_ALGORITHM_FROZEN=false`.
+> State: `TRAINING_PROTOCOL_FROZEN=true`; `SFT_RUN=false`; `RL_RUN=false`; `UNKNOWN_ALGORITHM_FROZEN=false`; `READY_FOR_FORMAL_SFT=true`.
 >
 > Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is the highest research authority. This protocol is the execution authority for training and open-world work. The [Agent architecture](../design/agent_architecture_provisional.md) governs Runtime/Supervisor/RAG/Memory implementation, and [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records current implementation state only.
+
+> **DEC-0021 EXECUTION OVERRIDE:** the old 11-class PLAN_B population, Teacher V3 targets, `NEAR_SFT_CORPUS_V2`, validation artifact and `NEAR_SFT_CONFIG_V1` authorization are superseded historical inputs. No formal SFT may start until Task Definition v2, Observable Dataset v3, Evidence-v2, Teacher-v2 and corpus v3 pass a new acceptance. Architecture, Near-first order, DEC-0020 classification/sufficiency decoupling and U_final isolation remain frozen.
 
 ## 1. Status vocabulary
 
@@ -33,7 +35,7 @@ Near must first produce:
 
 Only after `NEAR_MAINLINE_COMPLETE=true` may the project resume Pure Generative SFT ablation, DPO, Far, Mixed, IoT-23, tokenizer ablation, QLoRA, thinking-on, low-resource stress, learnable Agent policy RL or continual LoRA. Far and Mixed retain their frozen K/U roles, but require their own legal corpora and checkpoints; a Near checkpoint is not their formal known-class model.
 
-## 3. Frozen Near data protocol
+## 3. Frozen Near Task Definition v2 data protocol
 
 | Item | Frozen value |
 | --- | --- |
@@ -41,29 +43,28 @@ Only after `NEAR_MAINLINE_COMPLETE=true` may the project resume Pure Generative 
 | Preset | Near |
 | Seed | `20260809` |
 | Physical split | `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2` |
-| SFT selection | `CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1`, `PLAN_B` |
-| Candidate count | 16,979 unique sessions |
-| Candidate universe | `K_known ∩ physical train` only |
+| Dataset population | Observable Dataset v3, same eligibility contract across train/validation/test |
+| Split default | preserve `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, then filter each split |
+| SFT universe | eligible TRAIN sessions from `FINAL_MAIN_CLASSES` only |
 
-`K_known`:
+`MAX_MAIN_CLASSES=8`; candidates:
 
-- Backdoor
 - DDoS_HTTP
 - DDoS_TCP
 - MITM
 - Normal
 - Password
 - Port_Scanning
-- Ransomware
 - SQL_injection
-- Uploading
 - Vulnerability_scanner
+
+Final main classes may be reduced to seven or six only by pre-model eligibility, split support and evidence-diversity gates. Backdoor is a Long-Horizon Temporal Case Study. Uploading and Ransomware are Observability-Limited/Abstain auxiliary classes. All three have `classification_ce_eligible=false` outside a future explicitly scoped case-study task.
 
 `U_dev`: DDoS_ICMP, OS_Fingerprinting.
 
 `U_final`: DDoS_UDP, XSS.
 
-Validation, test, `U_dev` as a Known supervision label and `U_final` are forbidden from the SFT candidate universe. Do not rerun PLAN_A/B/C selection, change K/U, change the split or choose a different seed because of model outcomes.
+Validation, test, `U_dev` and `U_final` are forbidden from Teacher-v2 and the SFT corpus. Preserve the old split then filter by default; only an unusable per-class split support result may trigger a deterministic grouped/chronological v3 assignment before model runs. Random row splitting and model-driven data selection are prohibited.
 
 ## 4. Formal model and role separation
 
@@ -136,11 +137,11 @@ Before corpus materialization, compare only:
 
 Compact serialization may remove redundant keys, repeated punctuation and uninformative wording. It must not remove legal Evidence, change values/units/order or alter semantics. The selected form becomes `SERIALIZATION_V1`.
 
-Before formal SFT corpus generation, freeze and fingerprint:
+Before formal SFT corpus v3 generation, freeze and fingerprint:
 
-- Traffic Expert Prompt v2;
+- Basic-v2 Traffic Expert Prompt;
 - Fine class map and deterministic fine-to-coarse map;
-- Evidence State response schema v1;
+- Evidence State response schema v2 with multi-gap, primary gap and recoverability;
 - serialization v1;
 - classification marker/pooling contract;
 - model-safe Observation/Knowledge distinction;
@@ -148,13 +149,24 @@ Before formal SFT corpus generation, freeze and fingerprint:
 
 Prompting remains concise, non-thinking and direct-response. Do not request long Chain-of-Thought, include dataset/capture hints, or embed encyclopedia material in the system prompt.
 
-## 6. Evidence stages and corpus permissions
+## 6. Evidence-v2 states and corpus permissions
 
-A legal session can create bounded stage variants:
+A legal Dataset v3 TRAIN session creates exactly one Basic-v2 primary and at most one or two meaningful cumulative auxiliary states. Basic-v2 is cheap-but-useful: session summary, first-eight packet metadata, packet-index-aligned bounded sanitized payload and cheap deterministic Application metadata. Auxiliary states follow real unresolved gaps; they are not random masks and do not enumerate all family combinations.
+
+Evidence families are fixed:
+
+| Domain | Families |
+| --- | --- |
+| Observation | `PACKET_PAYLOAD`, `APPLICATION`, `TEMPORAL`, `RELATION` |
+| Knowledge | `KNOWLEDGE` |
+
+Temporal-v2 supports fixed 10/60/180/300 second strictly-past windows. Relation-v2 may include time-linked ARP/link-layer and other lawful relations without changing the target session definition. Payload rows must carry explicit session ID, packet index, direction, relative time, protocol, presence/length, sanitized text and sanitizer version.
+
+The old stage table remains historical only:
 
 | Stage | Evidence |
 | --- | --- |
-| 0 | Initial Evidence: packets 1–8 plus whole-session safe summary |
+| 0 | Basic-v2: summary + packets 1–8 metadata + packet-aligned sanitized payload + cheap Application |
 | 1 | + packets 9–16 |
 | 2 | + strictly past-only Temporal Context |
 | 3 | + anonymous Graph/Relation Context |
@@ -162,7 +174,7 @@ A legal session can create bounded stage variants:
 | 5 | + bounded Sanitized Payload |
 | 6 | + Knowledge RAG Evidence |
 
-Only genuinely AVAILABLE, materialized and model-safe Evidence may appear. The pre-training path now materializes stages 0–6 for legal Near K-known TRAIN states: Application/Payload use frozen sidecars and Knowledge uses the frozen generic hybrid index. Formal online Runtime wiring for those three capabilities remains a later Agent-integration step; readiness of training assets must not be described as an online tool implementation.
+Only genuinely AVAILABLE, materialized and model-safe Evidence may appear. Old PLAN_B Application/Payload sidecars lack the v2 population and packet-alignment contract and cannot be reused as formal v2 evidence. Knowledge assets may be reused only after new source/query/schema fingerprints and leakage gates pass.
 
 **[FROZEN]** Final Near Agent/SFT must support Application Evidence wherever the source PCAP provides reliably extractable fields. Payload is never default input but must be available on demand when a real content gap exists. Corpus construction uses bounded stage multiplicity and diversity-aware sampling so one session cannot dominate through many near-identical stage variants.
 
@@ -223,7 +235,9 @@ deterministic evidence rules
 + bounded human audit
 ```
 
-Teacher may receive verified GT as immutable task context, but may only organize and assess existing observations; it cannot modify GT or invent observations. Teacher prompt, schema, permissions and logs are independent from Judge and Supervisor.
+Teacher-v2 runs only after deterministic eligibility filtering. It may receive verified GT as immutable task context, but may only organize and assess existing observations; it cannot modify GT, clean the dataset or invent observations. It labels`evidence_sufficient`, grounded support, unique `missing_evidence[]`, `primary_gap`, `gap_type` and `recoverability`. Run a deterministic 20–50-state smoke before resumable bulk; old Teacher V3 cache/results cannot seed v2.
+
+`Evidence State v2` consistency is mandatory: sufficient implies no missing family, null primary gap, `gap_type=NONE` and `recoverability=ALREADY_SUFFICIENT`; insufficient primary gap must belong to the unique missing family set, and domain/recoverability must agree with available capabilities.
 
 LoRA rank/alpha/dropout, learning rate, batch size, gradient accumulation, epochs, warmup, `lambda_cls` and `lambda_ev` are **[VALIDATION TUNABLE]** through a small preregistered search. Primary selection uses validation fine Macro-F1, with per-class F1, loss, Evidence-State quality and training stability as secondary diagnostics. Do not run a large grid search.
 
@@ -333,11 +347,13 @@ Class Memory stores safe labeled support representation, prototype, description 
 | A | Production, split, Adapter, fidelity and raw Qwen deployment | **COMPLETE** with recorded limitations |
 | B | Training-side Transformers/PEFT harness; LoRA inventory checks; pooling; serialization v1; Prompt/schema v1; Application/Payload contracts; RAG Evidence Contract | **COMPLETE** for non-API readiness; no U_final access |
 | C | Raw Near Qwen and strong traditional baselines | reproducible baseline manifests |
-| D | Build bounded, diversity-aware multi-stage Near SFT corpus | **COMPLETE**; 22,957 records / 16,979 legal K-known TRAIN sessions |
-| E | DeepSeek Flash Teacher annotation, automatic consistency filtering and bounded human audit | **COMPLETE / PASS**; Teacher V3 bulk 22,957/22,957, quarantine 0, manual review recorded |
+| C0 | Evidence-v2, all-split eligibility and Observable Dataset v3 | **COMPLETE / PASS** |
+| D | Build one Basic-v2 primary plus at most two meaningful auxiliary states per eligible TRAIN session | **COMPLETE / PASS** |
+| E | Teacher-v2 40-state smoke, resumable 20,807-state bulk, consistency filtering and bounded audit | **COMPLETE / PASS** |
+| E2 | Corpus v3, active class-map/session-weight/preflight/blind-sanity acceptance | **COMPLETE / PASS**；11,958 sessions / 14,350 records |
 | F | Training #1 classification-first multi-task LoRA SFT | Checkpoint A + manifest |
 | G | SFT validation/evaluation | no formal test-driven tuning |
-| H | Build fixed reproducible RL Prompt Pool from legal K_known TRAIN states | **READY**; 6,000 prompts and digest frozen, RL not run |
+| H | Build fixed reproducible RL Prompt Pool from legal v3 K_known TRAIN states | NOT STARTED; historical 6,000-prompt pool is superseded |
 | I | Training #2 RLAIF-GRPO + classification CE preservation | Checkpoint B + rollout/Judge manifests |
 | J | RL validation/evaluation | final primary candidate selected without U_final |
 | K | Freeze final primary Qwen checkpoint | Checkpoint B immutable |
@@ -385,11 +401,11 @@ Model weights, optimizer state, caches, rollouts and large logs stay Git-externa
 
 ## 18. Current stop point and next implementation phase
 
-Completed facts now include Production Data Freeze, Edge v2/PLAN_B, Runtime Adapter/Fidelity, official raw Qwen smoke, and Phase B non-API readiness. The training harness exposes hidden states, dynamic Linear Fine Head logits, LM logits and combined masked loss; real Qwen inventory covers 248 Gated Attention/DeltaNet/FFN targets. `ATTENTION_MASKED_MEAN_V1`, `COMPACT_SAFE_EVIDENCE_V1`, Traffic Expert Prompt V2, Teacher Prompt V3, Evidence-State schema v1 and `NEAR_SFT_CONFIG_V1` are frozen. Application/Payload TRAIN sidecars, a 30-source/2,263-chunk hybrid RAG index, 22,957 legal snapshots and a 6,000-prompt RL pool are Git-external and ready; formal Runtime tool wiring remains pending.
+Reusable facts include Production Data Freeze, Edge v2 split, Runtime Adapter/Fidelity, official raw Qwen smoke and the Phase B harness. The harness exposes hidden states, dynamic Linear Fine Head logits, LM logits and combined masked loss; real Qwen inventory covers 248 Gated Attention/DeltaNet/FFN targets and pooling remains `ATTENTION_MASKED_MEAN_V1`. Old Prompt/schema, PLAN_B sidecars, Teacher V3, 22,957 snapshots/corpus, validation asset and RL pool are superseded historical inputs under DEC-0021; they are not v3-ready.
 
-A real Qwen3.5-9B dry-run and save/load/resume smoke passed frozen/trainable, CE-mask, weighted LM-loss, LoRA/Fine Head, optimizer/scheduler and RNG restoration gates; temporary checkpoints were deleted. DeepSeek provider/role isolation and the stratified Teacher V3 pilot pass. Teacher V3 bulk is complete at 22,957/22,957 with zero quarantine; the V2 corpus, pair/manual/token audits, U_final isolation and formal launcher preflight pass. Formal SFT, RLAIF/GRPO, Unknown development and benchmarks have not started.
+A real Qwen3.5-9B dry-run and save/load/resume smoke previously passed reusable harness gates. DeepSeek provider/role isolation is reusable. Teacher-v2为20,807/20,807 valid、quarantine 0；formal trajectory剔除161个terminal-inconsistent sessions并在首次sufficient停止，raw Teacher cache不改写。corpus v3为11,958 sessions / 14,350 records，Known validation为3,231条EXACT_EVAL_CLEAN。Formal SFT、RLAIF/GRPO、Unknown development和benchmarks仍未开始。
 
-**CURRENT STOP POINT: FINAL_PRETRAINING_ACCEPTANCE=PASS.** `READY_TO_START_FORMAL_NEAR_SFT=true`; the only next separately authorized action is `START_FORMAL_NEAR_MULTI_TASK_SFT`. This acceptance task did not execute SFT or any later experiment.
+**CURRENT STOP POINT: FORMAL_NEAR_SFT_READY.** `READY_FOR_FORMAL_SFT=true`; `NEAR_SFT_CONFIG_V1` remains explicitly unauthorized and only `NEAR_SFT_CONFIG_V2` may launch. The next action is formal Near multi-task SFT; no optimizer run has started.
 
 ## 19. End-to-end flow
 
@@ -426,12 +442,13 @@ Raw Qwen baseline
 
 ## 20. Final pre-training acceptance implementation note
 
-The first formal config is NEAR_SFT_CONFIG_V1: BF16, PEFT LoRA rank 8 / alpha
+The active formal config is NEAR_SFT_CONFIG_V2: BF16, PEFT LoRA rank 8 / alpha
 16 / dropout 0.05 over the audited attention, DeltaNet and FFN projections,
 ATTENTION_MASKED_MEAN_V1, classification weight 1.0, Evidence LM weight 0.35,
 AdamW 2e-4 with cosine schedule and 3% warmup, two epochs, micro-batch 1,
-gradient accumulation 16, max sequence 3072, deterministic per-epoch shuffle,
-seed 20260809, step/epoch checkpoints and two-checkpoint retention.
+gradient accumulation 16, max sequence 8192, deterministic per-epoch shuffle,
+seed 20260813, step/epoch checkpoints and two-checkpoint retention. The historical
+NEAR_SFT_CONFIG_V1/3072-token/11-class corpus remains fail closed.
 
 `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` separates two scientific variables.
 `classification_ce_eligible` asks whether a record is a legal supervised
@@ -441,7 +458,7 @@ protocol. `evidence_sufficient` asks whether current model-safe Evidence is
 operationally sufficient to stop additional acquisition; it is an
 Evidence-State target and never gates CE.
 
-Every PLAN_B session has at most one real primary state with CE enabled, even
+Every Observable-v3 formal SFT session has at most one Basic-v2 primary state with CE enabled, even
 when its Teacher target is insufficient. Controlled lower-evidence auxiliaries
 always mask CE but retain Evidence LM supervision. Evidence-State LM loss uses
 inverse-states-per-session weights so multi-state sessions do not multiply their

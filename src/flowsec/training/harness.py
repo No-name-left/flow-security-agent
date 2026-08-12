@@ -130,6 +130,38 @@ def per_record_causal_lm_loss(logits: Tensor, labels: Tensor) -> tuple[Tensor, T
     return per_record, counts.gt(0)
 
 
+def session_weighted_record_loss(
+    per_record_loss: Tensor,
+    valid_record_mask: Tensor,
+    record_weights: Tensor,
+) -> Tensor:
+    """Sum session-normalized record contributions for one optimization micro-batch.
+
+    Corpus construction makes the weights for all states of one session sum to
+    one. Keeping the reduction as a weighted sum preserves that invariant: two
+    otherwise identical states weighted ``0.5`` contribute exactly as much as
+    one state weighted ``1.0``. The formal launcher performs the independent
+    gradient-accumulation normalization.
+    """
+
+    require_torch()
+    if per_record_loss.ndim != 1 or valid_record_mask.ndim != 1 or record_weights.ndim != 1:
+        raise ValueError("session-weighted loss expects one-dimensional record tensors")
+    if not (
+        per_record_loss.shape == valid_record_mask.shape == record_weights.shape
+    ):
+        raise ValueError("record loss, validity mask, and weight shapes disagree")
+    weights = record_weights.to(device=per_record_loss.device, dtype=per_record_loss.dtype)
+    if not bool(torch.isfinite(weights).all()) or bool(
+        ((weights <= 0) | (weights > 1)).any()
+    ):
+        raise ValueError("record weights must be finite and in (0, 1]")
+    valid = valid_record_mask.to(device=per_record_loss.device, dtype=torch.bool)
+    if not bool(valid.any()):
+        return per_record_loss.sum() * 0.0
+    return (per_record_loss[valid] * weights[valid]).sum()
+
+
 if nn is not None:
 
     class FineClassificationHead(nn.Module):
@@ -220,13 +252,11 @@ if nn is not None:
                 per_record_lm, lm_valid = per_record_causal_lm_loss(outputs.logits, lm_labels)
                 if record_weights is None:
                     raise ValueError("LM-supervised training requires explicit session record weights")
-                weights = record_weights.to(device=fine_logits.device, dtype=per_record_lm.dtype)
-                if weights.ndim != 1 or weights.shape[0] != fine_logits.shape[0]:
-                    raise ValueError("record weight shape is invalid")
-                if not bool(torch.isfinite(weights).all()) or bool((weights <= 0).any()):
-                    raise ValueError("record weights must be finite and positive")
-                if bool(lm_valid.any()):
-                    lm_loss = (per_record_lm[lm_valid] * weights[lm_valid]).sum() / lm_valid.sum()
+                lm_loss = session_weighted_record_loss(
+                    per_record_lm,
+                    lm_valid,
+                    record_weights,
+                )
             combined_loss = (
                 self.classification_loss_weight * classification_loss
                 + self.evidence_loss_weight * lm_loss

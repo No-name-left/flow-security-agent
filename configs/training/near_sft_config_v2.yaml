@@ -1,9 +1,7 @@
-version: NEAR_SFT_CONFIG_V1
-supervision_contract: CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1
-status: SUPERSEDED_BY_TASK_DEFINITION_V2
-formal_run_authorized: false
-superseded_by: TASK_DEFINITION_V2_OBSERVABLE_DATASET_V3
-superseded_reason: old_11_class_population_and_teacher_v3_corpus_are_historical_only
+version: NEAR_SFT_CONFIG_V2
+supervision_contract: CLASSIFICATION_SUFFICIENCY_DECOUPLED_MULTI_GAP_V2
+status: FROZEN_READY
+formal_run_authorized: true
 
 model:
   model_id: Qwen/Qwen3.5-9B
@@ -18,21 +16,23 @@ model:
 
 data:
   artifact_root_env: ARTIFACT_ROOT
-  production_asset_version: edge_split_revision_v2
-  pretraining_asset_version: near_pretraining_v1
-  corpus_path: sft_corpus/final/near_sft_corpus_v2.jsonl
+  production_asset_version: observable_dataset_v3_freeze
+  pretraining_asset_version: near_pretraining_v3
+  corpus_path: sft_corpus/final/observable_sft_corpus_v3.jsonl
   corpus_manifest: sft_corpus/final/manifest.json
-  teacher_quality_manifest: manifests/teacher_v3_bulk_quality_audit.json
-  supervision_audit_manifest: manifests/supervision_contract_audit_v1.json
-  evidence_pair_audit_manifest: manifests/payload_rag_gap_pair_audit.json
-  manual_review_manifest: manifests/final_manual_sft_record_review.json
+  corpus_version: OBSERVABLE_SFT_CORPUS_V3
+  evidence_state_schema_version: EVIDENCE_STATE_SCHEMA_V2
+  teacher_quality_manifest: manifests/teacher_v2_quality_audit.json
+  supervision_audit_manifest: manifests/supervision_contract_audit_v2.json
+  evidence_pair_audit_manifest: manifests/evidence_transition_audit_v2.json
+  manual_review_manifest: manifests/final_manual_sft_record_review_v2.json
+  u_final_isolation_manifest: manifests/u_final_isolation_audit_v2.json
   preset: Near
-  candidate_policy: CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V1
-  candidate_plan: PLAN_B
+  candidate_policy: CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V2
   physical_split: train
   ku_role: K_known
-  expected_unique_sessions: 16979
-  preset_manifest: manifests/edge_known_unknown_presets.json
+  expected_unique_sessions: 11958
+  preset_manifest: manifests/main_class_map.json
   u_final_allowed: false
 
 architecture:
@@ -42,9 +42,9 @@ architecture:
   coarse_head: none_deterministic_fine_to_coarse_mapping
   pooling: ATTENTION_MASKED_MEAN_V1
   serialization: COMPACT_SAFE_EVIDENCE_V1
-  traffic_expert_prompt: TRAFFIC_EXPERT_PROMPT_V2
-  teacher_prompt: TEACHER_PROMPT_V3
-  evidence_state_schema: EVIDENCE_STATE_SCHEMA_V1
+  traffic_expert_prompt: TRAFFIC_EXPERT_PROMPT_V3
+  teacher_prompt: TEACHER_V2_PROMPT_V2
+  evidence_state_schema: EVIDENCE_STATE_SCHEMA_V2
   classification_loss_weight: 1.0
   evidence_lm_loss_weight: 0.35
 
@@ -81,7 +81,7 @@ schedule:
   epochs: 2
   micro_batch_size: 1
   gradient_accumulation_steps: 16
-  max_sequence_length: 3072
+  max_sequence_length: 8192
   gradient_checkpointing: true
   use_cache: false
   dataloader_workers: 0
@@ -93,9 +93,9 @@ schedule:
   save_total_limit: 2
 
 validation:
-  corpus_path: validation/near_known_validation_v1.jsonl
+  corpus_path: validation/near_known_validation_v3.jsonl
   manifest_path: validation/manifest.json
-  scope: Near_K_known_validation_only
+  scope: Observable_v3_K_known_validation_only
   primary_checkpoint_metric: known_validation_macro_f1
   evidence_state_quality_gate:
     schema_valid_rate_min: 0.95
@@ -106,10 +106,10 @@ validation:
   u_final_usage: forbidden
   early_stop:
     enabled: false
-    reason: first_formal_v1_uses_fixed_two_epochs
+    reason: first_formal_v3_uses_fixed_two_epochs
 
 output:
-  relative_root: training_runs/near_sft
+  relative_root: training_runs/near_sft_v3
   run_id: generated_timestamp_plus_corpus_digest
   refuse_overwrite: true
   save_config_snapshot: true
@@ -134,10 +134,9 @@ quality_gates:
   teacher_sufficiency_never_gates_classification_ce: true
   classification_ce_requires_explicit_valid_mask: true
   evidence_lm_session_weighting: inverse_states_per_session
-  classification_supervised_states_per_session: exactly_one_legal_primary_independent_of_teacher_sufficiency
-  max_states_per_session: 2
-  rag_exposure_target_fraction: [0.05, 0.10]
-  payload_default_visible: false
+  classification_supervised_states_per_session: exactly_one_basic_v2_primary
+  max_states_per_session: 3
+  payload_default_visible: first_eight_packet_aligned_sanitized_only
   trainable_parameter_policy: lora_plus_fine_head_only
   require_u_final_count: 0
   require_sequence_overflow_count: 0

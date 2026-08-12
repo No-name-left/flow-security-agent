@@ -6,13 +6,20 @@ import os
 import random
 import shutil
 import subprocess
+from collections import Counter, defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import yaml
 
-from .contracts import NearValidationRecordV1, SFTRecordV1, canonical_json
+from .contracts import (
+    EVIDENCE_STATE_SCHEMA_V2,
+    NearValidationRecordV1,
+    SFTRecordV1,
+    SFTRecordV2,
+    canonical_json,
+)
 from .corpus import sha256_file
 from .harness import POOL_MEAN, TrafficExpertTrainingHarness, attach_lora, load_near_class_map
 
@@ -44,6 +51,136 @@ def _read_json(path: Path) -> dict[str, Any]:
     return value
 
 
+def _validated_class_index(
+    record: SFTRecordV1 | NearValidationRecordV1,
+    class_map: dict[str, int],
+    *,
+    asset_name: str,
+) -> int:
+    expected = class_map.get(record.fine_label)
+    if expected is None:
+        raise RuntimeError(
+            f"{asset_name} record has a fine label outside the active class map: "
+            f"{record.fine_label}"
+        )
+    if record.class_index != expected:
+        raise RuntimeError(
+            f"{asset_name} record class_index disagrees with active class map: "
+            f"{record.fine_label} has {record.class_index}, expected {expected}"
+        )
+    return expected
+
+
+def _validated_jsonl_records(path: Path, model: Any, *, asset_name: str) -> list[Any]:
+    records: list[Any] = []
+    for line_number, line in enumerate(
+        Path(path).read_text(encoding="utf-8").splitlines(), start=1
+    ):
+        if not line.strip():
+            continue
+        try:
+            records.append(model.model_validate_json(line))
+        except ValueError as exc:
+            raise RuntimeError(
+                f"{asset_name} record failed schema validation at line {line_number}"
+            ) from exc
+    return records
+
+
+def validate_formal_record_contract(
+    corpus_path: Path,
+    validation_path: Path,
+    class_map: dict[str, int],
+    *,
+    expected_unique_sessions: int,
+    max_states_per_session: int,
+    record_model: Any = SFTRecordV1,
+) -> dict[str, Any]:
+    """Validate actual JSONL rows rather than trusting summary manifests."""
+
+    if expected_unique_sessions <= 0:
+        raise RuntimeError("expected_unique_sessions must be positive")
+    if max_states_per_session <= 0:
+        raise RuntimeError("max_states_per_session must be positive")
+
+    corpus = _validated_jsonl_records(corpus_path, record_model, asset_name="SFT corpus")
+    validation = _validated_jsonl_records(
+        validation_path,
+        NearValidationRecordV1,
+        asset_name="validation corpus",
+    )
+    state_counts: Counter[str] = Counter()
+    weight_totals: defaultdict[str, float] = defaultdict(float)
+    corpus_classes: Counter[str] = Counter()
+    validation_classes: Counter[str] = Counter()
+    validation_sessions: set[str] = set()
+
+    for record in corpus:
+        _validated_class_index(record, class_map, asset_name="SFT corpus")
+        state_counts[record.sample_id] += 1
+        if state_counts[record.sample_id] > max_states_per_session:
+            raise RuntimeError(
+                "SFT corpus exceeds configured max_states_per_session for "
+                f"{record.sample_id}"
+            )
+        weight_totals[record.sample_id] += record.session_weight
+        corpus_classes[record.fine_label] += 1
+
+    if len(state_counts) != expected_unique_sessions:
+        raise RuntimeError(
+            "SFT corpus unique-session count disagrees with configured "
+            f"expected_unique_sessions: {len(state_counts)} != {expected_unique_sessions}"
+        )
+    invalid_weight_sessions = [
+        sample_id
+        for sample_id, total in weight_totals.items()
+        if abs(total - 1.0) > 1e-9
+    ]
+    if invalid_weight_sessions:
+        raise RuntimeError(
+            "SFT corpus session weights do not sum to one; first invalid session: "
+            f"{invalid_weight_sessions[0]}"
+        )
+
+    for record in validation:
+        _validated_class_index(record, class_map, asset_name="validation corpus")
+        if record.sample_id in validation_sessions:
+            raise RuntimeError(
+                f"validation corpus contains duplicate sample identity: {record.sample_id}"
+            )
+        validation_sessions.add(record.sample_id)
+        validation_classes[record.fine_label] += 1
+
+    overlap = set(state_counts) & validation_sessions
+    if overlap:
+        raise RuntimeError(
+            "formal SFT and validation corpora overlap sample identity; first overlap: "
+            f"{sorted(overlap)[0]}"
+        )
+
+    return {
+        "corpus_record_count": len(corpus),
+        "corpus_unique_sessions": len(state_counts),
+        "corpus_class_distribution": dict(sorted(corpus_classes.items())),
+        "validation_record_count": len(validation),
+        "train_validation_identity_overlap": 0,
+        "validation_class_distribution": dict(sorted(validation_classes.items())),
+        "max_states_per_session_observed": max(state_counts.values(), default=0),
+        "invalid_session_weight_count": 0,
+    }
+
+
+def _configured_sft_record_model(config: dict[str, Any]) -> Any:
+    schema_version = str(
+        config.get("data", {}).get("evidence_state_schema_version") or ""
+    )
+    if schema_version == EVIDENCE_STATE_SCHEMA_V2:
+        return SFTRecordV2
+    if not schema_version or schema_version == "EVIDENCE_STATE_SCHEMA_V1":
+        return SFTRecordV1
+    raise RuntimeError(f"unsupported formal corpus schema: {schema_version}")
+
+
 def resolve_formal_paths(config: dict[str, Any]) -> dict[str, Path]:
     artifact_root = os.environ.get(str(config["data"]["artifact_root_env"]))
     model_root = os.environ.get(str(config["model"]["local_path_env"]))
@@ -51,7 +188,7 @@ def resolve_formal_paths(config: dict[str, Any]) -> dict[str, Path]:
         raise RuntimeError("ARTIFACT_ROOT and QWEN_MODEL_PATH must be configured")
     artifact = Path(artifact_root)
     pretraining = artifact / str(config["data"]["pretraining_asset_version"])
-    return {
+    paths = {
         "artifact_root": artifact,
         "pretraining_root": pretraining,
         "corpus": pretraining / str(config["data"]["corpus_path"]),
@@ -68,6 +205,11 @@ def resolve_formal_paths(config: dict[str, Any]) -> dict[str, Path]:
         "model_root": Path(model_root),
         "output_root": artifact / str(config["output"]["relative_root"]),
     }
+    if config["data"].get("u_final_isolation_manifest"):
+        paths["u_final_isolation_manifest"] = pretraining / str(
+            config["data"]["u_final_isolation_manifest"]
+        )
+    return paths
 
 
 def formal_preflight(config_path: Path, *, repo_root: Path | None = None) -> dict[str, Any]:
@@ -77,11 +219,14 @@ def formal_preflight(config_path: Path, *, repo_root: Path | None = None) -> dic
     repo_root = Path(repo_root or config_path.parents[2]).resolve()
     if config.get("status") != "FROZEN_READY" or config.get("formal_run_authorized") is not True:
         raise RuntimeError("formal SFT config is not frozen/authorized")
-    for name in (
+    required_assets = [
         "corpus", "corpus_manifest", "validation", "validation_manifest", "preset_manifest",
         "teacher_quality_manifest", "supervision_audit_manifest",
         "evidence_pair_audit_manifest", "manual_review_manifest",
-    ):
+    ]
+    if "u_final_isolation_manifest" in paths:
+        required_assets.append("u_final_isolation_manifest")
+    for name in required_assets:
         if not paths[name].is_file():
             raise FileNotFoundError(f"required formal SFT asset unavailable: {name}")
     if not paths["model_root"].is_dir():
@@ -89,13 +234,13 @@ def formal_preflight(config_path: Path, *, repo_root: Path | None = None) -> dic
 
     corpus = _read_json(paths["corpus_manifest"])
     validation = _read_json(paths["validation_manifest"])
-    audits = {
-        name: _read_json(paths[name])
-        for name in (
-            "teacher_quality_manifest", "supervision_audit_manifest",
-            "evidence_pair_audit_manifest", "manual_review_manifest",
-        )
-    }
+    audit_names = [
+        "teacher_quality_manifest", "supervision_audit_manifest",
+        "evidence_pair_audit_manifest", "manual_review_manifest",
+    ]
+    if "u_final_isolation_manifest" in paths:
+        audit_names.append("u_final_isolation_manifest")
+    audits = {name: _read_json(paths[name]) for name in audit_names}
     if corpus.get("status") != "PASS" or validation.get("status") != "PASS":
         raise RuntimeError("formal corpus or validation Gate is not PASS")
     if any(value.get("status") != "PASS" for value in audits.values()):
@@ -108,14 +253,32 @@ def formal_preflight(config_path: Path, *, repo_root: Path | None = None) -> dic
         raise RuntimeError("formal corpus digest mismatch")
     if sha256_file(paths["validation"]) != validation["artifacts"]["validation_corpus"]["sha256"]:
         raise RuntimeError("formal validation digest mismatch")
-    classes, _mapping = load_near_class_map(paths["preset_manifest"])
+    classes, class_map = load_near_class_map(paths["preset_manifest"])
     if set(corpus["class_distribution"]) != set(classes):
         raise RuntimeError("formal corpus class map mismatch")
     if set(validation["class_distribution"]) != set(classes):
         raise RuntimeError("validation class map mismatch")
     expected_sessions = int(config["data"]["expected_unique_sessions"])
+    record_model = _configured_sft_record_model(config)
+    record_contract = validate_formal_record_contract(
+        paths["corpus"],
+        paths["validation"],
+        class_map,
+        expected_unique_sessions=expected_sessions,
+        max_states_per_session=int(config["quality_gates"]["max_states_per_session"]),
+        record_model=record_model,
+    )
+    if record_contract["corpus_record_count"] != int(corpus.get("record_count", -1)):
+        raise RuntimeError("formal corpus manifest record count disagrees with JSONL")
+    if record_contract["validation_record_count"] != int(validation.get("record_count", -1)):
+        raise RuntimeError("validation manifest record count disagrees with JSONL")
+    if record_contract["corpus_class_distribution"] != corpus.get("class_distribution"):
+        raise RuntimeError("formal corpus manifest class distribution disagrees with JSONL")
+    if record_contract["validation_class_distribution"] != validation.get("class_distribution"):
+        raise RuntimeError("validation manifest class distribution disagrees with JSONL")
     corpus_gate = {
-        "version": corpus.get("version") == "NEAR_SFT_CORPUS_V2",
+        "version": corpus.get("version")
+        == str(config["data"].get("corpus_version", "NEAR_SFT_CORPUS_V2")),
         "supervision_contract": corpus.get("supervision_contract") == config.get("supervision_contract"),
         "record_count": int(corpus.get("record_count", -1)) >= expected_sessions,
         "unique_sessions": int(corpus.get("unique_sessions", -1)) == expected_sessions,
@@ -153,6 +316,7 @@ def formal_preflight(config_path: Path, *, repo_root: Path | None = None) -> dic
         "validation_sha256": validation["artifacts"]["validation_corpus"]["sha256"],
         "validation_manifest_digest": validation["artifact_digest"],
         "validation_records": int(validation["record_count"]),
+        "max_states_per_session": record_contract["max_states_per_session_observed"],
         "supervision_contract": config["supervision_contract"],
         "audit_digests": {
             name: value.get("audit_digest") for name, value in sorted(audits.items())
@@ -211,7 +375,9 @@ def initialize_run_directory(
     return run_root
 
 
-def _encode_sft(tokenizer: Any, record: SFTRecordV1, max_length: int) -> dict[str, list[int]]:
+def _encode_sft(
+    tokenizer: Any, record: SFTRecordV1 | SFTRecordV2, max_length: int
+) -> dict[str, list[int]]:
     target = canonical_json(record.evidence_state_target.model_dump(mode="json"))
     prompt_ids = tokenizer(record.serialized_model_input, add_special_tokens=True)["input_ids"]
     target_ids = tokenizer(target + tokenizer.eos_token, add_special_tokens=False)["input_ids"]
@@ -306,7 +472,7 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
         paths["output_root"], run_id, metadata, config_path, resume=resume
     )
     classes, class_map = load_near_class_map(paths["preset_manifest"])
-    records = _load_records(paths["corpus"], SFTRecordV1)
+    records = _load_records(paths["corpus"], _configured_sft_record_model(config))
     validation = _load_records(paths["validation"], NearValidationRecordV1)
     tokenizer = AutoTokenizer.from_pretrained(paths["model_root"], local_files_only=True)
     torch.manual_seed(metadata["seed"])
@@ -433,7 +599,9 @@ def run_formal_training(config_path: Path, *, run_id: str | None, resume: Path |
                 attention = ids["attention_mask"].to("cuda")
                 result = harness(input_ids=input_ids, attention_mask=attention)
                 predictions.append(int(result["fine_logits"].argmax(dim=-1).item()))
-                labels.append(item.class_index)
+                labels.append(
+                    _validated_class_index(item, class_map, asset_name="validation corpus")
+                )
         macro_f1 = _macro_f1(predictions, labels, len(classes))
         state.update(
             {
