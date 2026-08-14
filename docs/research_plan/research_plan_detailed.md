@@ -1,18 +1,20 @@
-# 网络流量开放识别与自适应取证智能体研究计划（权威详细版）
+# 面向恶意流量分析的成本感知主动证据获取研究计划（权威详细版）
 
 > 文档状态：Canonical / Authoritative
 >
-> 冻结日期：2026-08-13
+> 冻结日期：2026-08-14
 >
 > 解释顺序：本文件是最高研究语义权威；`docs/training/near_mainline_training_protocol_v1.md`是训练/Open-world执行权威，Agent架构文档是Runtime/Supervisor/RAG/Memory设计权威，时间表、简版和交接不得覆盖它们。审计产生新证据但尚未写入Decision Log时，不自动改变研究方案。
 
 ## 0. 当前冻结方案概览
 
-> **DEC-0022当前状态：**旧Near 11类PLAN_B/Teacher V3/22,957-record corpus只保留为历史审计。Task Definition v2、六类Observable Dataset v3、Evidence-v2、Teacher-v2与corpus v3已完成最终验收；详细合同见[`task_definition_v2.md`](task_definition_v2.md)。Qwen→Supervisor→Runtime→Evidence→Qwen及SFT→Agent-oriented RL主架构保持不变。
+> **DEC-0023当前状态：**DEC-0022冻结的六类Observable Dataset v3、Evidence-v2、Teacher-v2与corpus v3继续作为Model A的权威训练输入，正在进行的Formal Near Multi-task SFT不得废弃或干扰。论文主线进一步聚焦为**面向LLM恶意流量分析的成本感知主动/序贯Observation-Evidence获取**；Edge-only Model A是controlled benchmark和warm start，正式论文路线增加CICIDS2017、ToN-IoT优先的multi-dataset Model B。Unknown rejection保留，few-shot novel-class registration降为Future Work/Optional Extension。
 
 ### 0.1 研究问题与正式主链路
 
-本文研究：**后训练大语言模型能否直接理解会话级网络证据并完成已知攻击的细粒度/粗粒度分类，独立开放集评分层能否据其模型信号可靠识别Unknown；在单次证据不足时，受约束Agent能否按需扩展包序列、历史关联、应用层证据和安全知识，并在效果、风险与成本之间选择接受、重分类、拒识或新类接入。**
+本文的核心问题是：**对于一个target session，是否必须在第一次推理前取得全部可用信息；还是可以先提供廉价但有用的Basic-v2，由Qwen同时判断“更像什么攻击”与“当前Observation是否已经充分”，并在证据不足时由受约束Supervisor选择下一种Observation Evidence，使系统在分类效果与evidence/token/latency cost之间取得更好的序贯决策。**
+
+LLM traffic classification、Agent、RAG与few-shot unseen-class adaptation本身都不是研究空白，也不单独构成本研究的创新。正式方法的研究对象是`cost-aware active / sequential observation-evidence acquisition for LLM-based malicious traffic analysis`：何时继续观察、下一步观察什么、何时停止，以及这种选择相对固定完整表示是否带来可测量的utility-cost收益。
 
 正式主链路冻结为：
 
@@ -24,27 +26,29 @@
   + 原始LM Head输出Evidence State
 → deterministic fine→coarse mapping
 → Independent Unknown Scoring / Calibration
-→ DeepSeek Flash Supervisor在Runtime约束下按需取证
-→ Qwen重新评价或输出Known / Coarse / Unknown / Abstain
-→ 可选人工标注与Class Memory新类注册
+→ 若Observation不足，DeepSeek Flash Supervisor在Runtime约束下选择一个bounded Evidence action
+→ deterministic Runtime执行、校验、去重并返回新Evidence
+→ Qwen重新评价
+→ STOP_AND_CLASSIFY / Known / Coarse / Unknown / Abstain
 ```
 
 Qwen第一次就直接读取网络证据，是正式主分类模型，不再作为LightGBM/XGBoost的Reviewer。正式trained model使用冻结Qwen base、可训练LoRA与一个简单Linear Fine Classification Head；Fine Head是唯一正式fine决策源，coarse由冻结映射得到，LM Head只生成简短Evidence State而不并行生成另一份fine label。传统模型只承担基线、诊断与可选消融，不决定哪些样本调用Qwen，也不向Qwen提供必需概率。
 
 正式Unknown不是第K+1类，也不由未经验证的LLM自报概率决定。它在Near SFT和RLAIF-GRPO后冻结主Qwen，使用Known validation与`U_dev`比较margin、entropy、energy和prototype distance等独立方法；`U_final`只在算法、阈值及所有会影响最终推理的Prompt、sanitizer、RAG和Supervisor配置冻结后打开。
 
-### 0.2 当前数据角色
+### 0.2 Model A / Model B与多数据集角色
 
-| 数据集/资产 | 当前角色 | 当前结论 |
+| 模型/数据集 | 当前角色 | 当前结论 |
 | --- | --- | --- |
-| Edge-IIoTset | **主数据集，带冻结限制使用** | 承担完整方法开发与主实验；Phase 2已确认会话、上下文、Unknown和sample-level few-shot可执行，但多数攻击类只有一个主要capture，主结论限定于控制直接捷径后的同采集环境 |
-| IoT-23 | **第二数据集，已通过最终可行性验收（带限制）** | 官方日志、PCAP对齐、统一Adapter和独立scenario划分均已实测可行；Production已冻结原生coarse `Exploitation` U_final及1/5-shot support/query，承担原生标签体系下的scenario/capture外部验证 |
-| CICIoMT2024、X-IIoTID | 历史候选与备选说明 | 保留既有审计材料，但不再作为当前立即执行主线；是否启用须由后续数据审查决定 |
-| DataSense 2025、UWF、CICIoT2023等 | 历史候选或后续复现资源 | 既有审计结论继续有效，但不因已有报告自动进入新主线 |
-| CasinoLimit | 历史连接研究/案例参考 | relation到Flow的唯一连接覆盖过低，不作为逐流量主监督数据 |
-| NF-ToN-IoT-v3等既有资产 | 工程与数据工具参考 | 相关Adapter、审计和分组代码可复用，不自动决定正式数据角色 |
+| **Model A / Edge-IIoTset** | Single-domain controlled benchmark、当前Formal SFT、后续Model B warm start与replay安全锚点 | Dataset v3、六类Known（Normal、DDoS_HTTP、DDoS_TCP、Password、SQL_injection、Vulnerability_scanner）、Teacher-v2和corpus v3均已冻结；完整训练、验证并保留，不因多数据集路线而废弃 |
+| **Model B / CICIDS2017** | 第一优先新增domain | raw PCAP、payload、labeled flows与attack metadata兼容统一session/evidence重建；细粒度taxonomy与当前任务接近，先通过Compatibility Gate再进入正式数据处理 |
+| **Model B / ToN-IoT** | 第二优先新增domain | raw PCAP、Zeek/Bro logs、CSV与SecurityEvents GT支持另一网络环境中的session provenance和Evidence构建；先通过Compatibility Gate |
+| CSE-CIC-IDS2018 | 时间与兼容性允许时的第三候选 | 规模大且有PCAP/log/schedule/flow labels；是否纳入由前两域pilot后的成本和兼容性决定 |
+| ISCX-Botnet、Bot-IoT | 第二优先候选 | 用于补充botnet/behavior diversity，不在第一轮关键路径 |
+| USTC-TFC2016、DoHBrw | 低优先、特定用途 | 只在其原始证据和标签语义适合特定消融时使用 |
+| IoT-23及其他既有候选 | 历史审计、adapter参考或后续可选外测 | 已有结论保留，不再自动占据Model B第一批正式位置 |
 
-停止继续广泛搜索数据集，NF3、NF-ToN、CICIoT2023等不再重新提升为当前主线。IoT-23已通过最小官方数据验收；除非正式全量构建出现新的阻断性证据，否则不再选择第二数据集。此前双门槛审计仍是历史证据，其中“CICIoMT首选、X-IIoTID立即备用”的旧执行顺序由后续决定替代。
+Model A不是被替换的试验品：它是高质量、可控的单域基线和Model B的初始化锚点。最终论文不应只依赖Edge-IIoTset；Model B优先在Edge + CICIDS2017 + ToN-IoT上验证统一session/evidence interface与跨域鲁棒性，必要时才增加CSE-CIC-IDS2018。多数据集不是直接拼接CSV，而是统一session semantics、label semantics和Observation Evidence interface。
 
 ### 0.3 会话级混合表示
 
@@ -52,7 +56,7 @@ Qwen第一次就直接读取网络证据，是正式主分类模型，不再作�
 
 包序列允许可变长度，保存上限暂定16包；Basic读取前8包，后续动作可请求第9至16包及其合法bounded payload。payload sidecar必须显式保存session、packet index、direction、relative time、protocol、presence/length、sanitized content和sanitization version，不能依赖数组顺序猜测对齐。Temporal-v2只允许10/60/180/300秒past-only horizon；Relation-v2允许ARP/link-layer和合法关系context而不改变target session定义。正式任务继续采用Qwen3.5-9B text-only、原生Tokenizer、BF16 LoRA和non-thinking/direct-response；QLoRA、thinking与专用Tokenizer仍是deferred/backup。
 
-### 0.4 Unknown与新类生命周期
+### 0.4 Unknown、Evidence Insufficient与可选新类扩展
 
 每个正式数据集保留原生coarse/fine标签，并在训练前独立冻结：
 
@@ -62,14 +66,11 @@ U_dev：不得作为主分类模型监督标签进入SFT，只用于Unknown算�
 U_final：最终评测前完全隔离
 
 Qwen已知类分类 + Frozen Unknown Scoring / Calibration（known-only知识）
-→ 对已拒识样本进行full-frozen知识候选识别
-→ 获得sample-level的1/5/10-shot support
-→ REQUEST_LABEL / 建立新类记忆或轻量适配
-→ REGISTER_NEW_CLASS
-→ 在无相同记录和精确重复的query上评价新类与旧类遗忘
+→ Evidence不足：继续获取合法Observation Evidence，而不是宣判Unknown
+→ Evidence充分但不属于Known taxonomy：Unknown rejection
 ```
 
-至少预注册Near、Far和Mixed三套Unknown组合并使用多个随机种子。`U_final`不得进入Qwen训练、SFT/DPO、Prompt示例、known-only RAG、Unknown算法选择、阈值开发、Agent/策略训练、错误驱动调参或人工挑选。sample-level few-shot不得声称为跨攻击run泛化。
+`Evidence Insufficient != Unknown`。前者表示当前合法Observation尚不足，应进入bounded acquisition loop；后者要求Observation已经足以支撑“不属于Known taxonomy”的判断。`Unknown != low confidence`，`Unknown != Abstain`。至少预注册Near、Far和Mixed三套Unknown组合并使用多个随机种子；`U_final`信息隔离保持不变。sample-level few-shot novel-class registration不再属于当前论文核心实验、关键路径或贡献，仅可作为Future Work/Optional Extension简述。
 
 ### 0.5 Agent与当前Gate
 
@@ -79,13 +80,13 @@ Agent读取Qwen第一次分类的粗细类别、证据状态、supporting/missin
 
 Agent的基本闭环进一步明确为`Evidence State → 识别缺失证据 → 选择对应证据源/合法动作 → 更新状态 → 重分类或停止`。动态性来自根据当前证据缺口、可用能力和剩余预算选择下一步，而不是在Qwen不确定时无差别调用全部工具；这一细化不改变Qwen首次分类、独立Unknown层和Agent所在位置。
 
-架构回溯、Production Data Freeze、paper-grade `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`、Runtime foundation、Safe Adapter、raw Qwen部署与training harness均已完成，继续作为可复用基础。此前11类PLAN_B、Application/Payload/RAG TRAIN sidecar、Teacher Prompt V3 bulk和22,957-record corpus曾通过当时合同的验收，但后续class-conditional observability审计证明“verified capture label”不等于“每个session有fine-class evidence”。因此DEC-0021暂停旧formal launcher并要求重建；DEC-0022现已完成新的eligible population、Basic-v2、packet-aligned payload、Temporal/Relation/Application-v2、multi-gap Evidence State与Teacher-v2验收。旧corpus保留为历史证据，不得进入正式SFT。DEC-0020的classification/sufficiency解耦继续有效。Qwen正式训练、Unknown算法和Agent正式实验/benchmark均未开始。
+架构回溯、Production Data Freeze、paper-grade `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`、Runtime foundation、Safe Adapter、raw Qwen部署与training harness均已完成，继续作为可复用基础。此前11类PLAN_B、Application/Payload/RAG TRAIN sidecar、Teacher Prompt V3 bulk和22,957-record corpus曾通过当时合同的验收，但后续class-conditional observability审计证明“verified capture label”不等于“每个session有fine-class evidence”。因此DEC-0021暂停旧formal launcher并要求重建；DEC-0022现已完成新的eligible population、Basic-v2、packet-aligned payload、Temporal/Relation/Application-v2、multi-gap Evidence State与Teacher-v2验收。旧corpus保留为历史证据，不得进入正式SFT。DEC-0020的classification/sufficiency解耦继续有效。Model A Formal SFT已启动；Unknown算法和Agent正式实验/benchmark均未开始。
 
-### 0.6 ONE_MAINLINE_FIRST与Task Definition v2
+### 0.6 Task Definition v2与Model A→Model B过渡
 
 `ONE_MAINLINE_FIRST`和正式训练seed `20260809`继续有效；`U_dev`仍为DDoS_ICMP、OS_Fingerprinting，`U_final`仍为DDoS_UDP、XSS且保持sealed。DEC-0021规定`MAX_MAIN_CLASSES=8`及八类pre-model候选；最终eligibility冻结六类Normal、DDoS_HTTP、DDoS_TCP、Password、SQL_injection、Vulnerability_scanner。MITM因缺少与target endpoint关联的ARP/relation异常、Port_Scanning因capture呈现同destination port 80而无法支持port-scan fine语义，均不进入主CE。Backdoor为Long-Horizon Temporal Case Study，Uploading/Ransomware为Observability-Limited/Abstain辅助集。
 
-Near执行顺序改为先完成Evidence-v2、全split eligibility、Observable Dataset v3、Teacher-v2与新SFT corpus，再进入Raw/传统基线及classification-first Multi-task SFT。后续RLAIF-GRPO、Independent Unknown、Basic/Fixed Full/RulePolicy/DeepSeek Supervisor、Memory和few-shot主路线不变；Far、Mixed、IoT-23及其他deferred轨道仍等待Near完成。
+Near执行顺序先完成Evidence-v2、全split eligibility、Observable Dataset v3、Teacher-v2与新SFT corpus，再执行classification-first Multi-task SFT并形成Model A。Model A validation后，进入CICIDS2017与ToN-IoT Compatibility Gate、统一多数据集pipeline和Model B continuation SFT；Active Evidence baselines稳定后才构建mixed-domain RLAIF。Independent Unknown保留，few-shot不再进入关键路径。
 
 [Near-First Training and Open-World Protocol v1](../training/near_mainline_training_protocol_v1.md)继续冻结架构、权限、隔离和checkpoint lineage，但其旧11类/旧corpus执行输入由DEC-0021替代。当前DeepSeek仍严格区分Teacher、Judge与Supervisor；Codex只负责工程、编排、调用、审计和报告。
 
@@ -97,27 +98,61 @@ Near执行顺序改为先完成Evidence-v2、全split eligibility、Observable D
 
 - H1：双向包序列与会话摘要能为Qwen提供比单行Flow更完整、仍可审计的行为证据；
 - H2：领域SFT可使Qwen3.5-9B直接完成known fine/coarse分类、证据充分度与可供独立Unknown评分使用的稳定模型信号输出；
-- H3：在第一次分类证据不足时，Agent按需扩展包、时间上下文、局部图、应用层证据或RAG，比固定取证流程获得更好的任务成功—成本—风险权衡；
-- H4：严格隔离Unknown知识、候选归因与sample-level few-shot接入可以形成可审计的新类别生命周期。
+- H3：在第一次分类证据不足时，Agent按需扩展Packet/Payload、Application、Temporal或Relation Observation，比固定预取完整表示获得更好的accuracy—evidence/token/latency cost权衡；
+- H4：统一session/label/evidence合同与dataset-balanced replay使上述acquisition机制能够扩展到多个公开traffic domain，而不被单一Edge采集环境或大型外部域淹没。
 
 预期贡献包括：
 
-1. 构建以后训练Qwen为首次分类器的会话级网络流量开放识别框架；
-2. 设计从基础会话证据到包、跨会话、应用层和知识证据的分层按需取证机制；
-3. 构建由deterministic Runtime约束、DeepSeek Flash formal Supervisor决策且具有显式状态、动作、预算、停止和轨迹记录的Adaptive Decision Agent，并与强Static、RulePolicy及可选可学习策略公平比较；
-4. 建立同时评价Known分类、Unknown风险、新类接入、旧类遗忘、证据充分度、任务成功、恢复能力和计算成本的实验协议。
+1. 将LLM恶意流量分析表述为成本感知的序贯Observation-Evidence获取问题，而非固定traffic representation上的一次性分类；
+2. 提出multi-task Traffic Expert，显式分离Fine Classification与Evidence-State estimation，分别判断“是什么”与“当前是否已经知道得足够”；
+3. 提出bounded Supervisor + deterministic Runtime的selective acquisition机制，按需获取Packet/Payload、Application、Temporal与Relation Evidence；
+4. 通过Basic-only、Full-Evidence One-Shot、Strong Static、RulePolicy与Agent的预算匹配比较，量化accuracy—evidence/token/latency cost trade-off；
+5. 在多来源公开traffic benchmarks上使用统一session/evidence interface验证cross-domain robustness，避免方法只对单一Edge-IIoTset成立。
 
-若分类、Unknown与动态任务均改善，可形成完整方法贡献；若分类基本不变但拒识、取证效率、恢复或成本改善，贡献集中于可信和自适应系统能力；若Agent无优势，则由强Static承担推荐流程，Agent作为适用边界分析。任何结论均须来自冻结数据与公平基线，不预设LLM或Agent一定有效。
+RLAIF是对第3/4项trajectory policy的后续优化，不单独夸大为主要创新；Unknown是开放世界鲁棒性扩展；few-shot不是当前贡献。若Agent无优势，则由强Static承担推荐流程，Agent作为适用边界分析。任何结论均须来自冻结数据与公平基线，不预设LLM或Agent一定有效。
+
+### 1.1 Related Work定位与创新边界
+
+现有工作已经充分说明LLM traffic classification、open-set classification、multi-flow建模、RAG和few-shot adaptation都不是空白。论文不得再声称“基于LLM的恶意流量分类很少”“Agent用于流量分类几乎无人研究”或“few-shot新类识别本身是主要创新”。正式边界如下：
+
+| 工作方向 | 主要研究对象 | 与本研究的边界 |
+| --- | --- | --- |
+| TrafficLLM | generic traffic representation、traffic-domain tokenizer、跨traffic task adaptation | 我们不把通用representation本身作为核心，而研究对当前session是否需要继续取得Evidence |
+| ETooL | multi-flow temporal/burst/relation structure在non-IID/OOD下的鲁棒表示 | 其Temporal/Relation思想高度相关；区别是我们不默认预先构造全部multi-flow结构，而研究是否及何时选择性获取 |
+| MalRAG | 从历史恶意traffic库检索content/structural/temporal相似流量以支持open-set identification | 其retrieval回答“从历史库取什么”；我们的核心回答“当前目标流量还需要观察什么”，且Knowledge不能替代Observation |
+| TrafficGPT / open-set TrafficLLM | LLM/Transformer traffic representation与open-set classifier | 是必须比较/讨论的固定表示和open-set相关路线，不等同于主动Evidence获取 |
+| NIDS-GPT / Take Package as Language | GPT-style packet/traffic representation与细粒度入侵分类 | 证明LLM fine classification已有直接先例；我们的贡献不在“首次用GPT做NIDS” |
+| ICT-META | n-way k-shot unseen traffic-class inference-time adaptation | 直接覆盖few-shot unseen-class adaptation，因此该方向不再作为本论文核心 |
+| **OURS** | 当前session的Observation sufficiency、下一Evidence、停止时机与成本 | 以bounded Supervisor和deterministic Runtime优化accuracy—evidence/token/latency trade-off，并在多域上验证 |
+
+Multi-Agent、RAG、RL或多数据集都只是实现或验证手段。核心因果问题始终是：相对Basic-only与固定完整表示，selective acquisition是否在相同信息域和预算下提供更好的utility-cost边界。
 
 ## 2. 数据策略与数据Gate
 
-### 2.1 原生标签与统一会话接口
+### 2.1 多数据集统一pipeline、Canonical Label与会话接口
+
+多数据集正式处理链路冻结为：
+
+```text
+Raw Dataset
+→ Dataset-specific Ground-Truth / Provenance Adapter
+→ Common Session Reconstruction
+→ Canonical Label Contract
+→ Common Evidence Contract
+→ Leakage Sanitization
+→ Grouped / Run-aware Split
+→ Multi-domain Training Corpus
+```
+
+我们统一的不是CSV columns，而是`session semantics + label semantics + Observation Evidence interface`。各dataset原始flow row不能天然视为同一种训练对象；凡有raw traffic的正式Agent数据，尽量经过common sessionizer。无法从raw traffic重建兼容session的数据只能保留为classification-only external baseline，不得伪装成完整Evidence-Agent sample。
 
 不同数据集保留原生标签，不强制统一为ATT&CK。每个Adapter通过统一接口提供：
 
 ```text
 DatasetLabelSchema
 ├─ dataset_name / version / sample_unit
+├─ source_label / canonical_family / canonical_fine_label
+├─ mapping_quality: EXACT | FAMILY_ONLY | UNSUPPORTED
 ├─ benign_label
 ├─ coarse_labels / fine_labels / parent_of
 ├─ label_description
@@ -127,7 +162,7 @@ DatasetLabelSchema
 └─ missing_fields / prohibited_model_fields
 ```
 
-ATT&CK、CAPEC、协议说明和官方类别描述可作为知识来源，但映射本身不包装成论文创新。不同标签空间的绝对Macro-F1不直接混用。
+`source_label`保留官方语义；`canonical_family`用于跨域coarse evaluation；`canonical_fine_label`只在语义真正一致时建立；`mapping_quality`至少为`EXACT`、`FAMILY_ONLY`或`UNSUPPORTED`。例如CICIDS `Web Attack SQL Injection → Web_Attack → SQL_injection → EXACT`；普通`DDoS`若无HTTP/TCP subtype证据只能映射为`DDoS → UNKNOWN_SUBTYPE → FAMILY_ONLY`，不得强行并入DDoS_HTTP或DDoS_TCP。宁可扩展Fine Head到新的K维，也不错误合并攻击概念。ATT&CK、CAPEC、协议说明和官方类别描述可作为知识来源，但映射本身不包装成论文创新；不同标签空间的绝对Macro-F1不直接混用。
 
 两个数据集通过各自的Dataset Adapter输出统一`CanonicalSessionRecord`：
 
@@ -160,15 +195,15 @@ CanonicalSessionRecord
 
 `dataset_name`、`scenario_or_capture_id`、真实IP和绝对时间只用于后台审计、划分、会话重建和上下文索引，不直接进入模型。包序列可变长、保存上限暂定16包；首次分类暂定读取前8包和会话摘要，Agent可请求第9至16包。应用层证据和Payload不是必需字段；缺失能力必须通过`capabilities`和`missing_fields`显式声明，不得伪造。
 
-### 2.2 双数据集职责与独立训练测试
+### 2.2 Model A与Multi-dataset Model B
 
-**Edge-IIoTset承担完整方法开发与主实验。** 在其原生标签下运行Qwen独立闭集及coarse/fine分类、Near/Far/Mixed Unknown、传统模型强Unknown基线、传统模型Unknown后随机分配新标签的诊断、Agent动态扩展包/时间上下文/应用证据/RAG、1/5/10-shot新类接入、RulePolicy、强Static、DeepSeek Flash formal Supervisor、可选LearnablePolicy以及成本、延迟、恢复和输出合法性评价。
+**Model A是已冻结的single-domain controlled benchmark。** 它使用Edge-IIoTset Dataset v3、六类Known、Teacher-v2 Evidence-State supervision和corpus v3。当前Formal Near Multi-task SFT完整保留；其checkpoint、validation与后续Agent结果构成Model A baseline，也是Model B的warm start。Model A的限制继续披露：多数攻击类别只有一个主要capture，主结论限于控制直接捷径后的同采集环境，不能宣称跨攻击run或跨domain泛化。
 
-Edge的使用限制同时冻结：多数攻击类别只有一个主要capture；不宣称跨攻击run泛化；随机包、随机记录或随机会话切分不能作为主结论；Known类采用capture内时间块、隔离gap和split内past-only上下文；Unknown类按完整类别隔离；sample-level few-shot不描述为跨run few-shot；外部泛化证据由IoT-23补充。
+**Model B是正式multi-domain continuation route。** 第一批优先接入CICIDS2017与ToN-IoT；兼容性和资源允许时增加CSE-CIC-IDS2018。新增domain先通过轻量Compatibility Gate，再由dataset-specific GT/provenance adapter、common sessionizer、canonical label mapping和common Evidence contract构建可审计样本。Model B不要求所有source fine labels完全相同：`EXACT`类可进入shared fine evaluation，`FAMILY_ONLY`只进入coarse或独立source-label任务，`UNSUPPORTED`不得被错误并类。
 
-**IoT-23承担独立scenario/capture外部验证。** 它不作为“Edge模型不经适配的普通测试集”，而是在IoT-23原生标签体系下建立训练场景、验证场景和完全留出的测试场景，优先选择在多个独立scenario中重复出现的恶意软件家族或行为标签，执行scenario-held-out闭集验证、一套class-held-out Unknown和一套Agent时间/相关会话上下文增益实验；数据允许时增加1-shot或5-shot新类接入。最终Gate使用Capture-8与Honeypot-4训练、Capture-20/21验证、Capture-34与Somfy-01测试，并以Capture-42整体探测`unknown_final`；该最小预设证明流程可执行，但Capture-42只有6条FileDownload恶意流，不能直接充当正式Unknown主结果，正式manifest冻结前必须补足或明确小样本区间。
+Model B优先从Model A checkpoint warm-start。若Known taxonomy从6扩展到K，Fine Classification Head按canonical mapping复制原六类rows并初始化新增rows；Qwen backbone、LoRA、LM Head与已学Evidence-State能力继承。训练必须同时使用旧Edge replay和新增数据，采用dataset-balanced与class-aware/class-balanced sampling，避免大型CIC/CSE域淹没高质量Edge Teacher corpus或造成catastrophic forgetting。Model B对Model A clean validation的可接受退化阈值在multi-domain pilot前预注册，不在此写死不可调整的百分点。
 
-IoT-23允许使用独立LoRA、分类头、标签Token或`DatasetLabelSchema`适配。外部验证回答的是同一套数据接口、Qwen分类协议、Unknown生命周期和Agent决策方法能否在另一采集环境、另一原生标签体系和独立scenario划分上成立。两个数据集不物理拼接训练、不要求细类完全相同，也不直接比较不同标签空间的绝对Macro-F1。Edge到IoT-23的直接零样本迁移只作为未来可选的二分类或共同粗类实验，不进入最低主线。
+多域监督采用“大量classification-only + 少量高质量Evidence-State”组合：clean external samples令`L_cls=ON, L_evidence=MASKED`；每个新domain再抽取代表性sessions运行完整Evidence builder与少量DeepSeek Teacher，令两项loss均ON。Teacher数量由pilot决定，不对每个外部样本全量调用API。
 
 ### 2.3 Dataset Adapter、会话构造与泄漏控制
 
@@ -179,26 +214,35 @@ PCAP及标签资料
 → 包序列、摘要、上下文和原生标签
 → CanonicalSessionRecord
 
-IoT23Adapter:
-官方PCAP + conn.log.labeled
-→ 通过scenario、时间和通信标识对齐标签
+CICIDS2017Adapter / ToNIoTAdapter / optional CSE-CIC-IDS2018Adapter:
+官方PCAP + flow/log/event schedule/GT
+→ 通过dataset-specific时间、通信标识和事件语义分配GT
 → 双向会话、包序列、摘要和上下文
 → CanonicalSessionRecord
 ```
 
-两个Adapter可以采用不同的原始解析实现，但输出Schema、序列化协议、模型调用接口和评测接口保持一致。`Session Evidence Card`是`CanonicalSessionRecord`面向模型的安全投影，不包含后台审计和禁止模型使用的字段。
+各Adapter只负责把raw PCAP、official labels与event schedule转换为target-session GT/provenance；它不改变模型结构。attacker/victim IP、absolute timestamp、capture filename、scenario ID、dataset ID与attack schedule只允许存在于private provenance和GT assignment层，不能进入model-visible Evidence。Adapter可采用不同原始解析实现，但输出Schema、序列化协议、模型调用接口和评测接口保持一致。`Session Evidence Card`是`CanonicalSessionRecord`面向模型的安全投影。
 
-基础样本为双向会话。训练、验证、测试应先冻结分组与split，再分别在集合内部重建会话、包序列和跨会话上下文；不得跨split检索邻居或聚合历史。
+基础样本为双向会话。不得对所有sessions做简单random row split；优先按attack run、capture、host/group或scenario隔离，再分别在split内部构建past-only上下文。正式评测至少区分in-domain validation/test、cross-capture/cross-run test与cross-dataset shared-class test。必要时可并列保留paper-compatible split，但主要结论优先使用leakage-controlled split。
 
 跨会话关联只使用锚点之前的信息，可包括：past-only同源近期会话数、不同目的IP/端口数、同一目标的不同来源数、重复通信、未完成握手比例、会话间隔、周期性、总包数/总字节数和局部通信图摘要。原始IP只用于会话、关系查询和分组，绝对时间只用于排序、时间块和past-only检索；文件名、capture/scenario ID、数据集来源和攻击脚本编号不得输入模型。
 
 原始端口需转换为服务类别或进行无端口消融。完整Payload不默认输入，固定URI、topic、用户名和明显攻击字符串不作为基础证据；应用层字段和有限脱敏Payload必须有字段白名单、缺失声明、隐私与可复现边界，并由Agent按需请求。所有归一化、编码、特征选择和校准只在训练集拟合；保存split manifest、源数据哈希、预测和随机种子。
 
-### 2.4 数据Gate
+### 2.4 `MULTI_DATASET_COMPATIBILITY_GATE`
 
-启动SFT前至少冻结：Edge原生标签Schema、生产级会话重建规则、`CanonicalSessionRecord`、EdgeAdapter冒烟结果、包级/摘要字段白名单、split、K/U、support/query、known-only与full-frozen知识域、精确重复控制和直接泄漏检查。Edge主结论限定为同采集环境内、控制直接捷径后的方法效果。
+Model A的Edge数据Gate与限制保持冻结。每个新增domain先执行轻量、高价值的`MULTI_DATASET_COMPATIBILITY_GATE`：
 
-IoT-23范围受限验收已完成：7个官方capture的Zeek标签可解析，PCAP与`conn.log.labeled`最低匹配率为81.54%，可构造训练、验证、完全留出测试和完整留出Unknown场景；IoT23Adapter与EdgeAdapter输出同一Schema。其通过结论带三项限制：Somfy-01仍有24条日志未匹配，Capture-42 PCAP被TShark报告为尾部截断但已匹配全部4,426条官方日志，且该场景未知恶意支持数仅6。外部正式实验必须在生产Adapter、独立split及K/U预注册后启动，不得把本轮RF探针当作论文结果。
+1. 官方label语义是否清楚；
+2. raw traffic是否真实可得；
+3. GT能否可靠映射回common session；
+4. 随机抽样session的model-safe Evidence是否与GT一致；
+5. 是否存在明显capture/run label propagation；
+6. 是否存在IP/time/dataset identity shortcut；
+7. 是否能实现run/capture/group隔离split；
+8. Basic-v2及可用的Observation Evidence family是否可真实构造。
+
+Gate PASS后进入正式数据处理。只有发现类似Edge-IIoTset的严重granularity、label propagation或leakage异常时，才升级为深度audit；不默认对每个新增dataset重复Edge级长审计。缺失某Evidence family必须记录`evidence_family_available=false`，不能用0或空字符串冒充“真实没有事件”。
 
 ### 2.5 Edge paper-grade physical split与SFT候选层
 
@@ -222,15 +266,15 @@ DEC-0021进一步修正该边界：`VERIFIED_CAPTURE_FALLBACK`只验证label pro
 - `U_dev`：约2—4类，仅用于Unknown算法、阈值、证据扩展策略、RulePolicy/Supervisor策略开发、可选LearnablePolicy和合法RAG路由开发，不进入主分类模型监督。
 - `U_final`：最终评测前完全隔离；不得进入SFT/DPO、Prompt示例、known-only RAG、Unknown算法选择、阈值开发、Agent/策略训练、错误驱动调参或人工挑选。
 
-正式训练前预注册Near、Far、Mixed多套组合与随机种子，全部报告，不依据结果挑选最优组合。
+Model A的Near/Far/Mixed组合与随机种子已预注册并继续保持；不得依据结果改选组合。Model B的新增K/Unknown mapping必须在其训练前按canonical label与source support另行预注册，不能借多数据集路线查看或改写Model A `U_final`。
 
-### 3.2 三阶段生命周期
+### 3.2 Unknown生命周期与Observation分流
 
 **阶段A：Unknown Rejection。** Qwen主分类SFT只使用`K_known`监督数据和known-only冻结知识；Fine Head输出唯一正式Known fine logits，coarse由冻结映射得到，LM Head输出证据充分度、supporting/missing evidence及可供open-set计算的模型信号；冻结的Unknown Scoring / Calibration层再产生正式Unknown决策。Unknown算法和阈值只能使用`K_known`与`U_dev`开发，`U_dev`标签不得作为主分类模型监督进入SFT。
 
-**阶段B：Knowledge-assisted Candidate Identification。** 仅对已拒识样本开放full-frozen RAG，返回Top-k候选、证据边界和人工确认需求；不与监督细类准确率混为一谈。
+正式分流顺序是：先判断Observation是否充分；不足时继续请求合法Evidence。只有在Observation充分且冻结open-set层判定不属于Known taxonomy时，才输出Unknown。预算耗尽、能力不可用或Evidence仍不足时输出Abstain/Backoff，不能把这些状态统称Unknown。
 
-**阶段C：Few-shot Onboarding。** 为`U_final`预先冻结sample-level support/query；support取1/5/10条不同记录，建立新类记忆、原型或可选轻量适配并注册新类；query不得含相同记录或精确重复。不得根据query结果选择support、调Prompt或更新原型。
+Knowledge-assisted candidate identification可作为Unknown后的辅助分析，但不得与监督fine accuracy混用。人工support、Class Memory与few-shot novel-class registration移至Future Work/Optional Extension；它们不再是当前核心实验、timeline依赖或论文贡献。
 
 ## 4. 模型与证据表示
 
@@ -264,7 +308,7 @@ Raw Qwen没有Fine Head，可用生成式分类Prompt形成raw baseline；它与
 
 ### 4.4 RAG信息域
 
-知识来源可包括数据集官方类别描述、协议说明、ATT&CK、CAPEC、公开攻击行为说明和已批准的新类记忆。known-only RAG服务阶段A；full-frozen RAG只在合法拒识后服务阶段B；few-shot memory只在获得support标签后建立。`U_final`名称和描述不得泄漏到阶段A。
+知识来源可包括数据集官方类别描述、协议说明、ATT&CK、CAPEC和公开攻击行为说明。known-only RAG服务Known阶段；full-frozen RAG只在合法拒识后用于候选解释。`U_final`名称和描述不得泄漏到开发阶段。未来若研究Class Memory，只能在获得人工support后建立，并需另行预注册。
 
 RAG不是每个样本默认调用的通用补全器。Evidence State须概念性地区分两类缺口：**观测证据缺口**表示真实流量信息尚未被观察，例如包序列、历史行为、关系上下文或合法应用层字段不足，应调用相应网络取证工具；**知识证据缺口**表示已有观测需要协议、攻击行为或标签语义解释，才优先调用`RETRIEVE_KNOWLEDGE`。例如“过去60秒是否访问多个目标端口”只能由past-only时间上下文回答，RAG不得推断或补造该观测。三阶段RAG信息隔离保持不变。
 
@@ -301,11 +345,11 @@ Agent状态至少表达：当前fine/coarse候选、open-set信号与冻结Unkno
 | RECLASSIFY | 使用扩展后的证据再次调用主Qwen分类 |
 | REJECT_UNKNOWN | 拒识为Unknown |
 | RETURN_TOPK | 返回证据约束候选 |
-| REQUEST_LABEL | 请求人工标注 |
-| REGISTER_NEW_CLASS | 满足冻结条件后注册新类 |
 | ABSTAIN | 证据不足或预算耗尽时停止 |
 
 `CALL_LLM_EXPERT`不再是正式动作：Qwen已是必经主分类器，追加调用统一由`RECLASSIFY`表达。状态机、工具白名单、预算和最大深度强制动作合法与可复现。
+
+`REQUEST_LABEL`与`REGISTER_NEW_CLASS`不在当前论文正式动作集合；若未来恢复few-shot/Class Memory扩展，必须另行预注册并版本化动作合同。
 
 当前默认由Supervisor提出动作，Runtime每轮只验证并执行一个合法证据动作；相同Tool可在request signature不同的前提下重复调用，完全相同request必须拒绝。Supervisor可以表达多步意图，但新证据返回后必须重新读取状态并决策。
 
@@ -327,11 +371,11 @@ Agent状态至少表达：当前fine/coarse候选、open-set信号与冻结Unkno
 
 deterministic Runtime负责Qwen、Supervisor和工具调用，以及Action验证、capability、预算、最大轮数、request去重、future leakage防护、Memory权限、失败处理与结构化Trace；LLM不得绕过Runtime。Supervisor只接收model-safe Evidence State、Qwen简短分析、Unknown状态、sanitized evidence、工具状态、预算/历史和validated experience，不接收真实IP、绝对时间、capture/scenario或dataset identity、ground truth和完整原始Payload。
 
-Experience Memory保存经可靠反馈验证的`State→Action→Outcome`经验；train可验证后写入，validation与`U_dev`默认不写入，TEST/`U_final`冻结只读。Class Memory只保存人工确认的新类别support，必须与Experience Memory分离；few-shot注册默认不立即更新Qwen权重。独立Agent Growth Stream仅为可选实验，主test不得边评测边学习。具体Memory embedding、index、top-k和capacity仍未冻结。
+Experience Memory保存经可靠反馈验证的`State→Action→Outcome`经验；train可验证后写入，validation与`U_dev`默认不写入，TEST/`U_final`冻结只读。Experience Memory与Knowledge RAG严格区分。Class Memory只允许作为Future Work/Optional Extension保存人工确认的新类别support，并必须与前两者分离；当前主实验不执行few-shot注册。主test不得边评测边学习。具体Memory embedding、index、top-k和capacity仍未冻结。
 
 ## 6. 训练边界与启动条件
 
-训练/Open-world执行权威是`docs/training/near_mainline_training_protocol_v1.md`。Architecture/permission protocol已冻结，但`SFT_RUN=false`、`RL_RUN=false`、`UNKNOWN_ALGORITHM_FROZEN=false`。
+训练/Open-world执行权威是`docs/training/near_mainline_training_protocol_v1.md`。Architecture/permission protocol已冻结；Model A Formal Near Multi-task SFT已启动且正在运行，本文档更新不得停止、重启、替换或改变该run/checkpoint。`RL_RUN=false`、`UNKNOWN_ALGORITHM_FROZEN=false`。
 
 正式第一主线只使用Observable Dataset v3中`eligible TRAIN ∩ FINAL_MAIN_CLASSES`的唯一session；旧Near PLAN_B 16,979候选及其22,957-record corpus不再是formal输入。每个session以Basic-v2作为唯一primary，再只生成最多1–2个由真实gap驱动的controlled auxiliary states；不随机隐藏Evidence、不穷举组合。完整Production canonical分布、identity与原split不会因training预算改变。
 
@@ -339,66 +383,42 @@ SFT前必须升级并冻结Basic-v2 serialization、Traffic Expert/Evidence Stat
 
 Training #1训练LoRA+Fine Head的classification-first Multi-task SFT；Training #2从独立保存的SFT checkpoint继续执行RLAIF-GRPO并以classification CE防漂移。Teacher-v2只在eligibility完成后为新population标Evidence State，不决定fine GT；旧Teacher annotations不可复用。Teacher/Judge/Supervisor继续作为权限、Prompt、Schema和日志隔离的三种角色。
 
-Near primary checkpoint冻结后，Independent Unknown只用Known validation与`U_dev`比较margin、entropy、energy和prototype distance；优先不训练新网络，small learned Unknown head仅为backup。`U_dev`不作为Unknown第K+1类监督Qwen，`U_final`不进入任何开发。Novel class第一版使用Class Memory/prototype，不立即continual LoRA。
+Model A checkpoint冻结并完成正式validation后，进入新增domain Compatibility Gate与Model B构建。Model B从Model A warm-start，扩展Fine Head时保留已映射rows，以Edge replay、dataset-balanced和class-aware sampling联合训练；不得只喂新domain继续训练。新增domain的大量clean sample只训练classification，少量代表性session再接受Evidence-State supervision。
+
+Independent Unknown只用Known validation与`U_dev`比较margin、entropy、energy和prototype distance；优先不训练新网络，small learned Unknown head仅为backup。`U_dev`不作为Unknown第K+1类监督Qwen，`U_final`不进入任何开发。Few-shot novel-class registration不属于当前训练关键路径。
 
 LoRA rank/alpha/dropout、LR、batch、epochs、loss weight、GRPO group size/reward weight、pooling、Unknown threshold、RAG top-k和Supervisor budget属于小范围**VALIDATION TUNABLE**；不得用formal test或`U_final`，不得大网格搜索，也不得因结果不理想修改K/U、split、PLAN_B或总体架构。
 
-## 7. 四组核心实验
+## 7. 正式实验结构
 
-### 实验一：LLM独立分类与传统基线
+### Experiment A：Model A controlled SFT
 
-比较Logistic Regression、Random Forest、LightGBM/XGBoost、原始Qwen3.5-9B和后训练Qwen3.5-9B。任务覆盖Benign/Malicious、原生coarse和fine分类。所有模型使用可公平比较的数据划分；传统模型读取其合法表格特征，Qwen读取冻结的会话级混合表示。
+完整保留当前Edge-only Model A Formal SFT与正式validation。比较Logistic Regression、Random Forest、LightGBM/XGBoost、raw Qwen3.5-9B和post-trained Model A，报告fine/coarse Macro-F1、per-class、校准、速度与成本。Model A是单域controlled benchmark、后续Agent基础与Model B warm start，不因论文扩展为多数据集而废弃。
 
-报告Macro-F1、分类别指标、混淆、校准、速度和成本，回答后训练LLM独立分类的能力、代价和边界。传统模型是强基线，不是Qwen前置模块。
+### Experiment B：固定输入与表示基线
 
-### 实验二：开放集与自适应取证主实验
+比较`Basic-only`、`Full-Evidence One-Shot`以及按可复现性选择的TrafficLLM/ETooL式固定representation baseline。Full-Evidence One-Shot必须保留，它回答“若一开始提供全部合法Evidence，性能上界和成本是多少”；不能用固定全证据替代active acquisition，也不能为了突出Agent而削弱该基线。
 
-传统模型开放集基线与单次Qwen+冻结Unknown继续作为必要参照；Agent部分按四个因果问题组织：
+### Experiment C：Active Evidence Acquisition
 
-| 问题 | 主要比较与控制 |
+在同一Qwen、工具、信息域与最大预算下比较Strong Static、RulePolicy、DeepSeek Flash Supervisor和完整Agent。核心因果问题为：
+
+| 问题 | 比较与指标 |
 | --- | --- |
-| Q1 更多证据本身是否有价值 | `Basic Session Evidence` vs 在共同最大预算内预先冻结的`Fixed Full Evidence` |
-| Q2 动态按需取证是否优于固定方式 | `Fixed Full Evidence`、`Strong Static`、`RulePolicy`、DeepSeek Flash formal Supervisor及可选`LearnablePolicy`使用相同Qwen、工具、信息域和最大预算 |
-| Q3 各证据源贡献什么 | 分别移除packet expansion、temporal context、graph context、application evidence和RAG |
-| Q4 收益是否只来自更多资源 | 对齐Agent与Static预算，并报告证据请求、Qwen/RAG/工具调用、延迟、Token成本、预算遵从及utility-cost曲线 |
+| 更多Evidence本身是否有效 | Basic-only vs Full-Evidence One-Shot |
+| selective acquisition是否优于固定方式 | Full/Static/Rule/Supervisor在budget-matched条件下比较 |
+| 哪类Observation产生收益 | 分别移除Packet/Payload、Application、Temporal、Relation；Knowledge单独报告 |
+| 收益是否只来自额外资源 | 同时报告Accuracy/Macro-F1、per-class、Evidence calls、tokens、latency、cost、stop behavior与utility-cost curve |
 
-`Basic Session Evidence`回答不追加证据的能力，`Fixed Full Evidence`回答更多证据的上界，Strong Static、RulePolicy与Supervisor的预算匹配比较才回答动态选择是否必要。不得通过为Agent额外开放信息域、调用次数或预算制造优势；若某证据源在数据中不可用，应报告能力边界而非伪造完整消融。
+Evidence充分时必须`STOP_AND_CLASSIFY`；Observation不足时继续获取；能力不可用、预算耗尽或无法恢复时backoff/abstain。RAG不能替代Observation。RLAIF若执行，只优化跨domain共享acquisition trajectory，不建立Edge/CIC/ToN三套互不相干的policy。
 
-#### 传统模型零信息新类扩展诊断
+### Experiment D：Multi-domain Model B
 
-该诊断只用于展示传统闭集模型在没有新类别训练样本和类别语义时的能力边界，不是强传统开放世界算法，也不能替代合理的传统Unknown拒识基线。协议如下：
+Model B第一版为Edge + CICIDS2017 + ToN-IoT，必要时增加CSE-CIC-IDS2018。比较`Model A→Edge`、`Model A→External`、`Model B→Edge`与`Model B→External`，分别报告in-domain、cross-capture/run与cross-dataset shared-family/shared-class结果。实验检验multi-domain supervision是否改善cross-domain robustness，同时保持Model A clean validation和Evidence-State/acquisition能力。
 
-1. 传统分类器只使用`K_known`训练，不接触`U_dev`和`U_final`的分类标签样本；
-2. 先加入合理的Unknown拒识机制，可使用校准后的最大概率、margin、entropy、树间分歧或已知分布距离；
-3. 最终测试时先判断样本属于某个Known类别还是Unknown；
-4. 对被拒识为Unknown的样本，将输出空间临时扩展为M个候选新类别；
-5. 由于模型没有任何新类样本、类别语义或特征映射，只能在M个新类别中均匀随机分配，随机识别水平约为`1/M`；
-6. 使用固定随机种子并重复多个种子，报告均值和标准差；
-7. `U_final`类别名称只在最终诊断阶段作为输出选项公开，不参与训练、Unknown阈值开发、特征选择或Agent训练。
+### Experiment E：OOD / Unknown
 
-结果分别报告：`Closed-set classifier`将未知样本强制归入Known类别；`Classifier + Unknown rejection`输出Known类别或统一Unknown；`Classifier + naïve unseen-label expansion`再将被拒识样本随机分配给具体新类别。指标包括Unknown detection AUROC/AUPR或Recall、Known-to-Novel FPR、真正未知样本进入新类池的比例、新类别具体识别Accuracy与Macro-F1、新类混淆矩阵、不同Unknown阈值下Known污染率—新类Recall权衡，以及多随机种子均值和标准差。
-
-该诊断希望区分“发现样本不属于Known”与“识别它具体属于哪个新类”，并检验强行扩展标签空间是否表现为新类漏检、Known流量污染和新类之间近似随机混淆。它不能单独用于证明LLM优越；正式公平比较仍是`传统强分类器+合理Unknown拒识`、`后训练Qwen+Unknown`和`Qwen+Agent动态证据扩展`。
-
-指标包括Known Macro-F1、Unknown AUROC/AUPR、FPR95、OSCR、H-score、层次退回、错误接纳Unknown、证据请求率、Qwen调用次数、Supervisor轮数、RAG调用次数、各类工具调用次数、任务成功、预算遵从、恢复成功、输出合法、延迟、Token/API成本及utility-cost曲线。
-
-主要消融包括：只有会话基础证据、无包扩展、无时间上下文、无图上下文、无应用层证据、无RAG、固定取证、Rule vs Learnable、无成本惩罚和预算匹配。具体组合在数据可用性确认后压缩，不预先假定所有证据源都存在。
-
-### 实验三：1/5/10-shot新类接入
-
-比较传统模型重训、最近邻/原型、Qwen in-context、RAG语义原型、Agent注册新类和可选LoRA。主实验为sample-level 1/5/10-shot，报告新类Precision/Recall/F1、Unknown到新类转化、旧类Macro-F1与遗忘、标注样本数、接入时间、更新/推理成本和重分类调用率。存在可靠活动标识时再增加group-level增强实验。
-
-### 实验四：IoT-23独立场景外部验证
-
-IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标签体系和独立模型适配下复现实验协议的压缩子集：scenario-held-out闭集、一套class-held-out Unknown和一套Agent时间/相关会话上下文增益；允许时增加1-shot或5-shot新类接入。训练、验证和测试按IoT-23 scenario隔离，测试scenario完全留出。
-
-本实验评价统一接口、Qwen分类协议、Unknown生命周期和Agent决策方法在另一采集环境与原生标签Schema中的适用性，不要求Edge最终分类器直接零样本识别IoT-23细类，不进行物理合并训练，也不把两个标签空间的绝对Macro-F1直接比较。
-
-### 实验五（OPTIONAL）：Low-Resource Unknown Stress Test
-
-该实验是预注册的辅助压力测试，不属于当前主线完成条件，不改变Near/Far/Mixed，也不与其主结果混合平均。它研究数据稀缺驱动的Unknown难度是否不同于主实验的semantic near/far难度：将一个或少数low-resource fine class从该实验对应的SFT监督中完全held out，评价系统能否避免高置信度误归Known、由Independent Unknown识别，并在少量人工support后通过Class Memory改善后续识别。
-
-候选只能依据任何Qwen运行前的session support、exact diversity、near diversity和coarse-parent结构预注册，禁止根据`U_final`或模型结果事后挑选最差类别。当前`LOW_RESOURCE_UNKNOWN_CANDIDATE_POOL`为Backdoor、DDoS_UDP、MITM、OS_Fingerprinting、Ransomware和XSS；它是候选池而不是冻结最终held-out集合。若执行，至少分别报告数据允许的`LOW_RESOURCE_SHARED_PARENT`与`LOW_RESOURCE_ABSENT_PARENT`情况，并报告Unknown AUROC/AUPR、FPR@target TPR、unknown recall、误分类去向、backoff/abstain、Agent evidence usage和few-shot registration performance。流程继续使用同一Independent Unknown、Supervisor、Runtime和Class Memory，不新增专门的low-resource Agent；状态保持`PLANNED_OPTIONAL_NOT_RUN`。
+保留Independent Unknown rejection，使用Known validation与`U_dev`选择并冻结margin、entropy、energy、prototype distance等方法，再按既有隔离规则评估`U_final`。明确区分Unknown、Evidence Insufficient和Abstain；不把Unknown做成K+1类，也不把few-shot registration扩成核心实验。Low-Resource Unknown Stress Test如执行仅为optional auxiliary analysis，不进入主完成条件。
 
 ## 8. 评价、复现与统计
 
@@ -412,44 +432,40 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 
 ## 9. 时间与依赖
 
-`ONE_MAINLINE_FIRST`继续取代同时展开Near/Far/Mixed/IoT-23的旧并行排期。Phase A/B工程基础保留；旧D–E acceptance由DEC-0021标为superseded historical。当前必须先完成Task Definition v2数据重构和新acceptance，本任务不授权启动训练或benchmark。
+已完成的数据与工程Gate不得删除或重做。执行路线从“Edge Near完整闭环后才考虑外域”调整为“先完成并验证Model A，再进入multi-dataset Model B与active acquisition”，但不干扰正在运行的Model A Formal SFT。
 
 | Phase | 工作 | 状态/退出条件 |
 | --- | --- | --- |
-| A | Production、v2 split、Safe Adapter、Evidence Fidelity、官方raw Qwen部署 | **COMPLETE / REUSABLE** |
-| B | training-side harness、pooling、LoRA inventory、provider/role isolation | **COMPLETE / REUSABLE_WITH_V2_CHANGES** |
-| C0 | Task Definition v2、Basic/Evidence-v2、全split eligibility、Observable Dataset v3 | **COMPLETE / PASS**；旧split逐split过滤 |
-| C1 | bounded v2 Evidence states、Teacher-v2 smoke/bulk、质量审计 | **COMPLETE / PASS**；40 smoke、20,807/20,807 bulk |
-| C2 | SFT corpus v3、session-weight/label-map/preflight、blind sanity与final acceptance | **COMPLETE / PASS**；11,958 sessions / 14,350 records |
-| C | Near Raw Qwen与强传统baseline | 等待v3 acceptance；可复现manifest |
-| F–G | Training #1 Multi-task LoRA SFT及validation | 未开始；Checkpoint A |
-| H–J | 固定RL Prompt Pool；Training #2 RLAIF-GRPO + classification CE及validation | 未开始；Checkpoint B |
-| K–M | 冻结primary Qwen；Known validation + U_dev开发并冻结Independent Unknown | 未开始；U_final仍sealed |
-| N | 首次U_final open-set evaluation | 仅在全部相关开发配置冻结后一次性打开 |
-| O–P | 完成Application/Payload/RAG；Basic、Fixed Full、RulePolicy、DeepSeek Flash Supervisor | 未开始；相同信息域/预算 |
-| Q–R | Experience Memory；1/5/10-shot Class Memory | 未开始；test/U_final只读 |
-| S | Near mainline complete | `NEAR_MAINLINE_COMPLETE=true` |
+| 1 | Edge Dataset v3、Teacher-v2、corpus v3、Model A Formal SFT | 数据/监督**COMPLETE / PASS**；Formal SFT **IN PROGRESS**，完成并保留checkpoint |
+| 2 | Model A正式validation/evaluation | SFT完成后执行；不得用test/U_final调参 |
+| 3 | Multi-dataset compatibility：CICIDS2017、ToN-IoT优先 | 轻量Gate；必要时CSE-CIC-IDS2018 |
+| 4 | 统一GT adapter、session、canonical label、Evidence与grouped split；构造multi-domain corpus | 大量classification-only + 少量高质量Evidence-State |
+| 5 | Model B multi-domain continuation SFT | 从Model A warm-start；Edge replay + dataset/class-balanced sampling |
+| 6 | Basic/Full/Static/Rule/Supervisor active acquisition experiments | 相同信息域、最大预算；报告utility-cost |
+| 7 | mixed-domain RLAIF | 仅在SFT与Agent baselines稳定后；一个共享acquisition policy |
+| 8 | final Unknown/OOD、ablation、统计与writing | U_final仍遵守一次性sealed evaluation；few-shot不在关键路径 |
 
-若O/P中仍有会影响U_final route的未冻结配置，必须在N之前完成其validation-safe实现与冻结；阶段编号不授权看过U_final后再调sanitizer、RAG、Supervisor或Memory。只有Phase S后才恢复Far、Mixed、IoT-23和其他deferred ablation。
+任何会影响U_final route的Prompt、serialization、sanitizer、RAG、Supervisor、Memory或Unknown配置，都必须在首次U_final前validation-safe冻结；阶段编号不授权看过U_final后再调参。
 
 ## 10. 风险与降级路线
 
 | 风险 | 处理/降级 |
 | --- | --- |
-| Edge单capture与类别/场景耦合 | 采用capture内时间块、隔离gap、split内past-only和捷径消融；主结论限定于同采集环境，外部证据由IoT-23补充 |
+| Edge单capture与类别/场景耦合 | 保留Model A的capture内时间块、隔离gap、split内past-only和捷径消融；用CICIDS2017/ToN-IoT Model B补充跨域证据 |
 | Edge异常PCAP或部分字段不可用 | 用成熟解析器复核并记录可恢复范围；缺失能力显式声明，不改变Edge主数据角色或虚构证据 |
-| IoT-23最小子集与正式Unknown支持不足 | 保留已通过的原生标签和scenario协议；正式manifest中补足预注册未知类/场景，或明确小样本置信区间，不以当前6条未知恶意流支撑主结论 |
+| 新domain label或session语义不兼容 | 先过Compatibility Gate；`FAMILY_ONLY`只作coarse，`UNSUPPORTED`不强并类；必要时退回classification-only external baseline |
+| 大型外部domain淹没Edge | dataset-balanced/class-aware sampling与Edge replay；Model A clean validation退化Gate在pilot前冻结 |
 | 会话重建或标签粒度不可靠 | 收缩为可验证的会话/流记录单位，并限制结论；不得虚构跨会话监督 |
 | 包数或上下文过长 | 首次分类使用前8包与摘要，Agent最多扩展至16包；通过预算和受限past-only摘要控制长度 |
 | 固定IP、时间、capture或脚本捷径 | 后台关联与模型输入分离；做白名单、去身份和敏感性对照 |
-| Qwen不优于传统基线 | 报告分类能力与成本边界，并检查Unknown、证据充分度和few-shot价值；不恢复树模型主导架构 |
+| Qwen不优于传统基线 | 报告分类能力与成本边界，并检查Unknown与证据充分度；不恢复树模型主导架构 |
 | Agent不优于强Static | Static成为推荐系统；Agent作为适用边界和负结果分析，不强行宣称有效 |
 | 缺失证据类型判断错误或用RAG代替真实观测 | 以`capabilities`、缺失声明和动作validator限制候选工具；观测缺口只能调用真实取证工具，能力不可用时backoff或abstain |
 | Agent收益来自额外信息或预算 | 强制与Static共享Qwen、工具、信息域和最大预算，报告逐类调用量及utility-cost；无法预算匹配的结果只作为上界补充 |
 | 错误反馈更新了错误组件 | 先完成组件级归因；Unknown问题回到校准层、RAG问题回到检索链、策略问题回到Policy，只有充分证据下持续的Qwen错误进入SFT候选 |
 | 应用层或Payload暂不可用 | 中间阶段fail closed并显式声明缺失；Near最终完成前必须实现并冻结sanitizer、能力边界与捷径审计，否则不得宣称完整方法 |
 | BF16 LoRA收益小或显存/框架受限 | 保留原始Qwen基线、缩小高价值样本；必要时降级为QLoRA；取消DPO、27B和继续预训练 |
-| 实验预算不足 | 只推进Near ONE_MAINLINE_FIRST与其必要baseline；Far、Mixed、IoT-23、DPO、27B和扩展消融继续deferred，Phase S后再恢复 |
+| 实验预算不足 | 保留已完成Model A，优先完成CICIDS2017+ToN-IoT的最小Model B与Basic/Full/Rule/Agent主比较；CSE-CIC、DPO、27B和扩展消融defer |
 
 ## 11. 当前已完成、未完成与下一步
 
@@ -459,11 +475,11 @@ IoT-23已通过带限制的最终可行性验收，正式阶段在其原生标�
 
 DEC-0019与Training Protocol v1冻结Near-first及总体架构；DEC-0020的classification/sufficiency解耦继续有效。DEC-0021替代旧11类数据人口、旧Initial/payload/Temporal/Relation和single-gap Teacher监督；DEC-0022登记其完整实现与最终验收。
 
-`SFT_RUN=false`；`RL_RUN=false`；`UNKNOWN_ALGORITHM_FROZEN=false`。旧Teacher V3 bulk、V2 corpus和acceptance只保留为superseded historical artifact。正式Dataset v3沿用filtered v2 assignment，六类train/validation/test为1,318,688/270,851/279,057；主generic/unobservable与sample identity overlap均为0。
+Model A Formal Near Multi-task SFT已启动且当前仍在服务器上运行；本次计划同步不修改训练代码、数据、配置、run或checkpoint，也不把中间状态写成论文结果。`RL_RUN=false`；`UNKNOWN_ALGORITHM_FROZEN=false`。旧Teacher V3 bulk、V2 corpus和acceptance只保留为superseded historical artifact。正式Dataset v3沿用filtered v2 assignment，六类train/validation/test为1,318,688/270,851/279,057；主generic/unobservable与sample identity overlap均为0。
 
 Teacher-v2 raw cache为20,807/20,807 valid、quarantine 0。formal trajectory只保留至首次sufficient，并将161个terminal-inconsistent候选session从SFT supervision中quarantine；raw cache与target语义不改写。正式corpus为14,350 records / 11,958 sessions，SHA256 `d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca`；3,231条Known validation使用`EXACT_EVAL_CLEAN`。8192-token Gate最大4,794、overflow 0；session-weight、label-map、U_final isolation与plan consistency均PASS。
 
-**`READY_FOR_FORMAL_SFT=true`，当前下一动作是`START_FORMAL_NEAR_MULTI_TASK_SFT`。** 仅`NEAR_SFT_CONFIG_V2`授权；`FORMAL_SFT_STARTED=false`。GRPO、Unknown、U_final或Agent实验仍不授权。
+**Model A readiness仍为`READY_FOR_FORMAL_SFT=true`，且`FORMAL_SFT_STARTED=true / IN_PROGRESS`。** 当前动作是安全完成Model A Formal SFT并执行正式validation；随后启动CICIDS2017与ToN-IoT的`MULTI_DATASET_COMPATIBILITY_GATE`。GRPO、Unknown、U_final与Agent正式实验仍未启动。
 
 ## 附录A：端到端执行链路速查
 
@@ -471,22 +487,21 @@ Teacher-v2 raw cache为20,807/20,807 valid、quarantine 0。formal trajectory只
 
 ### A. 研究项目执行链路
 
-1. **已完成数据与工程Gate：**Edge/IoT角色、Production Freeze、v2 chronological split、K/U、support/query、PLAN_B、Safe Adapter、Evidence Fidelity和raw Qwen部署。
-2. **ONE_MAINLINE_FIRST：**只推进Near seed `20260809`；保持U_dev/U_final隔离，按DEC-0021构建最多8个主类的eligible population。
-3. **Dataset v3 readiness：**复用training-side harness与pooling/LoRA基础，完成Basic/Evidence-v2、全split eligibility、Teacher-v2、corpus v3和新acceptance。
-4. **Phase C baseline：**在合法model-safe输入上运行Raw Qwen、LightGBM、XGBoost、Random Forest等强baseline。
-5. **Phase D–G SFT：**构造Basic primary与最多1–2个真实gap auxiliary，由deterministic evidence + DeepSeek Teacher-v2 + consistency filter + bounded review生成Evidence targets，训练Checkpoint A并只用validation选择。
-6. **Phase H–J RLAIF：**冻结Near K_known TRAIN RL Prompt Pool，由current Qwen生成rollout group，deterministic reward与DeepSeek Flash Judge形成GRPO信号，同时用classification CE保持Fine Head，生成独立Checkpoint B。
-7. **Phase K–M Unknown：**冻结Checkpoint B，只用Known validation+U_dev选择Independent Unknown算法/阈值，不把Unknown作为第K+1类训练Qwen。
-8. **Phase N U_final：**在Prompt、serialization、sanitizer、RAG、Supervisor、Memory及Unknown都冻结后第一次打开DDoS_UDP/XSS；结果不得回流。
-9. **Phase O–P Agent：**完成按需Application/Payload/RAG，按相同Qwen、信息域和预算比较Basic、Fixed Full、RulePolicy、DeepSeek Flash Supervisor。
-10. **Phase Q–R Memory/new class：**先无Experience Memory，再做verified TRAIN experience；对Unknown取得1/5/10-shot人工support后用Class Memory/prototype注册，不立即continual LoRA。
-11. **Phase S：**冻结Near end-to-end结果，之后才恢复Far、Mixed、IoT-23及其他ablation。
+1. **Model A foundation：**Edge Production Freeze、v2 split、Dataset v3、Basic/Evidence-v2、Teacher-v2、corpus v3、Safe Adapter与raw Qwen均已完成。
+2. **Model A SFT：**安全完成当前Formal Near Multi-task SFT并在冻结validation上评价；保留checkpoint作为controlled baseline与warm start。
+3. **Multi-dataset Gate：**依次审查CICIDS2017、ToN-IoT；资源允许时审查CSE-CIC-IDS2018。
+4. **Common data layer：**dataset-specific provenance adapter → common session → canonical label/evidence → leakage-safe grouped split。
+5. **Model B：**扩展6→K Fine Head，继承backbone/LoRA/LM Head，联合Edge replay和external data进行balanced continuation SFT。
+6. **Active acquisition：**在多域代表性数据上比较Basic、Full Evidence One-Shot、Static、Rule和Supervisor，报告accuracy-cost与stop behavior。
+7. **RLAIF：**仅在SFT和Agent baseline稳定后构建mixed-domain trajectory subset，优化一个共享acquisition policy并保留classification CE。
+8. **Open-world与收尾：**冻结Independent Unknown后一次性执行U_final；完成ablation、统计与writing。Few-shot仅留Future Work。
 
 ```text
-Raw Qwen → Near Multi-task SFT → Checkpoint A
-→ RLAIF-GRPO + Classification CE → Checkpoint B
-→ Independent Unknown calibration → Agent integration → Class Memory
+Raw Qwen → Edge Model A Multi-task SFT
+→ CICIDS2017/ToN-IoT common data contract
+→ Multi-domain Model B continuation SFT
+→ budget-matched Active Evidence experiments
+→ optional mixed-domain RLAIF → Independent Unknown
 ```
 
 ### B. 系统实际识别链路
@@ -499,7 +514,7 @@ Raw Qwen → Near Multi-task SFT → Checkpoint A
 6. deterministic Runtime每轮只执行一个合法且非重复的packet 9–16、Temporal、Graph、Application、Sanitized Payload或Knowledge RAG动作。
 7. Observation与Knowledge严格分离；Payload/RAG均为有界untrusted evidence，RAG不能发明当前session observation。
 8. 新Evidence触发Qwen与Unknown重新评价，循环直至Fine、Coarse Backoff、Unknown或Abstain。
-9. 对已拒识Unknown，只有合法human/oracle support才能`REGISTER_NEW_CLASS`并写入Class Memory。
+9. Unknown、Evidence Insufficient与Abstain保持独立语义；few-shot/Class Memory不在当前主推理链路。
 10. Runtime保存结构化result、动作、Evidence、Unknown、成本、延迟、provider identity和可审计Trace。
 
 ```text
@@ -507,7 +522,7 @@ Production Session → Runtime Safe Adapter → Evidence Stage
 → Qwen Traffic Expert → Fine Head + LM Evidence State
 → Independent Unknown → DeepSeek Flash Supervisor
 → Deterministic Runtime Evidence Tool → Qwen re-evaluate
-→ Known Fine / Coarse / Unknown / Abstain → optional Class Memory
+→ Known Fine / Coarse / Unknown / Abstain
 ```
 
 ## 12. Material Deviation and Decision Log
@@ -536,5 +551,6 @@ Production Session → Runtime Safe Adapter → Evidence Stage
 | 2026-08-12 | DEC-0020 | Final Teacher pilot暴露旧实现把`classification CE eligible`与`Teacher.evidence_sufficient`相乘，导致合法primary Fine Head监督被Agent取证停止变量错误门控 | 冻结`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`：每个合法TRAIN K-known session由deterministic protocol选择一个真实primary并计算classification CE，无论Teacher sufficiency true/false；controlled lower-evidence auxiliary只训练Evidence LM并mask CE；Teacher/Judge sufficiency只表达当前可见Evidence是否足以停止额外取证 | PLAN_B 16,979个session逐一primary审计覆盖全部11类且无model-visible GT/backend identity；V2 pilot极端保守证明旧耦合不可行，Prompt V3校准把sufficiency定义为operational classification sufficiency并保留grounding/Observation–Knowledge边界 | CE eligibility、primary/auxiliary、session weighting和GT backend-only边界冻结；sufficiency比例不作class quota或50/50优化，final Teacher/corpus必须通过独立质量Gate | 不是恢复裸GT或label shortcut；允许`classification_ce_eligible=true`且`evidence_sufficient=false`；未来RLAIF仍以semantic Judge reward加并行classification CE，Judge sufficiency不得门控CE |
 | 2026-08-13 | DEC-0021 | verified single-label capture provenance与旧11类PLAN_B population被当作每个reconstructed session都可用于fine classification，旧Initial/Teacher合同已完成并授权SFT | 冻结`FINE_CLASS_OBSERVATION_ELIGIBILITY_V2`：主类最多8个candidate；Backdoor为long-horizon case study，Uploading/Ransomware为observability-limited auxiliary；train/validation/test全部按同一full-observation contract过滤；Basic-v2含packet-aligned first-8 payload与cheap Application；Evidence State升级为固定family multi-gap；eligibility后重新运行Teacher-v2并生成corpus v3，旧formal launcher暂停 | capture-wide Evidence Salvage与class-conditional observability审计确认capture label不能证明每个session的fine evidence；Uploading/Ransomware网络不可观测，Backdoor仅少量long-horizon；旧payload缺packet index，Temporal/Relation/schema/population均不足以支撑新合同 | 主类population、eligibility、Basic/Evidence-v2、Teacher-v2和新corpus合同冻结；最终8/7/6类、eligible counts及是否沿用filtered old split由本轮pre-model数据Gate决定 | DEC-0019总体架构、DEC-0020 classification/sufficiency解耦、Production identity/sessionization、Near-first、U_dev/U_final isolation不变；旧11类PLAN_B/Teacher V3/V2 corpus变为superseded historical，`READY_FOR_FORMAL_SFT=false`直至新acceptance PASS |
 | 2026-08-13 | DEC-0022 | DEC-0021的candidate、Evidence-v2、Teacher-v2与corpus仍是待实现状态，不能授权formal training | 冻结六类Observable Dataset v3与filtered v2 split；实现17-capture Evidence-v2；完成40-state Teacher smoke及20,807/20,807 resumable bulk；formal trajectory必须terminal sufficient并在首次sufficient停止；冻结11,958-session/14,350-record corpus v3与3,231条EXACT_EVAL_CLEAN validation | 六类正式train/validation/test为1,318,688/270,851/279,057，generic/unobservable/identity overlap为0；raw Teacher cache不改写，161个terminal-inconsistent session及6,116个post-sufficient反事实state仅从formal supervision quarantine；token max 4,794<8,192；weight/class-map/U_final/plan Gates PASS | Dataset v3、class map、Evidence schema、Teacher prompt/cache、trajectory curation、corpus/validation digests和`NEAR_SFT_CONFIG_V2`冻结；后续只能用validation做已预注册调参 | MITM/Port_Scanning不进入主CE；Backdoor/Uploading/Ransomware角色不变；旧assets仍保留；`READY_FOR_FORMAL_SFT=true`但`FORMAL_SFT_STARTED=false`，不授权RL/Unknown/U_final/Agent |
+| 2026-08-14 | DEC-0023 | 论文主线同时强调LLM分类、Agent、RAG、Unknown与1/5/10-shot onboarding；Edge主实验后只以IoT-23独立适配作deferred外测 | 聚焦`COST_AWARE_ACTIVE_SEQUENTIAL_OBSERVATION_EVIDENCE_ACQUISITION`：保留正在训练的Edge Model A作为controlled baseline/warm start；正式增加CICIDS2017、ToN-IoT优先的multi-dataset Model B；Unknown保留，few-shot降为Future Work；mixed-domain RLAIF仅在SFT和Agent baselines稳定后执行 | TrafficLLM、ETooL、MalRAG、TrafficGPT/open-set TrafficLLM、NIDS-GPT与ICT-META已覆盖LLM traffic representation、multi-flow OOD、retrieval、open-set及few-shot适配；真正未被当前计划清晰隔离的问题是对当前session何时/按什么成本选择性获取Observation Evidence，以及该机制能否跨domain成立 | 核心问题、Model A/B顺序、dataset优先级、label/session/evidence合同与实验结构冻结；具体外部domain最终纳入、canonical K、Teacher抽样量和Model B sampling Gate由pre-model pilot冻结 | 不废弃DEC-0022数据/corpus或当前Formal SFT，不改变Qwen/Fine Head/LM Head/Supervisor/Runtime、Basic-v2、strict-past、U_final隔离；增加Compatibility Gate、canonical mapping quality、balanced replay与cross-domain evaluation；few-shot退出关键路径 |
 
-生效关系：DEC-0001至DEC-0018作为历史记录完整保留。DEC-0011的BF16 LoRA、text-only、non-thinking与Independent Unknown边界继续有效，DEC-0019冻结总体架构与Near-first，DEC-0020继续冻结classification/sufficiency解耦，DEC-0021定义新数据合同，DEC-0022冻结实际实现与formal training输入。Production identity、60秒sessionization、v2 physical split、U_dev/U_final isolation、Qwen/Supervisor/Runtime职责和checkpoint lineage不变。当前训练/Open-world主线以DEC-0019至DEC-0022、`task_definition_v2.md`及同步后的training protocol为准。
+生效关系：DEC-0001至DEC-0018作为历史记录完整保留。DEC-0011的BF16 LoRA、text-only、non-thinking与Independent Unknown边界继续有效；DEC-0019冻结总体架构，DEC-0020冻结classification/sufficiency解耦，DEC-0021定义数据合同，DEC-0022冻结Model A实际数据与formal training输入，DEC-0023重新聚焦论文问题并增加Model B路线。Production identity、60秒sessionization、v2 physical split、U_dev/U_final isolation、Qwen/Supervisor/Runtime职责、Basic-v2与当前checkpoint lineage不变。当前研究语义以DEC-0019至DEC-0023及`task_definition_v2.md`为准。

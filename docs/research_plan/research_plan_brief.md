@@ -1,61 +1,81 @@
-# 网络流量开放识别与自适应取证智能体研究计划（导师简版）
+# 成本感知主动证据获取研究计划（导师简版）
 
-> 2026-08-13同步；详细语义以`research_plan_detailed.md`和`task_definition_v2.md`为准，训练/Open-world执行以`../training/near_mainline_training_protocol_v1.md`为准。
+> 2026-08-14同步；详细语义以`research_plan_detailed.md`和`task_definition_v2.md`为准，训练/Open-world执行以`../training/near_mainline_training_protocol_v1.md`为准。
 
-## 一、论文问题与第一主线
+## 一、核心研究问题
 
-论文研究：Qwen3.5-9B能否从会话级网络证据学习已知攻击表示，独立Unknown层能否识别开放世界样本，受约束Agent能否按需获取真实证据并在效果—成本之间优于固定流程，以及少量人工支持能否通过Class Memory接入新类。
+论文研究的不是“LLM能否做流量分类”或“Agent/few-shot是否可用”本身，而是：面对一个target session，系统能否先用廉价Basic-v2完成分类与Evidence sufficiency判断，仅在Observation不足时选择性取得下一类证据，并在Accuracy/Macro-F1与evidence calls、tokens、latency、cost之间优于固定完整表示。
 
-正式trained Traffic Expert为冻结Qwen base + LoRA + Linear Fine Classification Head + 原始LM Head。Fine Head决定Known fine class，coarse由确定性映射得到；LM Head只输出supporting/missing evidence、sufficiency和gap等Evidence State。传统模型只作强baseline，不是Qwen router/reviewer。
+TrafficLLM、ETooL、MalRAG、TrafficGPT/open-set TrafficLLM、NIDS-GPT和ICT-META已经覆盖通用traffic representation、multi-flow OOD、retrieval、open-set及few-shot adaptation。我们的边界是`cost-aware active / sequential observation-evidence acquisition`：还要观察什么、何时停止，以及该机制能否跨domain成立。
 
-```text
-Session Evidence → Qwen representation
-→ Fine Head + LM Evidence State
-→ Independent Unknown
-→ DeepSeek Flash Supervisor + deterministic Runtime
-→ on-demand Evidence → Qwen re-evaluate
-→ Fine / Coarse / Unknown / Abstain
-→ optional Class Memory
-```
+## 二、冻结架构
 
-## 二、ONE_MAINLINE_FIRST与Task Definition v2
+Qwen3.5-9B继续使用冻结base + 可训练LoRA + Linear Fine Classification Head + 冻结原始LM Head。Fine Head是唯一Known fine决策源；coarse由确定性映射得到；LM Head生成structured Evidence State。DeepSeek Supervisor不分类、不覆盖fine label，只选择一个bounded action；Runtime拥有执行、合法性、strict-past、去重、预算与失败处理authority。
 
-先只跑Edge-IIoTset Near；U_dev仍为DDoS_ICMP、OS_Fingerprinting，U_final仍为DDoS_UDP、XSS且sealed。八类pre-model候选经Observation Eligibility冻结为六个主类：Normal、DDoS_HTTP、DDoS_TCP、Password、SQL_injection、Vulnerability_scanner。MITM与Port_Scanning因当前observation unit无法支持官方fine语义而排除。Backdoor为Long-Horizon Temporal Case Study；Uploading和Ransomware为Observability-Limited/Abstain辅助集，不进入主classification CE。
-
-verified capture label不等于每个session有fine-class evidence。train/validation/test必须用同一Fine-Class Observation Eligibility Contract过滤generic、unobservable、wrong-granularity和label-propagation-only observations。优先保留现有chronological assignment再过滤；只有support不可用才允许deterministic grouped/chronological split v3。
-
-Near先完成Raw/传统baseline、Multi-task SFT、RLAIF-GRPO、Independent Unknown、Basic/Fixed Full/RulePolicy/DeepSeek Flash Supervisor、Experience Memory和1/5/10-shot Class Memory。Far、Mixed、IoT-23及其他ablation在Near完整闭环后再执行。
-
-## 三、两次训练与Unknown
-
-Training #1：classification-first Multi-task BF16 LoRA SFT。
+### Training flow
 
 ```text
-L_SFT = lambda_cls * Fine Head CE + lambda_ev * Evidence generation
+Eligible model-safe sessions
+→ Basic-v2 primary + limited meaningful auxiliary states
+→ Fine Head CE + LM Evidence-State loss
+→ Model A Edge SFT
+→ Model B multi-domain continuation SFT
+→ Agent baselines stabilize
+→ optional mixed-domain RLAIF + classification CE
 ```
 
-GT只监督分类；Evidence targets来自规则、受控mask/stage、DeepSeek Flash Teacher、一致性过滤和有界人工审查。`classification_ce_eligible`与`evidence_sufficient`互不门控：每个合法TRAIN K-known session的真实primary计算CE，即使当前Evidence不足；controlled lower-evidence auxiliary只训练Evidence LM并mask CE。GT只在backend target，绝不进入model-visible input。Teacher不能决定标签或创造Observation。
+### Qwen multi-task internal structure
 
-Training #2：从独立SFT checkpoint继续RLAIF-GRPO，并保留Fine Head classification CE。GRPO优化grounding、sufficiency、missing evidence、gap、backoff/abstention、幻觉和schema；Fine correctness在同input rollout group内是常数，不是主要组内reward。DeepSeek Flash Judge在线/异步评价current-policy rollouts，不提前生成完整RL dataset。
+```text
+Session Evidence → Qwen3.5-9B shared representation
+├─ Linear Fine Head → Known fine logits → deterministic coarse mapping
+└─ frozen LM Head → sufficiency + supporting evidence
+                    + missing_evidence[] + primary_gap
+                    + gap_type + recoverability
+```
 
-随后冻结Qwen，只用Known validation与U_dev比较margin、entropy、energy和prototype distance。Unknown不是K+1类，不训练U_dev/U_final进Qwen；U_final只在所有相关配置冻结后打开。
+### Inference Agent loop
 
-## 四、Evidence-v2、RAG、Payload与Agent
+```text
+Basic-v2 → Qwen classification + Evidence State
+→ sufficient? YES → STOP_AND_CLASSIFY
+→ NO → DeepSeek Supervisor selects ONE bounded Evidence action
+→ deterministic Runtime executes Packet/Payload | Application | Temporal | Relation
+→ Qwen re-evaluates → classify / continue / backoff / abstain
+```
 
-Basic-v2统一提供session summary、first-8 packet metadata、packet-index对齐的bounded sanitized payload和cheap structured Application metadata。后续Observation family固定为PACKET_PAYLOAD、APPLICATION、TEMPORAL、RELATION；Knowledge为KNOWLEDGE。Temporal只使用10/60/180/300秒strictly-past窗口，Relation允许ARP/link-layer context而不改变target session。
+Observation Evidence为Basic、Packet/Payload、Application、Temporal与Relation；Knowledge RAG严格独立，不能发明当前session observation。Unknown也独立于Evidence Insufficient：不足应继续观察；Observation充分但不属于Known taxonomy才进入Unknown rejection。Unknown不是low confidence或Abstain。
 
-Evidence State v2支持真实multi-gap：`missing_evidence[]`、`primary_gap`、`gap_type`与`recoverability`。Qwen判断多个缺口，Supervisor仍只选一个action，Runtime确定性执行。RAG只补knowledge gap，不能证明当前session观察。
+## 三、Model A → Model B
 
-RAG只补knowledge gap，不默认每样本调用，也不能把知识当成当前session observation。第一版使用通用protocol/attack/CVE知识和BM25+dense hybrid retrieval；禁止dataset/capture/U_final shortcut。
+Model A是当前Edge-IIoTset single-domain controlled benchmark：六类Known为Normal、DDoS_HTTP、DDoS_TCP、Password、SQL_injection、Vulnerability_scanner。Dataset v3、Evidence-v2、Teacher-v2和corpus v3已冻结，Formal Near Multi-task SFT正在运行；该run/checkpoint必须完成、验证并保留，作为论文baseline和Model B warm start。
 
-DeepSeek Flash Teacher、Judge、Supervisor是三个权限隔离角色。Supervisor不是第二分类器，只能请求一个合法Evidence动作、要求Qwen重评、backoff、reject或abstain；Runtime负责权限、预算、去重、U_final/GT隔离和Trace。
+Model B正式增加多数据集：CICIDS2017与ToN-IoT为第一优先，兼容性和时间允许时增加CSE-CIC-IDS2018。统一pipeline为：
+
+```text
+Raw dataset → dataset-specific GT/provenance adapter
+→ common session reconstruction
+→ canonical label + common Evidence contracts
+→ leakage-safe grouped/run-aware split
+→ multi-domain corpus
+```
+
+Canonical label保留`source_label / canonical_family / canonical_fine_label / mapping_quality`；`FAMILY_ONLY`不得强行映射为错误fine subtype。Model B从Model A warm-start，Fine Head按6→K扩展，使用Edge replay与dataset/class-balanced sampling。新增clean external data以classification-only为主，只对少量代表性sessions生成高质量Evidence-State supervision。
+
+## 四、核心实验与贡献边界
+
+正式实验为：
+
+1. Model A Edge-only controlled SFT与validation；
+2. Basic-only、Full-Evidence One-Shot及可复现的TrafficLLM/ETooL式固定表示baseline；
+3. Strong Static、RulePolicy、DeepSeek Supervisor/Agent的budget-matched active acquisition；
+4. Edge + CICIDS2017 + ToN-IoT Model B的in-domain、cross-run/capture与cross-dataset evaluation；
+5. Independent OOD/Unknown rejection。
+
+贡献聚焦于序贯Observation-Evidence问题、Fine Classification/Evidence State分离、bounded Supervisor + deterministic Runtime、accuracy-cost权衡和多域验证。RLAIF只优化trajectory policy，不单独夸大为创新；Unknown是鲁棒性扩展。Few-shot novel-class registration不再属于核心实验、关键路径或贡献，只保留为Future Work/Optional Extension。
 
 ## 五、当前状态与下一步
 
-Production Freeze、Edge v2 split、Safe Adapter、Evidence Fidelity、官方raw Qwen本地/runtime smoke、Dataset v3、Evidence-v2、Teacher-v2与SFT corpus v3均已完成；这些不是论文结果。SFT、RL、Unknown、正式baseline、Agent与few-shot实验均未运行。
+Model A数据与训练输入保持：六类Dataset v3 train/validation/test为1,318,688/270,851/279,057；formal corpus为14,350 records / 11,958 sessions，SHA256 `d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca`。Backdoor仍为Long-Horizon Temporal Case Study；Uploading/Ransomware仍为Observability-Limited auxiliaries。U_final继续sealed。
 
-正式六类Dataset v3为train 1,318,688、validation 270,851、test 279,057；generic/unobservable主样本与sample identity overlap均为0。Basic-v2、packet-aligned payload、10/60/180/300秒strict-past Temporal、endpoint-linked Relation与structured Application已经物化。旧11类Teacher V3/22,957-record corpus只作为historical。
-
-Teacher-v2 bulk为20,807/20,807 valid、quarantine 0；形式化轨迹只保留到首次sufficient并quarantine 161个terminal-inconsistent候选，未改写raw Teacher cache。正式corpus为14,350 records / 11,958 sessions，SHA256 `d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca`；默认Known validation为3,231条`EXACT_EVAL_CLEAN`。权重、label-map、token 8192、U_final和plan consistency Gate均PASS。
-
-**`READY_FOR_FORMAL_SFT=true`；NEXT ACTION=`START_FORMAL_NEAR_MULTI_TASK_SFT`。** 旧formal launcher继续fail closed，新v2 config才是授权入口。`FORMAL_SFT_STARTED=false`；RL、Unknown、U_final和Agent benchmark仍未运行。
+当前Formal SFT为`IN_PROGRESS`。下一步是安全完成并验证Model A，然后依次执行CICIDS2017与ToN-IoT `MULTI_DATASET_COMPATIBILITY_GATE`。不得因计划同步停止/重启当前训练；RLAIF、Unknown、U_final和正式Agent实验均未启动。

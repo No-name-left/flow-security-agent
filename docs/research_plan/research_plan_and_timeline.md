@@ -1,31 +1,28 @@
-# 网络流量开放识别与自适应取证智能体：Near-first执行计划与时间表
+# 成本感知主动证据获取：Model A→Model B执行计划与时间表
 
-> Derived from the canonical `research_plan_detailed.md`; updated 2026-08-13.
+> Derived from the canonical `research_plan_detailed.md`; updated 2026-08-14.
 >
 > Research meaning follows the canonical plan. Training/Open-world execution follows `docs/training/near_mainline_training_protocol_v1.md`. This file only summarizes order, dependencies, Gates and status.
 
-## 1. ONE_MAINLINE_FIRST
+## 1. 当前正式路线
 
-The only first end-to-end route is Edge-IIoTset **Near**:
+核心问题是`cost-aware active / sequential observation-evidence acquisition for LLM-based malicious traffic analysis`：Qwen先读取廉价Basic-v2，分别输出Fine Classification与Evidence State；若Observation不足，Supervisor选择一个bounded action，Runtime确定性执行并让Qwen重评；Evidence充分时停止。LLM traffic classification、Agent、RAG与few-shot本身都不是本文创新中心。
 
 ```text
-Phase A/B reusable infrastructure (complete)
-→ Task Definition v2 + Evidence-v2
-→ Observable Dataset v3 eligibility across train/validation/test
-→ Teacher-v2 + SFT corpus v3 acceptance
-→ Raw/Traditional baselines
-→ Multi-task SFT
-→ RLAIF-GRPO + classification CE
-→ Independent Unknown
-→ Application/Payload/RAG + Agent
-→ Experience Memory
-→ 1/5/10-shot Class Memory
-→ NEAR_MAINLINE_COMPLETE
+Edge Dataset v3 + Teacher-v2 + corpus v3 (complete)
+→ Model A Formal Multi-task SFT (in progress)
+→ Model A validation/evaluation
+→ CICIDS2017 + ToN-IoT compatibility
+→ common label/session/evidence pipeline
+→ Model B multi-domain continuation SFT
+→ Basic / Full / Static / Rule / Agent experiments
+→ mixed-domain RLAIF after baselines stabilize
+→ final Unknown/OOD, ablation and writing
 ```
 
-Far, Mixed, IoT-23 and optional ablations remain in the plan but are `DEFERRED_UNTIL_NEAR_MAINLINE_COMPLETE`. They are not parallel first-development tracks.
+Model A不会因多数据集路线而废弃：它是single-domain controlled benchmark、Model B warm start与Edge replay安全锚点。Few-shot novel-class registration降为Future Work/Optional Extension，不进入关键路径。
 
-## 2. Task Definition v2 inputs
+## 2. Model A冻结输入与Model B目标
 
 | Item | Value |
 | --- | --- |
@@ -37,7 +34,9 @@ Far, Mixed, IoT-23 and optional ablations remain in the plan but are `DEFERRED_U
 | Dataset v3 split policy | final=`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2_PER_SPLIT_ELIGIBILITY_FILTERED`；没有重分split |
 | Excluded main roles | Backdoor→Long-Horizon Temporal Case Study; Uploading/Ransomware→Observability-Limited/Abstain |
 
-旧11类PLAN_B、Teacher V3和22,957-record corpus为superseded historical，不能进入formal SFT。不得依据模型结果修改final classes或eligibility；validation、test、U_dev和U_final不能进入Teacher-v2/SFT。
+旧11类PLAN_B、Teacher V3和22,957-record corpus为superseded historical，不能进入formal SFT。不得依据模型结果修改Model A final classes或eligibility；validation、test、U_dev和U_final不能进入Teacher-v2/SFT。
+
+Model B第一优先为CICIDS2017与ToN-IoT；兼容性和时间允许时增加CSE-CIC-IDS2018。统一的是session semantics、label semantics与Observation Evidence interface，而不是直接concat CSV。Canonical label保存`source_label / canonical_family / canonical_fine_label / mapping_quality(EXACT|FAMILY_ONLY|UNSUPPORTED)`；`FAMILY_ONLY`不得强行映射到DDoS_HTTP/DDoS_TCP等细类。
 
 ## 3. Current infrastructure status
 
@@ -54,7 +53,7 @@ Far, Mixed, IoT-23 and optional ablations remain in the plan but are `DEFERRED_U
 | Qwen raw deployment | official revision `c202236...`; local/runtime smoke PASS |
 | Full deployment-audit pytest | 261 passed; latest repository regression after CI portability fix: 264 passed |
 | Dataset v3 / Teacher-v2 / corpus v3 | **PASS / PASS / PASS**；1,318,688/270,851/279,057；20,807 annotations；14,350 records |
-| SFT / RL / Unknown / formal benchmark | READY_NOT_STARTED / NOT RUN / NOT FROZEN / NOT RUN |
+| Model A Formal SFT / RL / Unknown / formal Agent benchmark | **IN PROGRESS** / NOT RUN / NOT FROZEN / NOT RUN |
 
 The raw service is vLLM BF16 text-only, 8192 context, non-thinking/direct-response. It does not expose hidden states and therefore does not replace the training-side Fine Head harness.
 
@@ -63,45 +62,37 @@ The raw service is vLLM BF16 text-only, 8192 context, non-thinking/direct-respon
 ```text
 Official frozen Qwen base
 → LoRA + Linear Fine Classification Head + LM Evidence State
-→ Checkpoint A: Near Multi-task SFT
-→ clone/reference A
-→ RLAIF-GRPO + Fine Head classification CE
-→ Checkpoint B
-→ freeze primary Qwen
+→ Model A: Edge Formal Multi-task SFT + validation
+→ CICIDS2017/ToN-IoT common data contract
+→ expand Fine Head 6→K; copy mapped rows
+→ Model B: Edge replay + external balanced continuation SFT
+→ Basic/Full/Static/Rule/Agent baselines
+→ optional mixed-domain RLAIF + Fine Head classification CE
+→ freeze primary Qwen/Agent route
 → Independent Unknown using K validation + U_dev
 → freeze all final-route development settings
 → first U_final evaluation
 ```
 
-The Fine Head is the sole trained fine-class source; coarse uses deterministic mapping. `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` makes one legal primary per TRAIN K-known session CE-eligible independently of Teacher sufficiency; controlled lower-evidence auxiliaries mask CE. GT stays backend-only. GRPO optimizes Evidence behavior, not Fine Head correctness as a group-relative reward; Fine classification remains a separate CE term.
+The Fine Head is the sole trained fine-class source; coarse uses deterministic mapping. `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` makes one legal primary per TRAIN K-known session CE-eligible independently of Teacher sufficiency; controlled lower-evidence auxiliaries mask CE. GT stays backend-only. Model B warm-starts Model A, replays Edge and uses dataset/class-aware sampling; large external domains must not erase Model A. GRPO optimizes Evidence behavior, not Fine Head correctness as a group-relative reward; Fine classification remains a separate CE term.
 
 ## 5. Phase schedule
 
 | Phase | Work | Status / Gate |
 | --- | --- | --- |
-| A | Production, v2 split, PLAN_B, Safe Adapter, Fidelity, raw Qwen deployment | **COMPLETE / PASS_WITH_LIMITATIONS** |
-| B | Transformers/PEFT harness; pooling; LoRA inventory assertion; serialization v1; Prompt/schema v1; Application/Payload contracts; RAG Evidence Contract | **COMPLETE / PASS_WITH_LIMITATIONS** |
-| C | Raw Near Qwen and LightGBM/XGBoost/RF strong baselines | NOT STARTED |
-| C0 | Evidence-v2 + all-split eligibility + Observable Dataset v3 | **COMPLETE / PASS** |
-| D | Build Basic-v2 primary + at most 1–2 meaningful auxiliary states from eligible TRAIN | **COMPLETE / PASS** |
-| E | DeepSeek Teacher-v2 40-state smoke, resumable 20,807-state bulk, consistency and bounded review | **COMPLETE / PASS** |
-| E2 | Corpus v3, session-weight/label-map/preflight/blind sanity acceptance | **COMPLETE / PASS**；11,958 sessions / 14,350 records |
-| F | Training #1 classification-first Multi-task BF16 LoRA SFT | Checkpoint A |
-| G | SFT validation/evaluation | no formal test/U_final tuning |
-| H | Fixed reproducible RL Prompt Pool | K_known TRAIN only |
-| I | Training #2 RLAIF-GRPO + classification CE | Checkpoint B |
-| J | RL validation/evaluation | no U_final |
-| K | Freeze final primary Qwen | immutable Checkpoint B |
-| L | Compare margin/entropy/energy/prototype Unknown | K validation + U_dev only |
-| M | Freeze Unknown | score/threshold immutable |
-| N | First U_final open-set evaluation | one-way sealed evaluation |
-| O | Complete/finalize Application, Payload, RAG | all contracts/assets frozen |
-| P | Basic, Fixed Full, RulePolicy, DeepSeek Flash Supervisor | budget/information matched |
-| Q | Experience Memory experiment | TRAIN verified writes; eval read-only |
-| R | 1/5/10-shot Class Memory | no immediate continual LoRA |
-| S | Near complete | `NEAR_MAINLINE_COMPLETE=true` |
+| 1A | Production、v2 split、Safe Adapter、Task Definition v2、Dataset/Evidence/Teacher/corpus v3 | **COMPLETE / PASS**；Model A输入冻结 |
+| 1B | Model A classification-first Multi-task BF16 LoRA SFT | **IN PROGRESS**；不得由文档任务干扰 |
+| 2 | Model A正式validation/evaluation与checkpoint冻结 | SFT完成后；no formal test/U_final tuning |
+| 3A | CICIDS2017 `MULTI_DATASET_COMPATIBILITY_GATE` | label/raw/GT/session/Evidence/leakage/group split |
+| 3B | ToN-IoT `MULTI_DATASET_COMPATIBILITY_GATE` | 同上；CSE-CIC-IDS2018为条件性第三候选 |
+| 4 | Dataset-specific adapter → common session → canonical label/evidence → grouped split | 构造multi-domain corpus；不直接concat CSV |
+| 5 | Model B continuation SFT | warm-start Model A；Edge replay；dataset/class-balanced sampling |
+| 6 | Basic-only / Full-Evidence One-Shot / Strong Static / Rule / Supervisor | shared Qwen、information domain、max budget |
+| 7 | mixed-domain RLAIF-GRPO + classification CE | 仅在SFT与Agent baselines稳定后；共享policy |
+| 8A | Independent Unknown | Known validation + U_dev only；Unknown != insufficient/abstain |
+| 8B | First U_final + ablation + statistics + writing | one-way sealed evaluation；few-shot不在关键路径 |
 
-Safety dependency: if O/P contains settings that can affect the evaluated U_final route, freeze them before N. Phase labels never permit U_final-driven sanitizer, RAG, Supervisor or Memory tuning.
+Safety dependency: any sanitizer, RAG, Supervisor, Evidence action, Memory or Unknown setting that can affect U_final must freeze before Phase 8B. Phase labels never permit U_final-driven tuning.
 
 ## 6. DeepSeek execution roles
 
@@ -115,9 +106,9 @@ Each role has independent Prompt, Schema, permissions, cache and logs. Codex imp
 
 ## 7. Agent and evidence Gates
 
-Final Near Agent tools are Initial, packets 9–16, Temporal, Graph, Application, Sanitized Payload and Knowledge RAG. Only real AVAILABLE evidence is legal. RAG is on-demand for knowledge gaps; Observation gaps require real traffic evidence.
+Observation Evidence为Basic、Packet/Payload、Application、Temporal与Relation；Knowledge RAG严格独立。Only real AVAILABLE evidence is legal. RAG只处理knowledge gap；Observation gap必须由真实traffic evidence回答。Evidence充分时停止，不为了展示Agent而继续调用工具。
 
-Formal comparison includes Basic, Fixed Full, RulePolicy and DeepSeek Flash Supervisor with the same Qwen, tool domain and maximum budget. The first Agent experiment runs without Experience Memory; Memory is a later isolated experiment.
+Formal comparison includes Basic-only, Full-Evidence One-Shot, Strong Static, RulePolicy and DeepSeek Flash Supervisor with the same Qwen, tool domain and maximum budget. Metrics include Accuracy/Macro-F1、per-class、Evidence calls、tokens、latency、cost与stop behavior。The first Agent experiment runs without Experience Memory; Memory is a later isolated experiment.
 
 ## 8. Evaluation isolation
 
@@ -132,20 +123,21 @@ No formal test or U_final may select:
 
 Temporal/Graph/Memory evaluation is chronological within capture/scenario. One reconstructed session remains one result.
 
-## 9. Deferred after Near completion
+## 9. Deferred / optional work
 
 - Pure Generative SFT ablation;
 - DPO;
-- Far and Mixed training/evaluation;
-- IoT-23 external validation execution;
+- Far and Mixed secondary presets;
+- IoT-23 and other historical adapter-based external checks outside the first Model B domains;
 - tokenizer training/ablation;
 - QLoRA main experiment and thinking-on;
 - Low-Resource Unknown Stress Test;
 - Learnable Agent Policy RL;
-- continual LoRA and Agent Growth.
+- continual LoRA and Agent Growth;
+- few-shot novel-class registration / Class Memory onboarding.
 
 ## 10. Current stop point
 
-DEC-0022 records completion of DEC-0021 while retaining DEC-0020's classification/sufficiency decoupling. `SFT_RUN=false`, `RL_RUN=false`, `UNKNOWN_ALGORITHM_FROZEN=false`, and `READY_FOR_FORMAL_SFT=true`.
+DEC-0022 records Model A data/corpus acceptance while retaining DEC-0020's classification/sufficiency decoupling. DEC-0023 freezes active/sequential Observation-Evidence acquisition as the core question and adds the Model B route. Model A `READY_FOR_FORMAL_SFT=true`; Formal SFT is now **IN PROGRESS**. `RL_RUN=false` and `UNKNOWN_ALGORITHM_FROZEN=false`.
 
-**NEXT ACTION: `START_FORMAL_NEAR_MULTI_TASK_SFT`.** Formal SFT is now authorized only through`NEAR_SFT_CONFIG_V2`; no optimizer run has started. GRPO, Unknown, U_final and Agent experiments remain unauthorized.
+**NEXT ACTION: safely finish and validate Model A, then run the CICIDS2017 and ToN-IoT Compatibility Gates.** Do not restart or replace the current Formal SFT. GRPO, Unknown, U_final and formal Agent experiments have not started. Few-shot is not a required milestone.
