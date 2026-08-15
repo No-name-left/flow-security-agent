@@ -6,6 +6,8 @@
 >
 > 权威关系：本文件是本轮 label space、observation eligibility、Dataset v3、Evidence-v2 与 Teacher-v2 的详细单一真值源；研究语义仍以 `research_plan_detailed.md` 及其 Decision Log 为最高权威，训练执行服从 `near_mainline_training_protocol_v1.md`。
 
+> **DEC-0024 scope note:**本文件继续作为Model A Dataset-v3/Evidence-v2/Teacher-v2的冻结数据合同与provenance记录，不再定义Model B的主架构、Evidence operational utility、DeepSeek online role、continual evolution或RL顺序。Model B服从`open_world_continual_agent_design.md`与`multi_dataset_v4_design.md`；本文件中的Qwen→Supervisor→RLAIF链路为Model A历史设计。
+
 ## 1. 目标与不变主链路
 
 本轮目标是生成一套 GT 与合法网络 Evidence 一致、可稳定训练且 train/validation/test 使用同一准入规则的正式 Qwen Traffic Expert 数据。优先级为：正确 > 信息充分 > 训练稳定 > split 一致 > 数据量 > 难度。
@@ -180,7 +182,7 @@ Teacher-v2不重新创造fine GT，只标注当前合法Evidence State的suffici
 
 ```text
 READY_FOR_FORMAL_SFT=true
-FORMAL_SFT_STARTED=false
+FORMAL_SFT_STARTED_AT_THIS_ACCEPTANCE_SNAPSHOT=false
 ```
 
 在完成前，旧`READY_TO_START_FORMAL_NEAR_SFT=true`状态由DEC-0021暂停，不授权启动旧corpus训练。
@@ -203,4 +205,4 @@ SFT选择采用`CLASS_BALANCED_DIVERSITY_AWARE_SFT_SELECTION_V2`，初始12,119 
 
 Observability Stress Set v1独立索引3,676条excluded observations，全部`classification_ce_eligible=false`。Uploading/Ransomware保留为后续独立非CE stress materialization，本轮17-capture主候选scan未将它们伪装成Evidence-v2资产。Backdoor继续仅为Long-Horizon Temporal Case Study。
 
-最终corpus SHA256为`d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca`。`U_FINAL_ISOLATION=PASS`且未打开内容；`FORMAL_SFT_STARTED=false`。所有实现、数据、Teacher、监督、token、weight、label-map、计划一致性与回归Gate通过后，下一动作是`START_FORMAL_NEAR_MULTI_TASK_SFT`。
+最终corpus SHA256为`d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca`。`U_FINAL_ISOLATION=PASS`且在该acceptance snapshot未打开内容；当时`FORMAL_SFT_STARTED=false`且下一动作是`START_FORMAL_NEAR_MULTI_TASK_SFT`。该后续任务现已完成，正式结果以Model A evaluation报告与DEC-0024为准。

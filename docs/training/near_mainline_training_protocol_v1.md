@@ -1,16 +1,18 @@
 # Near-First Training and Open-World Protocol v1
 
-> Status: **FROZEN / Training and Open-World Execution Authority**
+> Status: **FROZEN MODEL A HISTORICAL EXECUTION CONTRACT / DEC-0024 OVERRIDDEN FOR MODEL B**
 >
-> Protocol date: 2026-08-11; implementation status revalidated 2026-08-13
+> Protocol date: 2026-08-11; implementation status revalidated 2026-08-15
 >
-> Scope: first complete Edge-IIoTset Near mainline, from training readiness through SFT, RLAIF-GRPO, Independent Unknown, Agent evaluation, Experience Memory and novel-class onboarding.
+> Scope: the completed Edge-IIoTset Model A data/SFT contract and its historical follow-on design. Model B/open-world continual execution follows DEC-0024 and requires a future versioned protocol after its cheap Gates.
 >
-> State: `TRAINING_PROTOCOL_FROZEN=true`; `SFT_RUN=false`; `RL_RUN=false`; `UNKNOWN_ALGORITHM_FROZEN=false`; `READY_FOR_FORMAL_SFT=true`.
+> State: `MODEL_A_SFT_RUN=true`; `MODEL_A_EVALUATION_COMPLETE=true`; `MODEL_A_EVIDENCE_STATE=FAIL`; `RL_RUN=false`; `DATASET_V4_BUILD_STARTED=false`; `MODEL_B0_TRAINING_STARTED=false`.
 >
-> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is the highest research authority. This protocol is the execution authority for training and open-world work. The [Agent architecture](../design/agent_architecture_provisional.md) governs Runtime/Supervisor/RAG/Memory implementation, and [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records current implementation state only.
+> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest. The [open-world continual design](../research_plan/open_world_continual_agent_design.md) supersedes this file for Model B phase order, DeepSeek role, Evidence utility, continual evolution and RL. This file remains authoritative only for Model A lineage/provenance.
 
 > **DEC-0021 EXECUTION OVERRIDE:** the old 11-class PLAN_B population, Teacher V3 targets, `NEAR_SFT_CORPUS_V2`, validation artifact and `NEAR_SFT_CONFIG_V1` authorization are superseded historical inputs. No formal SFT may start until Task Definition v2, Observable Dataset v3, Evidence-v2, Teacher-v2 and corpus v3 pass a new acceptance. Architecture, Near-first order, DEC-0020 classification/sufficiency decoupling and U_final isolation remain frozen.
+
+> **DEC-0024 MODEL B OVERRIDE:** Model A Formal SFT/evaluation are complete. Its Known classification passes, but generative Evidence State fails (`Basic-insufficient sufficiency F1=0`, `gap micro-F1=0`). Sections that make Active Evidence, DeepSeek online Supervisor, Evidence-only RLAIF, few-shot onboarding or Model A warm-start mandatory are historical and do not authorize those stages. The current order is source preflight → OOF Evidence Utility Gate → Dataset-v4 → static Model B0/Unknown/LLM-value ablations → non-RL verified-feedback continual baseline → RL-1 only if justified. RL-2 requires a prior Gate and advisor confirmation.
 
 ## 1. Status vocabulary
 
@@ -403,11 +405,13 @@ Model weights, optimizer state, caches, rollouts and large logs stay Git-externa
 
 Reusable facts include Production Data Freeze, Edge v2 split, Runtime Adapter/Fidelity, official raw Qwen smoke and the Phase B harness. The harness exposes hidden states, dynamic Linear Fine Head logits, LM logits and combined masked loss; real Qwen inventory covers 248 Gated Attention/DeltaNet/FFN targets and pooling remains `ATTENTION_MASKED_MEAN_V1`. Old Prompt/schema, PLAN_B sidecars, Teacher V3, 22,957 snapshots/corpus, validation asset and RL pool are superseded historical inputs under DEC-0021; they are not v3-ready.
 
-A real Qwen3.5-9B dry-run and save/load/resume smoke previously passed reusable harness gates. DeepSeek provider/role isolation is reusable. Teacher-v2为20,807/20,807 valid、quarantine 0；formal trajectory剔除161个terminal-inconsistent sessions并在首次sufficient停止，raw Teacher cache不改写。corpus v3为11,958 sessions / 14,350 records，Known validation为3,231条EXACT_EVAL_CLEAN。Formal SFT、RLAIF/GRPO、Unknown development和benchmarks仍未开始。
+A real Qwen3.5-9B dry-run and save/load/resume smoke passed reusable harness gates. DeepSeek provider/role isolation is reusable. Teacher-v2为20,807/20,807 valid、quarantine 0；formal trajectory剔除161个terminal-inconsistent sessions并在首次sufficient停止，raw Teacher cache不改写。corpus v3为11,958 sessions / 14,350 records，Known validation为3,231条EXACT_EVAL_CLEAN。Formal Model A SFT与evaluation已完成；RLAIF/GRPO、Dataset-v4 Unknown、continual stream与Agent benchmark未运行。
 
-**CURRENT STOP POINT: FORMAL_NEAR_SFT_READY.** `READY_FOR_FORMAL_SFT=true`; `NEAR_SFT_CONFIG_V1` remains explicitly unauthorized and only `NEAR_SFT_CONFIG_V2` may launch. The next action is formal Near multi-task SFT; no optimizer run has started.
+**CURRENT STOP POINT: MODEL_A_FROZEN / DEC-0024 PREFLIGHT NEXT.** Model A Formal Macro-F1=`0.9984831207613943`; Frozen-Qwen limited probe Macro-F1=`0.9815630112607532`; Model A Evidence State=`FAIL`. No further Model A optimizer run, Evidence-only RLAIF, Dataset-v4 training, RL or U_final access is authorized here. The next separately authorized work is source compatibility preflight and a bounded Evidence Utility Pilot design.
 
-## 19. End-to-end flow
+## 19. Historical Model A end-to-end flow
+
+> The following diagrams document the Model A/DEC-0019 design. They are superseded for the current Model B mainline by DEC-0024.
 
 Inference:
 

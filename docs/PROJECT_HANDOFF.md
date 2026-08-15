@@ -1,189 +1,151 @@
 # Flow Security Agent 项目交接指南
 
-> 最近核验：2026-08-13。
+> 最近核验：2026-08-15。
 >
-> 当前长期主线：`main`。Final pre-training acceptance工作以`7225c6ac496e9587a8b1caa2e066379a098d72fc`的线性后代commit按Git policy fast-forward落地；未push。
+> 当前长期主线：`main`；本轮DEC-0024只修改研究/架构文档，不push。
 >
-> 当前状态：`TASK_DEFINITION_V2_STATUS=PASS`，`OBSERVABLE_DATASET_V3_STATUS=PASS`，`READY_FOR_FORMAL_SFT=true`，`FORMAL_SFT_STARTED=false`。DEC-0022冻结六类Dataset v3、Evidence-v2、Teacher-v2与14,350-record corpus；旧11类PLAN_B/Teacher V3/V2 corpus及旧formal config继续superseded/fail closed。SFT、RL、Unknown、正式baseline与Agent实验均未运行；当前下一动作是formal Near multi-task SFT。
+> 当前状态：Model A Formal SFT与正式validation已完成；Known classification `PASS`，generative Evidence State `FAIL`。研究主线已调整为`Open-World Continually Evolving LLM Traffic Agent`。Dataset-v4 source preflight、Evidence Utility Gate、Model B0、Unknown continual stream和RL均未开始。
 
-## 1. 权威链与必读顺序
+## 1. 权威链
 
 研究语义冲突时依次服从：
 
-1. `docs/research_plan/research_plan_detailed.md`：Canonical / highest research authority，含DEC-0001至DEC-0021；`docs/research_plan/task_definition_v2.md`是本轮data/Evidence/Teacher详细合同；
-2. `docs/training/near_mainline_training_protocol_v1.md`：training/Open-world execution authority；
-3. `docs/design/agent_architecture_provisional.md`：Agent/Runtime/Supervisor/RAG/Memory design authority，不能覆盖前两者；
-4. 本文件：只记录实际完成状态、阻塞和下一步；
-5. timeline/brief、audit/manifest与历史报告。
+1. `docs/research_plan/research_plan_detailed.md`及DEC-0024；
+2. `docs/research_plan/open_world_continual_agent_design.md`：当前三Plane、Dataset-v4、continual与RL详细架构；
+3. `docs/research_plan/multi_dataset_v4_design.md`：source/session/taxonomy/static+stream合同；
+4. `docs/training/near_mainline_training_protocol_v1.md`：Model A历史执行/lineage合同，Model B顺序受DEC-0024 override；
+5. `docs/design/agent_architecture_provisional.md`：Runtime实现边界；
+6. 本文件：当前实现事实与下一动作。
 
-未来涉及training/model/Unknown前先读1、2；涉及Runtime/Supervisor/RAG/Memory再读3；最后用本文件核实实现状态和最新审计。历史报告中的Reviewer、QLoRA default或并行多preset路线不覆盖DEC-0019。
+`task_definition_v2.md`继续是Model A Dataset-v3/Evidence-v2/Teacher-v2数据合同。历史DEC、报告和旧协议不得覆盖DEC-0024。
 
-## 2. 当前论文主线
+## 2. Model A冻结结果
 
-```text
-Production Session
-→ Runtime Safe Adapter
-→ legal Evidence Stage
-→ Qwen shared language representation
-→ Fine Classification Head + LM Evidence State
-→ deterministic fine→coarse mapping
-→ Independent Unknown
-→ DeepSeek Flash Supervisor
-→ one Runtime Evidence action
-→ Qwen re-evaluate
-→ Known Fine / Coarse / Unknown / Abstain
-→ optional human label + Class Memory
-```
+| Item | Result |
+| --- | --- |
+| Run | `near-sft-v3-20260812T230311Z-d93789de` |
+| Final checkpoint | `checkpoint-step-00001794`，immutable/Git-external |
+| Formal Macro-F1 | `0.9984831207613943` |
+| Accuracy / micro-F1 | `0.9984524914887032` |
+| Raw Qwen zero-shot Macro-F1 | `0.5617499100465918` |
+| Frozen-Qwen linear probe | 3,600 balanced TRAIN records；Macro-F1 `0.9815630112607532` |
+| Basic-sufficient classification | 2,694；Macro-F1 `0.9988867951762442` |
+| Basic-insufficient classification | 537；Macro-F1 `0.9973544973544973` |
+| Evidence-State schema | valid rate `1.0`；severe hallucination 0 |
+| Evidence sufficiency | overall F1 `0.9101351351`；Basic-insufficient F1 `0` |
+| Gap prediction | micro-F1 `0`；532/537 insufficient误判sufficient |
 
-Qwen是第一分类器，不是LightGBM/XGBoost reviewer。正式trained model使用冻结Qwen base + LoRA + 一个Linear Fine Head + 保留LM Head：Fine Head唯一决定known fine class，coarse由确定性映射得到；LM Head只输出supporting/missing evidence、sufficiency、gap和必要backoff状态。
-
-Unknown不是K+1类。它在primary Qwen冻结后，只用Known validation与U_dev开发独立评分/阈值。Supervisor不是第二分类器，不能覆盖Fine Head，只能请求证据、要求Qwen重评、backoff、reject或abstain。Runtime是权限与执行authority。
-
-## 3. ONE_MAINLINE_FIRST
-
-第一条完整路线仍固定为Edge Near：
-
-- seed：`20260809`；
-- 八类pre-model candidate已冻结为六个正式主类：Normal、DDoS_HTTP、DDoS_TCP、Password、SQL_injection、Vulnerability_scanner；MITM与Port_Scanning保留exclusion provenance但不进入主CE；
-- U_dev：DDoS_ICMP、OS_Fingerprinting；
-- U_final：DDoS_UDP、XSS；
-- Backdoor：Long-Horizon Temporal Case Study；Uploading/Ransomware：Observability-Limited/Abstain；三者不进入主classification CE。
-
-verified capture provenance不再作为session observation eligibility。train/validation/test全部使用同一Fine-Class Observation Eligibility Contract；默认保留现有split后逐split过滤。Near后续两次训练、Unknown、Agent、Memory和few-shot主链路不变。
-
-## 4. 数据与Production状态
-
-- `PRODUCTION_DATA_READY=true`；`POSTFIX_PRECOMMIT_AUDIT=PASS_WITH_LIMITATIONS`；
-- Edge physical split：`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`；
-- train 5,294,777；validation 1,073,539；test 1,110,343；quarantine 140,373；
-- 7,619,032 stable Edge identity前后不变；identity cross-split leakage=0；U_final isolation=PASS；
-- 24/24 Edge capture label purity=100%；正式7,619,032 session使用`VERIFIED_CAPTURE_FALLBACK`，conflict/unmatched=0；
-- 官方CSV不支持稳定frame-exact mapping，论文只能写verified single-label capture provenance + within-capture reconstruction；
-- verified capture label不等于每个session具有fine evidence；旧Near/Far/Mixed PLAN_B仅为历史资产；
-- DDoS_UDP与OS_Fingerprinting的structural-diversity limitation仍有效，不改变K/U；
-- Edge多数attack class单capture/run，不能声称跨攻击run泛化；IoT-23仍是后续独立scenario外部验证数据集，不与Edge物理合并。
-
-大数据、PCAP、Parquet、checkpoint和完整报告保持Git-external，不得进入Git。
-
-## 5. Runtime与Evidence实现状态
-
-`PRODUCTION_RUNTIME_ADAPTER_STATUS=PASS`；`PRODUCTION_RUNTIME_ADAPTER_READY=true`。
-
-- Adapter：`production_runtime_adapter_v1`；
-- Evidence schema：`production_runtime_evidence_v1`；
-- `ADAPTER_EVIDENCE_FIDELITY_GATE=PASS`；
-- backend sample ID、dataset/split/K-U、GT、source/capture hash与定位不进入Qwen/Supervisor。
-
-| Capability | 当前工程状态 | 含义 |
-| --- | --- | --- |
-| Basic-v2 | MATERIALIZED / PASS | summary、前1–8 packet metadata、packet-aligned payload、cheap Application |
-| Packet expansion | AVAILABLE_PER_SESSION | 已物化packet 9–16，不在Runtime临时读PCAP |
-| Temporal-v2 | MATERIALIZED / PASS | 10/60/180/300s strict-past行为统计 |
-| Relation-v2 | MATERIALIZED / PASS | session-linked endpoint/MAC ARP/DNS/relation，禁止capture-wide传播 |
-| Application-v2 | MATERIALIZED / PASS | 新population真实structured fields |
-| Packet-aligned Payload-v2 | MATERIALIZED / PASS | packet index/direction/time/protocol逐条可证 |
-| Knowledge RAG | PRETRAINING_INDEX_READY | 30-source generic KB与BM25+dense index已冻结；formal Runtime/Supervisor integration待后续Agent阶段 |
-
-Production identity、paper v2 split、summary、first-16 metadata可直接复用；Evidence-v2需要一次独立、versioned、checkpointed evidence-only PCAP scan，不重新sessionize/canonical。能力缺失仍须fail-closed。
-
-## 6. Qwen部署事实
-
-- `LOCAL_QWEN_DEPLOYMENT_STATUS=PASS`；`LOCAL_QWEN_RAW_SMOKE=PASS`；`RUNTIME_TO_QWEN_REAL_SMOKE=PASS`；
-- model：`Qwen/Qwen3.5-9B`；revision `c202236235762e1c871ad0ccb60c8ee5ba337b9a`；
-- 16/16 files complete，19,329,393,661 bytes，权重Git-external；
-- independent env：`/root/autodl-tmp/conda/qwen35-runtime`；
-- vLLM 0.25.1；Torch 2.11.0+cu130；BF16；text-only；8192 context；non-thinking/direct-response；
-- audit final health/model service PASS；六类Production、packet 9–16、past-only Temporal和repeated deterministic smoke PASS；GT不进入request；
-- deployment audit full pytest：261 passed；CI portability修复后264 passed；Phase B完整server回归：274 passed。
-
-Raw六类smoke没有稳定fine candidate，不是benchmark。vLLM API不暴露hidden states；Fine Head需要Transformers/PEFT training-side harness。
-
-## 7. Training Protocol v1
-
-`TRAINING_PROTOCOL_FROZEN=true`表示架构、权限、阶段和隔离已冻结。Phase B现已冻结`ATTENTION_MASKED_MEAN_V1`、`COMPACT_SAFE_EVIDENCE_V1`、Prompt/schema v2、真实Qwen module inventory与`NEAR_SFT_CONFIG_V1`；这仍不表示正式训练已运行。
-
-Training #1：classification-first Multi-task SFT。
+Interpretation:
 
 ```text
-L_SFT = lambda_cls * Fine Head CE + lambda_ev * Evidence generation
+MODEL_A_ROLE=LEGACY_CONTROLLED_DOMAIN_AND_BASELINE
+MODEL_A_KNOWN_CLASSIFICATION=PASS
+MODEL_A_EVIDENCE_STATE=FAIL
+MODEL_A_WARM_START=PROVISIONAL_PENDING_ABLATION
 ```
 
-Official/verified GT只监督分类；Evidence targets来自规则、controlled masking/stages、DeepSeek Flash Teacher、consistency filtering和bounded human audit。Teacher不能决定标签或创造Observation。
+Closed-set classification不再是主要创新。Frozen representation已高度有用；linear probe和Formal SFT训练量不同，性能差不能当作精确LoRA uplift。Teacher semantic sufficiency不等于operational utility，Model A LM Evidence State不能直接控制runtime acquisition。
 
-Training #2：从独立保存的SFT checkpoint继续`RLAIF-GRPO + classification CE preservation`。GRPO优化grounding、sufficiency、missing evidence、gap、backoff/abstention、幻觉与schema；Fine correctness在同input rollout group中不变化，所以不是主要group-relative reward。分类由独立CE保持。
+权威报告：`reports/training_readiness/model_a_formal_evaluation_v1.md`。
 
-Checkpoint lineage：
+## 3. 新主线与三Plane
 
 ```text
-Official Base @ c202236...
-→ Checkpoint A: Near Multi-task SFT LoRA + Fine Head
-→ clone/reference A
-→ Checkpoint B: Near SFT + RLAIF-GRPO LoRA + Fine Head
-→ freeze Qwen → Independent Unknown → Agent integration
+Plane A — Perception
+Qwen3.5-9B frozen base + LoRA → shared h
+→ Family Head + Fine Head + MSP/Energy/Prototype Unknown
+→ optional Evidence Decision Head [Utility Gate后]
+→ LM Head仅解释/描述
+
+Plane B — Control
+Known classify / Unknown reject / defer buffer
++ Knowledge / verified feedback
++ optional Evidence actions [Gate后]
+→ deterministic Runtime authority
+
+Plane C — Evolution
+Unknown Buffer → verified feedback → class confirmation
+→ verified new samples + old replay
+→ head/LoRA adaptation → Release Gate
+→ Model B_t → Model B_{t+1} or rollback
 ```
 
-不得覆盖Checkpoint A；base、adapter、Fine Head、config、data digest、Prompt/serialization、class map、seed和software versions全部记录。
+Runtime拥有capability、strict-past、future leakage、budget、hidden oracle、class registration、model release/rollback和trace authority。模型预测/置信度不是GT；Memory增长本身不等于模型进化。
 
-## 8. DeepSeek、RAG、Payload与Memory
+## 4. 可复用数据与工程资产
 
-当前可配置外部高能力default是DeepSeek Flash，分为三个逻辑隔离角色：
+- Edge Production Data Freeze、7,619,032 stable identities、label-provenance与`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`；
+- Dataset-v3六类eligible train/validation/test `1,318,688 / 270,851 / 279,057`；
+- Model A corpus v3 `14,350 records / 11,958 sessions`，SHA256 `d93789de29b746d923660bb2e4ccad501412e75303ddf95f7087c85f6c67d6ca`；
+- 3,231条`EXACT_EVAL_CLEAN` validation；
+- Basic-v2、packet-index-aligned Payload、Application-v2、10/60/180/300s strict-past Temporal-v2与scoped Relation-v2；
+- deterministic Runtime、Production Safe Adapter、provider-neutral boundary、local Qwen、training harness与checkpoint/evaluation tooling；
+- Observation/Knowledge与private/model-visible分离、session-weight、U_final隔离等安全合同。
 
-- Teacher：train/development Evidence target；
-- Judge：current-policy GRPO rollout semantic reward；
-- Supervisor：formal inference action selection，永远无GT。
+这些资产支持Model A复现和Dataset-v4 adapter设计，但不能证明新的source GT、cross-domain、Unknown、continual或Evidence utility。
 
-三者必须独立Prompt、Schema、permissions、cache和logs。Codex负责provider abstraction、调用、retry/rate-limit/batch/cache、验证、实验和审计，不是正式Teacher/Judge。
+## 5. Dataset-v4当前设计
 
-RAG不是always-on。Observation gap只能由真实packet/Temporal/Graph/Application/Payload回答；knowledge gap才请求Knowledge RAG。第一版已物化30个generic权威源、2,263 chunks与pinned MiniLM BM25+dense hybrid index；SFT snapshot中Knowledge exposure为5.075%，未含dataset/capture/U_final shortcut。
+| Role | Sources |
+| --- | --- |
+| Primary source preflight | CICIDS2017, CSE-CIC-IDS2018, ToN-IoT |
+| Legacy controlled | Edge-IIoTset-clean |
+| Fallback/gap filling | Bot-IoT, UNSW-NB15, DoHBrw, USTC-TFC2016 |
 
-历史PLAN_B Payload/Application sidecar曾覆盖11,481/16,979与7,410/16,979 session；这些数字已superseded，不是v3 formal输入。当前v3 Basic payload为first-8 packet-aligned、bounded、sanitized、untrusted，扩展Evidence为on-demand；完整sidecar保持Git-external，formal online Runtime wiring尚未执行。
+最终组成和taxonomy均为`PROVISIONAL`。每个source先以少量capture/run和几百sessions检查raw/GT、GT unit、session join、granularity、observability、leakage、group split、taxonomy mapping与Evidence capability。通过前禁止全量下载/scan/build。
 
-Experience Memory只存externally verified TRAIN `State→Action→Outcome`，validation/test/U_final只读。Class Memory单独保存人工/oracle 1/5/10-shot新类support与prototype；第一版不continual LoRA。
+统一链路：dataset-specific GT Adapter → private SourceAttackEvent → Common Sessionizer → CanonicalSession/Label/Evidence → static split + continual stream。Fine loss仅`EXACT`；`FAMILY_ONLY`只训练Family Head；`AMBIGUOUS/UNSUPPORTED`默认监督OFF。
 
-## 9. U_final与评测隔离
+在training前按canonical semantic class冻结`K0/U_dev/U_final/U_inc`。同义类不得经另一dataset泄漏。Future GT保持hidden，只有`REQUEST_ANALYST_FEEDBACK`后可返回。
 
-在第一次打开Near U_final前，必须冻结所有会影响该route的：
+## 6. Cheap Gates
 
-- Prompt、serialization、pooling、LoRA和训练超参；
-- Teacher/Judge rubric；
-- Unknown算法与threshold；
-- Payload sanitizer；
-- KB/RAG/top-k/query policy；
-- Supervisor prompt/budget/policy；
-- Memory retrieval settings。
+### Source Compatibility Gate
 
-打开后不得反向调任何开发参数。涉及Temporal/Graph/Memory的formal evaluation按capture/scenario chronological order；一个reconstructed session对应一个primary result。
+每个candidate输出`PASS | PASS_WITH_LIMITATIONS | FAIL`。capture/file label propagation + unsupported session evidence、GT unit不明、无法解决的identity leakage均hard fail。
 
-## 10. 已实现与未实现
+### Evidence Utility Gate
 
-已实现：Production与split；Safe Adapter/Fidelity；Runtime foundation；provider-neutral LLM boundary；raw Qwen本地/runtime smoke；Transformers/PEFT training harness、dynamic Linear Fine Head、真实LoRA inventory；Dataset v3/Evidence-v2；Teacher-v2与corpus-v3；generic RAG KB/index；正式训练代码路径的真实9B BF16 LoRA四步disposable runtime smoke、checkpoint完整恢复与U_final隔离audit。旧PLAN_B/22,957 snapshot/6,000 RL pool仅为historical。
+使用Frozen-Qwen representation和stratified OOF/cross-fitting比较Basic与Basic+单一Evidence。Teacher只可提供semantic relevance，不能产生operational utility GT。只有困难subset上稳定可重复、bootstrap与第二seed/reference model支持的增益才允许Evidence Decision Head/Active Evidence/RL。
 
-历史DEC-0020 acceptance曾验证Teacher V3 22,957/22,957及V2 corpus 22,957 records / 16,979 sessions，现已superseded。当前DEC-0022 acceptance验证Teacher-v2 20,807/20,807、formal corpus 14,350 records / 11,958 sessions、3,231 EXACT_EVAL_CLEAN validation、token/weight/label/isolation/plan Gates。未完成/未运行：formal online Runtime Application/Payload/RAG tool wiring、正式传统/Raw baseline、SFT、GRPO、Independent Unknown、Agent benchmark、Experience/Class Memory实验与论文结果。
+### Warm-start Gate
 
-状态：
+同data/steps/LR/heads比较fresh LoRA与Model A warm start；只有更好且无Evidence/Unknown偏置并通过Edge regression才选Model A。
 
-- `SFT_RUN=false`
-- `RL_RUN=false`
-- `UNKNOWN_ALGORITHM_FROZEN=false`
-- `TOKENIZER_TRAINED=false`
-- formal benchmark：NOT RUN
+### RL Gate
 
-## 11. 下一实施阶段与停止规则
+先证明非RL continual loop，再比较RL-0 Heuristic与RL-1 small policy。只有RL-1长期收益稳定才考虑RL-2 Qwen policy LoRA；还需导师、reward、trajectory和GPU确认。
 
-**CURRENT STOP POINT：FORMAL_NEAR_SFT_RUNTIME_PREFLIGHT_PASS。**
+## 7. DeepSeek、RAG与verified feedback
 
-`CLASSIFICATION_SUFFICIENCY_DECOUPLED_MULTI_GAP_V2`已冻结：每个formal TRAIN session恰有一个Basic-v2 primary计算classification CE，无论Teacher `evidence_sufficient`；2,392个controlled richer auxiliary仅训练Evidence LM并mask CE。GT保持backend-only，不进入serialized input、Prompt、RAG query、Payload或model-visible metadata。
+DeepSeek现在是offline Teacher、policy demonstration source、semantic reviewer和optional Supervisor baseline；不是永久online control core，不替代classifier、verified label、Class Registry或Release Gate。
 
-历史Teacher V3/V2 corpus统计为250 pilot、22,957 bulk、16,979 sessions及11类，明确只作superseded审计证据。正式Teacher-v2为40-state pilot与20,807/20,807 bulk、quarantine 0；formal trajectory为14,350 records / 11,958 sessions / 6类，token max 4,794<8,192，overflow/label collision/backend identity/GT-key/U_final均为0，120-record分层可读审计PASS。
+RAG继续与Observation分开，并使用`RAG_VERSION_t`或future-knowledge exclusion，防止未revealed Unknown label/signature泄漏。
 
-旧`NEAR_SFT_CONFIG_V1`保持`formal_run_authorized=false`。新`NEAR_SFT_CONFIG_V2`指向六类corpus与EXACT_EVAL_CLEAN validation；全部硬Gate和plan consistency已通过。2026-08-13真实runtime preflight确认base/LM Head冻结、LoRA/Fine Head梯度与optimizer边界、session weighting、多任务loss、BF16显存、checkpoint恢复和validation路径均PASS；formal output仍未创建，`FORMAL_SFT_STARTED=false`。报告为`reports/training_readiness/formal_near_multitask_sft_runtime_preflight.md`。下一任务是`START_FORMAL_NEAR_MULTI_TASK_SFT`；仍禁止提前运行GRPO、Unknown、U_final、Agent、Far/Mixed/IoT-23或few-shot实验。
+只有analyst/sandbox/threat-intelligence/delayed-GT模拟产生verified feedback。Unknown cluster compactness、LLM confidence或self-prediction都不能注册新类。
 
-## 12. Git与环境提示
+## 8. 阶段与当前停点
 
-本轮实现通过`feat/task-v2-clean-dataset`完成完整回归、secret/large-file审查及最终preflight后显式commit，并按仓库策略`--ff-only`落地local main；未push。最终报告入口为`reports/training_readiness/observable_dataset_v3_final_pretraining_acceptance.md`；旧acceptance报告作为历史审计记录保留。
+```text
+PHASE_0_MODEL_A_FREEZE=COMPLETE
+PHASE_1_SOURCE_PREFLIGHT=NOT_STARTED
+PHASE_2_EVIDENCE_UTILITY=NOT_STARTED
+PHASE_3_DATASET_V4_BUILD=NOT_STARTED
+PHASE_4_MODEL_B0=NOT_STARTED
+PHASE_5_CONTINUAL_BASELINE=NOT_STARTED
+PHASE_6_RL1=NOT_STARTED
+PHASE_7_CONDITIONAL=NOT_AUTHORIZED
+PHASE_8_FINAL_EVAL=NOT_STARTED
+```
 
-数据环境：`/root/autodl-tmp/conda/flow-data`。Qwen training/runtime环境：`/root/autodl-tmp/conda/qwen35-runtime`。Production v2 root通过现有`ARTIFACT_ROOT`约定解析，正式v3 Git-external root为`$ARTIFACT_ROOT/near_pretraining_v3`；GitHub CI无外部资产时真实数据测试安全skip。DeepSeek只读runtime环境中的`DEEPSEEK_API_KEY`，不得写入repo/report/log。
+下一动作必须是单独授权的Source Compatibility Preflight和bounded Evidence Utility Pilot设计。当前禁止：大型数据下载、全量PCAP、Model B0 SFT、bulk Teacher、RLAIF/PPO/GRPO、U_final、修改Model A checkpoint或self-training。
 
-## 13. 新接手者自检
+## 9. Advisor boundary
 
-阅读权威链后，应能回答：为什么Near先跑；Qwen训练两次分别训练什么；Fine Head/LM Head/coarse mapping如何分工；为什么Fine correctness不是GRPO组内reward；Unknown何时冻结且为何不训练Qwen；U_dev/U_final权限；DeepSeek三个角色与Codex职责；RAG何时调用；Payload为何允许但按需受限；Supervisor为何不能分类；Runtime为何是authority；Experience/Class Memory差异；当前做到哪里；下一阶段是什么；哪些事情不能提前做。
+`ADVISOR_CONFIRMATION_REQUIRED=true`：确认“RL让模型持续进化”是A）RL学控制策略、verified-label supervised continual learning学新类（当前默认），还是B）RL必须直接更新Qwen traffic representation/classifier（高成本RL-2）。确认前不得投入LLM RL。
+
+## 10. Git与环境
+
+Large data、PCAP、Parquet、Teacher cache、features、checkpoint、model weights和logs保持Git-external。当前任务只允许docs/必要small research report，不push。
+
+Qwen环境：`/root/autodl-tmp/conda/qwen35-runtime`。Production/data环境：`/root/autodl-tmp/conda/flow-data`。任何secret不得进入repo、manifest或日志。

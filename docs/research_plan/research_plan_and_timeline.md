@@ -1,143 +1,184 @@
-# 成本感知主动证据获取：Model A→Model B执行计划与时间表
+# Open-World Continually Evolving LLM Traffic Agent：执行计划与时间表
 
-> Derived from the canonical `research_plan_detailed.md`; updated 2026-08-14.
+> Derived from DEC-0024 and the canonical `research_plan_detailed.md`; updated 2026-08-15.
 >
-> Research meaning follows the canonical plan. Training/Open-world execution follows `docs/training/near_mainline_training_protocol_v1.md`. This file only summarizes order, dependencies, Gates and status.
+> 本文件只总结顺序、依赖、Gate与状态，不授权下载、训练、API调用、RL或U_final访问。
 
-## 1. 当前正式路线
-
-核心问题是`cost-aware active / sequential observation-evidence acquisition for LLM-based malicious traffic analysis`：Qwen先读取廉价Basic-v2，分别输出Fine Classification与Evidence State；若Observation不足，Supervisor选择一个bounded action，Runtime确定性执行并让Qwen重评；Evidence充分时停止。LLM traffic classification、Agent、RAG与few-shot本身都不是本文创新中心。
+## 1. 当前路线
 
 ```text
-Edge Dataset v3 + Teacher-v2 + corpus v3 (complete)
-→ Model A Formal Multi-task SFT (in progress)
-→ Model A validation/evaluation
-→ CICIDS2017 + ToN-IoT compatibility
-→ common label/session/evidence pipeline
-→ Model B multi-domain continuation SFT
-→ Basic / Full / Static / Rule / Agent experiments
-→ mixed-domain RLAIF after baselines stabilize
-→ final Unknown/OOD, ablation and writing
+Phase 0  Freeze Model A [COMPLETE]
+→ Phase 1  Source Compatibility Preflight
+→ Phase 2  Evidence Utility Pilot
+→ Phase 3  Dataset-v4 Static + Continual Build
+→ Phase 4  Static Model B0 + Unknown/LLM-value baselines
+→ Phase 5  Open-world continual baseline with verified feedback/replay
+→ Phase 6  RL-1 low-cost policy vs Heuristic
+→ Phase 7  gated Evidence/RAG/RL-2 enhancements
+→ Phase 8  sealed evaluation, ablation and writing
 ```
 
-Model A不会因多数据集路线而废弃：它是single-domain controlled benchmark、Model B warm start与Edge replay安全锚点。Few-shot novel-class registration降为Future Work/Optional Extension，不进入关键路径。
+Active Evidence、Model A warm start、最终Dataset-v4组成、Evidence Decision Head、Unknown detector、clustering与RL算法均为`PROVISIONAL`，不得跳过对应cheap Gate。
 
-## 2. Model A冻结输入与Model B目标
+## 2. Phase 0 — Model A freeze
 
-| Item | Value |
+| Item | Frozen result |
 | --- | --- |
-| Seed | Dataset selection `20260813`; formal training `20260809` |
-| Main classes | Normal, DDoS_HTTP, DDoS_TCP, Password, SQL_injection, Vulnerability_scanner（6）；MITM/Port_Scanning排除 |
-| U_dev | DDoS_ICMP, OS_Fingerprinting |
-| U_final | DDoS_UDP, XSS |
-| Physical split | `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2` |
-| Dataset v3 split policy | final=`CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2_PER_SPLIT_ELIGIBILITY_FILTERED`；没有重分split |
-| Excluded main roles | Backdoor→Long-Horizon Temporal Case Study; Uploading/Ransomware→Observability-Limited/Abstain |
+| Model A role | `LEGACY_CONTROLLED_DOMAIN + MODEL_A_BASELINE + OPTIONAL_REPLAY_SOURCE` |
+| Formal classification | Macro-F1 `0.9984831208`; accuracy/micro-F1 `0.9984524915` |
+| Raw Qwen | Macro-F1 `0.5617499100` |
+| Frozen-Qwen limited probe | 3,600 balanced TRAIN records; Macro-F1 `0.9815630113` |
+| Basic-sufficient classification | 2,694 records; Macro-F1 `0.9988867952` |
+| Basic-insufficient classification | 537 records; Macro-F1 `0.9973544974` |
+| Evidence-State | **FAIL**: Basic-insufficient sufficiency F1 `0`; gap micro-F1 `0`; 532/537 false sufficient |
+| Formal checkpoint | immutable; no further Model A training authorized here |
 
-旧11类PLAN_B、Teacher V3和22,957-record corpus为superseded historical，不能进入formal SFT。不得依据模型结果修改Model A final classes或eligibility；validation、test、U_dev和U_final不能进入Teacher-v2/SFT。
+Exit decision: closed-set classification is not the primary innovation; current LM Evidence State cannot control runtime acquisition; Teacher semantic sufficiency is not operational utility.
 
-Model B第一优先为CICIDS2017与ToN-IoT；兼容性和时间允许时增加CSE-CIC-IDS2018。统一的是session semantics、label semantics与Observation Evidence interface，而不是直接concat CSV。Canonical label保存`source_label / canonical_family / canonical_fine_label / mapping_quality(EXACT|FAMILY_ONLY|UNSUPPORTED)`；`FAMILY_ONLY`不得强行映射到DDoS_HTTP/DDoS_TCP等细类。
+## 3. Phase 1 — Dataset Source Preflight
 
-## 3. Current infrastructure status
-
-| Component | Status |
-| --- | --- |
-| Production Data Freeze | `PRODUCTION_DATA_READY=true`; PASS_WITH_LIMITATIONS |
-| Edge v2 split | train 5,294,777; validation 1,073,539; test 1,110,343; quarantine 140,373 |
-| Identity leakage / U_final isolation | 0 / PASS |
-| Runtime Adapter | `production_runtime_adapter_v1`; READY=true |
-| Evidence schema | `production_runtime_evidence_v1` |
-| Evidence Fidelity | PASS |
-| v1 Initial / packets 9–16 / Temporal / Relation | REUSABLE FOUNDATION；不等于Evidence-v2完成 |
-| Basic-v2 / packet-aligned payload / Temporal-v2 / Relation-v2 / Application-v2 | **IMPLEMENTED / PASS**；17 captures Evidence-only scan |
-| Qwen raw deployment | official revision `c202236...`; local/runtime smoke PASS |
-| Full deployment-audit pytest | 261 passed; latest repository regression after CI portability fix: 264 passed |
-| Dataset v3 / Teacher-v2 / corpus v3 | **PASS / PASS / PASS**；1,318,688/270,851/279,057；20,807 annotations；14,350 records |
-| Model A Formal SFT / RL / Unknown / formal Agent benchmark | **IN PROGRESS** / NOT RUN / NOT FROZEN / NOT RUN |
-
-The raw service is vLLM BF16 text-only, 8192 context, non-thinking/direct-response. It does not expose hidden states and therefore does not replace the training-side Fine Head harness.
-
-## 4. Model/training dependency chain
-
-```text
-Official frozen Qwen base
-→ LoRA + Linear Fine Classification Head + LM Evidence State
-→ Model A: Edge Formal Multi-task SFT + validation
-→ CICIDS2017/ToN-IoT common data contract
-→ expand Fine Head 6→K; copy mapped rows
-→ Model B: Edge replay + external balanced continuation SFT
-→ Basic/Full/Static/Rule/Agent baselines
-→ optional mixed-domain RLAIF + Fine Head classification CE
-→ freeze primary Qwen/Agent route
-→ Independent Unknown using K validation + U_dev
-→ freeze all final-route development settings
-→ first U_final evaluation
-```
-
-The Fine Head is the sole trained fine-class source; coarse uses deterministic mapping. `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` makes one legal primary per TRAIN K-known session CE-eligible independently of Teacher sufficiency; controlled lower-evidence auxiliaries mask CE. GT stays backend-only. Model B warm-starts Model A, replays Edge and uses dataset/class-aware sampling; large external domains must not erase Model A. GRPO optimizes Evidence behavior, not Fine Head correctness as a group-relative reward; Fine classification remains a separate CE term.
-
-## 5. Phase schedule
-
-| Phase | Work | Status / Gate |
+| Source role | Datasets | Scope |
 | --- | --- | --- |
-| 1A | Production、v2 split、Safe Adapter、Task Definition v2、Dataset/Evidence/Teacher/corpus v3 | **COMPLETE / PASS**；Model A输入冻结 |
-| 1B | Model A classification-first Multi-task BF16 LoRA SFT | **IN PROGRESS**；不得由文档任务干扰 |
-| 2 | Model A正式validation/evaluation与checkpoint冻结 | SFT完成后；no formal test/U_final tuning |
-| 3A | CICIDS2017 `MULTI_DATASET_COMPATIBILITY_GATE` | label/raw/GT/session/Evidence/leakage/group split |
-| 3B | ToN-IoT `MULTI_DATASET_COMPATIBILITY_GATE` | 同上；CSE-CIC-IDS2018为条件性第三候选 |
-| 4 | Dataset-specific adapter → common session → canonical label/evidence → grouped split | 构造multi-domain corpus；不直接concat CSV |
-| 5 | Model B continuation SFT | warm-start Model A；Edge replay；dataset/class-balanced sampling |
-| 6 | Basic-only / Full-Evidence One-Shot / Strong Static / Rule / Supervisor | shared Qwen、information domain、max budget |
-| 7 | mixed-domain RLAIF-GRPO + classification CE | 仅在SFT与Agent baselines稳定后；共享policy |
-| 8A | Independent Unknown | Known validation + U_dev only；Unknown != insufficient/abstain |
-| 8B | First U_final + ablation + statistics + writing | one-way sealed evaluation；few-shot不在关键路径 |
+| Primary compatibility candidates | CICIDS2017, CSE-CIC-IDS2018, ToN-IoT | small metadata/assets, few captures/runs, hundreds of sessions |
+| Legacy controlled source | Edge-IIoTset-clean | Model A baseline, regression, optional replay |
+| Fallback/gap filling | Bot-IoT, UNSW-NB15, DoHBrw, USTC-TFC2016 | only if primary coverage/gates justify |
 
-Safety dependency: any sanitizer, RAG, Supervisor, Evidence action, Memory or Unknown setting that can affect U_final must freeze before Phase 8B. Phase labels never permit U_final-driven tuning.
+For each source, freeze:
 
-## 6. DeepSeek execution roles
+```text
+RAW / OFFICIAL_GT / GT_UNIT / SESSION_MAPPING
+OBSERVABILITY / LEAKAGE / GROUP_SPLIT
+TAXONOMY(EXACT|FAMILY_ONLY|AMBIGUOUS|UNSUPPORTED)
+EVIDENCE_CAPABILITY / RESOURCE_BUDGET
+```
 
-DeepSeek Flash is the current configurable default for three isolated roles:
+Exit is an individual `PASS | PASS_WITH_LIMITATIONS | FAIL` matrix and a provisional final-source recommendation. No full download or PCAP processing occurs in this phase. A capture/file-level label that cannot support session GT is an immediate hard fail.
 
-- Teacher: Evidence-State corpus assistance, with verified GT only as immutable context;
-- Judge: online/asynchronous semantic reward for current-policy GRPO rollouts;
-- Supervisor: formal inference action choice, never GT and never direct fine reclassification.
+## 4. Phase 2 — Evidence Utility Pilot
 
-Each role has independent Prompt, Schema, permissions, cache and logs. Codex implements and runs the orchestration but is not the formal Teacher/Judge.
+Use hundreds of sessions from compatible sources. For each session, compare Basic with Basic plus one legal Evidence family. Extract frozen representations once; produce operational utility only with stratified 5-fold OOF/cross-fitting so no evaluated sample trained its own probe.
 
-## 7. Agent and evidence Gates
+Report by class/subset:
 
-Observation Evidence为Basic、Packet/Payload、Application、Temporal与Relation；Knowledge RAG严格独立。Only real AVAILABLE evidence is legal. RAG只处理knowledge gap；Observation gap必须由真实traffic evidence回答。Evidence充分时停止，不为了展示Agent而继续调用工具。
+- accuracy and Macro-F1 delta;
+- cross-entropy delta;
+- incorrect→correct and correct→incorrect flips;
+- confidence change;
+- bootstrap interval and second seed/reference-model direction.
 
-Formal comparison includes Basic-only, Full-Evidence One-Shot, Strong Static, RulePolicy and DeepSeek Flash Supervisor with the same Qwen, tool domain and maximum budget. Metrics include Accuracy/Macro-F1、per-class、Evidence calls、tokens、latency、cost与stop behavior。The first Agent experiment runs without Experience Memory; Memory is a later isolated experiment.
+Exit:
 
-## 8. Evaluation isolation
+- `GO`: at least one Evidence family has stable, repeatable operational gain on a meaningful difficult subset;
+- `NO_GO`: Basic is saturated and additional Evidence has negligible or unstable gain.
 
-No formal test or U_final may select:
+Only `GO` permits an Evidence Decision Head, Evidence-action expansion or Evidence RL. Teacher semantic relevance is not the target.
 
-- Prompt/serialization/pooling/LoRA/hyperparameters;
-- Teacher/Judge rubric;
-- Unknown algorithm/threshold;
-- sanitizer, KB, retriever or RAG top-k;
-- Supervisor prompt/budget/policy;
-- Memory retrieval settings.
+## 5. Phase 3 — Dataset-v4 full build
 
-Temporal/Graph/Memory evaluation is chronological within capture/scenario. One reconstructed session remains one result.
+This phase starts only after Phase 1 and the resource decision.
 
-## 9. Deferred / optional work
+```text
+Raw PCAP / Logs / Official GT
+→ dataset-specific GT Adapter / private SourceAttackEvent
+→ Common Sessionizer
+→ CanonicalSession + CanonicalLabel + CanonicalEvidenceBundle
+→ grouped/chronological static split
+→ K0 / U_dev / sealed U_final / U_inc stages
+→ continual stream with hidden future GT
+```
 
-- Pure Generative SFT ablation;
-- DPO;
-- Far and Mixed secondary presets;
-- IoT-23 and other historical adapter-based external checks outside the first Model B domains;
-- tokenizer training/ablation;
-- QLoRA main experiment and thinking-on;
-- Low-Resource Unknown Stress Test;
-- Learnable Agent Policy RL;
-- continual LoRA and Agent Growth;
-- few-shot novel-class registration / Class Memory onboarding.
+Fine supervision uses `EXACT` mappings only. `FAMILY_ONLY` enables Family loss and masks Fine loss. `AMBIGUOUS/UNSUPPORTED` are not main supervised samples. Canonical synonyms receive one semantic role across all datasets.
 
-## 10. Current stop point
+Exit requires GT/session assignment, identity/leakage, split, future-knowledge, evidence-capability and resource manifests to pass. U_final remains sealed.
 
-DEC-0022 records Model A data/corpus acceptance while retaining DEC-0020's classification/sufficiency decoupling. DEC-0023 freezes active/sequential Observation-Evidence acquisition as the core question and adds the Model B route. Model A `READY_FOR_FORMAL_SFT=true`; Formal SFT is now **IN PROGRESS**. `RL_RUN=false` and `UNKNOWN_ALGORITHM_FROZEN=false`.
+## 6. Phase 4 — Static Model B0
 
-**NEXT ACTION: safely finish and validate Model A, then run the CICIDS2017 and ToN-IoT Compatibility Gates.** Do not restart or replace the current Formal SFT. GRPO, Unknown, U_final and formal Agent experiments have not started. Few-shot is not a required milestone.
+Model B0:
+
+```text
+Qwen3.5-9B frozen base + LoRA → shared h
+h → Linear Family Head
+h → Linear Fine Head
+h/logits → MSP / Energy / Prototype Unknown
+LM Head → explanation/descriptive output only
+```
+
+Required cheap ablations:
+
+1. base Qwen + fresh LoRA versus Model A LoRA warm start, matched data/steps/LR/heads;
+2. LightGBM or equivalent legal structured baseline;
+3. Frozen-Qwen + linear heads;
+4. Qwen + LoRA Model B0;
+5. optional compact traffic encoder if low cost.
+
+Primary evaluation is cross-domain, open-set and robustness, not pooled IID alone. U_dev selects MSP/Energy/Prototype thresholds; U_final never does. Exit freezes B0, Unknown candidate/threshold, K0 and regression tolerances.
+
+## 7. Phase 5 — Open-world continual baseline
+
+Run the frozen stream with hidden GT:
+
+```text
+Known / drift / U_inc arrival
+→ Known decision or Unknown Buffer
+→ REQUEST_ANALYST_FEEDBACK
+→ verified label
+→ cluster review / new-class confirmation
+→ episodic adaptation: verified new + balanced old replay
+→ old/new/Unknown/cross-domain Release Gate
+→ release B_{t+1} or rollback B_t
+```
+
+Start with simple density clustering and balanced replay. No per-sample gradient updates and no self-confirmation. Exit is a reproducible non-RL evolution loop with discovery delay, new/old performance and forgetting metrics.
+
+## 8. Phase 6 — RL-1 policy
+
+First implement `RL-0 HEURISTIC` using frozen thresholds, buffering, analyst-query and adaptation rules. Then, only if the continual environment has meaningful sequential decisions, train a small `RL-1` policy with Qwen frozen.
+
+Compare long-term classification, Unknown detection, discovery delay, analyst queries, Evidence cost, adaptation count, forgetting and total compute. If RL does not reproducibly beat Heuristic, record No-Go and stop RL expansion.
+
+## 9. Phase 7 — Conditional enhancements
+
+These are not automatic milestones:
+
+- Evidence Decision Head and Evidence actions: only after Utility Gate PASS;
+- RAG enhancement: only with stage-aware `RAG_VERSION_t` and future-label exclusion;
+- RL-2 Qwen policy LoRA/PPO/GRPO: only after RL-1 PASS, trustworthy delayed reward, adequate trajectories/GPU and advisor confirmation;
+- complex continual methods: only if balanced replay exposes a material limitation.
+
+DeepSeek may supply offline demonstrations/review and an optional Supervisor baseline. It is not the permanent online evolution authority.
+
+## 10. Phase 8 — Final evaluation
+
+After all route-affecting settings freeze, run sealed U_final and report:
+
+- Known Accuracy/Macro-F1 and per-class results;
+- AUROC/AUPR/FPR@95TPR, Unknown precision/recall/open-set F1 and optional OSCR;
+- cross-domain and cross-run/capture results;
+- new-class discovery delay, verified-query count and class registration accuracy;
+- old-class forgetting and release/rollback outcomes;
+- Agent action, Evidence, token, latency, compute and analyst costs;
+- LLM value, warm-start, Unknown, replay, Evidence and policy ablations.
+
+U_final never changes model, threshold, taxonomy, RAG, Evidence, policy or release settings.
+
+## 11. Current status
+
+```text
+PHASE_0_MODEL_A_FREEZE=COMPLETE
+PHASE_1_SOURCE_PREFLIGHT=NOT_STARTED
+PHASE_2_EVIDENCE_UTILITY=NOT_STARTED
+PHASE_3_DATASET_V4_BUILD=NOT_STARTED
+PHASE_4_MODEL_B0=NOT_STARTED
+PHASE_5_CONTINUAL_BASELINE=NOT_STARTED
+PHASE_6_RL1=NOT_STARTED
+PHASE_7_CONDITIONAL=NOT_AUTHORIZED
+PHASE_8_FINAL_EVAL=NOT_STARTED
+
+ACTIVE_EVIDENCE_STATUS=PROVISIONAL_PENDING_GATE
+MODEL_A_WARM_START_STATUS=PROVISIONAL_PENDING_ABLATION
+FEW_SHOT_STATUS=OUT_OF_SCOPE
+RLAIF_OLD_STATUS=DOWNGRADED
+ADVISOR_CONFIRMATION_REQUIRED=true
+```
+
+**NEXT ACTION:** separately authorize Source Compatibility Preflight and the bounded Evidence Utility Pilot design. Do not start bulk data work, Teacher labeling, Model B0 training, RL or U_final.
