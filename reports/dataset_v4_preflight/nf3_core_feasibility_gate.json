@@ -1,0 +1,250 @@
+{
+  "schema_version": "NF3_CORE_FEASIBILITY_GATE_V1",
+  "audit_date": "2026-08-15",
+  "scope": {
+    "official_nf3_finished_products_only": true,
+    "raw_pcap_downloaded": false,
+    "qwen_run": false,
+    "formal_training_run": false,
+    "teacher_run": false,
+    "unknown_or_continual_run": false,
+    "formal_evidence_utility_labels_created": false
+  },
+  "official_publication": {
+    "title": "Temporal Analysis of NetFlow Datasets for Network Intrusion Detection Systems",
+    "url": "https://arxiv.org/abs/2503.04404",
+    "version": "v2",
+    "official_catalogue": "https://staff.itee.uq.edu.au/marius/NIDS_datasets/",
+    "processing_contract": {
+      "converter": "nProbe NetFlow v9",
+      "preserve_pcap_time": true,
+      "label_join_claim": "timestamp plus bidirectional 5-tuple ground-truth matching",
+      "binary_and_multiclass_labels": true
+    }
+  },
+  "remote_inventory": {
+    "inspection_method": "UQ RDM API plus HTTP Range ZIP central-directory reads before download",
+    "compressed_bytes_total": 1381372415,
+    "uncompressed_bytes_total": 13920575596,
+    "main_csv_uncompressed_bytes_total": 13920558511,
+    "archives": [
+      {
+        "dataset": "NF-UNSW-NB15-v3",
+        "doi": "10.48610/6E0EDA1",
+        "rdm_uuid": "abd2f5d8-e268-4ff0-84fb-f2f7b3ca3e8f",
+        "remote_file": "f7546561558c07c5_NFV3DATA-A11964_A11964.zip",
+        "compressed_bytes": 110825147,
+        "main_csv": "NF-UNSW-NB15-v3.csv",
+        "main_csv_uncompressed_bytes": 577360958,
+        "local_zip_sha256": "6d51554df43e324ba8d68fc31a02a83d860ba0a3a93d63320a4a6fc314c9cdfd",
+        "official_main_csv_sha1": "2cba4879ead17c51e3268a01c06af41186cd90e4",
+        "bagit_sha1_verified": true,
+        "zip_crc_verified": true
+      },
+      {
+        "dataset": "NF-ToN-IoT-v3",
+        "doi": "10.48610/44D7C5E",
+        "rdm_uuid": "343e2e8c-6e6e-4a0c-813d-a46acea1b7f4",
+        "remote_file": "02934b58528a226b_NFV3DATA-A11964_A11964.zip",
+        "compressed_bytes": 417476635,
+        "main_csv": "NF-ToN-IoT-v3.csv",
+        "main_csv_uncompressed_bytes": 5302886266,
+        "local_zip_sha256": "b3b6256e970a8986d87716edea4bfd436d68f04058bf5c26cf67e6d839c83698",
+        "official_main_csv_sha1": "24854ca3072ab7c2ade9ebfb202345a666a94cfe",
+        "bagit_sha1_verified": true,
+        "zip_crc_verified": true
+      },
+      {
+        "dataset": "NF-BoT-IoT-v3",
+        "doi": "10.48610/73C4EBC",
+        "rdm_uuid": "db0187cc-1f78-4215-8e34-303364498866",
+        "remote_file": "d509c9db7490cf92_NFV3DATA-A11964_A11964.zip",
+        "compressed_bytes": 72956946,
+        "main_csv": "NF-BoT-IoT-v3.csv",
+        "main_csv_uncompressed_bytes": 3817527532,
+        "local_zip_sha256": "cd0d3eab5b2da73a377561492aafae078432e69c7932b6302a9fbd7f51429eca",
+        "official_main_csv_sha1": "357cc7ffe46ef57ba8193a58d7a66eff5cf44db8",
+        "bagit_sha1_verified": true,
+        "zip_crc_verified": true
+      },
+      {
+        "dataset": "NF-CSE-CIC-IDS2018-v3",
+        "doi": "10.48610/ECE9B83",
+        "rdm_uuid": "4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22",
+        "remote_file": "f78acbaa2afe1595_NFV3DATA-A11964_A11964.zip",
+        "compressed_bytes": 780113687,
+        "main_csv": "NF-CICIDS2018-v3.csv",
+        "main_csv_uncompressed_bytes": 4222783755,
+        "local_zip_sha256": "7399bdef73d29875ab388a53e2ae7e592d1952c4ef07ae6de195ba133823d97f",
+        "official_main_csv_sha1": "ddcad6d826b73a128a447a0189137efd6c8f70c9",
+        "bagit_sha1_verified": true,
+        "zip_crc_verified": true
+      }
+    ],
+    "official_archive_level_hash_published": false,
+    "official_payload_hash_type": "BagIt SHA-1"
+  },
+  "schema": {
+    "status": "PASS_RELEASE_SELF_CONSISTENT_WITH_PAPER_COUNT_DISCREPANCY",
+    "identical_across_four_csvs": true,
+    "flow_feature_count": 53,
+    "label_column_count": 2,
+    "total_column_count": 55,
+    "label_columns": ["Label", "Attack"],
+    "packaged_feature_dictionary_match": true,
+    "missing_columns": [],
+    "extra_columns": [],
+    "paper_conversion_paragraph_feature_count": 57,
+    "paper_feature_table_and_release_feature_count": 53,
+    "paper_57_feature_statement_match": false,
+    "fields": [
+      "FLOW_START_MILLISECONDS", "FLOW_END_MILLISECONDS", "IPV4_SRC_ADDR",
+      "L4_SRC_PORT", "IPV4_DST_ADDR", "L4_DST_PORT", "PROTOCOL", "L7_PROTO",
+      "IN_BYTES", "IN_PKTS", "OUT_BYTES", "OUT_PKTS", "TCP_FLAGS",
+      "CLIENT_TCP_FLAGS", "SERVER_TCP_FLAGS", "FLOW_DURATION_MILLISECONDS",
+      "DURATION_IN", "DURATION_OUT", "MIN_TTL", "MAX_TTL", "LONGEST_FLOW_PKT",
+      "SHORTEST_FLOW_PKT", "MIN_IP_PKT_LEN", "MAX_IP_PKT_LEN",
+      "SRC_TO_DST_SECOND_BYTES", "DST_TO_SRC_SECOND_BYTES",
+      "RETRANSMITTED_IN_BYTES", "RETRANSMITTED_IN_PKTS",
+      "RETRANSMITTED_OUT_BYTES", "RETRANSMITTED_OUT_PKTS",
+      "SRC_TO_DST_AVG_THROUGHPUT", "DST_TO_SRC_AVG_THROUGHPUT",
+      "NUM_PKTS_UP_TO_128_BYTES", "NUM_PKTS_128_TO_256_BYTES",
+      "NUM_PKTS_256_TO_512_BYTES", "NUM_PKTS_512_TO_1024_BYTES",
+      "NUM_PKTS_1024_TO_1514_BYTES", "TCP_WIN_MAX_IN", "TCP_WIN_MAX_OUT",
+      "ICMP_TYPE", "ICMP_IPV4_TYPE", "DNS_QUERY_ID", "DNS_QUERY_TYPE",
+      "DNS_TTL_ANSWER", "FTP_COMMAND_RET_CODE", "SRC_TO_DST_IAT_MIN",
+      "SRC_TO_DST_IAT_MAX", "SRC_TO_DST_IAT_AVG", "SRC_TO_DST_IAT_STDDEV",
+      "DST_TO_SRC_IAT_MIN", "DST_TO_SRC_IAT_MAX", "DST_TO_SRC_IAT_AVG",
+      "DST_TO_SRC_IAT_STDDEV", "Label", "Attack"
+    ]
+  },
+  "label_integrity": {
+    "status": "NEEDS_REVIEW_UNSW_FINE_COUNT_MISMATCH",
+    "total_rows": 66935021,
+    "null_binary_or_multiclass_labels": 0,
+    "rowwise_binary_multiclass_mismatches": 0,
+    "source_counts": {
+      "NF-UNSW-NB15-v3": {
+        "total": 2365424,
+        "binary": {"benign": 2237731, "malicious": 127693},
+        "fine": {"Analysis": 1226, "Backdoor": 4659, "Benign": 2237731, "DoS": 5980, "Exploits": 42748, "Fuzzers": 33816, "Generic": 19651, "Reconnaissance": 17074, "Shellcode": 2381, "Worms": 158}
+      },
+      "NF-ToN-IoT-v3": {
+        "total": 27520260,
+        "binary": {"benign": 16792214, "malicious": 10728046},
+        "fine": {"Backdoor": 203384, "Benign": 16792214, "ddos": 4141256, "dos": 203456, "injection": 381777, "mitm": 6013, "password": 1594777, "ransomware": 3971, "scanning": 1358977, "xss": 2834435}
+      },
+      "NF-BoT-IoT-v3": {
+        "total": 16933808,
+        "binary": {"benign": 51989, "malicious": 16881819},
+        "fine": {"Benign": 51989, "DDoS": 7150882, "DoS": 8034190, "Reconnaissance": 1695132, "Theft": 1615}
+      },
+      "NF-CICIDS2018-v3": {
+        "total": 20115529,
+        "binary": {"benign": 17514626, "malicious": 2600903},
+        "fine": {"Benign": 17514626, "Bot": 207703, "Brute_Force_-Web": 1618, "Brute_Force_-XSS": 480, "DDOS_attack-HOIC": 1032311, "DDOS_attack-LOIC-UDP": 3450, "DDoS_attacks-LOIC-HTTP": 288589, "DoS_attacks-GoldenEye": 61300, "DoS_attacks-Hulk": 100076, "DoS_attacks-SlowHTTPTest": 105550, "DoS_attacks-Slowloris": 36040, "FTP-BruteForce": 386720, "Infilteration": 188152, "SQL_Injection": 440, "SSH-Bruteforce": 188474}
+      }
+    },
+    "publication_release_conflicts": [
+      "UNSW CSV Backdoor/Analysis/Shellcode counts are 4659/1226/2381; paper and UQ catalogue say 1226/2381/4659",
+      "UQ catalogue UNSW malicious summary is 127639; CSV, class sum and paper binary table are 127693",
+      "UQ catalogue BoT total is 16993808 and Theft is 1651; CSV has 16933808 and 1615",
+      "paper multiclass table has incorrect UNSW and BoT total cells",
+      "paper text says 57 features; release and official catalogue contain 53"
+    ]
+  },
+  "candidate_taxonomy": {
+    "frozen": false,
+    "core_candidates": ["Benign", "Bot_C2", "Credential", "DDoS", "DoS", "Recon_Scanning", "Web_Injection"],
+    "optional_or_unmapped": ["Analysis", "Backdoor", "Exploits", "Fuzzers", "Generic", "Infilteration", "MITM", "Ransomware", "Shellcode", "Theft", "Worms"],
+    "unsw_disputed_labels_excluded_from_core_pilot": ["Analysis", "Backdoor", "Shellcode"]
+  },
+  "pilot": {
+    "status": "DIAGNOSTIC_ONLY",
+    "sampling": "deterministic systematic sample, maximum 3000 per source_dataset x source_fine_label",
+    "total_n": 106918,
+    "broad_eligible_n": 77538,
+    "broad_counts": {"Benign": 12000, "Bot_C2": 3000, "Credential": 9000, "DDoS": 15000, "DoS": 21000, "Recon_Scanning": 9000, "Web_Injection": 8538},
+    "split": {
+      "group": "source_dataset + 5-minute UTC block + unordered endpoint pair",
+      "assignment": "deterministic BLAKE2b 75/25 group hash",
+      "train_n": 58436,
+      "evaluation_n": 19102,
+      "cross_split_group_overlap": 0,
+      "cross_split_exact_flow_identity_overlap": 0,
+      "validation_used_for_parameter_updates": false,
+      "fine_split_limitation": "CSE DoS_attacks-Hulk has three pilot groups and no evaluation group"
+    },
+    "model": {"type": "RandomForestClassifier", "trees": 120, "max_depth": 20, "class_weight": "balanced_subsample", "seed": 20260815, "hyperparameter_search": false},
+    "results": {
+      "shortcut": {"accuracy": 0.9648727881897183, "macro_f1": 0.9676075671385723},
+      "safe_basic_without_ports": {"accuracy": 0.9206889330960109, "macro_f1": 0.926083685941645},
+      "safe_basic_with_ports": {"accuracy": 0.9187519631452203, "macro_f1": 0.9242672832130951},
+      "safe_full": {"accuracy": 0.9738247303947231, "macro_f1": 0.975510983988738}
+    },
+    "per_class": {
+      "Benign": {"basic_f1": 0.9230252100840336, "full_f1": 0.9665887069829603, "delta": 0.04356349689892669},
+      "Bot_C2": {"basic_f1": 1.0, "full_f1": 1.0, "delta": 0.0},
+      "Credential": {"basic_f1": 0.8608570052961001, "full_f1": 0.9935772130689752, "delta": 0.13272020777287508},
+      "DDoS": {"basic_f1": 0.9768703966920791, "full_f1": 0.9946704796568309, "delta": 0.017800082964751773},
+      "DoS": {"basic_f1": 0.9028647315499905, "full_f1": 0.9737928558607072, "delta": 0.07092812431071671},
+      "Recon_Scanning": {"basic_f1": 0.8632516703786192, "full_f1": 0.9097392467127257, "delta": 0.046487576334106495},
+      "Web_Injection": {"basic_f1": 0.955716787590693, "full_f1": 0.9902083856389656, "delta": 0.03449159804827262}
+    },
+    "cross_source_safe_full_macro_f1": {"held_out_bot": 0.517889229403286, "held_out_cse": 0.26101565904536, "held_out_ton": 0.15535441345070022, "held_out_unsw": 0.46003554459582024},
+    "limitations": [
+      "Temporal and relation context is computed from strictly earlier rows in the stratified pilot, not the full source population",
+      "This is not OOF Evidence Utility labelling",
+      "This is not a final Dataset-v4 split or paper baseline"
+    ]
+  },
+  "evidence_feasibility": {
+    "past_only": true,
+    "equal_timestamp_excluded": true,
+    "horizons_seconds": [10, 60, 300],
+    "source_start_time_inversions": {"NF-UNSW-NB15-v3": 335443, "NF-ToN-IoT-v3": 0, "NF-BoT-IoT-v3": 40736, "NF-CICIDS2018-v3": 1},
+    "explicit_sort_required": true,
+    "temporal_feasible": true,
+    "relation_feasible": true,
+    "payload_available": false,
+    "parsed_http_application_fields_available": false
+  },
+  "class_role_candidates": {
+    "basic_sufficient": ["Benign", "Bot_C2", "DDoS", "DoS", "Web_Injection"],
+    "evidence_recoverable": ["Credential", "Recon_Scanning"],
+    "observability_limited": [],
+    "unknown_or_unmapped_not_equated_with_observability_limited": true,
+    "bot_c2_warning": "source-local perfect score; environment shortcut risk"
+  },
+  "unknown_continual_suitability": {
+    "status": "PROVISIONAL_WITH_DOMAIN_SHIFT_RISK",
+    "candidate_unknown_classes": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "roles_frozen": false
+  },
+  "final_gate": {
+    "NF3_CORE_FEASIBILITY_STATUS": "BLOCKED_PENDING_OFFICIAL_METADATA_RECONCILIATION",
+    "NF3_SOURCE_INTEGRITY": "NEEDS_REVIEW",
+    "NF3_SCHEMA_STATUS": "PASS_RELEASE_SELF_CONSISTENT_WITH_PAPER_COUNT_DISCREPANCY",
+    "NF3_LABEL_STATUS": "NEEDS_REVIEW_UNSW_FINE_COUNT_MISMATCH",
+    "PILOT_TOTAL_N": 106918,
+    "SHORTCUT_PROBE_RESULT": "MACRO_F1_0.967608_HIGH_ENVIRONMENT_SHORTCUT",
+    "SAFE_BASIC_RESULT": "WITHOUT_PORT_MACRO_F1_0.926084",
+    "SAFE_FULL_RESULT": "SAMPLE_LOCAL_PAST_ONLY_MACRO_F1_0.975511",
+    "PER_CLASS_BASIC_FULL_DELTA": {"Benign": 0.04356349689892669, "Bot_C2": 0.0, "Credential": 0.13272020777287508, "DDoS": 0.017800082964751773, "DoS": 0.07092812431071671, "Recon_Scanning": 0.046487576334106495, "Web_Injection": 0.03449159804827262},
+    "BASIC_SUFFICIENT_CANDIDATES": ["Benign", "Bot_C2", "DDoS", "DoS", "Web_Injection"],
+    "EVIDENCE_RECOVERABLE_CANDIDATES": ["Credential", "Recon_Scanning"],
+    "OBSERVABILITY_LIMITED_CANDIDATES": [],
+    "CANDIDATE_CORE_CLASSES": ["Benign", "Bot_C2", "Credential", "DDoS", "DoS", "Recon_Scanning", "Web_Injection"],
+    "CANDIDATE_UNKNOWN_CLASSES": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "CROSS_SOURCE_GENERALIZATION_STATUS": "WEAK_AND_DOMAIN_DEPENDENT",
+    "TEMPORAL_EVIDENCE_FEASIBLE": true,
+    "RELATION_EVIDENCE_FEASIBLE": true,
+    "RAW_PCAP_REQUIRED_FOR_CORE": false,
+    "NF3_SUITABLE_AS_DATASET_V4_CORE": false,
+    "CICIoT2023_REQUIRED_FOR_CORE": false,
+    "FULL_NF3_DOWNLOAD_REQUIRED_NEXT": false,
+    "MODEL_B_PILOT_AUTHORIZED": false,
+    "RESEARCHER_REVIEW_REQUIRED": true,
+    "NEXT_ACTION": "RECONCILE_OFFICIAL_UNSW_LABEL_COUNTS_AND_53_VS_57_FEATURE_METADATA"
+  }
+}

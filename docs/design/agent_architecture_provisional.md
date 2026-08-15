@@ -1,10 +1,10 @@
 # Agent / Runtime 暂定架构与实施约束
 
-> Status: **DEC-0024 IMPLEMENTATION BOUNDARY / PROVISIONAL MODEL B DESIGN**
+> Status: **DEC-0025 IMPLEMENTATION BOUNDARY / PROVISIONAL MODEL B DESIGN**
 >
 > Updated: 2026-08-15
 >
-> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest; the [open-world continual design](../research_plan/open_world_continual_agent_design.md) defines current Model B architecture. The Near protocol remains the historical Model A execution contract. This document maps the new architecture onto Runtime boundaries; [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implementation state only.
+> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest; the [Model B design](../research_plan/model_b_evidence_openworld_design.md) defines representation/utility/novelty, and the [open-world continual design](../research_plan/open_world_continual_agent_design.md) defines control/evolution. The Near protocol remains the historical Model A execution contract. This document maps DEC-0025 onto Runtime boundaries; [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implementation state only.
 
 ## 1. Status labels
 
@@ -15,16 +15,17 @@
 - **[OPTIONAL]**: may be omitted without blocking the current gated phase.
 - **[IMPLEMENTED] / [UNAVAILABLE]**: current engineering fact, not a permanent research decision.
 
-## 2. DEC-0024 end-to-end architecture
+## 2. DEC-0025 end-to-end architecture
 
 **[HARD CONSTRAINT]** Perception, Control and Evolution have distinct responsibilities:
 
 ```text
-Traffic Stream → Canonical Evidence
-→ Qwen3.5-9B shared representation h
-→ Family Head + Fine Head + post-hoc Unknown scores
-→ Known classify | Unknown reject | Unknown Buffer
-→ optional Evidence/Knowledge [only after Gates]
+Traffic Stream → Basic Evidence
+→ Qwen shared representation h + Known Fine Head
+→ OOF-trained utility selector over admissible Evidence
+→ STOP or acquire Temporal/Relation and re-evaluate
+→ independent novelty detection after Evidence recovery gate
+→ Known classify | residual Unknown Buffer
 → verified analyst/oracle feedback
 → class confirmation + replay adaptation
 → regression-gated Model B_t → Model B_{t+1}
@@ -33,13 +34,13 @@ Traffic Stream → Canonical Evidence
 
 No traditional classifier routes samples to Qwen. No policy, provider, RAG or Runtime component may manufacture observation or override verified GT. Runtime remains the sole action, information, hidden-oracle, model-release and rollback authority.
 
-Model A's `Fine Head + generative Evidence State + DeepSeek Supervisor` path is retained as a historical baseline, not the current mandatory architecture. Model A Evidence State failed on Basic-insufficient and missing-gap detection. Teacher sufficiency is not operational utility. DeepSeek is now offline Teacher/demonstration/reviewer plus an optional Supervisor baseline.
+Model A's `Fine Head + generative Evidence State + DeepSeek Supervisor` path is retained as a historical baseline, not the current mandatory architecture. Model A Evidence State failed on Basic-insufficient and missing-gap detection. Teacher sufficiency is not operational utility. DeepSeek is now an offline semantic reviewer/demonstration/explanation source plus an optional Supervisor baseline.
 
 ## 3. Qwen representation boundary
 
 ### 3.1 Shared backbone and Fine Head
 
-**[HARD CONSTRAINT]** Model B0 uses frozen Qwen base + trainable LoRA + small trainable Family and Fine Classification Heads + retained frozen original LM Head. Both heads consume shared `h_session`. `EXACT` mappings may supervise both heads; `FAMILY_ONLY` masks Fine loss. There is no generative competing fine label.
+**[PROVISIONAL]** Model B uses Qwen representation plus trainable adaptation and a small Fine Classification Head over Known classes. A small Utility Head may consume shared `h_session`, or an external selector may consume representation/logits/confidence. The simpler variant wins unless matched evidence supports joint utility learning. There is no generative competing fine label and no K+1 Unknown class.
 
 Model A used `ATTENTION_MASKED_MEAN_V1`; Model B0 pooling must be registered in its own matched pilot rather than assumed from Model A. The implemented training-side harness and audited Qwen3.5 LoRA inventory are reusable. The vLLM raw service does not implement task heads.
 
@@ -64,26 +65,26 @@ It does not generate an independent competing fine label or a free-form tool nam
 
 Model A learned one Basic-v2 primary per eligible TRAIN session and bounded auxiliary states. Its data legality, packet alignment, strict-past and Observation/Knowledge rules remain reusable. Its Teacher semantic targets do not become Model B operational utility labels.
 
-`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` remains a valid Model A supervision rule, but the current Evidence LM output failed operational evaluation. Old Training #2 Evidence-only RLAIF is downgraded. Model B first validates source compatibility, Evidence utility, static heads/Unknown and a non-RL continual loop.
+`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1` remains a valid Model A supervision rule, but the current Evidence LM output failed operational evaluation. Old Training #2 Evidence-only RLAIF is downgraded. Model B proceeds through NF3-ToN formalization, static low-cost gates, formal typed-Evidence utility, Evidence-conditioned open-world evaluation and only then a non-RL continual loop.
 
-## 4. Independent Unknown boundary
+## 4. Evidence-gated independent Unknown boundary
 
-**[HARD CONSTRAINT]** Unknown is not a K+1 training class and is independent from LLM self-reported confidence. Dataset-v4 freezes `K0/U_dev/U_final/U_inc` by canonical semantic class before training. The first detector compares MSP, Energy and normalized-cosine Prototype Distance over Fine logits and/or `h_session`; U_dev selects thresholds and U_final remains sealed.
+**[HARD CONSTRAINT]** Unknown is not a K+1 training class and is independent from LLM self-reported confidence. Dataset-v4 freezes whole-class Known/development/final Unknown roles before training. The held-out class cannot train the classifier or tune the final threshold and must be observable under Full legal Evidence. The first detector compares MSP, margin, Energy and normalized-cosine Prototype Distance over Fine logits and/or `h_session`; development-only Unknown selects candidates/thresholds and final Unknown remains sealed.
 
-Scores may be recomputed after a legal Evidence update only if Evidence Utility passed and the route was frozen before formal evaluation. Unknown and Abstain differ:
+Novelty is entered only after useful recovery is exhausted, unavailable or not worth its cost. Scores may be recomputed after a legal Evidence update only if the route was frozen before formal evaluation. Unknown and Abstain differ:
 
 - **Unknown**: evidence supports that the session is outside K_known.
 - **Abstain**: evidence/capability/budget is insufficient for a reliable decision.
 
 A small learned Unknown head and score fusion are **[DEFERRED BACKUP]** until simple candidates demonstrate a limitation.
 
-## 5. DeepSeek logical roles after DEC-0024
+## 5. DeepSeek logical roles after DEC-0025
 
 DeepSeek is an external offline assistance provider, not the permanent control core. The concrete endpoint/model ID belongs in run config and manifest, not in the architecture.
 
-### 5.1 Teacher
+### 5.1 Offline semantic reviewer
 
-Teacher assists TRAIN/development Evidence-State target construction. It may receive verified GT as immutable context but cannot decide or change the label, create observations or access `U_final`.
+DeepSeek may review whether a proposed Evidence family is semantically admissible or generate optional explanations. It cannot decide operational utility; OOF/cross-fitted model improvement is the only source of Model B utility supervision.
 
 ### 5.2 Policy demonstration / optional Judge
 
@@ -118,15 +119,16 @@ LLMs cannot call tools, read Production backend rows or change system prompts ou
 
 ## 7. Action and loop contract
 
-Each round executes at most one Runtime-validated action. Initial Model B action families are:
+Each round executes at most one Runtime-validated action. Model B action families are:
 
-- `CLASSIFY_KNOWN`;
-- `REJECT_AS_UNKNOWN`;
-- `DEFER_TO_UNKNOWN_BUFFER`;
-- `QUERY_KNOWLEDGE`;
-- `REQUEST_ANALYST_FEEDBACK`.
+- `STOP_AND_CLASSIFY`;
+- `ACQUIRE_EVIDENCE(E_j)`，first-core families为Temporal/Relation；
+- `ENTER_NOVELTY_DETECTION`；
+- `BUFFER_UNKNOWN`；
+- `REQUEST_LABEL`；
+- `TRIGGER_CONTINUAL_ADAPTATION`。
 
-Only after `EVIDENCE_UTILITY_GATE=PASS` may the policy add `ACQUIRE_PACKET_PAYLOAD`, `ACQUIRE_APPLICATION`, `ACQUIRE_TEMPORAL` and `ACQUIRE_RELATION`. `PROPOSE_NEW_CLASS` and `TRIGGER_ADAPTATION` remain future gated actions. Runtime, not the Agent, performs class registration, parameter update and release.
+Application/Payload/Knowledge only join `ACQUIRE_EVIDENCE` after data and utility Gates. Runtime, not the Agent, performs class registration, parameter update and release. A deterministic/supervised utility policy is the first implementation; RL is not required.
 
 Historical Model A action names remain supported for audit/runtime compatibility but are not the Model B policy contract. Arbitrary raw payload access remains prohibited.
 
@@ -225,9 +227,9 @@ Updates may compare head-only with LoRA+heads; base Qwen remains frozen. A faile
 
 ## 14. RL staging boundary
 
-`RL-0` is a strong deterministic Heuristic. `RL-1` freezes Qwen and trains only a small policy over Known/Unknown scores, Evidence/capability state, buffer/feedback state, budget, history and model version. Choose bandit versus sequential RL only after the environment shows whether actions affect future state.
+The primary controller is a strong deterministic/supervised utility policy. RL is an optional comparison only if that controller leaves a reproducible sequential decision gap. A small policy may then consume Known/novelty scores, utility/capability state, budget, history and model version.
 
-`RL-2` Qwen policy LoRA/PPO/GRPO is high-cost and unauthorized until RL-1 reproducibly beats Heuristic, delayed reward is trustworthy, enough trajectories/GPU exist and the advisor confirms RL should update Qwen. Reward uses verified eventual outcomes, never confidence as a self-reward.
+LLM-level policy LoRA/PPO/GRPO is `HIGH_COST_NOT_AUTHORIZED`. Any future RL reward must use verified eventual outcomes, never confidence as self-reward; failure to beat the utility baseline ends the RL branch without affecting the core method.
 
 ## 15. Evaluation order and U_final
 
@@ -247,11 +249,13 @@ When Temporal, Graph or Memory is active, process formal sessions in capture/sce
 
 Reusable implementation: deterministic Runtime, Production Safe Adapter v1, provider-neutral boundaries, local Qwen, training-side hidden-state/Fine-Head harness, Dataset-v3/Evidence-v2 provenance, role-isolated DeepSeek paths and Model A checkpoint/evaluation. Model A Formal SFT and evaluation are complete; its known classification passes and generative Evidence State fails.
 
-Not implemented/run: Dataset-v4 source preflight/build, Evidence Utility Gate, Family Head/Model B0, fresh-vs-warm-start ablation, Dataset-v4 Unknown, continual stream, verified-feedback adaptation, RL-0/1/2 or sealed final open-world evaluation.
+Completed design evidence: NF3-ToN official artifact reconciliation and a 24k bounded OOF feasibility pilot (`PASS_WITH_LIMITATIONS`).
 
-**[DOWNGRADED / CONDITIONAL]** old Evidence-only RLAIF, permanent DeepSeek Supervisor, few-shot onboarding and current generative Evidence-State control. Full Teacher labeling, Model B0 SFT, complex continual learning and LLM RL all require cheap Gates.
+Not implemented/run: Dataset-v4 formal split/taxonomy, Model B, formal single-family/combined Evidence utility, fresh-vs-warm-start and Qwen-vs-small ablations, whole-class Unknown evaluation, continual stream/adaptation, RL or final open-world evaluation.
 
-**[PROVISIONAL]** final Dataset-v4 composition/taxonomy, warm start, Evidence actions/head, Unknown detector/fusion, clustering, replay tolerance, RL algorithm/rewards and whether RL ever updates Qwen.
+**[DOWNGRADED / CONDITIONAL]** old Evidence-only RLAIF, permanent DeepSeek Supervisor, few-shot onboarding and current generative Evidence-State control. Model B training, continual learning and any RL require their preceding Gates; bulk Teacher labeling is not a Model B requirement.
+
+**[PROVISIONAL]** final NF3-ToN taxonomy/split/rotations, warm start, utility implementation, Unknown detector/fusion, clustering, replay tolerance and whether any RL is useful.
 
 
 ## Optional DeepSeek baseline task-state boundary
@@ -263,9 +267,10 @@ the permanent controller.
 
 Three code paths are isolated:
 
-- Teacher: current legal TRAIN Evidence, immutable verified TRAIN class,
-  capability names and rubric. No K/U role, split, sample/capture identity,
-  backend path, raw PCAP, test/U_final, or future Evidence content.
+- Offline semantic reviewer/explanation: current legal Evidence, capability names
+  and semantic rubric. It may not generate operational utility targets. No K/U
+  role, split, sample/capture identity, backend path, raw PCAP, final Unknown,
+  or future Evidence content.
 - Demonstration/Judge: current legal state, rollout, deterministic check summary
   and semantic rubric. No self-confirming reward or hidden runtime GT.
 - Optional Supervisor baseline: Qwen fine/top-k and descriptive state, Unknown state, acquired

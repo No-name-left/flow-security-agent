@@ -1,18 +1,20 @@
 # Near-First Training and Open-World Protocol v1
 
-> Status: **FROZEN MODEL A HISTORICAL EXECUTION CONTRACT / DEC-0024 OVERRIDDEN FOR MODEL B**
+> Status: **FROZEN MODEL A HISTORICAL EXECUTION CONTRACT / DEC-0025 OVERRIDDEN FOR MODEL B**
 >
 > Protocol date: 2026-08-11; implementation status revalidated 2026-08-15
 >
-> Scope: the completed Edge-IIoTset Model A data/SFT contract and its historical follow-on design. Model B/open-world continual execution follows DEC-0024 and requires a future versioned protocol after its cheap Gates.
+> Scope: the completed Edge-IIoTset Model A data/SFT contract and its historical follow-on design. Model B/open-world execution follows DEC-0025 and requires a future versioned protocol after Dataset-v4 formalization and low-cost Gates.
 >
 > State: `MODEL_A_SFT_RUN=true`; `MODEL_A_EVALUATION_COMPLETE=true`; `MODEL_A_EVIDENCE_STATE=FAIL`; `RL_RUN=false`; `DATASET_V4_BUILD_STARTED=false`; `MODEL_B0_TRAINING_STARTED=false`.
 >
-> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest. The [open-world continual design](../research_plan/open_world_continual_agent_design.md) supersedes this file for Model B phase order, DeepSeek role, Evidence utility, continual evolution and RL. This file remains authoritative only for Model A lineage/provenance.
+> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest. The [Model B design](../research_plan/model_b_evidence_openworld_design.md) and [open-world continual design](../research_plan/open_world_continual_agent_design.md) supersede this file for Model B phase order, DeepSeek role, Evidence utility, novelty, continual evolution and RL. This file remains authoritative only for Model A lineage/provenance.
 
 > **DEC-0021 EXECUTION OVERRIDE:** the old 11-class PLAN_B population, Teacher V3 targets, `NEAR_SFT_CORPUS_V2`, validation artifact and `NEAR_SFT_CONFIG_V1` authorization are superseded historical inputs. No formal SFT may start until Task Definition v2, Observable Dataset v3, Evidence-v2, Teacher-v2 and corpus v3 pass a new acceptance. Architecture, Near-first order, DEC-0020 classification/sufficiency decoupling and U_final isolation remain frozen.
 
 > **DEC-0024 MODEL B OVERRIDE:** Model A Formal SFT/evaluation are complete. Its Known classification passes, but generative Evidence State fails (`Basic-insufficient sufficiency F1=0`, `gap micro-F1=0`). Sections that make Active Evidence, DeepSeek online Supervisor, Evidence-only RLAIF, few-shot onboarding or Model A warm-start mandatory are historical and do not authorize those stages. The current order is source preflight → OOF Evidence Utility Gate → Dataset-v4 → static Model B0/Unknown/LLM-value ablations → non-RL verified-feedback continual baseline → RL-1 only if justified. RL-2 requires a prior Gate and advisor confirmation.
+
+> **DEC-0025 CURRENT MODEL B OVERRIDE:** official NF3-ToN final processed data is the Dataset-v4 core priority. Model B distinguishes Basic-sufficient Known, recoverable Known and whole-class held-out True Unknown; novelty runs only after the Evidence gate. Operational utility comes from OOF/cross-fitted decision improvement, never Teacher-v2 semantic state. The current order is Dataset-v4 formalization → static Model B low-cost gates → single-family/combined utility validation → Evidence-conditioned open-world evaluation → verified-feedback continual evolution → optional small RL. All conflicting sections below are historical and do not authorize execution.
 
 ## 1. Status vocabulary
 
@@ -407,11 +409,11 @@ Reusable facts include Production Data Freeze, Edge v2 split, Runtime Adapter/Fi
 
 A real Qwen3.5-9B dry-run and save/load/resume smoke passed reusable harness gates. DeepSeek provider/role isolation is reusable. Teacher-v2为20,807/20,807 valid、quarantine 0；formal trajectory剔除161个terminal-inconsistent sessions并在首次sufficient停止，raw Teacher cache不改写。corpus v3为11,958 sessions / 14,350 records，Known validation为3,231条EXACT_EVAL_CLEAN。Formal Model A SFT与evaluation已完成；RLAIF/GRPO、Dataset-v4 Unknown、continual stream与Agent benchmark未运行。
 
-**CURRENT STOP POINT: MODEL_A_FROZEN / DEC-0024 PREFLIGHT NEXT.** Model A Formal Macro-F1=`0.9984831207613943`; Frozen-Qwen limited probe Macro-F1=`0.9815630112607532`; Model A Evidence State=`FAIL`. No further Model A optimizer run, Evidence-only RLAIF, Dataset-v4 training, RL or U_final access is authorized here. The next separately authorized work is source compatibility preflight and a bounded Evidence Utility Pilot design.
+**CURRENT STOP POINT: MODEL_A_FROZEN / DEC-0025 DATASET-V4 FORMALIZATION NEXT.** Model A Formal Macro-F1=`0.9984831207613943`; Frozen-Qwen limited probe Macro-F1=`0.9815630112607532`; Model A Evidence State=`FAIL`. NF3-ToN artifact reconciliation and bounded utility/open-world feasibility are complete with limitations. No further Model A optimizer run, Evidence-only RLAIF, Model B training, continual, RL or U_final access is authorized here. The next separately authorized work is Dataset-v4 formalization and Model B low-cost design Gates.
 
 ## 19. Historical Model A end-to-end flow
 
-> The following diagrams document the Model A/DEC-0019 design. They are superseded for the current Model B mainline by DEC-0024.
+> The following diagrams document the Model A/DEC-0019 design. They are superseded for the current Model B mainline by DEC-0025.
 
 Inference:
 

@@ -1,0 +1,190 @@
+{
+  "schema_version": "NF3_TON_EVIDENCE_OPENWORLD_FEASIBILITY_GATE_V1",
+  "audit_date": "2026-08-15",
+  "scope": {
+    "official_nf3_ton_finished_product_only": true,
+    "raw_pcap_downloaded_or_processed": false,
+    "qwen_or_teacher_or_api_run": false,
+    "gpu_used": false,
+    "formal_dataset_v4_built": false,
+    "formal_model_b_started": false,
+    "continual_learning_or_rl_run": false
+  },
+  "artifact_reconciliation": {
+    "status": "PASS",
+    "official_final_artifact": true,
+    "raw_reprocessing_required": false,
+    "source": {
+      "paper": "https://arxiv.org/abs/2503.04404",
+      "uq_catalogue": "https://staff.itee.uq.edu.au/marius/NIDS_datasets/",
+      "doi": "https://doi.org/10.48610/44D7C5E",
+      "stable_artifact_url": "https://rdm.uq.edu.au/files/343e2e8c-6e6e-4a0c-813d-a46acea1b7f4",
+      "rdm_uuid": "343e2e8c-6e6e-4a0c-813d-a46acea1b7f4"
+    },
+    "archive": {
+      "local_path": "/root/autodl-tmp/dataset_v4_nf3_gate/downloads/nf3_ton.zip",
+      "name": "02934b58528a226b_NFV3DATA-A11964_A11964.zip",
+      "size_bytes": 417476635,
+      "sha256": "b3b6256e970a8986d87716edea4bfd436d68f04058bf5c26cf67e6d839c83698",
+      "embedded_bagit_sha1_status": "PASS",
+      "zip_crc_status": "PASS"
+    },
+    "csv": {
+      "archive_member": "02934b58528a226b_NFV3DATA-A11964_A11964/data/NF-ToN-IoT-v3.csv",
+      "size_bytes": 5302886266,
+      "sha256": "53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78",
+      "embedded_sha1": "24854ca3072ab7c2ade9ebfb202345a666a94cfe",
+      "row_count": 27520260,
+      "column_count": 55
+    },
+    "processing_claim": "PCAP -> nProbe with preserved PCAP timestamps -> timestamp plus bidirectional 5-tuple GT matching -> binary and multiclass labels -> final NF3-ToN-IoT-v3",
+    "processing_reexecuted": false
+  },
+  "schema": {
+    "status": "PASS",
+    "actual_csv_column_count": 55,
+    "actual_predictor_columns": 53,
+    "model_visible_safe_basic_columns": 47,
+    "identity_or_lookup_columns": ["IPV4_SRC_ADDR", "IPV4_DST_ADDR"],
+    "timestamp_columns": ["FLOW_START_MILLISECONDS", "FLOW_END_MILLISECONDS"],
+    "optional_port_columns_excluded_from_primary_safe_basic": ["L4_SRC_PORT", "L4_DST_PORT"],
+    "label_columns": ["Label", "Attack"],
+    "unknown_columns": [],
+    "missing_documented_release_columns": [],
+    "packaged_feature_dictionary_match": true,
+    "documentation_count_discrepancy": "NON_BLOCKING_53_RELEASE_FEATURES_VS_57_IN_ONE_PAPER_PARAGRAPH"
+  },
+  "labels": {
+    "status": "PASS_EXACT_MATCH_TO_PAPER_AND_UQ_CATALOGUE",
+    "rowwise_binary_multiclass_conflicts": 0,
+    "unknown_labels": [],
+    "counts": {
+      "Benign": {"count": 16792214, "percentage": 61.017643},
+      "DoS": {"count": 203456, "percentage": 0.739295},
+      "DDoS": {"count": 4141256, "percentage": 15.048026},
+      "Scanning": {"count": 1358977, "percentage": 4.938097},
+      "XSS": {"count": 2834435, "percentage": 10.299448},
+      "Password": {"count": 1594777, "percentage": 5.794920},
+      "Injection": {"count": 381777, "percentage": 1.387258},
+      "Backdoor": {"count": 203384, "percentage": 0.739034},
+      "Ransomware": {"count": 3971, "percentage": 0.014429},
+      "MITM": {"count": 6013, "percentage": 0.021849}
+    }
+  },
+  "candidate_taxonomy": {
+    "frozen": false,
+    "pilot_n": 24000,
+    "classes": {
+      "Benign": ["Benign"],
+      "DDoS": ["ddos"],
+      "DoS": ["dos"],
+      "Recon_Scanning": ["scanning"],
+      "Credential": ["password"],
+      "Web_Injection": ["xss", "injection"],
+      "Backdoor": ["Backdoor"]
+    },
+    "counts": {
+      "Backdoor": 3000,
+      "Benign": 3000,
+      "Credential": 3000,
+      "DDoS": 3000,
+      "DoS": 3000,
+      "Recon_Scanning": 3000,
+      "Web_Injection": 6000
+    },
+    "retained_fine_but_not_core_pilot": ["mitm", "ransomware"]
+  },
+  "oof_evidence_recoverability": {
+    "folds": 3,
+    "group_contract": "5-minute UTC block plus unordered endpoint pair",
+    "group_count": 6766,
+    "cross_fold_group_overlap": 0,
+    "source_row_identity_duplicates": 0,
+    "no_self_training": true,
+    "safe_basic_macro_f1": 0.9241027728324086,
+    "safe_full_macro_f1": 0.9542507313534688,
+    "safe_basic_accuracy": 0.9274166666666667,
+    "safe_full_accuracy": 0.9570833333333333,
+    "recoverable_known_total": 2879,
+    "recoverable_known_rate": 0.11995833333333333,
+    "delta_nll_mean": 0.07803632010275237,
+    "delta_nll_median": 0.0010725167640732135,
+    "positive_delta_nll_rate": 0.6299166666666667,
+    "per_class": {
+      "Backdoor": {"n": 3000, "basic_correct_rate": 0.9976666667, "full_correct_rate": 0.9976666667, "basic_uncertain_rate": 0.004, "recovered_known_n": 6, "recovered_known_rate": 0.002, "delta_nll_mean": 0.0040926399, "delta_nll_median": 0.0, "positive_delta_nll_rate": 0.4276666667},
+      "Benign": {"n": 3000, "basic_correct_rate": 0.7533333333, "full_correct_rate": 0.79, "basic_uncertain_rate": 0.29, "recovered_known_n": 966, "recovered_known_rate": 0.322, "delta_nll_mean": 0.1400971969, "delta_nll_median": 0.0098347490, "positive_delta_nll_rate": 0.6563333333},
+      "Credential": {"n": 3000, "basic_correct_rate": 0.9926666667, "full_correct_rate": 0.9916666667, "basic_uncertain_rate": 0.021, "recovered_known_n": 57, "recovered_known_rate": 0.019, "delta_nll_mean": -0.0116271662, "delta_nll_median": 0.0, "positive_delta_nll_rate": 0.4923333333},
+      "DDoS": {"n": 3000, "basic_correct_rate": 0.9733333333, "full_correct_rate": 0.9813333333, "basic_uncertain_rate": 0.0546666667, "recovered_known_n": 122, "recovered_known_rate": 0.0406666667, "delta_nll_mean": 0.0196050646, "delta_nll_median": 0.0037620677, "positive_delta_nll_rate": 0.7643333333},
+      "DoS": {"n": 3000, "basic_correct_rate": 0.9646666667, "full_correct_rate": 0.993, "basic_uncertain_rate": 0.1096666667, "recovered_known_n": 324, "recovered_known_rate": 0.108, "delta_nll_mean": 0.0824009793, "delta_nll_median": 0.0004713516, "positive_delta_nll_rate": 0.7056666667},
+      "Recon_Scanning": {"n": 3000, "basic_correct_rate": 0.879, "full_correct_rate": 0.918, "basic_uncertain_rate": 0.2546666667, "recovered_known_n": 734, "recovered_known_rate": 0.2446666667, "delta_nll_mean": 0.1418872834, "delta_nll_median": 0.1051670559, "positive_delta_nll_rate": 0.814},
+      "Web_Injection": {"n": 6000, "basic_correct_rate": 0.9293333333, "full_correct_rate": 0.9925, "basic_uncertain_rate": 0.0776666667, "recovered_known_n": 670, "recovered_known_rate": 0.1116666667, "delta_nll_mean": 0.1239172814, "delta_nll_median": 0.0026796742, "positive_delta_nll_rate": 0.5895}
+    }
+  },
+  "utility_predictability": {
+    "status": "CLEAR_SIGNAL",
+    "protocol": "3-fold outer meta evaluation plus 3-fold inner OOF utility targets",
+    "selector": "standardized class-balanced logistic regression",
+    "inputs": ["SAFE_BASIC", "BASIC_CLASSIFIER_MAX_CONFIDENCE", "BASIC_CLASSIFIER_MARGIN", "BASIC_CLASSIFIER_ENTROPY"],
+    "forbidden_inputs": ["GT", "FULL_EVIDENCE", "FUTURE_TRAFFIC", "ABSOLUTE_IDENTITY", "ABSOLUTE_TIMESTAMP"],
+    "auroc": 0.9559201214445113,
+    "aupr": 0.6823986368255095,
+    "f1_at_0_5": 0.6660952614179013,
+    "delta_nll_spearman": 0.5055977581497181
+  },
+  "openworld": {
+    "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "whole_class_holdout": true,
+    "unknown_absent_from_classifier_training_and_threshold_tuning": true,
+    "heldout_unknown_excluded_from_known_history_lookup": true,
+    "threshold_contract": "Known calibration only; conservative strict threshold at at-most 5% Known FPR",
+    "pooled": {
+      "direct": {"unknown_auroc": 0.7583657442883499, "unknown_aupr": 0.43108390444264594, "unknown_recall_at_fixed_known_fpr": 0.31080511588218573, "false_unknown_on_recoverable_known": 0.3062080536912752, "evidence_acquisition_rate": 0.0},
+      "always_acquire_when_uncertain": {"unknown_auroc": 0.7683698955976005, "unknown_aupr": 0.4425854502835893, "unknown_recall_at_fixed_known_fpr": 0.3214719560106576, "false_unknown_on_recoverable_known": 0.24161073825503357, "evidence_acquisition_rate": 0.1459902525476296},
+      "simple_utility_selector": {"unknown_auroc": 0.7683582327179357, "unknown_aupr": 0.4426998108628934, "unknown_recall_at_fixed_known_fpr": 0.3214719560106576, "false_unknown_on_recoverable_known": 0.24328859060402686, "evidence_acquisition_rate": 0.1456210308669325}
+    },
+    "per_rotation": {
+      "Credential": {"unknown_evaluation_n": 566, "direct_auroc": 0.8208257704, "evidence_auroc": 0.8288666982, "direct_furk": 0.3285123967, "evidence_furk": 0.1900826446, "direct_unknown_recall": 0.2844522968, "evidence_unknown_recall": 0.2190812721},
+      "Recon_Scanning": {"unknown_evaluation_n": 487, "direct_auroc": 0.5547877800, "evidence_auroc": 0.5682510610, "direct_furk": 0.4076086957, "evidence_furk": 0.3288043478, "direct_unknown_recall": 0.0554414784, "evidence_unknown_recall": 0.0780287474},
+      "Web_Injection": {"unknown_evaluation_n": 1043, "direct_auroc": 0.8994836825, "evidence_auroc": 0.9079919276, "direct_furk": 0.1647058824, "evidence_furk": 0.2205882353, "direct_unknown_recall": 0.5925215724, "evidence_unknown_recall": 0.6673058485}
+    },
+    "class_conditional_limitation": "Web_Injection gains Unknown AUROC/recall but its recoverable-Known false-Unknown rate worsens; Recon_Scanning Unknown detection remains weak"
+  },
+  "external_artifacts": {
+    "summary": "/root/autodl-tmp/dataset_v4_nf3_gate/artifacts/ton_openworld_results.json",
+    "summary_sha256": "39bc2fad376cb1a09ee4a99334cef3b73fb55f7bdcac805955d044a28041628e",
+    "oof_trace": "/root/autodl-tmp/dataset_v4_nf3_gate/artifacts/ton_openworld_oof_trace.parquet",
+    "oof_trace_sha256": "b53d4ad70df29f44b3c310be78b85444d737922c28002d5cf75773f29d279b05"
+  },
+  "final_gate": {
+    "NF3_TON_ARTIFACT_RECONCILIATION_STATUS": "PASS",
+    "NF3_TON_OFFICIAL_FINAL_ARTIFACT": true,
+    "NF3_TON_RAW_REPROCESSING_REQUIRED": false,
+    "NF3_TON_SCHEMA_STATUS": "PASS",
+    "NF3_TON_LABEL_STATUS": "PASS_EXACT_MATCH_TO_PAPER_AND_UQ_CATALOGUE",
+    "NF3_TON_DOCUMENTATION_DISCREPANCY": "NON_BLOCKING_53_VS_57_COUNT_ONLY",
+    "TON_ONLY_PILOT_N": 24000,
+    "TON_ONLY_CORE_CLASS_CANDIDATES": ["Backdoor", "Benign", "Credential", "DDoS", "DoS", "Recon_Scanning", "Web_Injection"],
+    "OOF_FOLDS": 3,
+    "OOF_BASIC_MACRO_F1": 0.9241027728324086,
+    "OOF_FULL_MACRO_F1": 0.9542507313534688,
+    "RECOVERABLE_KNOWN_TOTAL": 2879,
+    "RECOVERABLE_KNOWN_RATE": 0.11995833333333333,
+    "UTILITY_PREDICTION_STATUS": "CLEAR_SIGNAL",
+    "UTILITY_PREDICTION_AUROC": 0.9559201214445113,
+    "UTILITY_PREDICTION_AUPR": 0.6823986368255095,
+    "UNKNOWN_ROTATIONS": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "DIRECT_NOVELTY_UNKNOWN_AUROC": 0.7583657442883499,
+    "EVIDENCE_CONDITIONED_UNKNOWN_AUROC": 0.7683698955976005,
+    "DIRECT_FALSE_UNKNOWN_ON_RECOVERABLE_KNOWN": 0.3062080536912752,
+    "EVIDENCE_CONDITIONED_FALSE_UNKNOWN_ON_RECOVERABLE_KNOWN": 0.24161073825503357,
+    "EVIDENCE_ACQUISITION_RATE": 0.1459902525476296,
+    "Q1_ARTIFACT_READY": true,
+    "Q2_RECOVERABLE_KNOWN_EXISTS": true,
+    "Q3_UTILITY_PREDICTABILITY": "CLEAR_SIGNAL",
+    "Q4_EVIDENCE_CONDITIONED_OPEN_WORLD": "GOOD_AGGREGATE_WITH_CLASS_CONDITIONAL_LIMITATIONS",
+    "CORE_RESEARCH_ROUTE_FEASIBLE": "true_WITH_LIMITATIONS",
+    "CANONICAL_PLAN_REVISION_AUTHORIZED": "false_PENDING_RESEARCHER_REVIEW",
+    "MODEL_B_DESIGN_AUTHORIZED": "false_PENDING_PLAN_REVISION",
+    "NEXT_ACTION": "RESEARCHER_REVIEW_THEN_REVISE_CANONICAL_PLANS_FREEZE_TON_CORE_ROLE_AND_DESIGN_MODEL_B"
+  }
+}
