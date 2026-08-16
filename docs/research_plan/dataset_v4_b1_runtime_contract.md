@@ -256,7 +256,9 @@ The deterministic `teacher_cache_v1` design is tracked in [teacher_cache_v1_samp
 ```text
 CACHE_SAMPLE_SELECTION_BLOCKED_BY_FINAL_SPLIT=false
 TEACHER_CACHE_V1_SAMPLE_MANIFEST_READY=true
-TEACHER_RESPONSES_GENERATED=false
+TEACHER_RESPONSES_GENERATED=true
+TEACHER_CACHE_V1_VALID_N=2000
+TEACHER_CACHE_V1_ARTIFACT_SHA256=e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e759931ab2b64a964
 ```
 
 The `semantic_admissibility_reference_v1` design is tracked in [semantic_admissibility_reference_v1_design.json](../../configs/dataset_v4/semantic_admissibility_reference_v1_design.json). It contains no response and never supplies operational utility.
@@ -274,6 +276,9 @@ AGENT_ACTION_CONTRACT_V1=FROZEN
 NOVELTY_ENTRY_CONTRACT_FROZEN=true
 TEACHER_CACHE_V1_IO_SCHEMA_FROZEN=true
 DATASET_V4_B1_STATUS=FROZEN_PASS_SAMPLE_MANIFEST_READY
+TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID
+SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID
+CORE_HIGH_TOKEN_DEEPSEEK_DEPENDENCY_COMPLETE=true
 ```
 
-This contract still does not authorize Model B training, DeepSeek calls, data download, or raw reprocessing. The split details are frozen separately in [dataset_v4_split_protocol.md](dataset_v4_split_protocol.md). Response generation requires an explicit researcher action; this file only records that nonleaking request inputs are ready.
+This contract still does not authorize Model B training, data download, or raw reprocessing. The split details are frozen separately in [dataset_v4_split_protocol.md](dataset_v4_split_protocol.md). Response generation was executed on 2026-08-17 under explicit researcher authorization and completed 2,000/2,000 with zero failures; this contract and the frozen request inputs remain unchanged.

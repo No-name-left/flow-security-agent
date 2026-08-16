@@ -1,0 +1,96 @@
+{
+  "schema_version": "TEACHER_CACHE_V1_GENERATION_REPORT_V1",
+  "status": "COMPLETE",
+  "generation_date": "2026-08-17",
+  "repository": "flow-security-agent",
+  "branch": "main",
+  "head": "ec7cd45bd0d015f568293ac98ed893f7058c48f5",
+  "deepseek_model_id": "deepseek-v4-flash",
+  "deepseek_api_base": "https://api.deepseek.com",
+  "teacher_prompt_version": "TEACHER_CACHE_V1_PROMPT_V1",
+  "teacher_prompt_sha256": "dd86d4acac26c6ae7f89806c9511752f62a3c5ad1365498dc9bba8163cf87096",
+  "semantic_prompt_version": "SEMANTIC_REFERENCE_V1_PROMPT_V1",
+  "semantic_prompt_sha256": "4898b803253e2b6ff4aaf08662c0180905160683b7738be8a3f73ad779abb961",
+  "teacher_requests_manifest_sha256": "584388897a5aebcaf5bb42fea4e60c1cd1c96d09c8302641690317873a83d8bb",
+  "teacher_offline_manifest_sha256": "a8f2e070dccfaaa7963a5346bd0ff20fc6604dc55a26af9c0e4dd7d766718d5c",
+  "semantic_request_manifest_sha256": "308d419b104069934d349960333809026d7a865d4649164145c820c610eba2e2",
+  "teacher_cache_v1": {
+    "expected_n": 2000,
+    "valid_n": 2000,
+    "failed_n": 0,
+    "skipped_existing_n": 0,
+    "api_attempts": 2000,
+    "input_tokens": 4487856,
+    "output_tokens": 149096,
+    "duplicate_logical_records": 0,
+    "parse_failure_rate": 0.0,
+    "retry_rate": 0.0,
+    "gt_leakage": false,
+    "final_test_contamination": false,
+    "action_distribution": {
+      "STOP_AND_CLASSIFY": 741,
+      "ACQUIRE_TEMPORAL": 1259,
+      "ACQUIRE_RELATION": 0,
+      "ENTER_NOVELTY_DETECTION": 0
+    },
+    "action_distribution_by_stratum": {
+      "BASIC_SUFFICIENT_KNOWN|STOP_AND_CLASSIFY": 415,
+      "BASIC_SUFFICIENT_KNOWN|ACQUIRE_TEMPORAL": 335,
+      "RECOVERABLE_KNOWN|STOP_AND_CLASSIFY": 206,
+      "RECOVERABLE_KNOWN|ACQUIRE_TEMPORAL": 644,
+      "TRUE_UNKNOWN_ROTATIONS|STOP_AND_CLASSIFY": 120,
+      "TRUE_UNKNOWN_ROTATIONS|ACQUIRE_TEMPORAL": 280
+    },
+    "confidence_distribution": {
+      "count": 2000,
+      "mean": 0.7153,
+      "min": 0.55,
+      "max": 1.0
+    },
+    "normalized_artifact": "processed/dataset_v4_nf3_ton_v1/teacher/teacher_cache_v1_responses_normalized.jsonl",
+    "normalized_sha256": "e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e759931ab2b64a964",
+    "raw_artifact": "processed/dataset_v4_nf3_ton_v1/teacher/teacher_cache_v1_responses_raw.jsonl",
+    "raw_sha256": "9f671d360249d5078f92188eec1c86b2de5ff01817b6c44102f2f8a38f146bff"
+  },
+  "semantic_reference_v1": {
+    "expected_n": 63,
+    "valid_n": 63,
+    "failed_n": 0,
+    "skipped_existing_n": 0,
+    "api_attempts": 63,
+    "input_tokens": 40788,
+    "output_tokens": 7373,
+    "duplicate_logical_records": 0,
+    "parse_failure_rate": 0.0,
+    "retry_rate": 0.0,
+    "gt_leakage": false,
+    "normalized_artifact": "processed/dataset_v4_nf3_ton_v1/semantic_reference/semantic_reference_v1_responses_normalized.jsonl",
+    "normalized_sha256": "9830704256bcfd05c6c3fae40ea8b055a2dbef63565a5f03c9894ce71009ad74",
+    "raw_artifact": "processed/dataset_v4_nf3_ton_v1/semantic_reference/semantic_reference_v1_responses_raw.jsonl",
+    "raw_sha256": "2d38a9153c982216087107645b2a304edfd6092fc4658d22b6e878138d838cbf"
+  },
+  "totals": {
+    "api_attempts": 2063,
+    "input_tokens": 4528644,
+    "output_tokens": 156469
+  },
+  "security": {
+    "secret_scan": "PASS",
+    "key_printed": false,
+    "key_committed": false
+  },
+  "protocol": {
+    "prompt_frozen": true,
+    "resume_safe": true,
+    "teacher_max_total_attempts": 2150,
+    "semantic_max_total_attempts": 80,
+    "retry_policy": "max 2 transport retries (2s/8s backoff); tolerant local JSON extraction; max 1 identical-prompt retry; prompt never modified",
+    "thinking_disabled": true,
+    "temperature": 0,
+    "max_output_tokens": 256,
+    "model_b_training_started": false,
+    "rl_training_started": false,
+    "pushed": false
+  },
+  "observed_characteristic": "Frozen Teacher policy produced 0 ACQUIRE_RELATION and 0 ENTER_NOVELTY_DETECTION recommendations; recorded as a real property of the frozen baseline, prompt NOT modified post-hoc."
+}

@@ -1,10 +1,10 @@
 # Flow Security Agent 项目交接指南
 
-> 最近核验：2026-08-16。
+> 最近核验：2026-08-17。
 >
-> 当前长期主线：`main`；本次文档冻结基于`a3379b290df99fd717248a7c86b9ecce2a047b11`，DEC-0025/0026/0027已接受，不push。
+> 当前长期主线：`main`；本次文档冻结基于`a3379b290df99fd717248a7c86b9ecce2a047b11`，DEC-0025/0026/0027已接受。
 >
-> 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization与Experiment Protocol v1已冻结；bounded Evidence/open-world feasibility通过但有class-conditional limitations；Model B、continual、fast RL与Teacher response generation均未启动。
+> 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization与Experiment Protocol v1已冻结；bounded Evidence/open-world feasibility通过但有class-conditional limitations；pre-price Teacher cache v1（2,000/2,000 valid）与semantic reference v1（63/63 valid）已生成并冻结；Model B、continual与fast RL均未启动。
 
 ## 1. 权威链
 
@@ -98,7 +98,7 @@ CORE_RESEARCH_FEASIBILITY=PASS_WITH_LIMITATIONS
 
 master split不可改写。数据中有`1,816,137`个duplicate copies（480,040 groups）；它们不是cross-split leakage，但B2前必须派生exact-group representative与duplicate-group-weighted训练视图，primary evaluation同时给duplicate-balanced/deduplicated与raw-prevalence sensitivity。历史`UNKNOWN_CANONICAL_LABEL_N=9984`现只称`OUT_OF_CORE_FINE_LABEL_POOL_N=9984`，绝非True Unknown。
 
-现有Model A Teacher V3/v2与blind-calibration外部缓存已经核验，但schema/population/action vocabulary均不匹配Model B，仅为`LEGACY_REFERENCE`。`teacher_cache_v1`的2,000条sample list与63条semantic request list已按冻结design materialize并通过FINAL_TEST、source/group-role和payload leakage Gate；仍未调用DeepSeek、未生成response。详见[dataset_v4_final_split_report.md](../reports/dataset_v4/dataset_v4_final_split_report.md)。
+现有Model A Teacher V3/v2与blind-calibration外部缓存已经核验，但schema/population/action vocabulary均不匹配Model B，仅为`LEGACY_REFERENCE`。`teacher_cache_v1`的2,000条sample list与63条semantic request list已按冻结design materialize并通过FINAL_TEST、source/group-role和payload leakage Gate；2026-08-17已按冻结prompt完成DeepSeek response生成。详见[teacher_cache_v1_generation_report.md](../reports/research_audit/teacher_cache_v1_generation_report.md)与[dataset_v4_final_split_report.md](../reports/dataset_v4/dataset_v4_final_split_report.md)。
 
 `NF3-UNSW-NB15`、`NF3-BoT-IoT`、`NF3-CSE-CIC-IDS2018`是secondary external-domain stress/replication candidates。已有cross-source generalization弱且domain-dependent，不阻塞core，也不得写成已解决。
 
@@ -164,12 +164,29 @@ B2前必须保留fresh-vs-Model-A warm-start、Qwen-vs-small；B3必须保留Bas
 ## 10. Teacher状态、下一动作与禁止项
 
 ```text
-NEXT_ACTION=GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE
+TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID
+SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID
+CORE_HIGH_TOKEN_DEEPSEEK_DEPENDENCY_COMPLETE=true
+TEACHER_CACHE_MODEL=deepseek-v4-flash
+TEACHER_CACHE_PROMPT_SHA256=dd86d4acac26c6ae7f89806c9511752f62a3c5ad1365498dc9bba8163cf87096
+TEACHER_CACHE_ARTIFACT_SHA256=e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e759931ab2b64a964
+SEMANTIC_REFERENCE_ARTIFACT_SHA256=9830704256bcfd05c6c3fae40ea8b055a2dbef63565a5f03c9894ce71009ad74
+NEXT_ACTION=PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES
 ```
 
-`teacher_cache_v1`的2,000 requests与semantic reference的63 requests均ready，但responses均未生成。该API动作必须由researcher另行显式授权；旧Model A Teacher caches不能作为Model B GT或直接复用。若cache已由外部授权任务生成，则下一动作切换为`PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`。
+`teacher_cache_v1`的2,000条与semantic reference的63条response已于2026-08-17按冻结prompt生成完毕（2,000/2,000与63/63 schema-valid，0失败、0重试；token：input 4,528,644 / output 156,469）。生成工具与15个targeted tests已进入仓库；raw/normalized response与manifest保持Git-external。详见[teacher_cache_v1_generation_report.md](../reports/research_audit/teacher_cache_v1_generation_report.md)。旧Model A Teacher caches仍为`LEGACY_REFERENCE`，不能作为Model B GT或直接复用。
 
-继续禁止：未经授权的Model B/Qwen/DeepSeek运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed FINAL_TEST或push。
+Teacher v1经验限制（真实baseline行为，不是generation failure）：冻结prompt下`ACQUIRE_RELATION=0`、`ENTER_NOVELTY_DETECTION=0`（action分布`STOP_AND_CLASSIFY=741`、`ACQUIRE_TEMPORAL=1259`）。不得改prompt、重跑、删除结果或人为补action。角色边界因此为：
+
+```text
+TEACHER_SUPERVISOR_BASELINE=VALID
+POLICY_DEMONSTRATION=VALID_WITH_ACTION_SUPPORT_LIMITATION
+OPTIONAL_IMITATION_INITIALIZATION=LIMITED_NOT_DEFAULT
+```
+
+这2,000条不是“完整四动作imitation dataset”；Teacher仍不是classification/utility/Unknown/continual GT或RL reward GT。
+
+继续禁止：未经授权的Model B/Qwen运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed FINAL_TEST；未经明确授权的push。
 
 ### DO NOT REOPEN
 

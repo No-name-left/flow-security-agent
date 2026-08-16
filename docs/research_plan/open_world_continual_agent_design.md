@@ -163,4 +163,4 @@ continual阶段必须与no-adaptation、new-only、replay adaptation等合理基
 
 ## 12. Immediate stop point
 
-Dataset-v4 B1与formal experiment design已冻结。下一步仍是经researcher显式授权后生成pre-price Teacher cache/semantic reference；之后准备duplicate-aware views和Model B low-cost Gates。本文不授权启动Qwen/DeepSeek、continual、RL、新下载或raw PCAP处理。
+Dataset-v4 B1与formal experiment design已冻结；pre-price Teacher cache v1（2,000）与semantic reference v1（63）已于2026-08-17生成完毕（`TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID`、`SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID`）。下一步是准备duplicate-aware views和Model B low-cost Gates。本文不授权启动Qwen、continual、RL、新下载或raw PCAP处理。

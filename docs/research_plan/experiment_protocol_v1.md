@@ -453,11 +453,22 @@ external stress a core dependency.
 
 ## 12. DeepSeek and semantic artifacts
 
-The already frozen `teacher_cache_v1` sample list contains 2,000 request rows;
-the semantic-admissibility request manifest contains 63 cells. Neither has
-responses yet.
+The frozen `teacher_cache_v1` sample list (2,000 request rows) and the
+semantic-admissibility request manifest (63 cells) were generated on 2026-08-17
+under explicit researcher authorization (0 failures, 0 retries; see
+[teacher_cache_v1_generation_report.md](../../reports/research_audit/teacher_cache_v1_generation_report.md)):
 
-If separately authorized, responses may serve only as:
+```text
+TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID
+SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID
+CORE_HIGH_TOKEN_DEEPSEEK_DEPENDENCY_COMPLETE=true
+TEACHER_CACHE_MODEL=deepseek-v4-flash
+TEACHER_CACHE_PROMPT_SHA256=dd86d4acac26c6ae7f89806c9511752f62a3c5ad1365498dc9bba8163cf87096
+TEACHER_CACHE_ARTIFACT_SHA256=e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e759931ab2b64a964
+SEMANTIC_REFERENCE_ARTIFACT_SHA256=9830704256bcfd05c6c3fae40ea8b055a2dbef63565a5f03c9894ce71009ad74
+```
+
+These responses may serve only as:
 
 ```text
 TEACHER_SUPERVISOR_BASELINE
@@ -470,13 +481,22 @@ They cannot provide NF3 classification labels, operational utility, True
 Unknown, recoverability, continual feedback, or reward ground truth. Historical
 Model A Teacher caches are schema/population incompatible and are not reusable.
 
-The current time-sensitive next action remains:
+The frozen Teacher policy produced `0` `ACQUIRE_RELATION` and `0`
+`ENTER_NOVELTY_DETECTION` recommendations across all 2,000 records
+(`STOP_AND_CLASSIFY=741`, `ACQUIRE_TEMPORAL=1259`). This is a real empirical
+property of the frozen baseline, not a generation failure; it must not be
+repaired by prompt changes or re-runs. The resulting role boundary is:
 
 ```text
-GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE
+TEACHER_SUPERVISOR_BASELINE=VALID
+POLICY_DEMONSTRATION=VALID_WITH_ACTION_SUPPORT_LIMITATION
+OPTIONAL_IMITATION_INITIALIZATION=LIMITED_NOT_DEFAULT
 ```
 
-This protocol does not authorize or execute that action.
+The cache is therefore not a complete four-action imitation dataset. The
+time-sensitive pre-price generation is complete; the next action is
+`PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`, which
+this protocol does not execute.
 
 ## 13. Materialization registry
 
@@ -563,8 +583,9 @@ EXPERIMENT_3_STATUS=NOT_RUN
 EXPERIMENT_4_STATUS=NOT_RUN
 EXPERIMENT_5_STATUS=NOT_RUN
 AUXILIARY_EXPERIMENTS_STATUS=NOT_RUN
-TEACHER_CACHE_STATUS=SAMPLE_MANIFEST_READY_RESPONSES_NOT_GENERATED
-SEMANTIC_REFERENCE_STATUS=REQUEST_MANIFEST_READY_RESPONSES_NOT_GENERATED
+TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID
+SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID
+CORE_HIGH_TOKEN_DEEPSEEK_DEPENDENCY_COMPLETE=true
 DEPRECATED_MODEL_A_TEACHER_GT_STATUS=LEGACY_ONLY_NOT_MODEL_B_GROUND_TRUTH
-NEXT_ACTION=GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE
+NEXT_ACTION=PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES
 ```

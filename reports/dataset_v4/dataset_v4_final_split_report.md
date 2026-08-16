@@ -6,6 +6,15 @@
 > low-cost tree reference states, and offline Teacher/semantic request manifests.
 > No DeepSeek, Qwen, Model B training, SFT, continual learning, RL, download, or
 > raw-PCAP processing was performed.
+>
+> **Post-freeze update (2026-08-17):** the separately authorized pre-price
+> DeepSeek generation for `teacher_cache_v1` (2,000) and `semantic_reference_v1`
+> (63) has been completed (2,000/2,000 and 63/63 schema-valid; 0 failures,
+> 0 retries). Current status and artifact hashes:
+> [teacher_cache_v1_generation_report.md](../research_audit/teacher_cache_v1_generation_report.md).
+> The frozen split/taxonomy/rotation results below are unchanged; the
+> `NEXT_ACTION` in this report's acceptance block is superseded by
+> `PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`.
 
 ## 1. Frozen result
 

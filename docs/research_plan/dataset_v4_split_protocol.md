@@ -158,5 +158,8 @@ Run the local zero-network generator with:
 Tracked manifests and the final audit report are authoritative summaries;
 large row/reference/request assets remain Git-external. This PASS authorizes
 the previously preregistered low-cost Model-B design gates, but does not start
-or authorize a formal Model-B training run. Generating DeepSeek responses still
-requires a separate explicit researcher action.
+or authorize a formal Model-B training run. The separately authorized DeepSeek
+response generation for `teacher_cache_v1` (2,000) and `semantic_reference_v1`
+(63) was completed on 2026-08-17 (see
+`reports/research_audit/teacher_cache_v1_generation_report.md`); this protocol's
+split, taxonomy, and sample identities remain unchanged.

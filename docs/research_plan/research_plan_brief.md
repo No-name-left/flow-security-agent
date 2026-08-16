@@ -68,4 +68,4 @@ Unknown样本只有在获得可靠人工/外部verified label后才能注册新�
 
 其他NF3数据集只作secondary external-domain stress/replication；CICIoT2023与raw CIC/ToN不是core依赖，当前不下载。
 
-下一动作是在researcher显式授权下生成已冻结的2,000项pre-price Teacher cache与63项semantic reference；Model-B低成本design Gate已解除B1阻塞但尚未启动，正式训练仍未授权。
+已冻结的2,000项pre-price Teacher cache与63项semantic reference已于2026-08-17在researcher授权下生成完毕（全部schema-valid，0失败）。Teacher v1在冻结prompt下未输出`ACQUIRE_RELATION`或`ENTER_NOVELTY_DETECTION`，这是真实baseline行为，不得改prompt重跑，也不得把它当作完整四动作imitation数据。下一动作是准备duplicate-aware数据视图与Model-B低成本design Gate；正式训练仍未授权。
