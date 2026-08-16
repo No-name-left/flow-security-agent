@@ -1,8 +1,8 @@
 # Model B：Evidence-Conditioned Open-World Design
 
-> 状态：DEC-0025 canonical architecture design
+> 状态：DEC-0025 architecture + DEC-0026 Dataset-v4 inputs
 >
-> 日期：2026-08-15
+> 日期：2026-08-16
 >
 > 本文冻结问题定义、接口、实验Gate与安全边界，不冻结最终超参数或算法选择。实现与训练尚未开始。
 
@@ -26,7 +26,7 @@ Evidence-Conditioned Open-World Traffic Recognition
 SHA256=53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78
 ```
 
-候选taxonomy为Benign、Backdoor、Credential、DDoS、DoS、Recon_Scanning和Web_Injection；它需在formal split、support和robustness Gate后才冻结。
+`CANONICAL_TAXONOMY_V1`已冻结为Benign、Backdoor、Credential、DDoS、DoS、Recon_Scanning和Web_Injection。正式grouped split及Credential、Recon_Scanning、Web_Injection whole-class rotations见[dataset_v4_split_protocol.md](dataset_v4_split_protocol.md)。
 
 每个正式样本只属于下列evaluation state之一：
 
@@ -170,4 +170,4 @@ Memory增长、聚类紧致度或self-confidence不是模型进化。只有verif
 
 ## 12. Acceptance边界
 
-概念可行性为`PASS_WITH_LIMITATIONS`。正式实现前仍须通过Dataset-v4 formalization、low-cost architecture gates、single-family/combined utility、多seed/bootstrap、whole-class Unknown protocol和class-conditional limitation审查。当前文档不授权Model B训练、continual、RL、DeepSeek调用、数据下载或raw PCAP处理。
+概念可行性为`PASS_WITH_LIMITATIONS`，Dataset-v4 formalization为`PASS`。后续仍须通过low-cost architecture gates、single-family/combined utility、多seed/bootstrap、whole-class Unknown protocol和class-conditional limitation审查。DEC-0026允许执行已预注册的低成本design Gates，但当前文档不启动或授权正式Model B训练、continual、RL、DeepSeek调用、数据下载或raw PCAP处理。

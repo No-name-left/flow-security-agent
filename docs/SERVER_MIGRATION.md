@@ -1,6 +1,10 @@
 # 远程服务器迁移与数据恢复
 
-> 当前状态（2026-08-12）：Production、Edge v2/PLAN_B、Runtime Adapter、Evidence Fidelity、官方Qwen smoke与Near协议已进入`main`基线`ff4eca8fc6e00196666a9a3768679e3ddfefea60`。`feat/near-pretraining-readiness-v1`已完成全部非API Phase B准备与真实9B两步dry-run；唯一blocker为缺少runtime `DEEPSEEK_API_KEY`。`PRODUCTION_DATA_READY=true`，正式SFT/RL/Unknown/benchmark均未运行。
+> **LEGACY_MODEL_A_RECOVERY / DEPRECATED / DO_NOT_EXECUTE_FOR_MODEL_B**
+>
+> 当前状态（2026-08-16）：本文件保留服务器目录、Model A数据与checkpoint恢复依据，不是当前Model B执行runbook。Model A Formal Near SFT和evaluation已经完成；旧Teacher pilot/bulk、RLAIF Judge和mandatory Supervisor路径不得恢复或重跑。当前主线是NF3-ToN Dataset-v4与Model B，服从[research_plan_detailed.md](research_plan/research_plan_detailed.md)、[dataset_v4_b1_runtime_contract.md](research_plan/dataset_v4_b1_runtime_contract.md)、[dataset_v4_split_protocol.md](research_plan/dataset_v4_split_protocol.md)和[PROJECT_HANDOFF.md](PROJECT_HANDOFF.md)。DeepSeek只允许未来经单独授权的offline semantic/optional baseline工作；缺少API key不再是项目blocker。
+>
+> 下方Edge/IoT、Near Teacher及环境命令仅用于已完成Model A的历史复现/灾难恢复。除非新的明确任务引用某一项，否则不得从本文件启动数据下载、Teacher、SFT、RLAIF、Unknown、Supervisor或Model B。
 
 ## 1. 已冻结的数据角色
 
@@ -90,7 +94,7 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 9. **已完成并进入main：**只重建Edge split-dependent assets，完成paper-grade physical split、Paper Evaluation Readiness、PLAN_A/B/C、PLAN_B SFT候选和label provenance final verification；未重新TShark/canonical/sessionize。
 10. **已完成：**白名单式Production→Runtime adapter、Evidence Fidelity正向审计、独立Qwen环境、官方固定revision下载、text-only vLLM服务和raw/backend/Production多轮smoke；
 11. **已完成：**Phase B非API部分，包括training harness/Fine Head、真实LoRA inventory、pooling/serialization/Prompt/schema、Application/Payload sidecar、30-source hybrid RAG、22,957 snapshots、6,000 RL prompts、真实9B两步dry-run和U_final isolation；full pytest 274 passed。
-12. **当前停止点：**`DEEPSEEK_API_KEY`未配置，provider/Teacher pilot/bulk/final corpus未运行。恢复时只执行`provider-status → teacher-pilot → teacher-bulk → finalize-sft → manual/isolation/full regression`；即使ready也不得从本状态文档自行启动正式SFT、RLAIF/GRPO、Unknown、U_final或Supervisor实验。
+12. **历史流程已完成并封存：**Teacher-v2、final corpus、Model A Formal SFT和evaluation均已完成。`provider-status → teacher-pilot → teacher-bulk → finalize-sft`是`LEGACY_DEPRECATED`链路，不得为Model B执行；当前也不存在需要通过补配`DEEPSEEK_API_KEY`解除的blocker。
 
 现有Gate脚本仍只负责七场景验收，并支持`EDGE_DATA_ROOT`、`IOT23_DATA_ROOT`、`FLOWSEC_GATE_OUTPUT`、`TSHARK_BIN`和`CAPINFOS_BIN`。正式生产CLI默认读取本服务器实际Edge解压根与包含八个场景的IoT-23根；Capture-3的精确恢复URL/hash/size保存在服务器下载manifest和Production Freeze source manifest中。
 
@@ -107,7 +111,7 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - `tools/dataset_download/`：官方数据下载与校验入口。
 - `reports/production_data_freeze_20260809/`：正式冻结的小型复现摘要、schema/split/KU/training/audit关键manifest；完整source/统计与Parquet位于上述Git外实验/资产路径。
 - `reports/edge_split_revision_v2/`：Edge paper-grade split、Phase A candidates、provenance、readiness、SFT PLAN_B、leakage/sensitivity与low-resource小型报告；完整Parquet保持Git外。
-- `reports/training_readiness/near_pretraining_readiness_v1.md`：Phase B小型Gate、版本、coverage、dry-run与唯一blocker；完整sidecar/index/snapshot/Teacher/RL资产位于`$ARTIFACT_ROOT/near_pretraining_v1/`。
+- `reports/training_readiness/near_pretraining_readiness_v1.md`：历史Phase B小型Gate、版本、coverage、dry-run与当时的唯一blocker（现已解除）；完整sidecar/index/snapshot/Teacher/RL资产位于`$ARTIFACT_ROOT/near_pretraining_v1/`。
 
 ## 6. 2026-08-12服务器状态快照
 
@@ -120,4 +124,4 @@ python reports/data_feasibility_gate_20260806/run_final_gate.py
 - Phase B Git-external root约85 MB；Application覆盖7,410/16,979，Payload覆盖11,481/16,979，RAG为30 sources/2,263 chunks，snapshot universe为22,957，RL pool为6,000。真实9B两步dry-run峰值27.57 GiB，临时checkpoint已删除，GPU恢复空闲。
 - 当前服务器HTTPS GitHub push dry-run因没有可读用户名/凭据而失败。不要据此配置PAT、创建SSH key或安装`gh`；现有本地分支和两个bundle继续保留。
 
-尚未完成：DeepSeek provider smoke、Teacher pilot/bulk、最终Teacher-grounded SFT corpus及其人工审计（唯一当前原因是无`DEEPSEEK_API_KEY`）；formal Runtime Application/Payload/RAG wiring；BF16 LoRA正式SFT、RLAIF/GRPO、正式传统基线、Independent Unknown和Agent/论文实验。OPTIONAL Low-Resource Unknown Stress Test仅预注册且未执行。`PRODUCTION_DATA_READY=true`、Phase B资产ready或dry-run PASS均不等于模型训练已开始。
+当前历史资产状态：Model A DeepSeek/Teacher cache、Teacher-v2 corpus、BF16 LoRA SFT和正式evaluation均已完成并保持Git-external；不要重新生成。Dataset-v4 B1 formal split/sample manifest已于2026-08-16冻结，但Model B、independent novelty、continual和optional RL尚未启动，DeepSeek response仍为0。RLAIF/GRPO不是Model B必经阶段，LLM-level RL未授权。最新允许的下一动作只以`PROJECT_HANDOFF.md`为准，而不是本迁移快照。

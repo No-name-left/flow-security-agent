@@ -1,0 +1,70 @@
+{
+  "schema_version": "TEACHER_CACHE_V1_SAMPLING_MANIFEST_DESIGN",
+  "status": "DESIGN_FROZEN_SUPERSEDED_BY_MATERIALIZED_SAMPLE_LIST",
+  "target_n": 2000,
+  "sampling_seed": 20260815,
+  "cache_sample_selection_blocked_by_final_split": false,
+  "blocking_prerequisite": "freeze Dataset-v4 grouped/temporal split, final taxonomy, development Unknown rotations, and OOF confidence provenance",
+  "source_partition_contract": {
+    "allowed": [
+      "future Model B meta-development partition",
+      "future Model B policy meta-evaluation partition",
+      "development Unknown rotations only"
+    ],
+    "forbidden": [
+      "classifier training rows without a disjoint meta role",
+      "formal final test",
+      "sealed final Unknown rotations",
+      "any row whose group overlaps classifier fit, threshold fit, or the other cache subpartition"
+    ]
+  },
+  "sample_id_definition": "NF3_TON_OBSERVATION_V1 sample_id from the frozen B1 observation contract",
+  "strata": [
+    {
+      "stratum": "BASIC_SUFFICIENT_KNOWN",
+      "target_n": 750,
+      "policy_demo_development_n": 450,
+      "policy_meta_evaluation_n": 300,
+      "eligibility_rule": "OOF Basic prediction correct under preregistered confidence/reliability rule; Known class; legal meta partition",
+      "source_split": "future nonleaking meta-development/meta-evaluation partitions"
+    },
+    {
+      "stratum": "RECOVERABLE_KNOWN",
+      "target_n": 850,
+      "policy_demo_development_n": 510,
+      "policy_meta_evaluation_n": 340,
+      "eligibility_rule": "OOF Basic unreliable or wrong and at least one OOF single-family/combined legal Evidence view recovers the Known prediction; backend flag never enters request",
+      "source_split": "future nonleaking meta-development/meta-evaluation partitions"
+    },
+    {
+      "stratum": "TRUE_UNKNOWN_ROTATIONS",
+      "target_n": 400,
+      "policy_demo_development_n": 240,
+      "policy_meta_evaluation_n": 160,
+      "eligibility_rule": "whole semantic class held out from classifier and threshold development in a development rotation; Full legal Evidence observable; never sealed final Unknown",
+      "source_split": "development Unknown rotations in future nonleaking meta partitions"
+    }
+  ],
+  "confidence_strata": [
+    {
+      "id": "LOW",
+      "oof_basic_max_probability": "[0.0,0.4)"
+    },
+    {
+      "id": "MID",
+      "oof_basic_max_probability": "[0.4,0.7)"
+    },
+    {
+      "id": "HIGH",
+      "oof_basic_max_probability": "[0.7,1.0]"
+    }
+  ],
+  "balancing_rule": "within each stratum and cache subpartition, allocate by largest remainder across eligible core class or held-out rotation and confidence bin; record shortfalls and never duplicate a sample",
+  "selection_order": "ascending BLAKE2b(sampling_seed || stratum || subpartition || class_or_rotation || confidence_bin || private_group_digest || sample_id)",
+  "group_rule": "all rows sharing the final private group remain in one cache subpartition; no group crosses policy-demo development and policy meta-evaluation",
+  "comparison_rule": "Teacher policy and empirical utility-selector baseline are scored on the identical policy_meta_evaluation rows; imitation may use only policy_demo_development",
+  "request_projection_rule": "sampling stratum, GT, correctness, recovery, Unknown role, split, group, and confidence-bin identities are backend-only and excluded from Teacher input",
+  "output_sample_list": "configs/dataset_v4/teacher_cache_v1_sampling_manifest.json",
+  "teacher_responses_generated": false,
+  "deepseek_calls_made": false
+}

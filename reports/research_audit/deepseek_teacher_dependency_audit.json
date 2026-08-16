@@ -1,0 +1,423 @@
+{
+  "schema_version": "DEEPSEEK_TEACHER_DEPENDENCY_AUDIT_V1",
+  "historical_readiness_snapshot": true,
+  "b1_precondition_superseded_by": "reports/dataset_v4/dataset_v4_final_split_report.json",
+  "audit_date": "2026-08-15",
+  "repository_head": "b0b4ed40b3bd11d88555a192d57ed09e52007cdb",
+  "scope": {
+    "static_only": true,
+    "api_calls_made": 0,
+    "canonical_plans_modified": false,
+    "training_started": false,
+    "formal_teacher_data_generated": false,
+    "pushed": false,
+    "broad_keyword_files_matched": 277,
+    "roots_scanned": [
+      "README.md",
+      "AGENTS.md",
+      "docs",
+      "configs",
+      "tools",
+      "scripts",
+      "src",
+      "tests",
+      "reports"
+    ]
+  },
+  "status": {
+    "DEEPSEEK_DEPENDENCY_AUDIT_STATUS": "PASS_WITH_DOCUMENTATION_CONFLICTS",
+    "REQUIRED_HIGH_TOKEN_TEACHER_WORK": false,
+    "LIKELY_OPTIONAL_HIGH_TOKEN_WORK": "TEACHER_CACHE_V1_2000_CALLS_CONDITIONAL",
+    "LEGACY_TEACHER_WORK_FOUND": true,
+    "CANONICAL_PLAN_CONFLICTS": 0,
+    "NONCANONICAL_OPERATIONAL_CONFLICTS": 6,
+    "RESEARCHER_REVIEW_REQUIRED": true
+  },
+  "canonical_contract": {
+    "classification_label_source": "OFFICIAL_NF3_DATASET_GT",
+    "operational_utility_source": "OOF_OR_CROSS_FITTED_EMPIRICAL_PREDICTIVE_IMPROVEMENT",
+    "teacher_evidence_state_is_model_b_gt": false,
+    "true_unknown_source": "WHOLE_CLASS_HELD_OUT_DATASET_GT",
+    "continual_verified_oracle": "HELD_OUT_DATASET_GT_MAY_BE_REVEALED_ONLY_AFTER_REQUEST_LABEL",
+    "rl_required": false,
+    "rlaif_required": false,
+    "deepseek_roles": [
+      "OFFLINE_SEMANTIC_REVIEWER",
+      "OPTIONAL_SUPERVISOR_BASELINE",
+      "OPTIONAL_POLICY_DEMONSTRATION_SOURCE",
+      "OPTIONAL_EXPLANATION_GENERATOR"
+    ]
+  },
+  "task_inventory": [
+    {
+      "id": "A1",
+      "task": "NF3 classification labels and class map",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "ground_truth_source": "OFFICIAL_DATASET_GT"
+    },
+    {
+      "id": "A2",
+      "task": "Model B classifier, baselines, and novelty candidates",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0}
+    },
+    {
+      "id": "A3",
+      "task": "Operational Evidence Utility targets",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "target_source": "OOF_CROSS_FITTED_BASIC_VS_BASIC_PLUS_EVIDENCE"
+    },
+    {
+      "id": "A4",
+      "task": "True Unknown rotations",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "target_source": "WHOLE_CLASS_HELD_OUT_DATASET_GT"
+    },
+    {
+      "id": "A5",
+      "task": "Primary deterministic or supervised utility controller",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0}
+    },
+    {
+      "id": "A6",
+      "task": "Continual benchmark feedback and new-class registration",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "verified_oracle": "HELD_OUT_DATASET_GT_AFTER_EXPLICIT_REQUEST_LABEL"
+    },
+    {
+      "id": "A7",
+      "task": "Semantic admissibility contract",
+      "classification": "ACTIVE_REQUIRED",
+      "deepseek_dependency": "ZERO_API_CALLS_BY_DEFAULT",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "alternative": "DETERMINISTIC_PROTOCOL_AND_HUMAN_EXPERT_REVIEW"
+    },
+    {
+      "id": "O1",
+      "task": "teacher_cache_v1 bounded Supervisor and policy-demonstration artifact",
+      "classification": "ACTIVE_OPTIONAL_LIKELY",
+      "deepseek_dependency": "OPTIONAL_DEEPSEEK",
+      "estimated_calls": {"base": 2000, "hard_cap": 2200},
+      "estimated_input_tokens": {"min": 2200000, "max": 5500000},
+      "estimated_output_tokens": {"min": 220000, "max": 550000},
+      "prerequisite": "DATASET_V4_B1_AND_INPUT_CONTRACT_FROZEN"
+    },
+    {
+      "id": "O2",
+      "task": "semantic_admissibility_reference_v1",
+      "classification": "ACTIVE_OPTIONAL_LIKELY",
+      "deepseek_dependency": "OPTIONAL_DEEPSEEK_PLUS_HUMAN_REVIEW",
+      "estimated_calls": {"base": 63, "hard_cap": 80},
+      "estimated_input_tokens": {"min": 40000, "max": 100000},
+      "estimated_output_tokens": {"min": 8000, "max": 25000}
+    },
+    {
+      "id": "O3",
+      "task": "Full online DeepSeek Supervisor paper baseline",
+      "classification": "ACTIVE_OPTIONAL_UNLIKELY",
+      "deepseek_dependency": "OPTIONAL_DEEPSEEK",
+      "estimated_calls": {"min": 3000, "max": 20000},
+      "estimated_input_tokens": {"min": 3000000, "max": 60000000},
+      "estimated_output_tokens": {"min": 240000, "max": 5000000},
+      "pregenerate_now": false
+    },
+    {
+      "id": "O4",
+      "task": "Selected qualitative explanations",
+      "classification": "ACTIVE_OPTIONAL_UNLIKELY",
+      "deepseek_dependency": "OPTIONAL_DEEPSEEK_OR_LOCAL_MODEL",
+      "estimated_calls": {"min": 50, "max": 200},
+      "estimated_input_tokens": {"min": 50000, "max": 600000},
+      "estimated_output_tokens": {"min": 8000, "max": 80000},
+      "pregenerate_now": false
+    },
+    {
+      "id": "O5",
+      "task": "Knowledge or RAG extension",
+      "classification": "ACTIVE_OPTIONAL_UNLIKELY",
+      "deepseek_dependency": "ZERO_API_CALLS_BY_DEFAULT",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "synthetic_rag_generation_planned": false
+    },
+    {
+      "id": "O6",
+      "task": "Small RL policy comparison",
+      "classification": "ACTIVE_OPTIONAL_UNLIKELY",
+      "deepseek_dependency": "ZERO_API_CALLS_UNDER_CURRENT_PLAN",
+      "estimated_calls": {"min": 0, "max": 0},
+      "estimated_input_tokens": {"min": 0, "max": 0},
+      "estimated_output_tokens": {"min": 0, "max": 0},
+      "rlaif_required": false
+    },
+    {
+      "id": "L1",
+      "task": "Model A Teacher V3 bulk",
+      "classification": "LEGACY_DEPRECATED",
+      "status": "COMPLETED_CACHE_BACKED_DO_NOT_RERUN",
+      "logical_records": 22957,
+      "actual_retained_input_tokens": 28418623,
+      "actual_retained_output_tokens": 4081790
+    },
+    {
+      "id": "L2",
+      "task": "Model A Teacher-v2 bulk",
+      "classification": "LEGACY_DEPRECATED",
+      "status": "COMPLETED_CACHE_BACKED_DO_NOT_RERUN",
+      "logical_records": 20807,
+      "reported_repair_rate": 0.304369,
+      "actual_token_totals": "UNKNOWN",
+      "estimated_input_tokens": {"min": 25700000, "max": 33600000},
+      "estimated_output_tokens": {"min": 3700000, "max": 4800000},
+      "estimate_basis": "HISTORICAL_V3_MEAN_PER_VALID_RECORD"
+    },
+    {
+      "id": "L3",
+      "task": "Model A Evidence-only RLAIF or GRPO Judge",
+      "classification": "LEGACY_DEPRECATED",
+      "status": "NOT_RUN_SUPERSEDED_UNAUTHORIZED",
+      "historical_prompt_pool": 6000,
+      "estimated_calls": "TENS_OF_THOUSANDS_PLUS_PER_RUN",
+      "estimated_input_tokens": {"min": 20000000, "max": 200000000},
+      "estimated_output_tokens": {"min": 2000000, "max": 30000000}
+    },
+    {
+      "id": "L4",
+      "task": "Model A mandatory online Supervisor benchmark",
+      "classification": "LEGACY_DEPRECATED",
+      "status": "NOT_RUN_SUPERSEDED",
+      "estimated_calls": "THOUSANDS",
+      "estimated_input_tokens": {"min": 3000000, "max": 30000000},
+      "estimated_output_tokens": {"min": 300000, "max": 3000000}
+    },
+    {
+      "id": "L5",
+      "task": "Blind sufficiency and pair audit",
+      "classification": "LEGACY_DEPRECATED",
+      "status": "COMPLETED_DO_NOT_RERUN",
+      "actual_calls": 529,
+      "actual_input_tokens": 520887,
+      "actual_output_tokens": 40089
+    },
+    {
+      "id": "L6",
+      "task": "DPO RLHF PPO preference generation synthetic labels or Teacher unknown labeling",
+      "classification": "LEGACY_DEPRECATED",
+      "status": "NOT_AUTHORIZED",
+      "future_calls": 0
+    }
+  ],
+  "principle_consistency": [
+    {
+      "principle": "NF3 classification labels come from dataset GT not Teacher",
+      "canonical_status": "PASS",
+      "repository_wide_status": "SEMANTICALLY_CONSISTENT_BUT_NOT_RESTATED_IN_EVERY_DERIVED_DOC"
+    },
+    {
+      "principle": "Operational Evidence Utility is OOF or cross-fitted empirical improvement",
+      "canonical_status": "PASS_EXPLICIT",
+      "repository_wide_status": "STALE_MODEL_A_DOCS_RETAIN_TEACHER_SUFFICIENCY_WORDING"
+    },
+    {
+      "principle": "Teacher evidence_sufficient and missing_evidence are not Model B GT",
+      "canonical_status": "PASS_EXPLICIT",
+      "repository_wide_status": "OLD_PROMPTS_CONFIGS_AND_CODE_RETAINED_FOR_REPRODUCIBILITY"
+    },
+    {
+      "principle": "True Unknown is whole-class held-out GT",
+      "canonical_status": "PASS_EXPLICIT",
+      "repository_wide_status": "PASS_CURRENT_DOCS"
+    },
+    {
+      "principle": "Continual benchmark may use held-out dataset GT as verified oracle",
+      "canonical_status": "PASS_EXPLICIT_AT_RUNTIME_BOUNDARY",
+      "repository_wide_status": "NOT_RESTATED_IN_EVERY_SHORT_PLAN"
+    },
+    {
+      "principle": "RL is optional and does not require RLAIF",
+      "canonical_status": "PASS_EXPLICIT",
+      "repository_wide_status": "README_AND_AGENTS_CONFLICT"
+    },
+    {
+      "principle": "DeepSeek role is limited to offline review and optional baselines explanations or demonstrations",
+      "canonical_status": "PASS_EXPLICIT",
+      "repository_wide_status": "RUNBOOK_MIGRATION_AND_TRAINING_README_CONFLICT"
+    }
+  ],
+  "stale_operational_surfaces": [
+    {
+      "path": "AGENTS.md",
+      "risk": "HIGH",
+      "issue": "Old Edge and IoT roles, mandatory Supervisor and RLAIF mainline, and pre-training status remain active wording."
+    },
+    {
+      "path": "README.md",
+      "risk": "HIGH",
+      "issue": "Old data roles, RLAIF next stage, and FORMAL_SFT_STARTED=false remain current wording."
+    },
+    {
+      "path": "docs/SERVER_MIGRATION.md",
+      "risk": "HIGH",
+      "issue": "Missing API key and Teacher bulk are still described as the current blocker and resume path."
+    },
+    {
+      "path": "docs/runbooks/deepseek_api.md",
+      "risk": "HIGH",
+      "issue": "Old Teacher bulk and RLAIF or Supervisor operations have no DEC-0025 scope warning."
+    },
+    {
+      "path": "src/flowsec/training/README.md",
+      "risk": "MEDIUM",
+      "issue": "Old 16,979 PLAN_B and live Teacher phases are described as current."
+    },
+    {
+      "path": "configs/training/near_sft_config_v2.yaml",
+      "risk": "MEDIUM",
+      "issue": "Completed Model A config remains FROZEN_READY and formal_run_authorized true."
+    }
+  ],
+  "live_api_entrypoints": [
+    {
+      "path": "tools/prepare_near_pretraining.py",
+      "modes": ["provider-status", "teacher-pilot", "teacher-bulk"],
+      "implicit_network_call": false,
+      "classification": "LEGACY_DEPRECATED"
+    },
+    {
+      "path": "tools/run_teacher_v2.py",
+      "modes": ["connectivity", "pilot", "bulk"],
+      "implicit_network_call": false,
+      "classification": "LEGACY_DEPRECATED"
+    },
+    {
+      "path": "tools/audit_blind_sufficiency.py",
+      "modes": ["run-provider deepseek"],
+      "implicit_network_call": false,
+      "classification": "LEGACY_DEPRECATED"
+    },
+    {
+      "path": "tools/audit_blind_pairs.py",
+      "modes": ["run"],
+      "implicit_network_call": false,
+      "classification": "LEGACY_DEPRECATED"
+    }
+  ],
+  "teacher_cache_v1": {
+    "recommended": "CONDITIONAL_YES_AFTER_B1_FREEZE",
+    "target_n": 2000,
+    "hard_call_cap": 2200,
+    "prerequisites": [
+      "DATASET_V4_SPLIT_FROZEN",
+      "TAXONOMY_FROZEN",
+      "DEVELOPMENT_UNKNOWN_ROTATIONS_FROZEN",
+      "OOF_CONFIDENCE_PROVENANCE_FROZEN",
+      "MODEL_SAFE_INPUT_PROMPT_AND_SCHEMA_FROZEN"
+    ],
+    "strata": {
+      "BASIC_SUFFICIENT_KNOWN": 750,
+      "RECOVERABLE_KNOWN": 850,
+      "TRUE_UNKNOWN_DEVELOPMENT_ROTATIONS": 400
+    },
+    "confidence_bins": ["LT_0_40", "0_40_TO_0_70", "GT_0_70"],
+    "allowed_input": [
+      "CURRENT_BASIC_EVIDENCE",
+      "OOF_BASIC_PREDICTION_DISTRIBUTION_AND_CONFIDENCE",
+      "AVAILABLE_EVIDENCE_FAMILY_NAMES_AND_COSTS",
+      "BUDGET_AND_PRIOR_ACTION_HISTORY",
+      "ANONYMOUS_EVIDENCE_IDS"
+    ],
+    "forbidden_input": [
+      "GT_LABEL_OR_CLASS_INDEX",
+      "RECOVERABLE_FLAG_OR_EVALUATION_STATE",
+      "FULL_EVIDENCE_NOT_YET_ACQUIRED",
+      "FUTURE_CONTEXT_OR_TOOL_RESULT",
+      "ABSOLUTE_DATASET_CAPTURE_PATH_HOST_ADDRESS_TIME_SPLIT_OR_ROTATION_IDENTITY",
+      "FINAL_UNKNOWN_MEMBERSHIP",
+      "VERIFIED_FEEDBACK_RESULT"
+    ],
+    "output_schema": {
+      "predicted_class": "KNOWN_CLASS_OR_NULL",
+      "recommended_action": ["STOP", "GET_TEMPORAL", "GET_RELATION", "ENTER_NOVELTY"],
+      "semantic_gap": "SHORT_NORMALIZED_STRING",
+      "confidence": "FLOAT_0_TO_1",
+      "short_reason": "BOUNDED_GROUNDED_STRING"
+    },
+    "authorized_uses": [
+      "TEACHER_SUPERVISOR_BASELINE",
+      "OPTIONAL_POLICY_DEMONSTRATION",
+      "OPTIONAL_IMITATION_INITIALIZATION"
+    ],
+    "prohibited_uses": [
+      "OPERATIONAL_UTILITY_GROUND_TRUTH",
+      "NF3_CLASSIFICATION_GROUND_TRUTH",
+      "TRUE_UNKNOWN_GROUND_TRUTH",
+      "CONTINUAL_VERIFIED_LABEL",
+      "FINAL_THRESHOLD_TUNING_DATA"
+    ],
+    "estimated_input_tokens": {"min": 2200000, "max": 5500000},
+    "estimated_output_tokens": {"min": 220000, "max": 550000}
+  },
+  "semantic_admissibility_reference_v1": {
+    "recommended": true,
+    "core_classes": 7,
+    "families": ["BASIC", "TEMPORAL", "RELATION"],
+    "common_patterns_per_family": 3,
+    "base_cells": 63,
+    "hard_call_cap": 80,
+    "sample_level_labeling": false,
+    "operational_utility_target": false,
+    "human_review_required": true,
+    "estimated_input_tokens": {"min": 40000, "max": 100000},
+    "estimated_output_tokens": {"min": 8000, "max": 25000}
+  },
+  "recommendations": {
+    "PRE_PRICE_CHANGE_RECOMMENDED_TASKS": [
+      "VERIFY_AND_CHECKSUM_EXISTING_MODEL_A_TEACHER_AND_BLIND_AUDIT_CACHES_WITH_ZERO_CALLS",
+      "FREEZE_B1_SPLIT_TAXONOMY_DEVELOPMENT_ROTATIONS_AND_CACHE_INPUT_CONTRACT",
+      "IF_B1_FINISHES_BEFORE_PRICE_CHANGE_GENERATE_ONLY_TEACHER_CACHE_V1_N_2000",
+      "OPTIONALLY_GENERATE_63_CELL_SEMANTIC_REFERENCE"
+    ],
+    "DO_NOT_PREGENERATE_TASKS": [
+      "MODEL_B_OPERATIONAL_UTILITY_GROUND_TRUTH",
+      "EVIDENCE_SUFFICIENT_OR_MISSING_EVIDENCE_BULK",
+      "FULL_ONLINE_SUPERVISOR_EVALUATION",
+      "RLAIF_OR_JUDGE_REWARDS",
+      "UNKNOWN_OR_NEW_CLASS_LABELS",
+      "FULL_EXPLANATION_CORPUS",
+      "SYNTHETIC_TRAFFIC_LABELS",
+      "RAG_GENERATED_KNOWLEDGE_OR_LABELS"
+    ]
+  },
+  "ESTIMATED_TOKEN_EXPOSURE_BY_TASK": {
+    "REQUIRED_CORE": {"calls": 0, "input_tokens": 0, "output_tokens": 0},
+    "TEACHER_CACHE_V1": {"calls": "2000_BASE_2200_CAP", "input_tokens": "2.2_TO_5.5M", "output_tokens": "0.22_TO_0.55M"},
+    "SEMANTIC_REFERENCE": {"calls": "63_BASE_80_CAP", "input_tokens": "0.04_TO_0.10M", "output_tokens": "0.008_TO_0.025M"},
+    "FULL_OPTIONAL_SUPERVISOR": {"calls": "3000_TO_20000", "input_tokens": "3_TO_60M", "output_tokens": "0.24_TO_5M"}
+  }
+}

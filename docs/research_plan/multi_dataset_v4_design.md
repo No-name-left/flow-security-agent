@@ -1,8 +1,8 @@
 # Dataset-v4 / NF3-ToN Core Design
 
-> 状态：DEC-0025 current data design
+> 状态：DEC-0025/DEC-0026 frozen core data design
 >
-> 日期：2026-08-15
+> 日期：2026-08-16
 >
 > “Multi-dataset”保留为外部domain stress与replication能力，不再要求多源合并才能成立。方法与模型见[model_b_evidence_openworld_design.md](model_b_evidence_openworld_design.md)。
 
@@ -34,9 +34,9 @@ LABELS=PASS_EXACT_MATCH_TO_PAPER_AND_UQ_CATALOGUE
 
 已有cross-source结果为`WEAK_AND_DOMAIN_DEPENDENT`，正式解释为secondary domain-stress finding。它不能伪装成跨域问题已解决，也不再阻塞NF3-ToN core或Model B。
 
-## 3. Candidate taxonomy
+## 3. Frozen taxonomy
 
-当前broad candidate taxonomy是：
+`CANONICAL_TAXONOMY_V1`是：
 
 ```text
 Benign
@@ -48,7 +48,7 @@ Recon_Scanning
 Web_Injection
 ```
 
-约六类攻击机制加Benign足以回答核心问题。该集合仍是`CANDIDATE_CORE_TAXONOMY`；B1必须根据official label mapping、class support、split support、Evidence availability和whole-class holdout feasibility冻结最终集合。不得为增加类别数量主动搜索或下载更多数据。
+约六类攻击机制加Benign足以回答核心问题。DEC-0026已根据official mapping、全量class/split support与whole-class holdout feasibility冻结该集合；`mitm/ransomware`不是targets。不得为增加类别数量主动搜索或下载更多数据。
 
 ## 4. Formal record contract
 
@@ -81,7 +81,7 @@ Basic、Temporal和Relation必须label-free、test-time available、causal/past-
 
 ## 6. Split and leakage protocol
 
-B1需冻结deterministic grouped/temporal split，禁止普通random row split导致同一run/device/time-neighbor泄漏。具体group key必须先检查NF3字段与生成过程，不在计划阶段伪造。
+B1已冻结`GROUPED_TEMPORAL_HASH_70_15_15_V1`（seed `20260816`）：五分钟时间块+无序endpoint pair组成private group，再由label-free stable hash整组分配；禁止普通random row split。七类TRAIN/VALIDATION/FINAL_TEST为`19,858,267/3,809,983/3,842,026`，source/exact-duplicate/activity-group cross-split均为0。完整协议见[dataset_v4_split_protocol.md](dataset_v4_split_protocol.md)。
 
 至少审计：
 
@@ -100,7 +100,7 @@ artifact级split保留原始行身份与官方label，不需要raw PCAP重建。
 
 每次rotation选择一个或多个whole semantic class作为True Unknown。该类不得进入classifier training、utility target model training（当target会泄漏class identity时）或final threshold tuning；Full合法Evidence必须可观测。
 
-Credential、Recon_Scanning、Web_Injection只是候选，不是冻结rotation。当前pilot的class-specific limitations要求在B1/B3审查support和robustness后再预注册。Observability-limited或Full仍无信息的样本不能当Unknown。
+Credential、Recon_Scanning、Web_Injection已冻结为三套whole-class rotations。各held-out class从对应Known classifier train与threshold development中完整移除，FINAL_TEST held-out observations只用于sealed evaluation。当前pilot的class-specific limitations仍必须在B3/B4逐类报告；Observability-limited或Full仍无信息的样本不能当Unknown。
 
 ## 8. Pilot evidence and limitations
 
@@ -117,17 +117,17 @@ Recon_Scanning Unknown separation弱；Web_Injection Unknown改善但FURK恶化�
 
 ## 9. Formalization outputs
 
-B1应生成：
+B1已生成：
 
 - tracked small artifact manifest与SHA256；
-- final candidate-to-frozen taxonomy decision；
+- frozen taxonomy decision；
 - split/group protocol与per-class counts；
 - Evidence field/availability/cost schema；
 - Known/Unknown rotation registry；
 - leakage audit与OOF fold manifest；
 - Git-external formal row assets。
 
-报告必须区分artifact frozen、taxonomy provisional、split not yet frozen和Model B not started。
+报告明确区分artifact/taxonomy/split frozen与Model B not started。逐行manifest、reference records和Teacher request/offline truth保持Git-external。
 
 ## 10. Secondary domain stress
 
@@ -147,9 +147,11 @@ Dataset-v4 formalization PASS至少要求：artifact hash匹配、label/class ma
 
 ```text
 NF3_TON_ARTIFACT_FROZEN=true
-CANDIDATE_TAXONOMY=PROVISIONAL
-FORMAL_SPLIT=NOT_STARTED
+CANONICAL_TAXONOMY_V1=FROZEN_PASS
+FORMAL_SPLIT=FROZEN_PASS
+UNKNOWN_ROTATIONS=Credential,Recon_Scanning,Web_Injection
+TEACHER_CACHE_V1_SAMPLE_MANIFEST_READY=true
 MODEL_B=NOT_STARTED
 CORE_FEASIBILITY=PASS_WITH_LIMITATIONS
-NEXT_ACTION=FORMALIZE_DATASET_V4_AND_START_MODEL_B_LOW_COST_DESIGN_GATES
+NEXT_ACTION=GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE
 ```

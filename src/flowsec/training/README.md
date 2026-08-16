@@ -1,14 +1,18 @@
 # Near pre-training preparation
 
-This package prepares the frozen Edge Near mainline without starting formal
-training. The legal universe is exactly the 16,979 `PLAN_B` candidates in
-`K_known ∩ train`; validation, test, `U_dev`, and `U_final` are rejected by the
-typed contracts and audited again across materialized artifacts.
+> **LEGACY_MODEL_A_TRAINING / COMPLETED / DO_NOT_EXECUTE_FOR_MODEL_B**
 
-`tools/prepare_near_pretraining.py` exposes separate, explicit phases for
+This package preserves the completed Edge Model A preparation and training
+lineage. The 16,979 `PLAN_B` candidate path, Teacher V3 path, and later
+Observable-v3/Teacher-v2 path are not current Model B data or supervision.
+Model A formal training/evaluation is complete; do not use this README to
+restart Teacher generation, SFT, RLAIF, or a mandatory Supervisor.
+
+For historical reproducibility, `tools/prepare_near_pretraining.py` exposes separate, explicit phases for
 Application/Payload sidecars, generic hybrid RAG, Evidence-State snapshots,
 Teacher pilot/bulk annotation, K-known validation materialization, final SFT corpus joining, and isolation audit.
-The Teacher phases require `DEEPSEEK_API_KEY` at runtime and reuse the existing
+Those Teacher phases are `LEGACY_DEPRECATED` and must not be executed for Model
+B. They historically required `DEEPSEEK_API_KEY` at runtime and reused the existing
 OpenAI-compatible transport. Secrets are never written to requests, logs,
 reports, or cache records. Bulk annotation cannot run before a zero-quarantine
 pilot manifest exists.
@@ -30,20 +34,20 @@ checkpoint reload, then deletes the temporary checkpoint. It is not a formal
 SFT launcher.
 
 
-The formal entrypoint is:
+The historical Model A formal entrypoint was:
 
 ~~~bash
-python -m flowsec.training.train_near_sft --config configs/training/near_sft_config_v1.yaml --preflight-only
+python -m flowsec.training.train_near_sft --config configs/training/near_sft_config_v2.yaml --preflight-only
 ~~~
 
-Formal execution additionally requires the explicit execute flag. The launcher
-refuses overwrite, records immutable digests and saves LoRA, Fine Head,
-optimizer, scheduler and RNG state for strict resume.
+The completed config is now fail-closed against accidental relaunch. Its
+checkpoint, LoRA, Fine Head, optimizer/scheduler lineage and evaluation report
+remain Git-external or tracked as small provenance. This command is shown for
+lineage only and is not an instruction to execute.
 
-Final pre-training acceptance is PASS under
-`CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`. The final zero-network validation
-reused all 22,957 digest-matched Teacher V3 records; the frozen V2 corpus has
-16,979 classification-supervised primary records and 5,978 controlled masked
-auxiliaries, with zero quarantine, leakage, label collision or sequence
-overflow. The config is `FROZEN_READY`, but no training runs unless the caller
-separately supplies the explicit `--execute` flag.
+Model A final acceptance, formal SFT, and evaluation are complete. The retained
+Teacher V3 and Teacher-v2 fields (`evidence_sufficient`, `missing_evidence`,
+`primary_gap`) are `LEGACY_REFERENCE` only. They cannot become Model B
+operational utility, classification, recoverability, or Unknown GT. Current
+Model B contracts are in `docs/research_plan/dataset_v4_b1_runtime_contract.md`
+and `docs/research_plan/dataset_v4_split_protocol.md`.

@@ -1,0 +1,117 @@
+{
+  "activity_group": "BLAKE2b-128(NF3_TON_ACTIVITY_GROUP_V1 + five-minute UTC block + unordered raw endpoint pair); raw values remain backend-only",
+  "activity_group_cross_split_n": 0,
+  "assignment": "stable label-free group hash 70/15/15 TRAIN/VALIDATION/FINAL_TEST; canonical labels are used only for offline support audits",
+  "canonical_taxonomy": [
+    "Backdoor",
+    "Benign",
+    "Credential",
+    "DDoS",
+    "DoS",
+    "Recon_Scanning",
+    "Web_Injection"
+  ],
+  "canonical_taxonomy_version": "CANONICAL_TAXONOMY_V1",
+  "dataset_v4_core": "NF3-ToN-IoT",
+  "duplicate_group_cross_split_n": 0,
+  "evidence_history_scope": "WITHIN_SPLIT_STRICT_END_BEFORE_TARGET_START_V1",
+  "exact_duplicate_n": 1816137,
+  "formal_invariants": {
+    "activity_group_cross_split": 0,
+    "all_core_classes_each_partition": true,
+    "duplicate_group_cross_split": 0,
+    "train_final_test_source_overlap": 0,
+    "train_validation_source_overlap": 0,
+    "validation_final_test_source_overlap": 0,
+    "within_split_past_only_history": true
+  },
+  "generator_version": "DATASET_V4_SPLIT_GENERATOR_V1",
+  "group_counts": {
+    "FINAL_TEST": 12731,
+    "TRAIN": 58737,
+    "VALIDATION": 12695
+  },
+  "invalid_critical_row_n": 0,
+  "partition_counts": {
+    "FINAL_TEST": 3842026,
+    "TRAIN": 19858267,
+    "VALIDATION": 3809983
+  },
+  "per_class_split_counts": {
+    "Backdoor": {
+      "FINAL_TEST": 33080,
+      "TRAIN": 140424,
+      "VALIDATION": 29880
+    },
+    "Benign": {
+      "FINAL_TEST": 2192887,
+      "TRAIN": 12370697,
+      "VALIDATION": 2228630
+    },
+    "Credential": {
+      "FINAL_TEST": 292057,
+      "TRAIN": 1115241,
+      "VALIDATION": 187479
+    },
+    "DDoS": {
+      "FINAL_TEST": 585973,
+      "TRAIN": 2869509,
+      "VALIDATION": 685774
+    },
+    "DoS": {
+      "FINAL_TEST": 27817,
+      "TRAIN": 142207,
+      "VALIDATION": 33432
+    },
+    "Recon_Scanning": {
+      "FINAL_TEST": 172943,
+      "TRAIN": 1011613,
+      "VALIDATION": 174421
+    },
+    "Web_Injection": {
+      "FINAL_TEST": 537269,
+      "TRAIN": 2208576,
+      "VALIDATION": 470367
+    }
+  },
+  "rebuild_command": "python tools/finalize_dataset_v4_split.py --repo-root . --archive /root/autodl-tmp/dataset_v4_nf3_gate/downloads/nf3_ton.zip --output-root /root/autodl-tmp/processed/dataset_v4_nf3_ton_v1",
+  "row_manifest_external_path": "/root/autodl-tmp/processed/dataset_v4_nf3_ton_v1/rows/dataset_v4_row_manifest_v1.parquet",
+  "row_manifest_sha256": "faa5220beae65f06591e7ea399c59092985135b81860fcd2388f20cadaa7c095",
+  "row_manifest_size_bytes": 2084881501,
+  "schema_version": "DATASET_V4_SPLIT_MANIFEST_V1",
+  "source_artifact_sha256": "53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78",
+  "source_mapping": {
+    "Backdoor": "Backdoor",
+    "Benign": "Benign",
+    "ddos": "DDoS",
+    "dos": "DoS",
+    "injection": "Web_Injection",
+    "password": "Credential",
+    "scanning": "Recon_Scanning",
+    "xss": "Web_Injection"
+  },
+  "source_row_id_contract": {
+    "canonical_row_digest": "SHA256 of canonical JSON array of 55 UTF-8 CSV cell strings in official header order",
+    "definition": "SHA256(NF3_TON_OBSERVATION_V1 NUL artifact_sha256 NUL zero_based_source_row_index NUL canonical_row_digest)",
+    "shuffle_independent": true,
+    "version": "SOURCE_ROW_ID_CONTRACT_V1"
+  },
+  "split_protocol": "GROUPED_TEMPORAL_HASH_70_15_15_V1",
+  "split_seed": 20260816,
+  "status": "PASS",
+  "time_ranges_ms": {
+    "FINAL_TEST": [
+      1556028590618,
+      1556549155853
+    ],
+    "TRAIN": [
+      1556028590618,
+      1556549155861
+    ],
+    "VALIDATION": [
+      1556028590773,
+      1556549155850
+    ]
+  },
+  "unknown_canonical_label_n": 9984
+}

@@ -1,8 +1,23 @@
 # DeepSeek API operations
 
+> **LEGACY_MODEL_A_OPERATIONS / DEPRECATED / DO_NOT_EXECUTE_FOR_MODEL_B**
+>
+> The commands below preserve completed Model A recovery provenance. They are
+> not current Model B instructions. Model B does not require DeepSeek for NF3
+> labels, operational Evidence utility, True Unknown, novelty detection, or
+> continual verified labels. Do not rerun Model A Teacher bulk, generate RLAIF
+> rewards, or start a mandatory online Supervisor from this runbook.
+
 DeepSeek is an external reasoning provider. It receives only the typed,
 role-specific context constructed by Runtime or the training driver. It never
 receives arbitrary repository/server access. Secrets stay outside Git.
+
+Under DEC-0025, future DeepSeek use is limited to offline semantic review and
+explicitly optional policy-demonstration, explanation, or Supervisor-baseline
+work. The final nonleaking `teacher_cache_v1` sample manifest is frozen under
+DEC-0026, but it is not executable until a researcher separately authorizes generation. Its
+output can never be classification GT, operational utility GT, Unknown GT, or
+continual-learning GT.
 
 ## Runtime configuration
 
@@ -15,7 +30,7 @@ DeepSeek V4 defaults to thinking mode, so the project provider explicitly sends
 non-thinking mode for short deterministic JSON Teacher/Judge/Supervisor calls.
 The model ID remains configurable.
 
-## Health check
+## Legacy Model A health check — do not execute for Model B
 
 Use the project entrypoint, not an ad-hoc production client:
 
@@ -31,7 +46,7 @@ records request IDs, token usage, latency, model ID, and redaction status, never
 the key. A direct models/ChatCompletion request may diagnose provider/network
 configuration but does not replace the project health check.
 
-## Teacher operations
+## Legacy Model A Teacher operations — completed; do not rerun
 
 ~~~bash
 python tools/prepare_near_pretraining.py teacher-pilot --teacher-concurrency 4
@@ -39,15 +54,18 @@ python tools/prepare_near_pretraining.py teacher-bulk --teacher-concurrency 16
 python tools/prepare_near_pretraining.py finalize-sft
 ~~~
 
-Pilot must cover all known classes, evidence stages, and sufficient/insufficient
+These commands are retained only for disaster recovery of historical Model A
+artifacts. Pilot was required to cover all known classes, evidence stages, and sufficient/insufficient
 states and finish with zero quarantine. Bulk records/cache are Git-external,
 deterministically keyed by state digest + prompt digest + model, and resumable.
 Bulk reuses valid pilot cache entries.
 
-Teacher requests are built only by build_teacher_request. Future RLAIF Judge
-requests use build_judge_request; formal Agent Supervisor requests use
-build_supervisor_request. Do not replace these with a generic all-context
-prompt.
+Historical Teacher requests were built only by `build_teacher_request`.
+Historical `build_judge_request` and `build_supervisor_request` capabilities do
+not authorize Model B RLAIF or a mandatory Supervisor. Any separately
+authorized Model B cache must use the materialized B1 request manifest and
+exact four-action contract; do not adapt the old Evidence-State schema by
+changing only a prompt.
 
 ## Failure diagnosis
 
@@ -63,6 +81,7 @@ prompt.
   call.
 - secret-redaction failure: stop immediately; never publish logs or reports.
 
-Teacher and Judge are training-driver controlled. Supervisor may choose only a
-frozen action; Runtime validates and executes it. No DeepSeek role may execute
-shell/Git/tools or read backend stores directly.
+Any explicitly authorized future Teacher/baseline remains driver controlled,
+and Runtime validates every action. No DeepSeek role may execute shell/Git/tools
+or read backend stores directly. Existing `evidence_sufficient`,
+`missing_evidence`, and `primary_gap` caches are `LEGACY_REFERENCE` only.

@@ -1,8 +1,8 @@
 # Open-World Continually Evolving LLM Traffic Agent：执行计划与时间表
 
-> 状态：DEC-0025 canonical execution order
+> 状态：DEC-0025/DEC-0026 canonical execution order
 >
-> 日期：2026-08-15
+> 日期：2026-08-16
 >
 > 本文件只定义阶段、依赖、Gate与停止点；研究语义以[research_plan_detailed.md](research_plan_detailed.md)为最高权威，Model B细节见[model_b_evidence_openworld_design.md](model_b_evidence_openworld_design.md)。
 
@@ -18,23 +18,23 @@ Evidence-Conditioned Open-World Traffic Recognition
 
 Model A已经冻结为single-domain controlled baseline和optional replay source；其closed-set分类成功，但LM Evidence-State branch对目标用途失败。NF3-ToN官方final processed artifact已通过reconciliation/schema/label Gate，24,000条pilot确认存在recoverable Known、可预测的Evidence utility和aggregate Evidence-conditioned open-world收益。
 
-当前只完成计划与架构收口，没有启动Model B、DeepSeek、continual、RL、下载或raw reprocessing。
+Dataset-v4 B1 formalization现已完成；没有启动Model B、DeepSeek、continual、RL、下载或raw reprocessing。
 
 ## 2. Phase B1 — Dataset-v4 / NF3-ToN formalization
 
-目标：把已验证的NF3-ToN artifact冻结成可训练、可复现且无leakage的Dataset-v4 core。
+状态：`COMPLETE / PASS`。已把验证过的NF3-ToN artifact冻结成可训练、可复现且无明显identity/group/future leakage的Dataset-v4 core。
 
 必须完成：
 
 - 验证固定CSV SHA256 `53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78`；
-- 冻结candidate taxonomy的最终保留类、label map和per-class support；
+- 冻结七类taxonomy、label map和per-class support；
 - 设计deterministic grouped/temporal train/development/test split；
 - 冻结`BASIC_SUFFICIENT_KNOWN / RECOVERABLE_KNOWN / TRUE_UNKNOWN`合同；
 - 预注册whole-class held-out Unknown rotations，不让held-out class进入classifier training或final threshold tuning；
 - 冻结Basic、Temporal和Relation的semantic admissibility、availability、cost与model-safe serialization；
 - 通过identity、source、time、label、future-context和cross-split leakage Gate。
 
-输出：small tracked manifest/report/config；大数据保持Git-external。taxonomy和rotations由本阶段结果冻结，不因pilot表现事后挑选。
+输出：七类`CANONICAL_TAXONOMY_V1`、`GROUPED_TEMPORAL_HASH_70_15_15_V1` split（19,858,267 / 3,809,983 / 3,842,026）、三套whole-class rotations、strict-past history scope、2,000-row Teacher sample manifest和63-row semantic request manifest。small manifest/report/config tracked；2.08GB row manifest和request/offline truth保持Git-external。详见[dataset_v4_split_protocol.md](dataset_v4_split_protocol.md)。
 
 ## 3. Phase B2 — Model B static foundation
 
@@ -132,7 +132,7 @@ MODEL_A_FREEZE=COMPLETE
 NF3_TON_ARTIFACT_RECONCILIATION=PASS
 NF3_TON_FEASIBILITY=PASS_WITH_LIMITATIONS
 PLAN_ARCHITECTURE_REVISION=COMPLETE
-PHASE_B1=NOT_STARTED
+PHASE_B1=COMPLETE_PASS
 PHASE_B2=NOT_STARTED
 PHASE_B3=NOT_STARTED
 PHASE_B4=NOT_STARTED
@@ -140,4 +140,4 @@ PHASE_B5=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
 PHASE_B6=OPTIONAL_NOT_AUTHORIZED
 ```
 
-下一动作是`FORMALIZE_DATASET_V4_AND_START_MODEL_B_LOW_COST_DESIGN_GATES`。本次计划修订不自行启动该动作。
+下一动作是`GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE`，但仍必须由researcher显式授权API调用。Model-B low-cost design Gates现已解除B1前置阻塞但尚未启动；正式Model-B训练、continual与RL仍未授权。

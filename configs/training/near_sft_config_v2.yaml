@@ -1,7 +1,11 @@
 version: NEAR_SFT_CONFIG_V2
 supervision_contract: CLASSIFICATION_SUFFICIENCY_DECOUPLED_MULTI_GAP_V2
-status: FROZEN_READY
-formal_run_authorized: true
+status: COMPLETED_MODEL_A_LEGACY
+formal_run_authorized: false
+research_role: LEGACY_CONTROLLED_DOMAIN_BASELINE
+do_not_execute_for_model_b: true
+superseded_for_model_b_by: DATASET_V4_B1_RUNTIME_CONTRACT_V1
+completed_run_id: near-sft-v3-20260812T230311Z-d93789de
 
 model:
   model_id: Qwen/Qwen3.5-9B

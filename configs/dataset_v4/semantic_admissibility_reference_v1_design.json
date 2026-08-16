@@ -1,0 +1,56 @@
+{
+  "schema_version": "SEMANTIC_ADMISSIBILITY_REFERENCE_V1_DESIGN",
+  "status": "DESIGN_FROZEN_NO_RESPONSES",
+  "target_n": 63,
+  "construction": "7 canonical class/mechanism keys x 3 B1 Evidence families x 3 normalized pattern roles",
+  "class_or_mechanism_keys": [
+    "Benign",
+    "Backdoor",
+    "Credential",
+    "DDoS",
+    "DoS",
+    "Recon_Scanning",
+    "Web_Injection"
+  ],
+  "evidence_families": [
+    "BASIC",
+    "TEMPORAL",
+    "RELATION"
+  ],
+  "pattern_roles": [
+    {
+      "id": "MECHANISM_RELEVANT",
+      "description": "a normalized pattern with a plausible direct or contextual relationship to the class/mechanism"
+    },
+    {
+      "id": "AMBIGUOUS_OR_CONFOUNDED",
+      "description": "a common pattern that may occur in both target and non-target behavior"
+    },
+    {
+      "id": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "description": "missing, weak, or contradictory support that cannot justify the class claim"
+    }
+  ],
+  "entry_contract": {
+    "class_or_mechanism": "one versioned canonical class/mechanism key",
+    "evidence_family": "BASIC | TEMPORAL | RELATION",
+    "evidence_pattern": "normalized class/evidence-level pattern with no sample identity",
+    "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?"
+  },
+  "future_response_contract": {
+    "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+    "allowed_claim": "bounded semantic claim supported by the pattern",
+    "forbidden_claim": "claim that the pattern cannot justify",
+    "short_reason": "concise class/evidence-level rationale"
+  },
+  "authorized_role": "SEMANTIC_ADMISSIBILITY_REFERENCE",
+  "forbidden_roles": [
+    "OPERATIONAL_UTILITY_GT",
+    "CLASSIFICATION_GT",
+    "UNKNOWN_GT",
+    "SAMPLE_RECOVERABILITY_GT"
+  ],
+  "sample_level_records": false,
+  "teacher_responses_generated": false,
+  "deepseek_calls_made": false
+}

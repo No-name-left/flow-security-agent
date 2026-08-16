@@ -1,0 +1,1147 @@
+{
+  "class_n": 7,
+  "deepseek_calls": 0,
+  "evidence_family_n": 3,
+  "operational_utility_gt": false,
+  "patterns_per_class_family": 3,
+  "request_n": 63,
+  "requests": [
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_db7de35ac76d943fb6a1",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with ordinary bidirectional service behavior without attack-specific concentration or failure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "db7de35ac76d943fb6a1a19e0535b62209c40ecee3abfe3dcbdd2913fed1494a"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_3ba8cd0f98d42dc3190e",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "3ba8cd0f98d42dc3190ed9a3c0e047f67c52a40fde24e1f64af035f5a8368012"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_fc674fe1135f0120abf4",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for ordinary bidirectional service behavior without attack-specific concentration or failure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "fc674fe1135f0120abf4cec0036a1589221723595802d49836889dbff1284074"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_2f8b3ad1cfba02bfea71",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with ordinary bidirectional service behavior without attack-specific concentration or failure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "2f8b3ad1cfba02bfea7106ead0d2f382ca938a0283d96edb006bf8be65654f78"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_29938441a426a3839112",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "29938441a426a3839112ff86d7c0c863ac86502dd17835f93c2329e8bf3c1fb5"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_9a84b6b61567d5c284ee",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for ordinary bidirectional service behavior without attack-specific concentration or failure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "9a84b6b61567d5c284ee9e50b17a7479170904f64004dbada4b40d85cc1f70cd"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_88b62c96c9bd62bb2d65",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with ordinary bidirectional service behavior without attack-specific concentration or failure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "88b62c96c9bd62bb2d65fc5966313e4e763bd236731f69af11e5e37a7517357a"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_29e42a1068d2d48dc162",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "29e42a1068d2d48dc162f2dcbfb659536d62915b165e8b0c026c97180128344b"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_19791094f890f311a57b",
+      "request_payload": {
+        "class_or_mechanism": "Benign",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for ordinary bidirectional service behavior without attack-specific concentration or failure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "19791094f890f311a57b5bcde23117c1be1a5d16c56dde3f4900b7766636ce91"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_94cf81f5875e8ae72868",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with persistent or repeated remote-control behavior that may require temporal context",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "94cf81f5875e8ae728686d3c24cdcd28217d192a88d5c22f8872dd20dd48243e"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_784ff7831dd8e34068ef",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "784ff7831dd8e34068efd8caab43d555bc7342e5563f2a5a47c988c7815ec372"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_34081925db38beaf885b",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for persistent or repeated remote-control behavior that may require temporal context",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "34081925db38beaf885b526adc9c4e7061ecf5411310d1bfb3203bc5332761fb"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_6a7d9991ea01b53f2bd3",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with persistent or repeated remote-control behavior that may require temporal context",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "6a7d9991ea01b53f2bd3666ab85d6532a6d10ab5f8fb7994e579290f0d419427"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_e27207f329cd6c9cb91b",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "e27207f329cd6c9cb91b50fec9864d7ed8c1d73a577438b8df70488e4a863222"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_c41c98cee46b7ab4f92e",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for persistent or repeated remote-control behavior that may require temporal context",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "c41c98cee46b7ab4f92e8b49226c3c3248739f72941c7027406292e80c71bcfd"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_91fffd95517efacc45fc",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with persistent or repeated remote-control behavior that may require temporal context",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "91fffd95517efacc45fc2985050f3c9e7d79cfd9da3b7a04e2ddeba0026a36d6"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_089eafcb1d0a1d841ae7",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "089eafcb1d0a1d841ae7e4a332b378ba968da607569343d5bcd1066df84f1214"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_fddf49343e78f121d399",
+      "request_payload": {
+        "class_or_mechanism": "Backdoor",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for persistent or repeated remote-control behavior that may require temporal context",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "fddf49343e78f121d3994f83d2bc16adc3802e75388ab91fef48af7531013359"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_782c70bc348ff7992511",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with repeated authentication attempts or credential-service interaction",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "782c70bc348ff79925113bcadcb266305c6c03f9c8490cfb6c97811bebeb1f28"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_bde266de53e9e1ef1f85",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "bde266de53e9e1ef1f853b9bfbd0b649ae2efa73aa034fc4a058bd10e96d8062"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_afa6ca7f8d571d57a3ca",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for repeated authentication attempts or credential-service interaction",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "afa6ca7f8d571d57a3ca9f684b0bc3635f39620bb27da84cf3997b76e107dd57"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_6450824292930b6d1c29",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with repeated authentication attempts or credential-service interaction",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "6450824292930b6d1c296c04966883d5db361c6e5f83e61e8b0e94849982ee79"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_b4473a783ec58011fbfe",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "b4473a783ec58011fbfe51abbe06b364067f3b3f26fd019f93e3bea07b08008c"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_d8c17fc3551de2c4762d",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for repeated authentication attempts or credential-service interaction",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "d8c17fc3551de2c4762d3b9eca6f8c05097c86db2ebd7d27fe0b8b4275774bed"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_1a620423b71da06ccc6d",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with repeated authentication attempts or credential-service interaction",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "1a620423b71da06ccc6d7a634abb16575b998ac1e3c2fff5fa0c7ad10fc7e7c7"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_d347a49ce1f5cecde38d",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "d347a49ce1f5cecde38de80359510436f4c9fb7826386705f893d0f595e12541"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_30879194cdf48092b97d",
+      "request_payload": {
+        "class_or_mechanism": "Credential",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for repeated authentication attempts or credential-service interaction",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "30879194cdf48092b97d983e595c6011ace269ad66e969bfac276fa27ccdc854"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_dfe7bf2ac12c880d92a3",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with many-source or high-rate concentration against a destination/service",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "dfe7bf2ac12c880d92a3ddfee00696ccc09b36aff10affa3f12a3f7287b51c24"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_0eb81d9f5defd12bf48d",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "0eb81d9f5defd12bf48d7ce2cfb4c8b07e21e2ba387e06bafb9b2c13edc3cb5b"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_6bcf9c983c9a33952878",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for many-source or high-rate concentration against a destination/service",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "6bcf9c983c9a33952878b9031ed1b027265559c02ce9aab0e9d0c1bcc1d6bcac"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_5abf173b121a8aa6d792",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with many-source or high-rate concentration against a destination/service",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "5abf173b121a8aa6d792e40ce9fa013ccef907bd3f3e15a4d61014cdab41cb7b"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_ef1c28f638ffaa57701c",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "ef1c28f638ffaa57701cdd4011a806386621a939c01885b69076564b4fe7c996"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_b8d08d19732f5d73cd9c",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for many-source or high-rate concentration against a destination/service",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "b8d08d19732f5d73cd9ceedc1a981076dcbff8e618c61e3d2a0002624f7d148a"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_0d7f8e4b0d1046a74f81",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with many-source or high-rate concentration against a destination/service",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "0d7f8e4b0d1046a74f81605b9d4439ce7226d9744bcb8af0f964925260b47cef"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_be2eacfe5c1294babce5",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "be2eacfe5c1294babce57650a3d2cee565cc8ae38176d0a6a2c12f49b6719cba"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_9699f7b504bbb223e5fc",
+      "request_payload": {
+        "class_or_mechanism": "DDoS",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for many-source or high-rate concentration against a destination/service",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "9699f7b504bbb223e5fcf0ea9ff84be9d2f372605b7c0a1566bf536bfb6fc11c"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_bdc3dd3828d71dae1106",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with single/few-source resource exhaustion or repeated failure pressure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "bdc3dd3828d71dae110688b76b28674a513214d4f1a2117a545191ba50bde13d"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_13cee279a4cf8219440e",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "13cee279a4cf8219440ec677843a62e95bc7ae4c71cb4855e5f53fc240187d9b"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_039e27dedacdfbdc0dc6",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for single/few-source resource exhaustion or repeated failure pressure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "039e27dedacdfbdc0dc6bf14c479e3d8bf4cc7e31d48cfd4b947668bb97f5890"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_a3bcac7d9e2fd3e5ed99",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with single/few-source resource exhaustion or repeated failure pressure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "a3bcac7d9e2fd3e5ed99012d7292c671154882c59df9f149f3e44ac7c8ad9990"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_76e5d8261c859cf70c0e",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "76e5d8261c859cf70c0ead040ce2a800369b805ee3f6187f077dd48d8a259c02"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_c70115e447e009d860d5",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for single/few-source resource exhaustion or repeated failure pressure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "c70115e447e009d860d55b7b28db6fb435a1eaf2fe09dbd7625d2ceb1b3881ae"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_709bb0560c334c5c9988",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with single/few-source resource exhaustion or repeated failure pressure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "709bb0560c334c5c99889b9a774cd86c88a66a99c7d39ffa1ea2d5ca95d4b6d9"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_aebefd2fc943181da916",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "aebefd2fc943181da9169ff25bc4feec51fdb19076c3b69f118acff828ec9e30"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_df46fa8282d48708fcf8",
+      "request_payload": {
+        "class_or_mechanism": "DoS",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for single/few-source resource exhaustion or repeated failure pressure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "df46fa8282d48708fcf8c57a237b72300c9f08d2193b88f28858905e96dc9b0d"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_f16013bd07e89a8634f5",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with destination/port diversity and short probe-like relation structure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "f16013bd07e89a8634f5938f9cd2c8ebe08e766f18aa736ab1879e76ed584cfc"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_580ee7fd518f485ba628",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "580ee7fd518f485ba62878099e32f278afaee177a0c699b5b0d09b20fc8c972c"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_31205af460fd8752470d",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for destination/port diversity and short probe-like relation structure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "31205af460fd8752470d5769294d6122d38aeb4898cae0b3c307227484e815e0"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_0e5911b0ab7078cb6a86",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with destination/port diversity and short probe-like relation structure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "0e5911b0ab7078cb6a8689abe05583852e383f66add4712af8d95faf87d787cd"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_0bdcc46ab783af5ea1d3",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "0bdcc46ab783af5ea1d334e74e70ae6ab74af93d96e01bfd8bc72967feff4d12"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_b699cd148451730a610d",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for destination/port diversity and short probe-like relation structure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "b699cd148451730a610db0fe4e466c4d6fa4964dca0dab6fda9e50bb1d8c2f48"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_cd9b163f21a9109aa765",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with destination/port diversity and short probe-like relation structure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "cd9b163f21a9109aa765a30a4f7a014a1f984b1055bc3123923da81866432572"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_4829f40d91cd6edc0afb",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "4829f40d91cd6edc0afb4b65299afe3cc8ff2813c446a3724865b86eca1efd61"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_c8124beee8fc8340927c",
+      "request_payload": {
+        "class_or_mechanism": "Recon_Scanning",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for destination/port diversity and short probe-like relation structure",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "c8124beee8fc8340927cd4050828d734ffae02aada976af9ce69d0c3404087df"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_2a4f175587d9202fa549",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries shows a strong pattern compatible with request behavior consistent with injection/XSS mechanisms at flow-observable granularity",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "2a4f175587d9202fa549047f79504c67c9f7673cf161a3a0e07e779dfa74761f"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_ad75b7e0a546b823a60b",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "ad75b7e0a546b823a60b9cd78e0bb27b36e92603c37f73c0c9e52519a405ff38"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_ef8fc593929b4884eee9",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "BASIC",
+        "evidence_pattern": "current-flow protocol, byte/packet, flag, duration, retransmission, DNS/FTP and IAT summaries is absent, weak, or contradicts the expected pattern for request behavior consistent with injection/XSS mechanisms at flow-observable granularity",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "ef8fc593929b4884eee9dd56a1a66c74c8cd916469a139c4b064af9653dc0efa"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_72dc773ff8185d1f3d78",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries shows a strong pattern compatible with request behavior consistent with injection/XSS mechanisms at flow-observable granularity",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "72dc773ff8185d1f3d78f4a02c5ca5a357f283f8ea04856bbad21c0a5818a18d"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_e74381cf026156a2de15",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "e74381cf026156a2de156918e50ce1fb28212204c21c6ce61c43f83b132062f2"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_7ac18e11a034f8a3ac41",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "TEMPORAL",
+        "evidence_pattern": "strictly prior 10/60/300-second rate, count, burst and last-seen summaries is absent, weak, or contradicts the expected pattern for request behavior consistent with injection/XSS mechanisms at flow-observable granularity",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "7ac18e11a034f8a3ac41abed9462e0d1747ce657551c5207099ad3b4b4a7d721"
+    },
+    {
+      "pattern_role": "MECHANISM_RELEVANT",
+      "reference_id": "sarv1_5c209d486bb845b5f558",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates shows a strong pattern compatible with request behavior consistent with injection/XSS mechanisms at flow-observable granularity",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "5c209d486bb845b5f558b6c37f0611fced7cb3b932b12d5b3535166b26a1ff1d"
+    },
+    {
+      "pattern_role": "AMBIGUOUS_OR_CONFOUNDED",
+      "reference_id": "sarv1_9be34f307dba327db86b",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is elevated or unusual but is also plausible for benign load or another attack mechanism",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "9be34f307dba327db86bc68de717be2ab9a90173e0f3b49b3f0cc7d54f77554c"
+    },
+    {
+      "pattern_role": "WEAK_ABSENT_OR_CONTRADICTORY",
+      "reference_id": "sarv1_8c4206b533dfaab69c54",
+      "request_payload": {
+        "class_or_mechanism": "Web_Injection",
+        "evidence_family": "RELATION",
+        "evidence_pattern": "strictly prior endpoint/port diversity, repeated-pair and fan-in/fan-out aggregates is absent, weak, or contradicts the expected pattern for request behavior consistent with injection/XSS mechanisms at flow-observable granularity",
+        "question_to_reviewer": "What class-level claim is semantically admissible from this pattern, and what stronger claim is forbidden?",
+        "response_schema": {
+          "allowed_claim": "bounded semantic claim supported by the pattern",
+          "forbidden_claim": "claim that the pattern cannot justify",
+          "semantic_relevance": "SUPPORTIVE | NEUTRAL | CONTRADICTORY | CONTEXT_DEPENDENT",
+          "short_reason": "concise class/evidence-level rationale"
+        },
+        "schema_version": "SEMANTIC_ADMISSIBILITY_REQUEST_V1"
+      },
+      "request_payload_hash": "8c4206b533dfaab69c54beb7cc1c3777f01a7fc4ee20d7baf4c7a5b07c87522d"
+    }
+  ],
+  "responses_generated": 0,
+  "schema_version": "SEMANTIC_ADMISSIBILITY_REFERENCE_V1_REQUEST_MANIFEST",
+  "status": "READY_NO_RESPONSES"
+}

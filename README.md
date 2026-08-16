@@ -1,22 +1,21 @@
 # Flow Security Agent
 
-Flow Security Agent is a research framework for **session-level open-world malicious traffic analysis**. The current design uses a post-trained Qwen3.5-9B as the first classifier and a constrained decision Agent to acquire additional evidence, reject unknown traffic and support few-shot class onboarding.
+Flow Security Agent is a research framework for **evidence-conditioned open-world malicious traffic recognition**. The current Model B design uses a traffic representation and Known classifier, an empirically grounded selector for bounded typed Evidence, an independent novelty detector, and verified-feedback continual evolution.
 
 > **New developer or Agent:** start with the [project handoff guide](docs/PROJECT_HANDOFF.md). It summarizes the current research Gate, completed assets, unresolved decisions, allowed next steps and working-tree safeguards.
 
 ## Research direction
 
 ```text
-official PCAP and labels
-→ dataset-specific session reconstruction
-→ CanonicalSessionRecord and past-only context
-→ text-only BF16 LoRA post-trained Qwen3.5-9B first classification and evidence state
-→ frozen open-set scoring and calibration
-→ constrained Agent evidence expansion and reclassification
-→ sample-level 1/5/10-shot class onboarding
+official NF3-ToN-IoT flow row and dataset GT
+→ model-safe Basic Evidence and Known prediction
+→ OOF/cross-fitted utility-driven Temporal/Relation acquisition
+→ Known re-evaluation
+→ independent novelty detection after the Evidence gate
+→ verified-feedback continual adaptation with replay and release gates
 ```
 
-Edge-IIoTset is frozen as the primary dataset with stated limitations. IoT-23 is an independent scenario-held-out external validation dataset with its own native labels and model adaptation. Both passed the final feasibility Gate with `PASS_WITH_LIMITATIONS`; they share an interface but are not physically merged for training.
+The official NF3-ToN-IoT final processed artifact is the Dataset-v4 core. Edge-IIoTset Model A is a completed legacy controlled-domain baseline and optional replay source. Other NF3 sources are secondary external-domain stress/replication candidates, not required merged training inputs.
 
 ## Implemented foundation
 
@@ -38,35 +37,38 @@ This repository currently provides:
 - a Transformers/PEFT training harness with a dynamic Linear Fine Head, masked multi-task loss, real Qwen LoRA inventory, frozen pooling/serialization/Prompt/schema v1, and a real two-step 9B dry-run;
 - historical Git-external Near PLAN_B Application/Payload sidecars, Teacher V3 corpus and RL pool; DEC-0021 supersedes these as formal training inputs while retaining them for audit.
 - accepted six-class Observable Dataset v3, packet-aligned Basic/Evidence-v2, multi-gap Teacher-v2 and a session-weighted formal corpus v3; generated Parquet/JSONL/cache remain Git-external.
+- completed Model A Formal Near SFT/evaluation, retained as a controlled baseline; its Known classifier passed while its LM Evidence-State branch failed for the target purpose;
+- a frozen Dataset-v4 B1 schema plus the formal seven-class grouped/temporal split, whole-class Unknown rotations, strict-past history contract, 2,000-row Teacher-cache sample manifest and 63-row semantic-review request manifest. No response/API generation is included.
 
 These components are engineering infrastructure, not claimed paper contributions. The Gate models and scores are audit probes, not formal paper results.
 
 ## Not implemented yet
 
-The following model and experiment components remain future work:
+The following current components remain future work:
 
-- execution and evaluation of the now-frozen formal Near multi-task SFT corpus; readiness is complete, but no formal optimizer run or checkpoint exists yet;
-- formal traditional-model baselines and Qwen3.5-9B SFT/few-shot checkpoints;
-- formal Runtime wiring for the prepared Application/Payload/RAG assets;
-- a frozen production Unknown scoring algorithm and calibration threshold;
-- Near RLAIF-GRPO Training #2, followed by Independent Unknown and Agent experiments; DPO, full-parameter 9B and formal 27B remain deferred;
-- formal experiments and paper metrics.
+- optional generation/review of the frozen Teacher-cache and semantic-reference requests, only after explicit researcher authorization;
+- Model B low-cost fresh-vs-warm and Qwen-vs-small architecture Gates;
+- formal Basic/Temporal/Relation single-family and combined utility experiments with second-seed/bootstrap checks;
+- independent novelty candidates, evidence-conditioned open-world evaluation, and verified-feedback continual adaptation;
+- optional small-policy RL only if deterministic/supervised control leaves repeatable headroom. LLM RLAIF/PPO/GRPO is not authorized.
 
-The remote bootstrap, Production Data Freeze, paper-grade `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, Production Runtime Safe Adapter, Evidence Fidelity Gate and official raw Qwen deployment are reusable foundations. DEC-0022 records completion of Task Definition v2: six observable main classes, the same fine-observation eligibility contract across train/validation/test, Basic/Evidence-v2, multi-gap Teacher-v2 and corpus v3. Backdoor is a Long-Horizon Temporal Case Study; Uploading/Ransomware are Observability-Limited auxiliaries. Old 11-class PLAN_B/Teacher V3/corpus assets are historical only. The Qwen→Supervisor→deterministic Runtime architecture and later SFT→Agent-oriented RL route remain unchanged.
+The remote bootstrap, Production Data Freeze, Edge split/Runtime assets, Dataset-v3/Evidence-v2, and Model A checkpoint remain reusable historical foundations. Model A Teacher V3/v2 annotations and Evidence-State fields are provenance/reference only: they are not Model B labels, operational utility, or Unknown truth. DeepSeek is limited to offline semantic review and optional policy-demonstration/explanation/Supervisor baselines.
 
-The unique long-term code branch is `main`. Dataset v3 final acceptance now has `READY_FOR_FORMAL_SFT=true`; the old config remains unauthorized and only `NEAR_SFT_CONFIG_V2` may launch. `FORMAL_SFT_STARTED=false`: no formal SFT optimizer run, RL, Unknown, U_final or Agent experiment has started.
+The unique long-term code branch is `main`. Model A training/evaluation and Dataset-v4 B1 formalization are complete. Model A's formal config is fail-closed against accidental relaunch. Model B training, continual learning, RL, and Teacher response generation have not started.
 
 ## Research Plan and Change Control
 
 The canonical research plan is stored in:
 
 - [Detailed research and implementation specification](docs/research_plan/research_plan_detailed.md) — highest research authority;
-- [Near-first training and Open-world protocol](docs/training/near_mainline_training_protocol_v1.md) — training/Open-world execution authority;
-- [Agent / Runtime architecture](docs/design/agent_architecture_provisional.md) — Runtime/Supervisor/RAG/Memory design authority within the first two;
+- [Model B Evidence/open-world design](docs/research_plan/model_b_evidence_openworld_design.md) and [continual Agent design](docs/research_plan/open_world_continual_agent_design.md) — current Model B method/control boundary;
+- [Dataset-v4 B1 runtime contract](docs/research_plan/dataset_v4_b1_runtime_contract.md) — current observation/Evidence/state/action engineering boundary;
+- [Dataset-v4 split protocol](docs/research_plan/dataset_v4_split_protocol.md) — frozen taxonomy, identity, split, rotations, history scope and Teacher sampling population;
+- [Near-first training protocol](docs/training/near_mainline_training_protocol_v1.md) and [provisional Agent architecture](docs/design/agent_architecture_provisional.md) — Model A lineage and reusable implementation constraints only where DEC-0025 does not supersede them;
 - [Timeline and stage-control view](docs/research_plan/research_plan_and_timeline.md);
 - [Brief research overview](docs/research_plan/research_plan_brief.md).
 
-Developers and agents must read the canonical specification before research changes, then the Near training protocol before model/training/Unknown/novel-class work, and the Agent architecture before Runtime/Supervisor/RAG/Memory work. PROJECT_HANDOFF records current state but cannot override these authorities.
+Developers and agents must read the canonical specification and current Model B/Dataset-v4 contracts before research or runtime changes. Read the Near protocol and provisional Agent document when Model A lineage or reusable implementation details matter; neither can override DEC-0025. PROJECT_HANDOFF records current state but cannot override these authorities.
 
 If a code change intentionally deviates from the plan and changes research meaning, comparability or conclusions, the same PR or commit must update the detailed specification and record the previous decision, new decision, reason, affected data/stages/metrics and a `Confirmed`, `Provisional` or `Experimental` status. Update the timeline or brief when their scope is affected.
 

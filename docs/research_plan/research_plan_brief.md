@@ -1,6 +1,6 @@
 # Open-World Continually Evolving LLM Traffic Agent（导师简版）
 
-> DEC-0025，2026-08-15。完整规则见[研究计划详细版](research_plan_detailed.md)。
+> DEC-0025/DEC-0026，2026-08-16。完整规则见[研究计划详细版](research_plan_detailed.md)。
 
 ## 一、核心研究问题
 
@@ -33,7 +33,7 @@ Evidence-Conditioned Open-World Traffic Recognition
 
 ## 三、Dataset-v4与Model B
 
-Dataset-v4核心优先使用NF3-ToN-IoT，候选类别为Benign及六类攻击机制。最终taxonomy、split和Unknown rotations仍要在正式数据阶段预注册并验证。
+Dataset-v4核心使用NF3-ToN-IoT，七类taxonomy（Benign及六类攻击机制）、grouped 70/15/15 split与Credential/Recon_Scanning/Web_Injection whole-class rotations已经冻结。七类TRAIN/VALIDATION/FINAL_TEST为19,858,267/3,809,983/3,842,026，identity、exact-duplicate group与activity-group cross-split均为0。
 
 Model B候选由Qwen traffic representation、Known Fine Head和小型Evidence utility selector组成。Unknown不是普通的第K+1类，而是在证据恢复状态与Known representation/logits基础上独立判断。Model A保留为单域基线和可选replay来源，不默认warm-start。
 
@@ -56,7 +56,7 @@ Unknown样本只有在获得可靠人工/外部verified label后才能注册新�
 
 ## 六、正式阶段
 
-1. 冻结NF3-ToN Dataset-v4、taxonomy、split和Unknown协议；
+1. NF3-ToN Dataset-v4、taxonomy、split和Unknown协议已完成冻结；
 2. 建立Model B static foundation，完成fresh-vs-warm和Qwen-vs-small Gate；
 3. 分别验证Temporal、Relation及组合Evidence的OOF utility和robustness；
 4. 比较Direct novelty、Always acquire和Utility-conditioned acquisition；
@@ -65,4 +65,4 @@ Unknown样本只有在获得可靠人工/外部verified label后才能注册新�
 
 其他NF3数据集只作secondary external-domain stress/replication；CICIoT2023与raw CIC/ToN不是core依赖，当前不下载。
 
-下一动作是正式化Dataset-v4并开始Model B低成本设计Gate；本轮只同步计划和架构，不启动训练。
+下一动作是在researcher显式授权下生成已冻结的2,000项pre-price Teacher cache与63项semantic reference；Model-B低成本design Gate已解除B1阻塞但尚未启动，正式训练仍未授权。

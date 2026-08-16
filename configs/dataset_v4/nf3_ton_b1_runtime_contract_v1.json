@@ -1,0 +1,296 @@
+{
+  "schema_version": "NF3_TON_B1_RUNTIME_CONTRACT_V1",
+  "status": "SCHEMA_FROZEN_SAMPLE_MANIFEST_READY",
+  "source_artifact": {
+    "name": "NF3-ToN-IoT-v3.csv",
+    "csv_sha256": "53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78",
+    "identity_status": "VERIFIED_FROZEN",
+    "raw_reprocessing_required": false
+  },
+  "observation_unit": {
+    "version": "NF3_TON_OBSERVATION_V1",
+    "definition": "one complete bidirectional official NF3 flow CSV row",
+    "source_row_index": "zero-based data-row ordinal excluding the header; backend only",
+    "canonical_row_digest": "SHA256 of the parsed 55-column row encoded as a canonical JSON array in official header order",
+    "sample_id": "SHA256(NF3_TON_OBSERVATION_V1 NUL csv_sha256 NUL decimal_source_row_index NUL canonical_row_digest)",
+    "sample_id_usage": "non-semantic routing and provenance only; never a predictive feature"
+  },
+  "field_contract": {
+    "MODEL_VISIBLE": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "IN_PKTS",
+      "OUT_BYTES",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "CLIENT_TCP_FLAGS",
+      "SERVER_TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS",
+      "DURATION_IN",
+      "DURATION_OUT",
+      "MIN_TTL",
+      "MAX_TTL",
+      "LONGEST_FLOW_PKT",
+      "SHORTEST_FLOW_PKT",
+      "MIN_IP_PKT_LEN",
+      "MAX_IP_PKT_LEN",
+      "SRC_TO_DST_SECOND_BYTES",
+      "DST_TO_SRC_SECOND_BYTES",
+      "RETRANSMITTED_IN_BYTES",
+      "RETRANSMITTED_IN_PKTS",
+      "RETRANSMITTED_OUT_BYTES",
+      "RETRANSMITTED_OUT_PKTS",
+      "SRC_TO_DST_AVG_THROUGHPUT",
+      "DST_TO_SRC_AVG_THROUGHPUT",
+      "NUM_PKTS_UP_TO_128_BYTES",
+      "NUM_PKTS_128_TO_256_BYTES",
+      "NUM_PKTS_256_TO_512_BYTES",
+      "NUM_PKTS_512_TO_1024_BYTES",
+      "NUM_PKTS_1024_TO_1514_BYTES",
+      "TCP_WIN_MAX_IN",
+      "TCP_WIN_MAX_OUT",
+      "ICMP_TYPE",
+      "ICMP_IPV4_TYPE",
+      "DNS_QUERY_ID",
+      "DNS_QUERY_TYPE",
+      "DNS_TTL_ANSWER",
+      "FTP_COMMAND_RET_CODE",
+      "SRC_TO_DST_IAT_MIN",
+      "SRC_TO_DST_IAT_MAX",
+      "SRC_TO_DST_IAT_AVG",
+      "SRC_TO_DST_IAT_STDDEV",
+      "DST_TO_SRC_IAT_MIN",
+      "DST_TO_SRC_IAT_MAX",
+      "DST_TO_SRC_IAT_AVG",
+      "DST_TO_SRC_IAT_STDDEV"
+    ],
+    "LOOKUP_ONLY": [
+      "FLOW_START_MILLISECONDS",
+      "FLOW_END_MILLISECONDS",
+      "IPV4_SRC_ADDR",
+      "IPV4_DST_ADDR",
+      "L4_SRC_PORT",
+      "L4_DST_PORT"
+    ],
+    "SPLIT_ONLY": [
+      "source_row_index",
+      "canonical_row_digest",
+      "artifact_member_identity",
+      "private_group_key_or_digest",
+      "split_assignment",
+      "oof_fold",
+      "unknown_rotation_membership",
+      "source_dataset_or_file_identity"
+    ],
+    "LABEL_ONLY": [
+      "Label",
+      "Attack",
+      "frozen_broad_label",
+      "class_index",
+      "known_or_heldout_role",
+      "correctness_or_recovery_outcome"
+    ],
+    "FORBIDDEN_RUNTIME": [
+      "all literal LOOKUP_ONLY fields",
+      "all SPLIT_ONLY fields other than a routing-only sample handle",
+      "all LABEL_ONLY fields",
+      "path or archive member",
+      "dataset identity",
+      "attack interval or capture/day identity",
+      "future or concurrent flow totals",
+      "operational utility target",
+      "recoverable_known flag",
+      "true_unknown flag"
+    ]
+  },
+  "evidence_families": {
+    "BASIC": {
+      "available_fields": "field_contract.MODEL_VISIBLE plus explicit missing indicators",
+      "derivation_rule": "one-to-one from the completed target row only",
+      "past_only_requirement": "no cross-row input",
+      "runtime_cost_proxy": 0,
+      "target_sample_linkage": "exact sample_id",
+      "leakage_prohibitions": [
+        "GT",
+        "source/split/group identity",
+        "raw address/port/timestamp",
+        "non-training-fitted preprocessing"
+      ]
+    },
+    "TEMPORAL": {
+      "horizons_seconds": [10, 60, 300],
+      "available_fields": [
+        "prior_source_flow_count_and_rate",
+        "prior_source_packet_count_and_rate",
+        "prior_source_byte_count_and_rate",
+        "prior_destination_flow_count",
+        "same_source_last_seen_gap_ms",
+        "bounded_burst_count_summaries",
+        "availability_and_contributor_count"
+      ],
+      "derivation_rule": "split-local contributors must satisfy contributor.FLOW_END_MILLISECONDS < target.FLOW_START_MILLISECONDS",
+      "past_only_requirement": "strict; equal-time, overlapping, future, and cross-split rows excluded",
+      "runtime_cost_proxy": 1,
+      "target_sample_linkage": "target sample_id + evidence version + horizons + input-set digest",
+      "leakage_prohibitions": [
+        "future/concurrent totals",
+        "GT or attack interval",
+        "raw endpoint/time",
+        "dataset/capture/day identity",
+        "held-out role or correctness"
+      ]
+    },
+    "RELATION": {
+      "horizons_seconds": [10, 60, 300],
+      "available_fields": [
+        "source_unique_destination_count",
+        "source_unique_destination_port_count",
+        "prior_same_source_destination_count",
+        "prior_same_source_destination_port_count",
+        "destination_prior_flow_count",
+        "destination_unique_source_count",
+        "source_bounded_neighbor_count",
+        "availability_and_contributor_count"
+      ],
+      "derivation_rule": "private raw endpoint/port lookup over split-local contributors completed strictly before target start; expose aggregates only",
+      "past_only_requirement": "strict; equal-time, overlapping, future, and cross-split rows excluded",
+      "runtime_cost_proxy": 1,
+      "target_sample_linkage": "target sample_id + evidence version + horizons + input-set digest",
+      "leakage_prohibitions": [
+        "raw IP/port/node identity",
+        "future edge",
+        "GT or attack schedule",
+        "dataset/split/rotation identity"
+      ]
+    }
+  },
+  "optional_not_b1_core": [
+    "APPLICATION",
+    "PACKET_PAYLOAD",
+    "KNOWLEDGE_RAG"
+  ],
+  "runtime_state_contract": {
+    "version": "RUNTIME_STATE_CONTRACT_V1",
+    "required": [
+      "current_evidence_card",
+      "known_prediction_summary.known_class_probabilities",
+      "known_prediction_summary.predicted_class",
+      "known_prediction_summary.max_probability",
+      "known_prediction_summary.top1_top2_margin",
+      "known_prediction_summary.entropy",
+      "current_evidence_mask",
+      "remaining_available_evidence"
+    ],
+    "optional": [
+      "bounded representation summary",
+      "opaque in-runtime embedding handle"
+    ],
+    "routing_only": [
+      "sample_handle"
+    ],
+    "prohibited": [
+      "GT label",
+      "recoverable_known flag",
+      "future Evidence",
+      "true Unknown status",
+      "source dataset/file/split identity",
+      "raw lookup fields",
+      "hidden absolute identity"
+    ]
+  },
+  "agent_action_contract": {
+    "version": "AGENT_ACTION_CONTRACT_V1",
+    "actions": {
+      "STOP_AND_CLASSIFY": {
+        "precondition": "BASIC present and valid Known distribution",
+        "effect": "emit current Known prediction",
+        "allowed_next_state": "TERMINAL_KNOWN_CLASSIFICATION",
+        "cost_proxy": 0
+      },
+      "ACQUIRE_TEMPORAL": {
+        "precondition": "TEMPORAL available, not acquired, budget permits",
+        "effect": "materialize Temporal card and recompute Known prediction",
+        "allowed_next_state": "DECISION_REQUIRED",
+        "cost_proxy": 1
+      },
+      "ACQUIRE_RELATION": {
+        "precondition": "RELATION available, not acquired, budget permits",
+        "effect": "materialize Relation card and recompute Known prediction",
+        "allowed_next_state": "DECISION_REQUIRED",
+        "cost_proxy": 1
+      },
+      "ENTER_NOVELTY_DETECTION": {
+        "precondition": "BASIC present and no further acquisition selected under availability/budget/utility semantics",
+        "effect": "submit frozen current Evidence state to independent novelty detector",
+        "allowed_next_state": "NOVELTY_DECISION_PENDING",
+        "cost_proxy": 1
+      }
+    },
+    "excluded_downstream_actions": [
+      "REQUEST_LABEL",
+      "REGISTER_NEW_CLASS",
+      "TRIGGER_TRAINING"
+    ],
+    "unknown_after_evidence_gate": true,
+    "enter_novelty_is_predict_unknown": false
+  },
+  "teacher_cache_io_contract": {
+    "version": "TEACHER_CACHE_V1_IO_SCHEMA",
+    "authorized_roles": [
+      "TEACHER_SUPERVISOR_BASELINE",
+      "OPTIONAL_POLICY_DEMONSTRATION",
+      "OPTIONAL_IMITATION_INITIALIZATION"
+    ],
+    "forbidden_roles": [
+      "CLASSIFICATION_GT",
+      "OPERATIONAL_UTILITY_GT",
+      "UNKNOWN_GT",
+      "CONTINUAL_NEW_CLASS_GT"
+    ],
+    "input_required": [
+      "schema_version",
+      "sample_id",
+      "current_evidence_card",
+      "known_prediction_summary",
+      "current_evidence_mask",
+      "available_next_evidence"
+    ],
+    "input_prohibited": [
+      "ground_truth",
+      "recoverable_known",
+      "future_full_evidence",
+      "true_unknown",
+      "oof_utility_target_or_outcome",
+      "raw_lookup_fields",
+      "dataset/file/split/rotation identity"
+    ],
+    "output": {
+      "predicted_class": "known class string or null",
+      "recommended_action": [
+        "STOP_AND_CLASSIFY",
+        "ACQUIRE_TEMPORAL",
+        "ACQUIRE_RELATION",
+        "ENTER_NOVELTY_DETECTION"
+      ],
+      "confidence": "finite number in [0,1] expressing action confidence",
+      "semantic_gap": [
+        "NONE",
+        "NEEDS_TEMPORAL",
+        "NEEDS_RELATION",
+        "NOVELTY_OR_UNRESOLVABLE",
+        "AMBIGUOUS"
+      ],
+      "short_reason": "bounded reason grounded only in visible Evidence"
+    },
+    "null_and_abstain_rules": [
+      "STOP_AND_CLASSIFY requires a valid known predicted_class and semantic_gap NONE",
+      "acquisition actions allow a tentative known predicted_class or null and require the matching available Evidence",
+      "ENTER_NOVELTY_DETECTION allows predicted_class null and never names a new class"
+    ]
+  },
+  "final_split_status": "FROZEN_PASS",
+  "cache_sample_selection_blocked_by_final_split": false,
+  "model_b_training_authorized": false,
+  "deepseek_calls_authorized": false
+}

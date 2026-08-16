@@ -2,11 +2,11 @@
 
 > 文档状态：Canonical / Authoritative
 >
-> 冻结日期：2026-08-15
+> 冻结日期：2026-08-16
 >
-> 解释顺序：本文件是最高研究语义权威；[model_b_evidence_openworld_design.md](model_b_evidence_openworld_design.md)是DEC-0025的Model B设计源；[open_world_continual_agent_design.md](open_world_continual_agent_design.md)定义系统控制与演化边界；`docs/training/near_mainline_training_protocol_v1.md`仅保留Model A历史执行合同。时间表、简版和交接不得覆盖这些权威。
+> 解释顺序：本文件是最高研究语义权威；[model_b_evidence_openworld_design.md](model_b_evidence_openworld_design.md)是DEC-0025的Model B设计源；[dataset_v4_split_protocol.md](dataset_v4_split_protocol.md)冻结DEC-0026数据合同；[open_world_continual_agent_design.md](open_world_continual_agent_design.md)定义系统控制与演化边界；`docs/training/near_mainline_training_protocol_v1.md`仅保留Model A历史执行合同。时间表、简版和交接不得覆盖这些权威。
 
-## 0. DEC-0025当前冻结方案
+## 0. DEC-0025/DEC-0026当前冻结方案
 
 > **生效规则：**本节及两份架构设计是当前主线。下方“DEC-0024及以前的历史计划正文”只保留研究演进和Model A合同，不再授权Teacher-defined Evidence State、online DeepSeek Supervisor、默认Model A warm start、Active-Evidence RLAIF或multi-source合并作为Model B必经阶段。
 
@@ -44,13 +44,15 @@ NF3-ToN官方最终processed artifact reconciliation、schema和paper/UQ catalog
 
 ### 0.3 Dataset-v4核心与标签合同
 
-Dataset-v4核心优先冻结为官方`NF3-ToN-IoT`最终processed artifact，不从raw ToN重制。候选broad taxonomy是：
+Dataset-v4核心冻结为官方`NF3-ToN-IoT`最终processed artifact，不从raw ToN重制。DEC-0026冻结`CANONICAL_TAXONOMY_V1`：
 
 ```text
 Benign, Backdoor, Credential, DDoS, DoS, Recon_Scanning, Web_Injection
 ```
 
-它是`CANDIDATE_CORE_TAXONOMY`，后续formal split、class support和multi-seed验证前不是immutable final taxonomy；不会再因类别数量主动寻找新数据集。
+七类均在正式TRAIN/VALIDATION/FINAL_TEST中获得充分支持；该taxonomy和source mapping现为immutable formal contract。`mitm/ransomware`保留provenance及label-free history资格，但不进入target taxonomy。不会再因类别数量主动寻找新数据集。
+
+正式split为`GROUPED_TEMPORAL_HASH_70_15_15_V1`（seed `20260816`）：五分钟时间块与无序endpoint pair构成private group，label-free stable hash按70/15/15分配。七类总量为TRAIN `19,858,267`、VALIDATION `3,809,983`、FINAL_TEST `3,842,026`；source/exact-duplicate/activity-group cross-split均为0。Evidence history固定为same-split且`contributor.end < target.start`的10/60/300秒窗口。Credential、Recon_Scanning、Web_Injection冻结为三套whole-class Unknown rotations。完整规则见[dataset_v4_split_protocol.md](dataset_v4_split_protocol.md)。
 
 `NF3-UNSW-NB15`、`NF3-BoT-IoT`和`NF3-CSE-CIC-IDS2018`降为`SECONDARY_EXTERNAL_DOMAIN_STRESS / REPLICATION_CANDIDATES`。已有`CROSS_SOURCE_GENERALIZATION=WEAK_AND_DOMAIN_DEPENDENT`是次级domain-stress结果，不阻塞NF3-ToN核心或Model B。CICIoT2023、raw CIC和raw ToN均为`NOT_REQUIRED_FOR_CORE`，当前不下载、不重处理。
 
@@ -111,7 +113,7 @@ continual阶段再报告Unknown Buffer purity、可选clustering的ARI/NMI、新
 | Phase | 工作 | 当前状态/Gate |
 | --- | --- | --- |
 | B0 | Model A结论与NF3-ToN feasibility | **COMPLETE / PASS_WITH_LIMITATIONS** |
-| B1 | NF3-ToN Dataset-v4 formalization | NEXT；artifact identity已冻结，formal split/taxonomy待冻结 |
+| B1 | NF3-ToN Dataset-v4 formalization | **COMPLETE / PASS**；artifact、taxonomy、split、rotations、history scope与Teacher sample manifest已冻结 |
 | B2 | Model B static foundation | fresh-vs-warm、Qwen-vs-small、Known/novelty low-cost gates |
 | B3 | Formal typed-Evidence utility | single-family、combined、second-seed/bootstrap、cost预注册 |
 | B4 | Evidence-conditioned open-world evaluation | Direct vs Always Full vs Utility-conditioned |
@@ -128,14 +130,16 @@ MODEL_A_EVIDENCE_STATUS=FAILED_FOR_TARGET_PURPOSE
 DATASET_V4_CORE=NF3-ToN-IoT
 NF3_TON_ARTIFACT_FROZEN=true
 CORE_RESEARCH_FEASIBILITY=PASS_WITH_LIMITATIONS
-CANDIDATE_CORE_TAXONOMY_STATUS=PROVISIONAL_PENDING_FORMALIZATION
+CANONICAL_TAXONOMY_V1_STATUS=FROZEN_PASS
+DATASET_V4_FINAL_SPLIT_STATUS=PASS
+TEACHER_CACHE_V1_SAMPLE_MANIFEST_READY=true
 OPERATIONAL_UTILITY_STATUS=FEASIBILITY_CLEAR_SIGNAL_FORMAL_VALIDATION_PENDING
 UNKNOWN_PROTOCOL_STATUS=DESIGNED_NOT_RUN
 CONTINUAL_EVOLUTION_STATUS=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
 DEEPSEEK_ROLE=OFFLINE_SEMANTIC_REVIEWER_AND_OPTIONAL_BASELINES
 RL_STATUS=OPTIONAL_EXTENSION
 LLM_RL_STATUS=HIGH_COST_NOT_AUTHORIZED
-CURRENT_STOP_POINT=PLAN_AND_ARCHITECTURE_REVISION_COMPLETE_NO_MODEL_B_STARTED
+CURRENT_STOP_POINT=B1_COMPLETE_NO_MODEL_B_OR_DEEPSEEK_STARTED
 ```
 
 ## DEC-0024及以前的历史计划正文（SUPERSEDED FOR CURRENT MAINLINE）
@@ -690,5 +694,6 @@ Production Session → Runtime Safe Adapter → Evidence Stage
 | 2026-08-14 | DEC-0023 | 论文主线同时强调LLM分类、Agent、RAG、Unknown与1/5/10-shot onboarding；Edge主实验后只以IoT-23独立适配作deferred外测 | 聚焦`COST_AWARE_ACTIVE_SEQUENTIAL_OBSERVATION_EVIDENCE_ACQUISITION`：保留正在训练的Edge Model A作为controlled baseline/warm start；正式增加CICIDS2017、ToN-IoT优先的multi-dataset Model B；Unknown保留，few-shot降为Future Work；mixed-domain RLAIF仅在SFT和Agent baselines稳定后执行 | TrafficLLM、ETooL、MalRAG、TrafficGPT/open-set TrafficLLM、NIDS-GPT与ICT-META已覆盖LLM traffic representation、multi-flow OOD、retrieval、open-set及few-shot适配；真正未被当前计划清晰隔离的问题是对当前session何时/按什么成本选择性获取Observation Evidence，以及该机制能否跨domain成立 | 核心问题、Model A/B顺序、dataset优先级、label/session/evidence合同与实验结构冻结；具体外部domain最终纳入、canonical K、Teacher抽样量和Model B sampling Gate由pre-model pilot冻结 | 不废弃DEC-0022数据/corpus或当前Formal SFT，不改变Qwen/Fine Head/LM Head/Supervisor/Runtime、Basic-v2、strict-past、U_final隔离；增加Compatibility Gate、canonical mapping quality、balanced replay与cross-domain evaluation；few-shot退出关键路径 |
 | 2026-08-15 | DEC-0024 | Active/Sequential Evidence是论文中心；Model A LoRA默认warm-start；DeepSeek是正式online Supervisor；Teacher sufficiency近似operational utility；Evidence-only RLAIF是后续主阶段 | 主线改为`OPEN_WORLD_CONTINUALLY_EVOLVING_LLM_TRAFFIC_AGENT`：Model B0共享representation + Family/Fine heads + post-hoc Unknown；verified feedback驱动Unknown buffer、class registration、replay adaptation与regression-gated `B_t→B_{t+1}`；Active Evidence、warm start和RL均先过cheap Gate；DeepSeek降为offline Teacher/demonstration/reviewer及optional baseline | Model A正式Macro-F1 0.998483，3,600-record Frozen-Qwen linear probe 0.981563；Basic-insufficient classification仍0.997354，但Evidence sufficiency F1与gap micro-F1均为0，532/537错误判sufficient。这否定“Teacher semantic sufficiency=operational utility”和当前LM Evidence State可作runtime controller，也削弱Edge closed-set分类的创新性 | 三Plane架构、verified-feedback/no-self-label原则、source/utility/warm-start/RL Gate及phase order冻结；最终Dataset-v4、taxonomy、Unknown方法、clustering、RL算法/weights仍PROVISIONAL | 保留Dataset-v3/Evidence-v2/Runtime/U_final隔离和Model A checkpoint；Edge降为legacy controlled baseline/optional replay；CICIDS2017/CSE-CIC-IDS2018/ToN-IoT先做小规模source preflight；Evidence Utility Gate使用OOF/cross-fitting；RL-0→RL-1，RL-2须Gate与导师确认；旧Evidence-only RLAIF降级 |
 | 2026-08-15 | DEC-0025 | DEC-0024仍把Dataset-v4核心source和Evidence utility留在preflight，并未正式操作化“recoverable Known先于Unknown” | 以官方NF3-ToN final processed artifact作为Dataset-v4核心优先项；方法收口为Evidence-conditioned open-world recognition + empirically grounded typed-Evidence acquisition + Evidence-gated continual evolution；区分Basic-sufficient Known、recoverable Known和whole-class held-out True Unknown；Operational Utility改由OOF/cross-fitted实证增益监督，Teacher只作offline semantic/解释/基线角色；controller先用deterministic/supervised utility，RL降为optional | 24,000条NF3-ToN pilot中Basic/Full OOF Macro-F1为0.924103/0.954251，2,879条recoverable Known；utility AUROC 0.955920；Evidence-conditioned novelty把recoverable-Known FURK由0.306208降至0.241611，但存在Recon/Web/Credential class-conditional边界 | artifact identity、方法问题、Evidence/Unknown先后关系、比较组、指标与phase顺序冻结；taxonomy、split、utility architecture/loss/cost、novelty算法/threshold和held-out rotations仍待低成本Gate | 其他NF3源降为secondary domain stress；raw CIC/ToN和CICIoT2023不再是core依赖；保留fresh-vs-warm、Qwen-vs-small、single-family/combined和second-seed/bootstrap Gate；不授权Model B训练、continual、RL或新下载 |
+| 2026-08-16 | DEC-0026 | DEC-0025冻结core artifact与方法，但七类仍是candidate，formal split、whole-class rotations、history scope、OOF sampling provenance和Teacher sample list均未冻结 | 冻结七类`CANONICAL_TAXONOMY_V1`；以五分钟时间块+无序endpoint pair的label-free group hash建立70/15/15 split；固定same-split strict-past 10/60/300秒history；冻结Credential/Recon_Scanning/Web_Injection whole-class rotations；以group-safe OOF/tree reference materialize既定2,000-row Teacher sample list与63-row semantic request list | 官方27,520,260行全扫、artifact SHA核验与0 invalid通过；七类19,858,267/3,809,983/3,842,026且各split全覆盖；1,816,137 duplicate copies保持0 cross-split；Teacher final-test/source/group-role/payload leakage均为0；无API/Qwen/Model B调用 | taxonomy、source ID、split seed/group、history scope、rotations和cache sample identities冻结；Model-B architecture/loss/utility/novelty仍只由后续low-cost Gate决定 | B1转为COMPLETE/PASS；tracked small manifests/report进入Git、2.08GB row manifest与request/offline truth保持Git-external；可执行预注册low-cost design Gate，但不自动授权正式Model-B训练、DeepSeek response generation、continual或RL |
 
-生效关系：DEC-0001至DEC-0024完整保留为研究演进与Model A合同。DEC-0021/0022继续约束Model A数据、Evidence与checkpoint provenance；DEC-0025替代DEC-0024中尚未确定core source、Teacher Evidence GT、Unknown-before-recovery和RL优先级的当前语义。Production identity、60秒Edge sessionization、v2 physical split、Basic/Evidence-v2安全合同、Runtime authority和U_final隔离继续有效。当前研究语义以本文件第0节、DEC-0025、`model_b_evidence_openworld_design.md`、`open_world_continual_agent_design.md`和`multi_dataset_v4_design.md`为准。
+生效关系：DEC-0001至DEC-0024完整保留为研究演进与Model A合同。DEC-0021/0022继续约束Model A数据、Evidence与checkpoint provenance；DEC-0025替代DEC-0024中尚未确定core source、Teacher Evidence GT、Unknown-before-recovery和RL优先级的当前语义；DEC-0026只冻结DEC-0025预留的Dataset-v4 taxonomy/split/rotation与sampling contracts，不改变Model-B方法。Production identity、60秒Edge sessionization、v2 physical split、Basic/Evidence-v2安全合同、Runtime authority和U_final隔离继续有效。当前研究语义以本文件第0节、DEC-0025/0026、`dataset_v4_split_protocol.md`、`model_b_evidence_openworld_design.md`、`open_world_continual_agent_design.md`和`multi_dataset_v4_design.md`为准。

@@ -197,15 +197,30 @@ def test_superseded_formal_config_remains_fail_closed(
         formal_preflight(Path("configs/training/near_sft_config_v1.yaml"))
 
 
-def test_v3_formal_config_uses_new_schema_and_bounded_state_contract() -> None:
+def test_completed_v3_model_a_config_is_preserved_but_fail_closed() -> None:
     config = yaml.safe_load(Path("configs/training/near_sft_config_v2.yaml").read_text())
-    assert config["status"] == "FROZEN_READY"
-    assert config["formal_run_authorized"] is True
+    assert config["status"] == "COMPLETED_MODEL_A_LEGACY"
+    assert config["formal_run_authorized"] is False
+    assert config["research_role"] == "LEGACY_CONTROLLED_DOMAIN_BASELINE"
+    assert config["do_not_execute_for_model_b"] is True
+    assert config["superseded_for_model_b_by"] == "DATASET_V4_B1_RUNTIME_CONTRACT_V1"
     assert config["data"]["corpus_version"] == "OBSERVABLE_SFT_CORPUS_V3"
     assert config["data"]["evidence_state_schema_version"] == "EVIDENCE_STATE_SCHEMA_V2"
     assert config["data"]["expected_unique_sessions"] == 11958
     assert config["quality_gates"]["max_states_per_session"] == 3
     assert config["schedule"]["max_sequence_length"] == 8192
+
+
+def test_completed_v3_model_a_config_rejects_relaunch(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    model_root = tmp_path / "model"
+    model_root.mkdir()
+    monkeypatch.setenv("ARTIFACT_ROOT", str(tmp_path))
+    monkeypatch.setenv("QWEN_MODEL_PATH", str(model_root))
+    with pytest.raises(RuntimeError, match="not frozen/authorized"):
+        formal_preflight(Path("configs/training/near_sft_config_v2.yaml"))
 
 
 def test_record_preflight_uses_active_class_map_and_parameterized_session_count(

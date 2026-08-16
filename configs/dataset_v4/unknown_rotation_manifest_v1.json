@@ -1,0 +1,68 @@
+{
+  "final_test_threshold_tuning": "FORBIDDEN",
+  "rotations": [
+    {
+      "final_unknown_used_for_threshold_tuning": false,
+      "known_classes": [
+        "Backdoor",
+        "Benign",
+        "DDoS",
+        "DoS",
+        "Recon_Scanning",
+        "Web_Injection"
+      ],
+      "known_classifier_train_n": 18743026,
+      "known_threshold_validation_n": 3622504,
+      "rotation_id": "UNKNOWN_ROTATION_V1_R1",
+      "status": "PASS",
+      "unknown_class": "Credential",
+      "unknown_final_evaluation_n": 292057,
+      "unknown_in_known_classifier_train_n": 0,
+      "unknown_in_known_threshold_validation_n": 0,
+      "unknown_meta_development_n": 1302720
+    },
+    {
+      "final_unknown_used_for_threshold_tuning": false,
+      "known_classes": [
+        "Backdoor",
+        "Benign",
+        "Credential",
+        "DDoS",
+        "DoS",
+        "Web_Injection"
+      ],
+      "known_classifier_train_n": 18846654,
+      "known_threshold_validation_n": 3635562,
+      "rotation_id": "UNKNOWN_ROTATION_V1_R2",
+      "status": "PASS",
+      "unknown_class": "Recon_Scanning",
+      "unknown_final_evaluation_n": 172943,
+      "unknown_in_known_classifier_train_n": 0,
+      "unknown_in_known_threshold_validation_n": 0,
+      "unknown_meta_development_n": 1186034
+    },
+    {
+      "final_unknown_used_for_threshold_tuning": false,
+      "known_classes": [
+        "Backdoor",
+        "Benign",
+        "Credential",
+        "DDoS",
+        "DoS",
+        "Recon_Scanning"
+      ],
+      "known_classifier_train_n": 17649691,
+      "known_threshold_validation_n": 3339616,
+      "rotation_id": "UNKNOWN_ROTATION_V1_R3",
+      "status": "PASS",
+      "unknown_class": "Web_Injection",
+      "unknown_final_evaluation_n": 537269,
+      "unknown_in_known_classifier_train_n": 0,
+      "unknown_in_known_threshold_validation_n": 0,
+      "unknown_meta_development_n": 2678943
+    }
+  ],
+  "schema_version": "UNKNOWN_ROTATION_MANIFEST_V1",
+  "status": "PASS",
+  "whole_class_heldout": true
+}

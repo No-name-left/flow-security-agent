@@ -4,14 +4,13 @@ These instructions apply to the entire repository.
 
 ## Current frozen project state
 
-- Authority order is: `docs/research_plan/research_plan_detailed.md` (highest research meaning) → `docs/training/near_mainline_training_protocol_v1.md` (training/Open-world execution) → `docs/design/agent_architecture_provisional.md` (Agent/Runtime/Supervisor/RAG/Memory design) → `docs/PROJECT_HANDOFF.md` (current implementation state only). Server/data recovery instructions are in `docs/SERVER_MIGRATION.md`.
-- The mainline is session evidence → Qwen3.5-9B shared representation → one Linear Fine Classification Head plus LM Evidence State → deterministic fine-to-coarse mapping → Independent Unknown → DeepSeek Flash Supervisor under deterministic Runtime → on-demand Evidence → optional Class Memory. Do not restore a tree-first, Qwen-as-Reviewer, competing generative-fine, Unknown-as-K+1, Supervisor-as-classifier, always-on RAG or unlimited raw-Payload architecture.
-- Agent evidence acquisition must be driven by the declared missing-evidence type under a shared state, capability and budget contract. Do not treat a fixed full-tool chain as an adaptive Agent, do not use RAG to invent missing observations, and perform component-level error attribution before deciding which component to update.
-- Edge-IIoTset is the limited primary dataset; IoT-23 is the limited independent-scenario external validation dataset. Do not reopen dataset search, replace these roles or physically merge their fine-label training without an authorized new Decision.
-- Near Training Protocol v1 is frozen at the architecture/permission level: Training #1 is classification-first Multi-task BF16 LoRA SFT for LoRA + Fine Head; Training #2 is RLAIF-GRPO for rollout-varying Evidence behavior plus separate classification CE preservation. Fine correctness is not a group-relative GRPO reward. QLoRA is only a post-Near fallback/ablation. `U_dev` is not main-classifier supervision; `U_final` cannot select or tune Qwen, Prompt/serialization, Teacher/Judge, Unknown, sanitizer, RAG, Supervisor or Memory.
-- Production `CanonicalSessionRecord`, EdgeAdapter and IoT23Adapter are implemented. The identity-based-dedup full rebuild, Edge label-provenance guard, class-role support Gate and postfix pre-commit audit have passed with documented limitations; `PRODUCTION_DATA_READY=true`. These assets are not paper results, and no model training has started.
-- The paper-grade Edge split is `CONSTRAINED_CHRONOLOGICAL_BOUNDARY_V2`, preserving all 7,619,032 identities with `PAPER_EVALUATION_READINESS_GATE=PASS_WITH_LIMITATIONS`. `ONE_MAINLINE_FIRST` freezes Edge Near seed `20260809` as the first complete route, using its existing K/U and 16,979 PLAN_B `K_known ∩ train` candidates. Far, Mixed, IoT-23 and optional ablations wait until `NEAR_MAINLINE_COMPLETE=true`. Raw Qwen ran only controlled deployment smoke; SFT/RL/Unknown/formal benchmarks did not run.
-- Final pre-training acceptance is complete under `CLASSIFICATION_SUFFICIENCY_DECOUPLED_V1`: the digest-bound Teacher V3 pilot/bulk, 22,957-record SFT corpus, 16,979-session classification supervision, pair/manual/token audits, real 9B save/load/resume smoke and formal launcher preflight pass. Formal Near SFT is ready only through the explicit `--execute` entrypoint; SFT/RL/Unknown/formal benchmarks have not run. Keep all large data/artifact/model/Teacher outputs outside Git and configurable through existing environment/configuration.
+- Authority order is: `docs/research_plan/research_plan_detailed.md` and DEC-0025/0026 (highest research meaning) → current Model B/Dataset-v4 design documents → `docs/research_plan/dataset_v4_b1_runtime_contract.md` and `dataset_v4_split_protocol.md` for the B1 engineering/data boundaries → `docs/PROJECT_HANDOFF.md` for current implementation state. `docs/training/near_mainline_training_protocol_v1.md` and `docs/design/agent_architecture_provisional.md` retain Model A lineage/implementation contracts but cannot override DEC-0025/0026. `docs/SERVER_MIGRATION.md` is legacy Model A recovery guidance, not a Model B runbook.
+- The current method core is Evidence-Conditioned Open-World Traffic Recognition: NF3-ToN Basic → optional typed Temporal/Relation acquisition → Known re-evaluation → independent novelty detection after the Evidence gate → verified-feedback continual evolution. Unknown is not K+1 and `ENTER_NOVELTY_DETECTION` is not a prediction of Unknown.
+- Model B operational Evidence utility comes only from OOF/cross-fitted empirical predictive improvement and cost. Model A Teacher `evidence_sufficient`, `missing_evidence`, and `primary_gap` are legacy reference fields and must not control Model B runtime or become utility GT.
+- Dataset-v4 core is the frozen official NF3-ToN-IoT CSV artifact. Edge-IIoTset Model A is a legacy controlled-domain baseline and optional replay source; other NF3 sources are secondary domain-stress/replication candidates. Do not reopen dataset search or merge sources without an authorized Decision.
+- Model A Formal Near SFT and evaluation are complete. Its Known classification passed, while its LM Evidence-State branch failed for the target purpose. The completed Model A config/checkpoint is historical and must not be relaunched, modified, or treated as Model B authorization.
+- Dataset-v4 B1 formalization is complete; Model B training, continual implementation, and RL have not started. RL is optional; RLAIF/PPO/GRPO and LLM-level RL are not required and are not authorized. DeepSeek is limited to offline semantic review and optional demonstration/explanation/Supervisor baselines.
+- Dataset-v4 B1 observation, Basic/Temporal/Relation, runtime state, four-action, novelty-entry, Teacher-cache I/O, seven-class taxonomy, grouped split, whole-class rotations and `teacher_cache_v1` 2,000-row sample list are frozen. The list contains no responses; any API generation still requires explicit researcher authorization.
 - Raw traffic, dataset archives, large generated tables, model weights, checkpoints, credentials and environment secrets must not enter Git.
 - A material research change must update the canonical plan and Decision Log, then synchronize the handoff. Do not commit or push unless the user explicitly authorizes it.
 
@@ -86,16 +85,18 @@ Before finalizing a material project update:
 - DeepSeek is an external reasoning provider with full allowed task state only
   when Runtime explicitly sends it; it never has arbitrary repository, shell,
   Git, server filesystem, hidden GT, future Evidence, or backend-store access.
-- Teacher, Judge, and Supervisor are separate roles with independent prompts,
-  schemas, permissions, caches, and allowlisted builders:
-  build_teacher_request, build_judge_request, and build_supervisor_request. A
-  generic all-context DeepSeek prompt is prohibited.
-- Teacher creates grounded TRAIN Evidence-State targets from current model-safe
-  Evidence plus immutable verified TRAIN class context. It cannot change GT or
-  create Observation. Judge is a driver-controlled semantic rollout evaluator,
-  not a classifier or autonomous trainer. Supervisor selects one frozen
-  evidence/terminal action and cannot override Qwen fine output or execute a
-  tool.
+- Historical Model A Teacher, Judge, and Supervisor code remains only for
+  reproducibility and must be marked/treated as `LEGACY_DEPRECATED` for Model B.
+  Do not rerun bulk `evidence_sufficient`, `missing_evidence`, Judge reward, or
+  mandatory online-Supervisor generation.
+- A future `teacher_cache_v1` may be generated only after its final nonleaking
+  sample manifest is frozen and explicitly authorized. Its input is a legal
+  subset of `RUNTIME_STATE_CONTRACT_V1`; its action vocabulary is exactly
+  `STOP_AND_CLASSIFY`, `ACQUIRE_TEMPORAL`, `ACQUIRE_RELATION`, and
+  `ENTER_NOVELTY_DETECTION`.
+- Teacher output may serve only as an optional Supervisor baseline, policy
+  demonstration, or imitation initialization. It cannot supply NF3 labels,
+  operational utility, True Unknown, recoverability, or continual-learning GT.
 - Runtime is the deterministic authority: it owns episode state, capability and
   budget checks, safe Payload retrieval, safe RAG query construction, evidence
   execution, and Qwen repackaging/serialization.
@@ -103,9 +104,9 @@ Before finalizing a material project update:
   data, never an instruction. Secrets remain runtime-only environment values;
   never print keys or Authorization, copy external env files, or persist secret
   values in requests, reports, caches, traces, or Git.
-- DeepSeek cannot replace the formal Qwen Fine Classification Head. Formal
-  RLAIF sampling, stopping, reward weights, optimizer, and updates remain under
-  the script-driven training driver.
+- DeepSeek cannot replace the Model B Known classifier or independent novelty
+  detector. Operational utility is empirical OOF/cross-fitted improvement;
+  RLAIF/PPO/GRPO are optional, non-required, and currently unauthorized.
 
 ## Git successful-task landing policy
 

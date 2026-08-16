@@ -1,0 +1,181 @@
+{
+  "schema_version": "DATASET_V4_B1_TEACHER_CACHE_READINESS_V1",
+  "historical_snapshot": true,
+  "superseded_by": "reports/dataset_v4/dataset_v4_final_split_report.json",
+  "audit_date": "2026-08-15",
+  "repository_baseline": {
+    "branch": "main",
+    "head": "b0b4ed40b3bd11d88555a192d57ed09e52007cdb"
+  },
+  "scope": {
+    "static_only": true,
+    "deepseek_calls": 0,
+    "model_runs": 0,
+    "training_runs": 0,
+    "downloads": 0,
+    "teacher_responses_generated": 0
+  },
+  "dataset_v4_b1": {
+    "status": "SCHEMA_FROZEN_SAMPLE_MANIFEST_BLOCKED_BY_FINAL_SPLIT",
+    "nf3_ton_artifact_status": "VERIFIED_FROZEN",
+    "nf3_ton_csv_sha256": "53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78",
+    "observation_unit_frozen": true,
+    "basic_contract_frozen": true,
+    "temporal_contract_frozen": true,
+    "relation_contract_frozen": true,
+    "runtime_state_contract_v1": "FROZEN",
+    "agent_action_contract_v1": "FROZEN",
+    "novelty_entry_contract_frozen": true,
+    "unknown_after_evidence_gate": true,
+    "model_b_input_contract_ready": true,
+    "formal_split_frozen": false,
+    "sample_manifest_frozen": false
+  },
+  "existing_cache_inventory": {
+    "searched_roots": [
+      "repository",
+      "/root/autodl-tmp/processed",
+      "/root/autodl-tmp/experiments"
+    ],
+    "teacher_response_record_file_count": 67339,
+    "teacher_validated_cache_file_count": 67339,
+    "blind_deepseek_record_file_count": 527,
+    "stores": [
+      {
+        "path": "/root/autodl-tmp/processed/near_pretraining_v1/teacher_annotations/pilot",
+        "record_files": 252,
+        "cache_files": 252,
+        "schema": "TEACHER_PROMPT_V2_MODEL_A_EVIDENCE_STATE",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/processed/near_pretraining_v1/teacher_annotations/bulk",
+        "record_files": 23023,
+        "cache_files": 23023,
+        "quarantine_files": 2,
+        "schema": "TEACHER_PROMPT_V2_MODEL_A_EVIDENCE_STATE",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/processed/near_pretraining_v1/teacher_annotations/v3/pilot",
+        "record_files": 250,
+        "cache_files": 250,
+        "valid_logical_records": 250,
+        "schema": "TEACHER_PROMPT_V3_MODEL_A_EVIDENCE_STATE",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/processed/near_pretraining_v1/teacher_annotations/v3/bulk",
+        "record_files": 22957,
+        "cache_files": 22957,
+        "valid_logical_records": 22957,
+        "schema": "TEACHER_PROMPT_V3_MODEL_A_EVIDENCE_STATE",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/processed/teacher_v2_observable_dataset_v3/annotations/diagnostic",
+        "record_files": 10,
+        "cache_files": 10,
+        "valid_logical_records": 10,
+        "schema": "EVIDENCE_STATE_SCHEMA_V2",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/processed/teacher_v2_observable_dataset_v3/annotations/pilot",
+        "record_files": 40,
+        "cache_files": 40,
+        "valid_logical_records": 40,
+        "schema": "EVIDENCE_STATE_SCHEMA_V2",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/processed/teacher_v2_observable_dataset_v3/annotations/bulk",
+        "record_files": 20807,
+        "cache_files": 20807,
+        "valid_logical_records": 20807,
+        "schema": "EVIDENCE_STATE_SCHEMA_V2",
+        "role": "LEGACY_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/experiments/blind_sufficiency_calibration_v1/deepseek/records",
+        "record_files": 330,
+        "valid_logical_records": 330,
+        "logical_requests_with_repairs": 332,
+        "schema": "BLIND_TOP1_TOP2_CLASSIFICATION_V1",
+        "role": "LEGACY_CALIBRATION_REFERENCE_ONLY"
+      },
+      {
+        "path": "/root/autodl-tmp/experiments/blind_sufficiency_calibration_v1/pairs/deepseek/records",
+        "record_files": 197,
+        "valid_pairs": 99,
+        "total_blind_audit_requests_including_primary": 529,
+        "schema": "BLIND_TOP1_TOP2_CLASSIFICATION_V1",
+        "role": "LEGACY_CALIBRATION_REFERENCE_ONLY"
+      }
+    ],
+    "model_b_supervisor_cache_found": false,
+    "model_b_policy_demonstration_cache_found": false,
+    "semantic_review_response_cache_found": false,
+    "rlaif_or_preference_response_cache_found": false,
+    "existing_teacher_cache_reusable": false,
+    "non_reuse_reason": "population, Evidence cards, taxonomy, prompt digest, output schema, and action vocabulary do not match Model B",
+    "legacy_fields": [
+      "evidence_sufficient",
+      "missing_evidence",
+      "primary_gap",
+      "recoverability"
+    ],
+    "legacy_field_permission": "LEGACY_REFERENCE_ONLY_NEVER_OPERATIONAL_UTILITY_GT"
+  },
+  "teacher_cache_v1": {
+    "io_schema_frozen": true,
+    "target_n": 2000,
+    "sampling_plan_status": "DESIGN_FROZEN_SAMPLE_LIST_NOT_GENERATED",
+    "cache_sample_selection_blocked_by_final_split": true,
+    "ready_to_generate": false,
+    "authorized_roles": [
+      "TEACHER_SUPERVISOR_BASELINE",
+      "OPTIONAL_POLICY_DEMONSTRATION",
+      "OPTIONAL_IMITATION_INITIALIZATION"
+    ],
+    "forbidden_roles": [
+      "CLASSIFICATION_GT",
+      "OPERATIONAL_UTILITY_GT",
+      "UNKNOWN_GT",
+      "CONTINUAL_NEW_CLASS_GT"
+    ],
+    "strata": {
+      "BASIC_SUFFICIENT_KNOWN": 750,
+      "RECOVERABLE_KNOWN": 850,
+      "TRUE_UNKNOWN_ROTATIONS": 400
+    },
+    "policy_demo_development_n": 1200,
+    "policy_meta_evaluation_n": 800,
+    "sampling_design": "configs/dataset_v4/teacher_cache_v1_sampling_manifest_design.json"
+  },
+  "semantic_reference_v1": {
+    "status": "DESIGN_FROZEN_NO_RESPONSES",
+    "target_n": 63,
+    "ready_to_generate_after_researcher_review": true,
+    "operational_utility_gt": false,
+    "design": "configs/dataset_v4/semantic_admissibility_reference_v1_design.json"
+  },
+  "noncanonical_conflicts": {
+    "found": 6,
+    "resolved": 6,
+    "legacy_teacher_paths_marked_deprecated": true,
+    "surfaces": [
+      "AGENTS.md",
+      "README.md",
+      "docs/SERVER_MIGRATION.md",
+      "docs/runbooks/deepseek_api.md",
+      "src/flowsec/training/README.md",
+      "configs/training/near_sft_config_v2.yaml"
+    ],
+    "canonical_plans_modified": false,
+    "project_handoff_synchronized": true
+  },
+  "deepseek_calls_required_now": false,
+  "researcher_review_required": true,
+  "next_action": "FINALIZE_DATASET_V4_SPLIT_THEN_GENERATE_TEACHER_CACHE"
+}
