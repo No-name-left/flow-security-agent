@@ -28,7 +28,9 @@ The source map is `Backdoor→Backdoor`, `Benign→Benign`,
 `mitm` and 3,971 `ransomware` rows retain source provenance and may contribute
 label-free legal history, but they are not targets. In the manifest field
 `unknown_canonical_label_n=9,984`, “unknown” means intentionally outside this
-canonical target map, not a Model-B True-Unknown prediction.
+canonical target map, not a Model-B True-Unknown prediction. Current documents
+refer to this quantity as `OUT_OF_CORE_FINE_LABEL_POOL_N=9,984`; the historical
+manifest key is retained only for checksum compatibility.
 
 ## 2. Immutable row identity
 
@@ -87,6 +89,11 @@ The full scan covers 27,520,260 source rows. Invalid critical rows are zero.
 There are 1,816,137 duplicate copies beyond the first member across 480,040
 exact duplicate groups; because identical rows share the same temporal/endpoint
 group, cross-split duplicate groups are zero.
+
+These copies are not identity leakage, but may affect optimization and metric
+weighting. [experiment_protocol_v1.md](experiment_protocol_v1.md) therefore
+requires duplicate-aware derived TRAIN/evaluation views without changing this
+master split.
 
 `EVIDENCE_HISTORY_SCOPE_V1` is
 `WITHIN_SPLIT_STRICT_END_BEFORE_TARGET_START_V1`. Temporal/Relation lookup may

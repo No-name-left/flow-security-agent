@@ -2,23 +2,24 @@
 
 > 最近核验：2026-08-16。
 >
-> 当前长期主线：`main`；DEC-0025已接受，计划修订任务不push。
+> 当前长期主线：`main`；本次文档冻结基于`a3379b290df99fd717248a7c86b9ecce2a047b11`，DEC-0025/0026/0027已接受，不push。
 >
-> 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization、bounded Evidence/open-world feasibility均通过但后者有class-conditional limitations；Model B、continual与RL均未启动。
+> 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization与Experiment Protocol v1已冻结；bounded Evidence/open-world feasibility通过但有class-conditional limitations；Model B、continual、fast RL与Teacher response generation均未启动。
 
 ## 1. 权威链
 
 研究语义冲突时依次服从：
 
-1. [research_plan_detailed.md](research_plan/research_plan_detailed.md)及DEC-0025/0026；
-2. [model_b_evidence_openworld_design.md](research_plan/model_b_evidence_openworld_design.md)：Model B representation、utility、novelty与Gate；
-3. [open_world_continual_agent_design.md](research_plan/open_world_continual_agent_design.md)：Controller、Runtime与continual边界；
-4. [multi_dataset_v4_design.md](research_plan/multi_dataset_v4_design.md)：NF3-ToN Dataset-v4 data contract；
-5. [dataset_v4_b1_runtime_contract.md](research_plan/dataset_v4_b1_runtime_contract.md)：B1 observation/Evidence/runtime/action/Teacher-cache工程合同；
-6. [dataset_v4_split_protocol.md](research_plan/dataset_v4_split_protocol.md)：冻结taxonomy/identity/split/rotation/history/sample population；
-7. [near_mainline_training_protocol_v1.md](training/near_mainline_training_protocol_v1.md)：Model A历史执行/lineage合同；
-8. [agent_architecture_provisional.md](design/agent_architecture_provisional.md)：Runtime implementation boundary；
-9. 本文件：当前事实与下一动作。
+1. [research_plan_detailed.md](research_plan/research_plan_detailed.md)及DEC-0025/0026/0027；
+2. [experiment_protocol_v1.md](research_plan/experiment_protocol_v1.md)：formal experiments、derived-view isolation、baselines、metrics与统计；
+3. [model_b_evidence_openworld_design.md](research_plan/model_b_evidence_openworld_design.md)：Model B representation、utility、novelty与Gate；
+4. [open_world_continual_agent_design.md](research_plan/open_world_continual_agent_design.md)：Controller、Runtime与continual边界；
+5. [multi_dataset_v4_design.md](research_plan/multi_dataset_v4_design.md)：NF3-ToN Dataset-v4 data contract；
+6. [dataset_v4_b1_runtime_contract.md](research_plan/dataset_v4_b1_runtime_contract.md)：B1 observation/Evidence/runtime/action/Teacher-cache工程合同；
+7. [dataset_v4_split_protocol.md](research_plan/dataset_v4_split_protocol.md)：冻结taxonomy/identity/split/rotation/history/sample population；
+8. [near_mainline_training_protocol_v1.md](training/near_mainline_training_protocol_v1.md)：Model A历史执行/lineage合同；
+9. [agent_architecture_provisional.md](design/agent_architecture_provisional.md)：Runtime implementation boundary；
+10. 本文件：当前事实与下一动作。
 
 [task_definition_v2.md](research_plan/task_definition_v2.md)只定义Model A Dataset-v3/Evidence-v2/Teacher-v2 provenance，不定义Model B operational utility。
 
@@ -58,7 +59,7 @@ Evidence-Conditioned Open-World Traffic Recognition
 
 Model B候选使用Qwen shared representation + Fine Head，并允许small Utility Head或external small selector。Unknown不是K+1类，第一轮比较MSP、margin、energy和prototype distance。Qwen价值必须用small/structured/Frozen-Qwen baselines检验。
 
-Controller动作是`STOP_AND_CLASSIFY`、`ACQUIRE_EVIDENCE(E_j)`、`ENTER_NOVELTY_DETECTION`、`BUFFER_UNKNOWN`、`REQUEST_LABEL`和`TRIGGER_CONTINUAL_ADAPTATION`。首版为deterministic/supervised utility policy；RL只是optional extension，LLM RL未授权。
+online fast policy的冻结四动作是`STOP_AND_CLASSIFY`、`ACQUIRE_TEMPORAL`、`ACQUIRE_RELATION`和`ENTER_NOVELTY_DETECTION`；后者只是进入独立novelty detector。buffer/query/register/adapt属于slow continual control。heuristic/supervised utility是强基线，Double DQN是planned low-cost Gate；LLM-level RL不进入core。
 
 ## 4. NF3-ToN权威artifact与可行性
 
@@ -67,6 +68,7 @@ NF3_TON_ARTIFACT_RECONCILIATION=PASS
 NF3_TON_OFFICIAL_FINAL_ARTIFACT=true
 NF3_TON_RAW_REPROCESSING_REQUIRED=false
 NF3_TON_CSV_SHA256=53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78
+DATASET_V4_ROW_MANIFEST_SHA256=faa5220beae65f06591e7ea399c59092985135b81860fcd2388f20cadaa7c095
 CORE_RESEARCH_FEASIBILITY=PASS_WITH_LIMITATIONS
 ```
 
@@ -93,6 +95,8 @@ CORE_RESEARCH_FEASIBILITY=PASS_WITH_LIMITATIONS
 ## 5. Dataset-v4与source角色
 
 `NF3-ToN-IoT`是core。artifact identity、B1 observation、Basic/Temporal/Relation、runtime state、四动作、novelty-entry、Teacher-cache I/O、七类taxonomy、grouped split、whole-class Unknown rotations、strict-past history与actual cache sample list均已冻结。七类TRAIN/VALIDATION/FINAL_TEST为`19,858,267/3,809,983/3,842,026`；source/exact-duplicate/activity-group cross-split均为0。final Evidence cost仍由后续Gate冻结。
+
+master split不可改写。数据中有`1,816,137`个duplicate copies（480,040 groups）；它们不是cross-split leakage，但B2前必须派生exact-group representative与duplicate-group-weighted训练视图，primary evaluation同时给duplicate-balanced/deduplicated与raw-prevalence sensitivity。历史`UNKNOWN_CANONICAL_LABEL_N=9984`现只称`OUT_OF_CORE_FINE_LABEL_POOL_N=9984`，绝非True Unknown。
 
 现有Model A Teacher V3/v2与blind-calibration外部缓存已经核验，但schema/population/action vocabulary均不匹配Model B，仅为`LEGACY_REFERENCE`。`teacher_cache_v1`的2,000条sample list与63条semantic request list已按冻结design materialize并通过FINAL_TEST、source/group-role和payload leakage Gate；仍未调用DeepSeek、未生成response。详见[dataset_v4_final_split_report.md](../reports/dataset_v4/dataset_v4_final_split_report.md)。
 
@@ -123,7 +127,25 @@ Residual Unknown → Unknown Buffer → optional clustering
 
 self-prediction、confidence、cluster tightness和Memory写入不是GT或模型进化。当前`CONTINUAL_FEASIBILITY_STATUS=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING`。
 
-## 8. 执行阶段与当前停点
+## 8. Formal Experiment Protocol v1
+
+五个主实验固定为：
+
+1. Model B closed-set/representation：LightGBM、小神经编码器、Frozen-Qwen linear、fresh LoRA、可选Model-A warm start；
+2. Typed Evidence utility：Basic/Temporal/Relation/Full，比较always/random/confidence/supervised/oracle；
+3. Evidence-conditioned open world：三套whole-class rotations、simple novelty、FURK/Unknown matched比较；
+4. Evidence-gated continual：至少三种两类顺序，direct与gated buffer使用相同adaptation/replay；
+5. Fast Agent-policy RL：confidence、supervised utility、Teacher（如有）、Double DQN、可选BC→DQN。
+
+辅助实验是family-level missing-Evidence robustness与secondary external-domain stress。正式模型至少3 seeds；RL/continual至少3 stream/order seeds，资源允许用5；bootstrap单位是private group/temporal block，禁止naive row bootstrap。FINAL_TEST只作sealed static/continual final；如需拆分，必须在开封前freeze互斥group-aware subviews。
+
+```text
+EXPERIMENT_PROTOCOL_STATUS=FROZEN_DESIGN_NOT_RUN
+RL_STATUS=PLANNED_LOW_COST_AGENT_POLICY_COMPONENT_PENDING_FORMAL_GATE
+LLM_LEVEL_RL=NOT_PLANNED_FOR_CORE
+```
+
+## 9. 执行阶段与当前停点
 
 ```text
 B0_MODEL_A_AND_FEASIBILITY=COMPLETE_PASS_WITH_LIMITATIONS
@@ -131,20 +153,37 @@ B1_DATASET_V4_CONTRACT=FROZEN_PASS_SAMPLE_MANIFEST_READY
 B2_MODEL_B_STATIC_FOUNDATION=NOT_STARTED
 B3_TYPED_EVIDENCE_UTILITY=NOT_STARTED
 B4_EVIDENCE_CONDITIONED_OPEN_WORLD=NOT_STARTED
-B5_CONTINUAL_EVOLUTION=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
-B6_RL=OPTIONAL_NOT_AUTHORIZED
+B5_FAST_AGENT_POLICY_RL=PLANNED_PENDING_FORMAL_GATE_NOT_STARTED
+B6_CONTINUAL_BASELINES=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
+B7_EVIDENCE_GATED_CONTINUAL=NOT_STARTED
+B8_PLUS_CONDITIONAL_EXTENSIONS=NOT_STARTED
 ```
 
 B2前必须保留fresh-vs-Model-A warm-start、Qwen-vs-small；B3必须保留Basic/Temporal/Relation/combined与second-seed/bootstrap；B4必须比较Direct novelty、Always acquire Full和Utility-conditioned。
 
-## 9. 下一动作与禁止项
+## 10. Teacher状态、下一动作与禁止项
 
 ```text
 NEXT_ACTION=GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE
 ```
 
-该API动作尚未启动，必须由researcher另行显式授权。Model-B低成本design Gates已解除B1前置阻塞但本轮没有启动。继续禁止：未经授权的Model B/Qwen/DeepSeek运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed final Unknown或push。
+`teacher_cache_v1`的2,000 requests与semantic reference的63 requests均ready，但responses均未生成。该API动作必须由researcher另行显式授权；旧Model A Teacher caches不能作为Model B GT或直接复用。若cache已由外部授权任务生成，则下一动作切换为`PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`。
 
-## 10. Git与环境
+继续禁止：未经授权的Model B/Qwen/DeepSeek运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed FINAL_TEST或push。
 
-Large data、PCAP、Parquet、Teacher cache、features、checkpoints、model weights和logs保持Git-external。Qwen环境为`/root/autodl-tmp/conda/qwen35-runtime`；Production/data环境为`/root/autodl-tmp/conda/flow-data`。任何secret不得进入repo、manifest或日志。
+### DO NOT REOPEN
+
+- NF3-ToN core source、artifact identity、七类taxonomy、source mapping；
+- master split、source-row identity、10/60/300 strict-past history、三套Unknown rotations；
+- “Known / recoverable Known / True Unknown”及Unknown-after-Evidence顺序；
+- Model A checkpoint与其Evidence-State失败结论；
+- Teacher不提供classification/utility/Unknown/continual GT；
+- no self-label、verified feedback before registration、supervised adaptation+replay、release/rollback；
+- CICIoT/raw CIC/raw ToN不是core依赖，不因类别数量重启dataset search；
+- LLM-level PPO/GRPO/RLAIF不进入core。
+
+## 11. Git、环境与入口
+
+Long-term branch是`main`；本次冻结从`a3379b290df99fd717248a7c86b9ecce2a047b11`出发，landing policy是local ff-only、clean、no push。未来Agent先运行`git branch --show-current && git rev-parse HEAD && git status --short`，不要凭本文猜最终commit hash。
+
+Large data、PCAP、Parquet、Teacher response cache、features、RL episodes、continual streams、checkpoints、model weights和logs保持Git-external；Git只保存小manifest、hash、protocol和report。Qwen环境为`/root/autodl-tmp/conda/qwen35-runtime`；Production/data环境为`/root/autodl-tmp/conda/flow-data`。任何secret不得进入repo、manifest或日志。

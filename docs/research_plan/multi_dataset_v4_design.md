@@ -1,6 +1,6 @@
 # Dataset-v4 / NF3-ToN Core Design
 
-> 状态：DEC-0025/DEC-0026 frozen core data design
+> 状态：DEC-0025/DEC-0026 frozen core data + DEC-0027 derived-view rules
 >
 > 日期：2026-08-16
 >
@@ -95,6 +95,8 @@ B1已冻结`GROUPED_TEMPORAL_HASH_70_15_15_V1`（seed `20260816`）：五分钟�
 - threshold development与final Unknown隔离。
 
 artifact级split保留原始行身份与官方label，不需要raw PCAP重建。
+
+master split保持immutable。`1,816,137`个duplicate copies已因grouping实现0 cross-split，但正式训练前仍须按[experiment_protocol_v1.md](experiment_protocol_v1.md)派生exact-group representative与duplicate-group-weighted TRAIN view；primary evaluation同时给duplicate-balanced/deduplicated与raw-prevalence sensitivity。不得为此修改master assignment。
 
 ## 7. Open-world rotations
 

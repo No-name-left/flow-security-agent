@@ -50,7 +50,7 @@ The following current components remain future work:
 - Model B low-cost fresh-vs-warm and Qwen-vs-small architecture Gates;
 - formal Basic/Temporal/Relation single-family and combined utility experiments with second-seed/bootstrap checks;
 - independent novelty candidates, evidence-conditioned open-world evaluation, and verified-feedback continual adaptation;
-- optional small-policy RL only if deterministic/supervised control leaves repeatable headroom. LLM RLAIF/PPO/GRPO is not authorized.
+- a gated, low-cost fast Agent-policy comparison (heuristic/supervised utility vs Double DQN); it has not started and may remain a negative result. LLM RLAIF/PPO/GRPO is not part of the core plan.
 
 The remote bootstrap, Production Data Freeze, Edge split/Runtime assets, Dataset-v3/Evidence-v2, and Model A checkpoint remain reusable historical foundations. Model A Teacher V3/v2 annotations and Evidence-State fields are provenance/reference only: they are not Model B labels, operational utility, or Unknown truth. DeepSeek is limited to offline semantic review and optional policy-demonstration/explanation/Supervisor baselines.
 
@@ -61,14 +61,15 @@ The unique long-term code branch is `main`. Model A training/evaluation and Data
 The canonical research plan is stored in:
 
 - [Detailed research and implementation specification](docs/research_plan/research_plan_detailed.md) — highest research authority;
+- [Formal Experiment Protocol v1](docs/research_plan/experiment_protocol_v1.md) — frozen experiment matrix, derived-view isolation, baselines, metrics and statistical rules;
 - [Model B Evidence/open-world design](docs/research_plan/model_b_evidence_openworld_design.md) and [continual Agent design](docs/research_plan/open_world_continual_agent_design.md) — current Model B method/control boundary;
 - [Dataset-v4 B1 runtime contract](docs/research_plan/dataset_v4_b1_runtime_contract.md) — current observation/Evidence/state/action engineering boundary;
 - [Dataset-v4 split protocol](docs/research_plan/dataset_v4_split_protocol.md) — frozen taxonomy, identity, split, rotations, history scope and Teacher sampling population;
-- [Near-first training protocol](docs/training/near_mainline_training_protocol_v1.md) and [provisional Agent architecture](docs/design/agent_architecture_provisional.md) — Model A lineage and reusable implementation constraints only where DEC-0025 does not supersede them;
+- [Near-first training protocol](docs/training/near_mainline_training_protocol_v1.md) and [provisional Agent architecture](docs/design/agent_architecture_provisional.md) — Model A lineage and reusable implementation constraints only where DEC-0025/0026/0027 do not supersede them;
 - [Timeline and stage-control view](docs/research_plan/research_plan_and_timeline.md);
 - [Brief research overview](docs/research_plan/research_plan_brief.md).
 
-Developers and agents must read the canonical specification and current Model B/Dataset-v4 contracts before research or runtime changes. Read the Near protocol and provisional Agent document when Model A lineage or reusable implementation details matter; neither can override DEC-0025. PROJECT_HANDOFF records current state but cannot override these authorities.
+Developers and agents must read the canonical specification, Experiment Protocol and current Model B/Dataset-v4 contracts before research or runtime changes. Read the Near protocol and provisional Agent document when Model A lineage or reusable implementation details matter; neither can override DEC-0025/0026/0027. PROJECT_HANDOFF records current state but cannot override these authorities.
 
 If a code change intentionally deviates from the plan and changes research meaning, comparability or conclusions, the same PR or commit must update the detailed specification and record the previous decision, new decision, reason, affected data/stages/metrics and a `Confirmed`, `Provisional` or `Experimental` status. Update the timeline or brief when their scope is affected.
 

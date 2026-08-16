@@ -1,10 +1,10 @@
 # Agent / Runtime 暂定架构与实施约束
 
-> Status: **DEC-0025 IMPLEMENTATION BOUNDARY / PROVISIONAL MODEL B DESIGN**
+> Status: **DEC-0025 IMPLEMENTATION BOUNDARY / DEC-0027 EXPERIMENT OVERRIDE**
 >
 > Updated: 2026-08-15
 >
-> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest; the [Model B design](../research_plan/model_b_evidence_openworld_design.md) defines representation/utility/novelty, and the [open-world continual design](../research_plan/open_world_continual_agent_design.md) defines control/evolution. The Near protocol remains the historical Model A execution contract. This document maps DEC-0025 onto Runtime boundaries; [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implementation state only.
+> Authority: the [canonical research plan](../research_plan/research_plan_detailed.md) is highest; [Experiment Protocol v1](../research_plan/experiment_protocol_v1.md) freezes the formal four-action policy comparisons, isolation and statistics; the [Model B design](../research_plan/model_b_evidence_openworld_design.md) defines representation/utility/novelty, and the [open-world continual design](../research_plan/open_world_continual_agent_design.md) defines control/evolution. The Near protocol remains the historical Model A execution contract. This document maps architecture onto Runtime boundaries; [PROJECT_HANDOFF](../PROJECT_HANDOFF.md) records implementation state only.
 
 ## 1. Status labels
 
@@ -225,11 +225,11 @@ Unknown Buffer → representative REQUEST_ANALYST_FEEDBACK
 
 Updates may compare head-only with LoRA+heads; base Qwen remains frozen. A failed Release Gate rolls back. One-shot automatic class creation is prohibited.
 
-## 14. RL staging boundary
+## 14. DEC-0027 fast RL staging boundary
 
-The primary controller is a strong deterministic/supervised utility policy. RL is an optional comparison only if that controller leaves a reproducible sequential decision gap. A small policy may then consume Known/novelty scores, utility/capability state, budget, history and model version.
+The primary baselines are strong deterministic/supervised utility policies. A low-cost four-action fast policy comparison is now planned pending its formal Gate; the first candidate is Double DQN. It may consume only legal Known/novelty scores, OOF utility estimates, Evidence/capability state, budget and history. GT may compute offline environment reward but never enters policy state.
 
-LLM-level policy LoRA/PPO/GRPO is `HIGH_COST_NOT_AUTHORIZED`. Any future RL reward must use verified eventual outcomes, never confidence as self-reward; failure to beat the utility baseline ends the RL branch without affecting the core method.
+LLM-level policy LoRA/PPO/GRPO/RLAIF is `NOT_PLANNED_FOR_CORE`. Any fast-policy reward must use verified offline outcomes, never confidence as self-reward; failure to beat the utility baseline makes RL a negative result without affecting the core method. Exact comparisons follow [Experiment Protocol v1](../research_plan/experiment_protocol_v1.md).
 
 ## 15. Evaluation order and U_final
 

@@ -1,6 +1,6 @@
 # Open-World Continually Evolving LLM Traffic Agent（导师简版）
 
-> DEC-0025/DEC-0026，2026-08-16。完整规则见[研究计划详细版](research_plan_detailed.md)。
+> DEC-0025/DEC-0026/DEC-0027，2026-08-16。完整规则见[研究计划详细版](research_plan_detailed.md)，正式实验见[Experiment Protocol v1](experiment_protocol_v1.md)。
 
 ## 一、核心研究问题
 
@@ -48,7 +48,7 @@ Basic Evidence
 → 只有剩余novelty才进入Unknown Buffer
 ```
 
-第一版Controller采用确定性或监督式utility策略。DeepSeek可做离线语义审查、解释、示范或可选Supervisor基线，但不提供Model B的utility真值。RL是可选扩展，不是方法成立条件，也未授权LLM级RL。
+Controller基线采用确定性或监督式utility策略；随后以低成本fast policy Gate比较Double DQN。DeepSeek可做离线语义审查、解释、示范或可选Supervisor基线，但不提供Model B的utility真值。fast RL失败可作为negative result，不影响核心方法；LLM级RL不进入core。
 
 ## 五、模型如何获得新能力
 
@@ -60,8 +60,11 @@ Unknown样本只有在获得可靠人工/外部verified label后才能注册新�
 2. 建立Model B static foundation，完成fresh-vs-warm和Qwen-vs-small Gate；
 3. 分别验证Temporal、Relation及组合Evidence的OOF utility和robustness；
 4. 比较Direct novelty、Always acquire和Utility-conditioned acquisition；
-5. static foundation稳定后实现verified-feedback continual evolution；
-6. 只有明确需要时再比较small RL policy。
+5. 用offline Evidence episode比较heuristic、supervised utility、Teacher（如有）与Double DQN；
+6. static foundation稳定后，以相同adaptation/replay比较direct与Evidence-gated continual evolution；
+7. 最后才做multi-Unknown、slow policy、missing-Evidence和external-domain辅助实验。
+
+正式论文固定五个主实验：Model/representation、typed utility、open world、continual、fast Agent-policy RL；使用至少三seed和group/temporal-block统计。`1,816,137`个duplicate copies不改master split，但训练和primary evaluation必须使用预注册的duplicate-aware派生视图。
 
 其他NF3数据集只作secondary external-domain stress/replication；CICIoT2023与raw CIC/ToN不是core依赖，当前不下载。
 

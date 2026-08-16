@@ -1,6 +1,6 @@
 # Model B：Evidence-Conditioned Open-World Design
 
-> 状态：DEC-0025 architecture + DEC-0026 Dataset-v4 inputs
+> 状态：DEC-0025 architecture + DEC-0026 Dataset-v4 inputs + DEC-0027 experiments
 >
 > 日期：2026-08-16
 >
@@ -115,14 +115,12 @@ Controller读取Known logits/representation、utility estimates、available Evid
 
 ```text
 STOP_AND_CLASSIFY
-ACQUIRE_EVIDENCE(E_j)
+ACQUIRE_TEMPORAL
+ACQUIRE_RELATION
 ENTER_NOVELTY_DETECTION
-BUFFER_UNKNOWN
-REQUEST_LABEL
-TRIGGER_CONTINUAL_ADAPTATION
 ```
 
-首版是deterministic或supervised utility-driven policy。Runtime验证family availability、causality、预算、重复请求与trace。DeepSeek可做offline semantic reviewer、policy demo、explanation或optional supervisor baseline，但不是utility oracle。
+Runtime验证family availability、causality、预算、重复请求与trace。`BUFFER_UNKNOWN`、`REQUEST_LABEL`、`REGISTER_NEW_CLASS`与`TRIGGER_CONTINUAL_ADAPTATION`属于下游slow continual control，不与online四动作混为一个action space。强基线是deterministic/supervised utility-driven policy；DEC-0027另计划低成本Double-DQN Gate。DeepSeek可做offline semantic reviewer、policy demo、explanation或optional supervisor baseline，但不是utility oracle。
 
 ## 8. Training stages
 
@@ -130,8 +128,12 @@ TRIGGER_CONTINUAL_ADAPTATION
 2. **B2 Static Model B：**完成fresh-vs-warm、Qwen-vs-small、structured/Frozen-Qwen baseline和简单novelty comparison。
 3. **B3 Typed-Evidence utility：**单family/combined OOF targets、selector、second seed/bootstrap与cost sensitivity。
 4. **B4 Open-world evaluation：**Direct、Always Full和Utility-conditioned三路matched comparison。
-5. **B5 Continual evolution：**verified feedback、supervised adaptation+replay和regression-gated release。
-6. **B6 Optional RL：**只有supervised/heuristic controller留下明确、可重复的策略改进空间时比较small RL；LLM RL未授权。
+5. **B5 Fast policy RL：**以offline typed-Evidence episode比较confidence、supervised utility、可选Teacher与Double DQN；是否形成突出贡献由performance-cost Gate决定。
+6. **B6 Continual baselines：**verified feedback、supervised adaptation+replay和regression-gated release。
+7. **B7 Evidence-gated continual：**以相同adaptation/replay比较direct与gated unknown buffer。
+8. **B8–B10 Conditional：**multi-Unknown grouping、slow policy、missing-Evidence与external-domain stress。
+
+完整五主实验、两个辅助实验、derived-view isolation、duplicate-aware evaluation与统计协议见[experiment_protocol_v1.md](experiment_protocol_v1.md)。LLM-level RL不进入core。
 
 ## 9. 必需低成本消融
 

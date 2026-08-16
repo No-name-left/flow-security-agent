@@ -12,7 +12,7 @@ DeepSeek is an external reasoning provider. It receives only the typed,
 role-specific context constructed by Runtime or the training driver. It never
 receives arbitrary repository/server access. Secrets stay outside Git.
 
-Under DEC-0025, future DeepSeek use is limited to offline semantic review and
+Under DEC-0025/0027, future DeepSeek use is limited to offline semantic review and
 explicitly optional policy-demonstration, explanation, or Supervisor-baseline
 work. The final nonleaking `teacher_cache_v1` sample manifest is frozen under
 DEC-0026, but it is not executable until a researcher separately authorizes generation. Its

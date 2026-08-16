@@ -1,10 +1,10 @@
 # Open-World Continually Evolving LLM Traffic Agent：执行计划与时间表
 
-> 状态：DEC-0025/DEC-0026 canonical execution order
+> 状态：DEC-0025/DEC-0026/DEC-0027 canonical execution order
 >
 > 日期：2026-08-16
 >
-> 本文件只定义阶段、依赖、Gate与停止点；研究语义以[research_plan_detailed.md](research_plan_detailed.md)为最高权威，Model B细节见[model_b_evidence_openworld_design.md](model_b_evidence_openworld_design.md)。
+> 本文件只定义阶段、依赖、Gate与停止点；研究语义以[research_plan_detailed.md](research_plan_detailed.md)为最高权威，五个主实验、两个辅助实验、派生视图与统计规则见[experiment_protocol_v1.md](experiment_protocol_v1.md)。
 
 ## 1. 当前路线与已完成基础
 
@@ -18,7 +18,7 @@ Evidence-Conditioned Open-World Traffic Recognition
 
 Model A已经冻结为single-domain controlled baseline和optional replay source；其closed-set分类成功，但LM Evidence-State branch对目标用途失败。NF3-ToN官方final processed artifact已通过reconciliation/schema/label Gate，24,000条pilot确认存在recoverable Known、可预测的Evidence utility和aggregate Evidence-conditioned open-world收益。
 
-Dataset-v4 B1 formalization现已完成；没有启动Model B、DeepSeek、continual、RL、下载或raw reprocessing。
+Dataset-v4 B1 formalization和formal experiment design现已完成；没有启动Model B、DeepSeek、continual、RL、下载或raw reprocessing。
 
 ## 2. Phase B1 — Dataset-v4 / NF3-ToN formalization
 
@@ -40,7 +40,7 @@ Dataset-v4 B1 formalization现已完成；没有启动Model B、DeepSeek、conti
 
 目标：建立Known representation/classification与独立novelty interface，不进行Evidence acquisition策略或continual update。
 
-低成本Gate：
+先从immutable TRAIN派生并比较exact-group representative与duplicate-group weighting；master split不变。随后执行Experiment 1低成本Gate：
 
 1. fresh initialization vs matched Model-A warm start；
 2. Qwen vs smaller traffic encoder/strong structured baseline；
@@ -51,7 +51,7 @@ Dataset-v4 B1 formalization现已完成；没有启动Model B、DeepSeek、conti
 
 ## 4. Phase B3 — Formal typed-Evidence utility
 
-目标：把semantic admissibility与operational utility分离，并正式验证哪个Evidence family值得获取。
+目标：执行Experiment 2，把semantic admissibility与operational utility分离，并正式验证哪个Evidence family值得获取。
 
 执行顺序：
 
@@ -62,25 +62,38 @@ Basic + Relation
 Basic + Temporal + Relation
 ```
 
-每个sample的utility outcome必须由OOF/cross-fitted预测产生。比较`ΔNLL`、correctness recovery、FURK变化和acquisition cost；训练small Utility Head或external selector的选择由简单性优先的matched pilot决定。必须执行second seed或bootstrap robustness，逐类披露Recon_Scanning、Web_Injection、Credential等相反收益。
+每个sample的utility outcome必须由OOF/cross-fitted预测产生，并分别materialize `U_T/U_R/U_TR`。比较Basic、Always Full、cost-matched random、confidence、supervised utility和analysis-only oracle；报告`ΔNLL`、correctness recovery、FURK变化和acquisition cost。必须执行second seed或bootstrap robustness，逐类披露Recon_Scanning、Web_Injection、Credential等相反收益。
 
 Application、Payload、Knowledge只在数据可用、语义合法且utility Gate通过时追加；不是第一轮必需action。
 
 ## 5. Phase B4 — Evidence-conditioned open-world evaluation
 
-正式比较三条路径：
+Experiment 3正式比较至少：
 
 1. `Basic → Direct Novelty`；
 2. `Basic uncertainty → Always Acquire Full → Novelty`；
 3. `Basic uncertainty → Utility-conditioned Evidence Acquisition → Novelty`。
 
+并加入cost-matched random/confidence、可选Teacher和后续RL policy。三套whole-class rotation固定为Credential、Recon_Scanning与Web_Injection；novelty至少比较MSP、margin、energy和prototype/Mahalanobis。
+
 这一区分“额外信息本身的收益”和“智能选择Evidence的收益”。报告Macro-F1、Unknown AUROC/AUPR、OSCR、FURK、Evidence Recovery Rate、Acquisition Rate、Average Acquisition Cost和Known accuracy after recovery，并提供overall/per-class/bootstrap结果。
 
 进入Unknown的必要条件是Evidence recovery已完成、无可用family或预测收益不值得成本。observability-limited样本不得进入True Unknown主评测。
 
-## 6. Phase B5 — Continual evolution
+## 6. Phase B5 — Fast Agent-policy RL
 
-仅在B1–B4 static foundation稳定后开始：
+Experiment 5使用Git-external offline Evidence episode cache，四动作固定为STOP、Temporal、Relation与进入novelty。比较confidence heuristic、supervised utility、可选Teacher、Double DQN和可选Teacher-BC→DQN。
+
+```text
+RL_STATUS=PLANNED_LOW_COST_AGENT_POLICY_COMPONENT_PENDING_FORMAL_GATE
+LLM_LEVEL_RL=NOT_PLANNED_FOR_CORE
+```
+
+只有RL在多seed上改善performance-cost frontier时才作为突出组件；否则保留heuristic/supervised policy并报告negative result。PPO/GRPO/RLAIF/direct Qwen RL不进入core。
+
+## 7. Phase B6/B7 — Continual evolution
+
+Experiment 4只在B1–B4 static foundation稳定且fast policy接口已冻结后开始：
 
 ```text
 Residual Unknown
@@ -92,23 +105,13 @@ Residual Unknown
 → regression/release gate or rollback
 ```
 
-比较head-only与parameter-efficient adaptation；报告buffer purity、可选clustering ARI/NMI、新类学习、旧类遗忘、label-query count及release结果。self-label、confidence和cluster tightness不得作为GT。
+先执行no adaptation、new-only、replay、LwF等continual baselines；再以完全相同adaptation/replay比较direct novelty buffer与Evidence-gated buffer，并保留oracle-clean ceiling。至少运行Credential→Recon、Recon→Web、Web→Credential三种顺序。报告buffer purity、可选clustering ARI/NMI、新类学习、旧类遗忘、BWT、label-query count及release结果。self-label、confidence和cluster tightness不得作为GT。
 
 当前状态：`LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING`，不是B1–B4 blocker。
 
-## 7. Phase B6 — Optional RL policy comparison
+## 8. Conditional extensions与辅助实验
 
-RL不是主研究成立条件。只有deterministic/supervised utility controller已稳定，且仍存在明确、可重复的sequential decision gap时，才比较：
-
-```text
-Utility Heuristic / Supervised Policy
-vs
-Small RL Policy
-```
-
-RL必须同时改善效果或cost-quality tradeoff。PPO/GRPO/RLAIF不是默认阶段；LLM-level RL为`HIGH_COST_NOT_AUTHORIZED`。
-
-## 8. Secondary replication与conditional extension
+在core Gates之后才执行multi-Unknown grouping、slow evolution controller、missing-Evidence robustness和external-domain stress。slow controller不改变verified-label supervised adaptation或immutable release gate。
 
 `NF3-UNSW-NB15`、`NF3-BoT-IoT`和`NF3-CSE-CIC-IDS2018`只作secondary external-domain stress/replication candidates。已有cross-source weak/domain-dependent结果必须披露，但不阻塞core。
 
@@ -136,8 +139,9 @@ PHASE_B1=COMPLETE_PASS
 PHASE_B2=NOT_STARTED
 PHASE_B3=NOT_STARTED
 PHASE_B4=NOT_STARTED
-PHASE_B5=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
-PHASE_B6=OPTIONAL_NOT_AUTHORIZED
+PHASE_B5_FAST_RL=PLANNED_PENDING_FORMAL_GATE_NOT_STARTED
+PHASE_B6_B7_CONTINUAL=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
+EXPERIMENT_PROTOCOL_V1=FROZEN_DESIGN_NOT_RUN
 ```
 
 下一动作是`GENERATE_PREPRICE_DEEPSEEK_CACHE_AND_SEMANTIC_REFERENCE`，但仍必须由researcher显式授权API调用。Model-B low-cost design Gates现已解除B1前置阻塞但尚未启动；正式Model-B训练、continual与RL仍未授权。

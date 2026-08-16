@@ -4,12 +4,12 @@ These instructions apply to the entire repository.
 
 ## Current frozen project state
 
-- Authority order is: `docs/research_plan/research_plan_detailed.md` and DEC-0025/0026 (highest research meaning) → current Model B/Dataset-v4 design documents → `docs/research_plan/dataset_v4_b1_runtime_contract.md` and `dataset_v4_split_protocol.md` for the B1 engineering/data boundaries → `docs/PROJECT_HANDOFF.md` for current implementation state. `docs/training/near_mainline_training_protocol_v1.md` and `docs/design/agent_architecture_provisional.md` retain Model A lineage/implementation contracts but cannot override DEC-0025/0026. `docs/SERVER_MIGRATION.md` is legacy Model A recovery guidance, not a Model B runbook.
+- Authority order is: `docs/research_plan/research_plan_detailed.md` and DEC-0025/0026/0027 (highest research meaning) → `docs/research_plan/experiment_protocol_v1.md` for formal experiment/isolation/statistical rules → current Model B/Dataset-v4 design documents → `docs/research_plan/dataset_v4_b1_runtime_contract.md` and `dataset_v4_split_protocol.md` for the B1 engineering/data boundaries → `docs/PROJECT_HANDOFF.md` for current implementation state. `docs/training/near_mainline_training_protocol_v1.md` and `docs/design/agent_architecture_provisional.md` retain Model A lineage/implementation contracts but cannot override DEC-0025/0026/0027. `docs/SERVER_MIGRATION.md` is legacy Model A recovery guidance, not a Model B runbook.
 - The current method core is Evidence-Conditioned Open-World Traffic Recognition: NF3-ToN Basic → optional typed Temporal/Relation acquisition → Known re-evaluation → independent novelty detection after the Evidence gate → verified-feedback continual evolution. Unknown is not K+1 and `ENTER_NOVELTY_DETECTION` is not a prediction of Unknown.
 - Model B operational Evidence utility comes only from OOF/cross-fitted empirical predictive improvement and cost. Model A Teacher `evidence_sufficient`, `missing_evidence`, and `primary_gap` are legacy reference fields and must not control Model B runtime or become utility GT.
 - Dataset-v4 core is the frozen official NF3-ToN-IoT CSV artifact. Edge-IIoTset Model A is a legacy controlled-domain baseline and optional replay source; other NF3 sources are secondary domain-stress/replication candidates. Do not reopen dataset search or merge sources without an authorized Decision.
 - Model A Formal Near SFT and evaluation are complete. Its Known classification passed, while its LM Evidence-State branch failed for the target purpose. The completed Model A config/checkpoint is historical and must not be relaunched, modified, or treated as Model B authorization.
-- Dataset-v4 B1 formalization is complete; Model B training, continual implementation, and RL have not started. RL is optional; RLAIF/PPO/GRPO and LLM-level RL are not required and are not authorized. DeepSeek is limited to offline semantic review and optional demonstration/explanation/Supervisor baselines.
+- Dataset-v4 B1 formalization and the formal experiment design are complete; Model B training, continual implementation, and RL have not started. Fast small-policy RL is a planned low-cost Agent-policy component pending its formal Gate; RLAIF/PPO/GRPO and LLM-level RL are not core, planned, or authorized. DeepSeek is limited to offline semantic review and optional demonstration/explanation/Supervisor baselines.
 - Dataset-v4 B1 observation, Basic/Temporal/Relation, runtime state, four-action, novelty-entry, Teacher-cache I/O, seven-class taxonomy, grouped split, whole-class rotations and `teacher_cache_v1` 2,000-row sample list are frozen. The list contains no responses; any API generation still requires explicit researcher authorization.
 - Raw traffic, dataset archives, large generated tables, model weights, checkpoints, credentials and environment secrets must not enter Git.
 - A material research change must update the canonical plan and Decision Log, then synchronize the handoff. Do not commit or push unless the user explicitly authorizes it.
@@ -106,7 +106,7 @@ Before finalizing a material project update:
   values in requests, reports, caches, traces, or Git.
 - DeepSeek cannot replace the Model B Known classifier or independent novelty
   detector. Operational utility is empirical OOF/cross-fitted improvement;
-  RLAIF/PPO/GRPO are optional, non-required, and currently unauthorized.
+  RLAIF/PPO/GRPO are non-required, outside the core plan, and unauthorized.
 
 ## Git successful-task landing policy
 

@@ -1,6 +1,6 @@
 # Open-World Continually Evolving LLM Traffic Agent
 
-> 状态：DEC-0025 current agent/evolution architecture
+> 状态：DEC-0025 architecture + DEC-0027 experiment/control freeze
 >
 > 日期：2026-08-15
 >
@@ -34,7 +34,6 @@ Traffic Evidence
 
 ### PROVISIONAL
 
-- 最终NF3-ToN taxonomy与whole-class Unknown rotations；
 - Qwen内Utility Head或external selector；
 - fresh或Model-A warm start；
 - exact trainable modules、loss、cost coefficient与threshold；
@@ -72,14 +71,12 @@ Controller拥有classification state、utility state、available Evidence、nove
 
 ```text
 STOP_AND_CLASSIFY
-ACQUIRE_EVIDENCE(E_j)
+ACQUIRE_TEMPORAL
+ACQUIRE_RELATION
 ENTER_NOVELTY_DETECTION
-BUFFER_UNKNOWN
-REQUEST_LABEL
-TRIGGER_CONTINUAL_ADAPTATION
 ```
 
-Runtime负责capability、past-only/causal boundary、cost、budget、dedup、trace和permission enforcement。第一版policy是deterministic/supervised utility-driven；RL不构成入口依赖。
+`BUFFER_UNKNOWN`、`REQUEST_LABEL`、`REGISTER_NEW_CLASS`和`TRIGGER_CONTINUAL_ADAPTATION`属于Plane C的slow control。Runtime负责capability、past-only/causal boundary、cost、budget、dedup、trace和permission enforcement。强基线policy是deterministic/supervised utility-driven；正式协议还计划一个低成本fast RL Gate。RL不构成recognition入口依赖，也不更新Qwen。
 
 ### Plane C — Evolution
 
@@ -143,14 +140,16 @@ Structured Evidence State若保留，只作解释层，不控制正式runtime。
 
 后续指标包括Unknown Buffer purity、ARI/NMI（若clustering）、new-class learning、old-class forgetting、query count和release failure。当前实现状态是`LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING`。
 
-## 9. RL boundary
+## 9. Fast RL boundary
 
-RL只可能优化已定义动作空间中的long-horizon cost-quality tradeoff，不负责学习攻击语义。首选强utility heuristic/supervised policy；只有它留下稳定policy gap时才比较small RL。若RL不显著改善效果或成本，删除RL不会改变核心方法。
+RL只优化已定义四动作空间中的sequential cost-quality tradeoff，不负责学习攻击语义。强utility heuristic/supervised policy仍是必须击败的基线；首个学习算法为Double DQN，可选Dueling/PER。若RL不显著改善效果或成本，它作为negative result退出突出贡献，不改变核心方法。
 
 ```text
-RL_STATUS=OPTIONAL_EXTENSION
-LLM_LEVEL_RL=HIGH_COST_NOT_AUTHORIZED
+RL_STATUS=PLANNED_LOW_COST_AGENT_POLICY_COMPONENT_PENDING_FORMAL_GATE
+LLM_LEVEL_RL=NOT_PLANNED_FOR_CORE
 ```
+
+fast policy state只含合法representation/logits/confidence/margin/entropy、OOF utility estimates、novelty/evidence mask、availability与budget。离线环境可用GT计算reward，但policy observation不得看到GT。完整P0–P4 baseline、reward边界、seeds和Gate见[experiment_protocol_v1.md](experiment_protocol_v1.md)。PPO、GRPO、RLAIF和direct Qwen RL均不属于core。
 
 ## 10. Required comparisons and metrics
 
@@ -164,4 +163,4 @@ continual阶段必须与no-adaptation、new-only、replay adaptation等合理基
 
 ## 12. Immediate stop point
 
-DEC-0025仅授权计划/架构修订。下一步是formalize Dataset-v4并执行Model B low-cost design gates；当前禁止启动Model B、Qwen/DeepSeek、continual、RL、新下载或raw PCAP处理。
+Dataset-v4 B1与formal experiment design已冻结。下一步仍是经researcher显式授权后生成pre-price Teacher cache/semantic reference；之后准备duplicate-aware views和Model B low-cost Gates。本文不授权启动Qwen/DeepSeek、continual、RL、新下载或raw PCAP处理。
