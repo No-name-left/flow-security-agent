@@ -1,0 +1,164 @@
+{
+  "schema_version": "RECOVERY_SIGNAL_CHARACTERIZATION_V2_PREREGISTRATION_V1",
+  "date": "2026-08-17",
+  "task": "RECOVERY_SIGNAL_CHARACTERIZATION_AND_OPEN_WORLD_TRANSFER_GATE_V2",
+  "v2_protocol_status": "FROZEN_BEFORE_EVALUATION",
+  "v2_protocol_sha256": "b1d01629215470ba425c52f76dc5547c8bf4cb8e810a1ebcad30a853be2a5b7b",
+  "frozen_historical": {
+    "CORE_HYPOTHESIS_GATE_1": "YELLOW",
+    "CORE_HYPOTHESIS_GATE_1B": "PASS",
+    "OPEN_WORLD_RECOVERABILITY_GATE_V1": "FAIL",
+    "OPEN_WORLD_V1_FAILURE_ATTRIBUTION": "COMPLETE",
+    "V1_PRIMARY_MECHANISM": "F2_POST_EVIDENCE_MSP_MISALIGNMENT",
+    "V1_V2_JUSTIFICATION": "YES"
+  },
+  "hypotheses": {
+    "H1_TRAJECTORY_SIGNAL": "runtime-observable Evidence state transitions contain information about whether the resulting Known prediction has become reliable",
+    "H2_INCREMENTAL_INFORMATION": "recovery-trajectory features contain predictive information beyond post-acquisition state alone",
+    "H3_OPEN_WORLD_TRANSFER": "incremental recovery information can reduce false-Unknown decisions among Recoverable Known without materially degrading True Unknown discrimination",
+    "H4_NONLINEARITY_ALTERNATIVE": "linear-probe failure alone is insufficient evidence against H1/H2; fixed nonlinear probe preregistered"
+  },
+  "seeds": [20260817, 20260818, 20260819],
+  "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+  "populations": {
+    "VAL_GATE_EVAL": "frozen eval parquet rows with split_role==1 (includes outer Unknown for final metrics only)",
+    "VAL_CALIB_KNOWN": "frozen eval parquet rows with split_role==0 and is_unknown==0",
+    "V2_PROBE_FIT": "60% split of VAL_CALIB Known, group-atomic, class-stratified, deterministic SHA256(group) ordering",
+    "V2_PROBE_CALIB": "40% split of VAL_CALIB Known, group-atomic, class-stratified, deterministic SHA256(group) ordering"
+  },
+  "split_rule": {
+    "ratio": "60/40 approximate (group-atomic)",
+    "unit": "private activity_group_digest",
+    "stratum": "(canonical_label of group's first row in frozen table order, temporal_block of that row)",
+    "order_within_stratum": "SHA256(seed_hex || rotation_utf8 || group_digest_bytes) ascending",
+    "assignment": "each group to bin with smaller cumulative row count; ties to FIT",
+    "deterministic": true,
+    "rng": "none",
+    "group_crossing_rule": "no group may cross V2_PROBE_FIT / V2_PROBE_CALIB / VAL_GATE_EVAL; failure -> STOP_NEEDS_REVIEW"
+  },
+  "policy_execution": {
+    "policy": "P6 UTILITY_TYPED (frozen)",
+    "action_mapping": {"NONE": "B", "T": "BT", "R": "BR", "TR": "BTR"},
+    "p_pre": "Basic rotation-aligned Known-class probability vector",
+    "p_post": "probability vector of the classifier selected by the frozen P6 action",
+    "recomputation": "deterministic from frozen models only; cross-verified against stored action/score/pred/recoverable columns before metrics",
+    "retraining": "none"
+  },
+  "feature_schemas": {
+    "POST_ONLY": ["conf_post", "margin_post", "entropy_post", "ONEHOT_NONE", "ONEHOT_T", "ONEHOT_R", "ONEHOT_TR"],
+    "RECOVERY_TRAJECTORY": ["conf_post", "margin_post", "entropy_post", "ONEHOT_NONE", "ONEHOT_T", "ONEHOT_R", "ONEHOT_TR", "conf_pre", "margin_pre", "entropy_pre", "delta_conf", "delta_margin", "delta_entropy", "top1_changed", "pre_prob_of_post_top1", "post_prob_of_pre_top1", "post_top1_support_gain", "pre_top1_support_change", "top1_transition_gap"],
+    "POST_ONLY_DIM": 7,
+    "RECOVERY_TRAJECTORY_DIM": 19,
+    "runtime_legal": true,
+    "forbidden_in_features": ["GT label", "correctness", "recoverability truth", "Unknown truth", "future data"]
+  },
+  "accept_target": {
+    "definition": "1 iff frozen post-Evidence Known-class prediction (stored pred_P6_UTILITY_TYPED) equals the true Known label, else 0",
+    "population": "V2_PROBE_FIT Known rows only",
+    "gt_permitted": "supervised fitting on known fitting data only",
+    "gt_never_in_inference": true
+  },
+  "capacity_ladder": {
+    "LEVEL1_LINEAR": {
+      "name": "L_POST / L_TRAJ",
+      "model": "StandardScaler + LogisticRegression",
+      "config": {"penalty": "l2", "C": 1.0, "solver": "lbfgs", "max_iter": 2000, "class_weight": "balanced"},
+      "tuning": "none"
+    },
+    "LEVEL2_NONLINEAR": {
+      "name": "N_POST / N_TRAJ",
+      "model": "RandomForestClassifier",
+      "config": {"n_estimators": 300, "max_depth": 10, "min_samples_leaf": 20, "max_features": "sqrt", "class_weight": "balanced_subsample", "n_jobs": -1, "random_state": "<rotation seed>"},
+      "tuning": "none"
+    },
+    "no_additional_model_families": true
+  },
+  "scores": {
+    "S_ACCEPT": "1 - P_ACCEPT (learned probes)",
+    "S_MSP": "1 - max(p) (MSP baselines)"
+  },
+  "methods": ["B0_BASIC_MSP", "B1_UTILITY_POST_MSP", "L_POST", "L_TRAJ", "N_POST", "N_TRAJ"],
+  "calibration": {
+    "population": "V2_PROBE_CALIB Known rows only",
+    "operating_point": "KNOWN_FALSE_UNKNOWN_RATE=5%",
+    "threshold": "np.quantile(known_calib_scores, 1.0 - 0.05)",
+    "tie_semantics": "rejected = score >= threshold (frozen V1)",
+    "per_method_per_rotation_per_seed": true,
+    "overwrite_v1_thresholds": false
+  },
+  "signal_metrics": ["AUROC", "AUPRC", "balanced_accuracy_at_calibrated_operating_point", "brier", "log_loss"],
+  "signal_status_rules": {
+    "LEVEL_SIGNAL_SUPPORTED": ["mean DeltaAUROC >= +0.01", "positive in >=2/3 rotations", "pooled paired-bootstrap 95% CI lower bound > 0"],
+    "RECOVERY_TRAJECTORY_SIGNAL": {"STRONG": "NONLINEAR_SIGNAL=SUPPORTED and (LINEAR_SIGNAL=SUPPORTED or linear DeltaAUROC positive in >=2/3 rotations)", "WEAK": "consistent positive point estimates but preregistered CI/size criteria not fully met", "NOT_ESTABLISHED": "neither capacity shows stable incremental trajectory value"}
+  },
+  "open_world_metrics": ["FURK", "FURK raw numerator", "FURK fixed denominator", "RECOVERED_BUT_REJECTED_RATE", "RECOVERY_CONDITIONAL_REJECTION_RATE", "Known total false-Unknown rate", "Known Macro-F1 before novelty rejection", "accepted-Known classification accuracy", "Unknown AUROC", "Unknown AUPR", "Unknown Recall @ 5% Known FUR calibration point", "OSCR if cleanly supported", "True Unknown acquisition rate", "Evidence cost"],
+  "recoverable_definition": "frozen V1 definition, reused exactly; denominator identity audited across all 6 methods; mismatch -> STOP_NEEDS_REVIEW",
+  "bootstrap": {
+    "reps": 1000,
+    "rng_offset": 161000,
+    "unit": "private activity group, pooled over 3 rotations x 3 seeds",
+    "paired_by_construction": true,
+    "temporal_block_aware": true,
+    "required_cis": ["FURK_N_TRAJ_minus_B1", "FURK_L_TRAJ_minus_B1", "FURK_N_TRAJ_minus_N_POST", "FURK_L_TRAJ_minus_L_POST", "FURK_N_TRAJ_minus_B0", "recovered_but_rejected reduction", "Unknown AUROC difference", "Unknown Recall difference", "signal DeltaAUROC"]
+  },
+  "transfer_criteria": {
+    "T1": "mean FURK_N_TRAJ - FURK_N_POST <= -0.03, improves in >=2/3 rotations, no rotation worsens >0.02",
+    "T2": "mean absolute RECOVERY_CONDITIONAL_REJECTION_RATE reduction (N_TRAJ vs N_POST) >= 0.08, improves in >=2/3 rotations",
+    "T3": "mean AUROC_N_TRAJ >= AUROC_N_POST - 0.01, no rotation loses >0.03",
+    "T4": "mean Unknown Recall_N_TRAJ >= Unknown Recall_N_POST - 0.03, no rotation loses >0.05",
+    "T5": "paired-bootstrap 95% CI upper bound FURK_N_TRAJ - FURK_N_POST < 0",
+    "PASS_IF": "T1-T5 all PASS"
+  },
+  "end_to_end_criteria": {
+    "E1": "mean FURK_N_TRAJ <= mean FURK_B0 - 0.02 and improves in >=2/3 rotations",
+    "E2": "paired-bootstrap 95% CI upper bound FURK_N_TRAJ - FURK_B0 < 0",
+    "E3": "True Unknown AUROC mean loss <= 0.01, no rotation loss > 0.03",
+    "E4": "True Unknown Recall mean loss <= 0.03, no rotation loss > 0.05",
+    "PASS_IF": "E1-E4 PASS"
+  },
+  "headroom_diagnostics": {
+    "26A_ROUTER_RECOVERY_HEADROOM": "1 - P6_RECOVERY_RATE per rotation (analysis only, oracle never presented as a method)",
+    "26B_INTERFACE_HEADROOM_PROXY": "RECOVERY_CONDITIONAL_REJECTION_RATE (B1) per rotation (analysis only)"
+  },
+  "interpretation_matrix": {
+    "CASE_A": {"condition": "SIGNAL=STRONG, TRANSFER=PASS, E2E=PASS", "C1_STATUS": "RECOVERY_AWARE_OPEN_WORLD_MECHANISM_SUPPORTED", "NEXT_PROPOSED_ACTION": "UNKNOWN_CANDIDATE_PURIFICATION_GATE_V2 (not run)"},
+    "CASE_B": {"condition": "SIGNAL=STRONG, TRANSFER=PASS, E2E=NOT_ESTABLISHED", "C1_STATUS": "RECOVERY_SIGNAL_AND_INTERFACE_SUPPORTED_UPSTREAM_LIMITED", "NEXT_PROPOSED_ACTION": "OPEN_WORLD_ROUTER_OBJECTIVE_GATE_V1 (not run)"},
+    "CASE_C": {"condition": "SIGNAL=STRONG, TRANSFER=NOT_ESTABLISHED", "C1_STATUS": "RECOVERY_SIGNAL_SUPPORTED_OPEN_WORLD_MECHANISM_UNRESOLVED", "NEXT_PROPOSED_ACTION": "RESEARCHER_REVIEW_FORMAL_MODEL_B_NOVELTY_DESIGN (not started)"},
+    "CASE_D": {"condition": "SIGNAL=WEAK", "C1_STATUS": "RECOVERY_SIGNAL_INCONCLUSIVE", "NEXT_PROPOSED_ACTION": "RESEARCHER_REASSESS_COST_BENEFIT_BEFORE_MODEL_B"},
+    "CASE_E_HEADROOM": {"condition": "SIGNAL=NOT_ESTABLISHED and headroom large in >=2 rotations", "C1_STATUS": "RECOVERY_TRAJECTORY_NOT_ESTABLISHED_CURRENT_REPRESENTATION_INCONCLUSIVE", "NEXT_PROPOSED_ACTION": "RESEARCHER_REASSESS_MAINLINE_BEFORE_ANY_EXPENSIVE_MODEL"},
+    "CASE_E_NO_HEADROOM": {"condition": "SIGNAL=NOT_ESTABLISHED and headroom small", "C1_STATUS": "RECOVERABILITY_MAINLINE_HIGH_RISK_UNDER_CURRENT_EVIDENCE_CONTRACT", "NEXT_PROPOSED_ACTION": "RESEARCHER_REASSESS_PAPER_MAINLINE"}
+  },
+  "rl": {"run": false, "status": "PLAUSIBLE only if myopic classification utility != final open-world utility continues to be shown; otherwise preserve prior status", "required": false},
+  "descriptive_section32": {
+    "input": "frozen V1 outputs only",
+    "metrics": ["Spearman rho (SIGNED_CLASSIFICATION_UTILITY vs NOVELTY_SCORE_UTILITY per family T/R/TR)", "group/temporal-block bootstrap 95% CI", "HELP improve rate + CI", "HELP worsen rate + CI"],
+    "allowed_wording": "weak alignment under the evaluated setting",
+    "alters_gate": false
+  },
+  "prior_art_boundaries": {
+    "RoNeTC": "uncertainty-aware open-set traffic recognition and multi-view dynamic fusion of already observed evidence are prior art; lesson: classification probability and open-set uncertainty are not automatically identical objects",
+    "RoeCi": "adaptive extra computation on the same observation is prior art; uncertainty formulation materially affects open-set behavior; lesson: post-classification confidence alone may be insufficient",
+    "GCLC": "open-world detection/clustering/class evolution are prior art; representation-space novelty and known-holdout calibration are useful future references; GCLC does not model runtime Evidence-induced Known recovery trajectory before novelty admission"
+  },
+  "no_claims": ["classification-vs-novelty mismatch newly discovered in general", "confidence-based OSR failure new", "learned uncertainty new", "selective prediction new", "trajectory modeling in general new", "broad first claims"],
+  "execution_lock": "no scientific code/protocol change after first real V2 evaluation metric; pure runtime bugfix permitted only if scientific semantics unchanged, documented, old/new diff recorded, protocol hash meaning unchanged; scientific change -> STOP_NEEDS_REVIEW",
+  "git_policy": {
+    "authorized_commits": ["V1 failure-attribution checkpoint (7604736)", "V2 preregistration/code checkpoint before evaluation"],
+    "after_evaluation": "DO NOT COMMIT result reports/context changes; DO NOT PUSH; leave for researcher review"
+  },
+  "safety_ledger": {
+    "FINAL_TEST_MODELING_CONTAMINATION": false,
+    "TRUE_UNKNOWN_USED_FOR_PROBE_TRAINING": false,
+    "TRUE_UNKNOWN_USED_FOR_THRESHOLD_CALIBRATION": false,
+    "ROUTER_RETRAINED": false,
+    "EVIDENCE_CONTRACT_CHANGED": false,
+    "DETECTOR_SHOPPING": false,
+    "POST_RESULT_THRESHOLD_TUNING": false,
+    "QWEN_API_CALLS": 0,
+    "DEEPSEEK_API_CALLS": 0,
+    "MODEL_B_TRAINING_STARTED": false,
+    "RL_TRAINING_STARTED": false,
+    "CONTINUAL_TRAINING_STARTED": false,
+    "UNKNOWN_CANDIDATE_PURIFICATION_STARTED": false
+  }
+}
