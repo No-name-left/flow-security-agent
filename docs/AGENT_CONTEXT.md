@@ -2,7 +2,7 @@
 
 STATE_SCHEMA=AGENT_CONTEXT_V1
 LAST_UPDATED=2026-08-17
-UPDATED_BY_TASK=RELATED_WORK_NOVELTY_REASSESSMENT_AND_PLAN_SYNC_V1
+UPDATED_BY_TASK=OPEN_WORLD_RECOVERABILITY_GATE_V1
 
 This is the single short entry point every agent reads before substantive project
 work. It carries only the current state and operating rules. Historical detail
@@ -75,10 +75,18 @@ CORE_HYPOTHESIS_GATE_1B=PASS        (2026-08-17; see gate v1b report)
 GATE_1B_TEMPORAL_STATUS=PASS        (T1-T7: 7/7)
 GATE_1B_RELATION_STATUS=CONDITIONALLY_USEFUL
 EVIDENCE_DIVERSITY_STATUS=TEMPORAL_PLUS_RELATION_CONDITIONALLY_USEFUL
-ADAPTIVE_EVIDENCE_ACQUISITION_STATUS=SUPPORTED_FOR_NEXT_OPEN_WORLD_GATE
+ADAPTIVE_EVIDENCE_ACQUISITION_STATUS=SUPPORTED_FOR_CLASSIFICATION
+  (Gate 1B), NOT_SUPPORTED_FOR_MSP_NOVELTY_SCORING (Gate V1 2026-08-17)
+OPEN_WORLD_RECOVERABILITY_GATE=FAIL (2026-08-17; see open-world gate report;
+  OW1/OW2/OW7 fail, severe: FURK_UTILITY > FURK_DIRECT 9/9 cells,
+  mean +0.235, CI [0.082, 0.290]; True Unknown AUROC/recall preserved;
+  Known Macro-F1 +0.015; mechanism: post-acquisition MSP novelty scoring
+  does not transfer classification recovery to novelty recovery)
+UNKNOWN_CANDIDATE_PURIFICATION_GATE=NOT_RUN (B=FAIL -> STOP per B17)
+SELF_EVOLUTION_PURIFICATION_FOUNDATION=NOT_ESTABLISHED
 MODEL_B_STATUS=NOT_STARTED
 RL_STATUS=NOT_STARTED
-OPEN_WORLD_CAUSAL_GATE_STATUS=NOT_STARTED
+OPEN_WORLD_CAUSAL_GATE_STATUS=REASSESS_MAINLINE (FAIL)
 CONTINUAL_STATUS=NOT_STARTED
 ```
 
@@ -145,32 +153,57 @@ addendum `docs/research_plan/literature_novelty_reassessment_v1.md`
 ## Current authorization
 
 ```text
-CURRENT_AUTHORIZED_TASK=LITERATURE_NOVELTY_AND_PLAN_SYNCHRONIZATION_ONLY
-  (completed; awaiting researcher review)
-NEXT_PROPOSED_ACTION=OPEN_WORLD_CAUSAL_GATE_BEFORE_MODEL_B
+CURRENT_AUTHORIZED_TASK=NONE_WAITING_RESEARCHER
+  (Open-World Recoverability Gate V1 completed 2026-08-17: FAIL;
+   waiting for researcher review of the failed gate + mainline reassessment)
+NEXT_PROPOSED_ACTION=REASSESS_RECOVERABILITY_CONDITIONED_OPEN_WORLD_MAINLINE
+  (gate FAIL: novelty scoring under acquired Evidence must be addressed
+   before any re-test of acquisition value for open-world routing)
 NEXT_ACTION_AUTHORIZED=false
 
 CURRENT_FORBIDDEN_NEXT_STEPS=
   ANY_MODEL_B_OR_RL_WORK
-  OPEN_WORLD_CAUSAL_GATE
+  ANY_OPEN_WORLD_GATE_RE_RUN_OR_RESCUE
+  ANY_NOVELTY_SCORING_CHANGE_WITHOUT_NEW_AUTHORIZED_PROTOCOL
   CONTINUAL
   ANY_RESCUE_EXPERIMENT_ON_GATE_1_OR_1B
+  ANY_RESCUE_EXPERIMENT_ON_OPEN_WORLD_GATE_V1
 ```
 
-Gate 1B completed 2026-08-17: conditional Evidence utility is separable from
-pre-acquisition Basic state (Temporal primary PASS 7/7; Relation conditional
-value supported with strong UNIQUE_R diversity). Per the frozen protocol,
-the next proposed action is the Open-World causal gate BEFORE any Model B
-work — still NOT authorized.
+Open-World Recoverability Gate V1 (2026-08-17) = FAIL: typed utility
+acquisition materially WORSENS recoverable-Known false-Unknown (FURK +0.235
+vs direct, 9/9 cells, CI [0.082, 0.290]) while True Unknown recognition is
+preserved and Known classification improves (Macro-F1 +0.015, recovery rate
+0.525). Mechanism: post-acquisition MSP novelty scores stay high on
+recoverable rows even with oracle routing — the novelty scoring, not the
+routing, is the bottleneck. Phase C (purification) NOT run (FAIL -> STOP).
+Gate 1 / Gate 1B conclusions unchanged. Reassessment of the
+recoverability-conditioned open-world mainline is the next proposed action —
+still NOT authorized.
 
 ## Latest formal result
 
 ```text
-LATEST_FORMAL_REPORT_JSON=reports/research_audit/core_hypothesis_gate_v1b.json
-LATEST_FORMAL_REPORT_MD=reports/research_audit/core_hypothesis_gate_v1b.md
-PREVIOUS_REPORT_JSON=reports/research_audit/core_hypothesis_gate_v1.json
-PREVIOUS_REPORT_MD=reports/research_audit/core_hypothesis_gate_v1.md
+LATEST_FORMAL_REPORT_JSON=reports/research_audit/open_world_recoverability_gate_v1.json
+LATEST_FORMAL_REPORT_MD=reports/research_audit/open_world_recoverability_gate_v1.md
+PREVIOUS_REPORT_JSON=reports/research_audit/core_hypothesis_gate_v1b.json
+PREVIOUS_REPORT_MD=reports/research_audit/core_hypothesis_gate_v1b.md
 ```
+
+Open-World Recoverability Gate V1 (2026-08-17, FAIL): typed utility Evidence
+acquisition makes recoverable-Known false-Unknown rejection materially worse
+(FURK +0.235 mean vs direct; 9/9 cells worse; pooled paired group/temporal
+bootstrap CI [0.082, 0.290]) while True Unknown recognition is preserved
+(AUROC +0.0098, recall +0.013) and Known classification improves (Macro-F1
++0.015, Evidence Recovery Rate 0.525). Mechanism: post-acquisition MSP
+novelty scores stay high on recoverable rows even under oracle-perfect
+routing (P7: 0.140 -> 0.143 residual Known FUR) — the novelty scoring under
+acquired Evidence, not the routing, is the bottleneck. Phase C
+(Unknown-Candidate Purification) NOT run (B17 FAIL -> STOP). B14:
+utility does NOT beat generic difficulty routing on FURK -> no
+utility-specific routing value claim. All artifacts Git-external under
+`processed/dataset_v4_nf3_ton_v1/open_world_recoverability_gate_v1/`;
+reports untracked (not committed by design).
 
 Gate 1 interpretation (only what is needed here):
 
@@ -218,6 +251,14 @@ reports/research_audit/core_hypothesis_gate_v1b.json  (primary)
 reports/research_audit/core_hypothesis_gate_v1b.md    (explanatory context)
 ```
 
+For exact Open-World Recoverability Gate V1 numbers (untracked, do not
+commit):
+
+```text
+reports/research_audit/open_world_recoverability_gate_v1.json (primary)
+reports/research_audit/open_world_recoverability_gate_v1.md   (explanatory context)
+```
+
 For novelty positioning and claim-safety (untracked, do not commit):
 
 ```text
@@ -248,14 +289,17 @@ change.
 ## Git/repository state
 
 ```text
-GIT_CHECKPOINT=0cb49e31 (Phase A checkpoint: Gate 1 yellow + agent context)
-WORKING_TREE_STATE=Gate 1B complete + novelty audit; results intentionally uncommitted
-GATE_1_CHECKPOINT_STATUS=COMMITTED_0cb49e31 (push blocked: no GitHub creds)
+GIT_CHECKPOINT=917303a (Phase A checkpoint: fulltext novelty sync; pushed: no, blocked: no GitHub creds)
+WORKING_TREE_STATE=Open-World Recoverability Gate V1 complete (FAIL); results intentionally uncommitted
+GATE_1_CHECKPOINT_STATUS=COMMITTED (push blocked: no GitHub creds)
 GATE_1B_COMMIT_CREATED=false
 GATE_1B_PUSHED=false
 NOVELTY_AUDIT_COMMIT_CREATED=false
 NOVELTY_AUDIT_PUSHED=false
+OPEN_WORLD_GATE_COMMIT_CREATED=false
+OPEN_WORLD_GATE_PUSHED=false
 ```
 
-(untracked: Gate 1B tool + test + gate v1b report md/json + novelty audit
-report md/json + literature addendum; modified: this file, PROJECT_HANDOFF)
+(untracked: open-world gate tool + test + gate v1 report md/json + gate 1B
+tool + test + gate v1b report md/json + novelty audit report md/json +
+literature addendum; modified: this file, PROJECT_HANDOFF)
