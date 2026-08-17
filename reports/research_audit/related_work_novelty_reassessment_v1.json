@@ -1,0 +1,340 @@
+{
+  "report": {
+    "id": "RELATED_WORK_NOVELTY_REASSESSMENT_V1",
+    "revision": 1,
+    "status": "COMPLETE",
+    "date": "2026-08-17",
+    "branch": "main",
+    "head": "0cb49e31",
+    "scope": "DOCUMENTATION_RESEARCH_DESIGN_SYNCHRONIZATION_ONLY",
+    "committed": false,
+    "pushed": false,
+    "experiments_run": false,
+    "full_text_review_provenance": "FULL_TEXT_REVIEW_COMPLETED_EXTERNALLY_BY_RESEARCHER_WORKFLOW",
+    "full_text_review_note": "RoNeTC/RoeCi/GCLC PDFs reviewed outside this repository; local Agent does not claim independent PDF access"
+  },
+  "full_text_review_sync": {
+    "RoNeTC": {
+      "paper": "Reliable Open-Set Network Traffic Classification, IEEE TIFS 2025, DOI 10.1109/TIFS.2025.3544067",
+      "findings": [
+        "all packet views already observed (IP header / transport header / packet payload)",
+        "per-view classification opinion + uncertainty",
+        "final decision dynamically fuses already-observed views",
+        "does NOT selectively acquire previously unobserved runtime evidence"
+      ],
+      "consequences": [
+        "multi-view dynamic fusion = PRIOR_ART_EXISTS",
+        "uncertainty-based Known/Unknown classification = PRIOR_ART_EXISTS"
+      ],
+      "RONETC_FULL_TEXT_REVIEW": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW"
+    },
+    "RoeCi": {
+      "paper": "Robust Open-Set Network Traffic Classification, IEEE TMC 2026, DOI 10.1109/TMC.2026.3715471",
+      "findings": [
+        "uncertainty/sample-complexity measure",
+        "easy/low-complexity samples use fewer experts; hard samples invoke additional expert capacity",
+        "joint uncertainty used for Known/Unknown classification"
+      ],
+      "consequences": [
+        "do more processing before rejecting Unknown = PRIOR_ART_EXISTS",
+        "adds MODEL CAPACITY / COMPUTE to the SAME observation; does NOT acquire previously unobserved Temporal/Relation observation evidence before novelty handling"
+      ],
+      "claim_boundary": {
+        "ROECI": "same observation + adaptive additional model capacity",
+        "OURS": "partial/basic observation + adaptive acquisition of previously unobserved runtime-legal observation evidence + reclassification before novelty"
+      },
+      "ROECI_FULL_TEXT_REVIEW": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW"
+    },
+    "GCLC": {
+      "paper": "Graph-Based Contrastive Learning and Clustering for Open-World Encrypted Traffic Classification, IEEE TIFS 2026, DOI 10.1109/TIFS.2026.3705313",
+      "findings": [
+        "graph representation",
+        "contrastive + center-aware representation learning",
+        "Mahalanobis new-class detection",
+        "clustering of candidate unknowns",
+        "human semantic confirmation",
+        "adaptive/incremental model update"
+      ],
+      "consequences": [
+        "new-class discovery / clustering / update / generic open-world continual evolution = PRIOR_ART_EXISTS",
+        "does NOT model Evidence-recoverable Known contamination before unknown-candidate admission"
+      ],
+      "GCLC_FULL_TEXT_REVIEW": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW"
+    }
+  },
+  "empirical_state_verified": {
+    "CORE_HYPOTHESIS_GATE_1": "YELLOW",
+    "CORE_HYPOTHESIS_GATE_1B": "PASS",
+    "GATE_1B_TEMPORAL_STATUS": "PASS",
+    "GATE_1B_RELATION_STATUS": "CONDITIONALLY_USEFUL",
+    "GATE_1_STATUS_CHANGED": false,
+    "GATE_1B_ESTABLISHES_OPEN_WORLD_BENEFIT": false,
+    "sources": [
+      "reports/research_audit/core_hypothesis_gate_v1.json",
+      "reports/research_audit/core_hypothesis_gate_v1b.json"
+    ]
+  },
+  "verdict_categories": {
+    "A_PRIOR_ART_LIMITING_CLAIMS": [
+      "generic_AFA", "AFA_plus_OOD", "cost_aware_two_stage_routing",
+      "instance_specific_AFA", "typed_temporal_acquisition",
+      "acquire_before_abstain", "multi_view_dynamic_fusion",
+      "uncertainty_based_rejection", "adaptive_computation_before_rejection",
+      "open_world_traffic_classification", "new_class_discovery_clustering_confirmation_update",
+      "open_world_continual_traffic", "buffer_purification"
+    ],
+    "B_PLAUSIBLE_NOVELTY_GAPS": [
+      "RUNTIME_OBSERVATION_ACQUISITION_BEFORE_NOVELTY (recoverability-conditioned open-world traffic recognition)",
+      "EVIDENCE_GATED_RECOVERABLE_KNOWN_REMOVAL_BEFORE_UNKNOWN_CANDIDATE_ADMISSION"
+    ],
+    "C_ACCESS_LIMITED_PAPERS": ["aco_icml_2024"],
+    "D_METHOD_LESSONS_CHANGING_PROTOCOL": [
+      "policy_conditioned_novelty_calibration",
+      "read_only_evidence_acquisition_assumption",
+      "acquisition_policy_distribution_shift",
+      "utility_routing_not_invented_here",
+      "frozen_pipeline_calibration_protocol",
+      "utility_vs_generic_difficulty_routing_comparison_required"
+    ]
+  },
+  "prior_art_register": {
+    "generic_AFA": {
+      "reference": "Li & Oliva, Active Feature Acquisition with Generative Surrogate Models, ICML 2021, PMLR 139",
+      "overlap": ["dynamic_feature_acquisition", "prediction_vs_cost", "MDP", "expected_information_gain", "chronological_acquisition"],
+      "consequence": "generic dynamic Evidence acquisition is NOT our novelty"
+    },
+    "AFA_plus_OOD": {
+      "reference": "Li et al., Towards Robust Active Feature Acquisition, arXiv:2107.04163",
+      "overlap": ["partially_observed_inputs", "AFA", "OOD_for_partially_observed"],
+      "consequence": "AFA+OOD combination is NOT by itself novel"
+    },
+    "non_greedy_AFA": {
+      "reference": "Valancius, Lennon, Oliva, Acquisition Conditioned Oracle for Nongreedy Active Feature Acquisition (ACO), ICML 2024, PMLR 235",
+      "overlap": ["non_greedy_acquisition", "jointly_informative_acquisitions", "RL_complexity"],
+      "access_status": "PRIMARY_ABSTRACT_READ_FULL_PDF_TOOL_ACCESS_FAILED_MIME",
+      "full_method_review": "PENDING",
+      "gate_blocking": false,
+      "flag": "MUST_READ_BEFORE_FINAL_NONGREEDY_BASELINE_CLAIM=true"
+    },
+    "cost_aware_two_stage": {
+      "reference": "Regol et al., Is the acquisition worth the cost? Surrogate losses for Consistent Two-stage Classifiers, NeurIPS 2025",
+      "lesson": "router cannot see z before deciding; confidence alone is not the theoretically correct routing rule; optimal routing = expected future gain minus cost",
+      "consequence": "expected future acquisition utility is prior art; do not claim utility routing as invention"
+    },
+    "instance_specific_AFA": {
+      "reference": ["Guney et al., Active feature acquisition via explainability-driven ranking, ICML 2025", "Norcliffe et al., Stochastic Encodings for Active Feature Acquisition, ICML 2025"],
+      "overlap": ["instance_specific_acquisition", "RL_difficulty", "greedy_CMI_myopia"],
+      "consequence": "instance-specific Evidence utility is NOT standalone novelty"
+    },
+    "typed_temporal_acquisition": {
+      "reference": ["Information Templates, arXiv:2508.18380", "NOCTA, arXiv:2507.12412", "REACT, arXiv:2603.11370", "Active Acquisition for Multimodal Temporal Data, arXiv:2211.05039"],
+      "overlap": ["typed_acquisition", "temporal_acquisition", "jointly_informative_subsets"],
+      "consequence": "typed/grouped/temporal/jointly-informative acquisition are NOT standalone novelty claims"
+    },
+    "offline_AFA_evaluation": {
+      "reference": "von Kleist et al., Evaluation of Active Feature Acquisition Methods for Time-varying Feature Settings, JMLR 26(60) 2025",
+      "concepts": ["NDE", "NUC", "acquisition_policy_distribution_shift"],
+      "protocol_impact": {
+        "READ_ONLY_EVIDENCE_ACQUISITION_ASSUMPTION": true,
+        "EVIDENCE_AVAILABILITY_MISSINGNESS_STRESS_TEST": "PLANNED"
+      }
+    },
+    "acquire_before_abstain": {
+      "reference": "Xu et al., Look Again Before You Abstain: Budgeted Conformal Evidence Acquisition, arXiv:2606.16667",
+      "overlap": ["answer_acquire_abstain"],
+      "consequence": "look-again-before-reject is NOT standalone novelty",
+      "critical_lesson": {
+        "POLICY_CONDITIONED_NOVELTY_CALIBRATION": "MANDATORY",
+        "detail": "post-acquisition score distribution differs from pre-acquisition; never reuse a Basic-only threshold after acquisition; calibration and evaluation observations must traverse the same frozen acquisition pipeline; if policy/budget is selected on calibration data require separate held-out calibration protocol or pre-specified correction",
+        "not_our_novelty": "this calibration principle is prior art"
+      }
+    },
+    "traffic_open_set": {
+      "papers": [
+        {
+          "name": "RoNeTC",
+          "full": "Reliable Open-Set Network Traffic Classification, IEEE TIFS 2025, DOI 10.1109/TIFS.2025.3544067",
+          "full_text_status": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW",
+          "constraints": ["multi-view dynamic fusion = PRIOR_ART_EXISTS", "uncertainty-based Known/Unknown = PRIOR_ART_EXISTS", "does NOT selectively acquire previously unobserved runtime evidence"]
+        },
+        {
+          "name": "RoeCi",
+          "full": "Robust Open-Set Network Traffic Classification, Wang et al., IEEE TMC 2026, DOI 10.1109/TMC.2026.3715471",
+          "full_text_status": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW",
+          "constraints": ["do-more-processing-before-rejecting-Unknown = PRIOR_ART_EXISTS", "adds capacity/compute to the SAME observation, NOT acquisition of previously unobserved observation evidence"]
+        },
+        {
+          "name": "GCLC",
+          "full": "GCLC: Graph-Based Contrastive Learning and Clustering for Open-World Encrypted Traffic Classification, IEEE TIFS 2026, DOI 10.1109/TIFS.2026.3705313",
+          "full_text_status": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW",
+          "constraints": ["new-class discovery/clustering/human-confirmation/incremental-update = PRIOR_ART_EXISTS", "does NOT model Evidence-recoverable Known contamination before unknown-candidate admission"]
+        }
+      ]
+    },
+    "traffic_continual": {
+      "reference": [
+        "OWETC, Open world encrypted traffic classification based on semi-supervised class incremental learning, IEEE 2023, DOI 10.1109/ISPA-BDCloud-SocialCom-SustainCom59178.2023.00175",
+        "SOUL, A Semi-supervised Open-world continUal Learning method for Network Intrusion Detection, arXiv:2412.00911",
+        "MI^2DAS, A Multi-Layer Intrusion Detection Framework with Incremental Learning for Securing Industrial IoT Networks, arXiv:2602.23846"
+      ],
+      "consequence": "do NOT claim: open-world + incremental learning + replay/buffer + new-class adaptation"
+    },
+    "buffer_purity": {
+      "reference": "Self-Purified Replay, Continual Learning on Noisy Data Streams via Self-Purified Replay, arXiv:2110.07735",
+      "GENERIC_BUFFER_PURIFICATION_NOVELTY": false,
+      "RECOVERABLE_KNOWN_UNKNOWN_BUFFER_PURIFICATION": "PLAUSIBLE_NOVELTY_PENDING_FULL_REVIEW_AND_EXPERIMENT",
+      "candidate_gap": "Known class + insufficient observation + premature novelty rejection; remove Recoverable Known using legal test-time Evidence BEFORE unknown-candidate admission"
+    }
+  },
+  "access_limited_critical_papers": [
+    {"id": "aco_icml_2024", "priority": "MEDIUM_HIGH", "primary_abstract_read": true, "official_full_pdf_access": "FAILED_MIME", "ACO_ICML_2024_FULL_METHOD_REVIEW": "PENDING", "GATE_BLOCKING": false}
+  ],
+  "ACCESS_LIMITED_CRITICAL_PAPERS": 1,
+  "RONETC_FULL_TEXT_REVIEW": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW",
+  "ROECI_FULL_TEXT_REVIEW": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW",
+  "GCLC_FULL_TEXT_REVIEW": "COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW",
+  "contribution_positioning": {
+    "C1": {
+      "name": "RECOVERABILITY_CONDITIONED_OPEN_WORLD_TRAFFIC_RECOGNITION",
+      "scope": "RUNTIME_OBSERVATION_ACQUISITION_BEFORE_NOVELTY",
+      "core_distinction": "INSUFFICIENT_OBSERVATION_OF_KNOWN != TRUE_NOVELTY",
+      "decomposition": ["Basic_sufficient_Known", "Evidence_recoverable_Known", "Residual_hard_Known"],
+      "mechanism": "partial/basic observation -> adaptive acquisition of previously unobserved runtime-legal observation evidence -> reclassification before novelty handling",
+      "not_claimed": ["uncertainty_before_rejection", "adaptive_computation_before_rejection", "dynamic_multi_view_fusion", "open_set_traffic", "open_world_traffic", "new_class_discovery"],
+      "status": "PLAUSIBLY_NOVEL_PENDING_FULL_TRAFFIC_OSR_REVIEW",
+      "FURK_status": "PROPOSED_RECOVERABILITY_CONDITIONED_FALSE_UNKNOWN_DIAGNOSTIC_NOT_MAJOR_THEORY"
+    },
+    "M1": {
+      "name": "RECOVERABILITY_AND_HARM_AWARE_TYPED_EVIDENCE_ROUTING",
+      "core_object": "state_conditioned_operational_utility_U_e(x)",
+      "gate_1b_frozen": "HELP_NEUTRAL_HARM_plus1_0_minus1_not_to_be_retroactively_changed",
+      "model_b_status": "PROPOSED_NOT_FROZEN_expected_task_loss_reduction_minus_acquisition_cost",
+      "not_claimed": ["generic_instance_wise_acquisition", "typed_acquisition", "expected_utility_routing", "AFA"],
+      "project_specific": ["recover_under_observed_Known", "reduce_recoverability_conditioned_false_Unknown", "preserve_True_Unknown"]
+    },
+    "C2_CONDITIONAL": {
+      "name": "EVIDENCE_GATED_UNKNOWN_CANDIDATE_PURIFICATION_FOR_SELF_EVOLUTION",
+      "precise_scope": "remove Evidence-recoverable Known from the unknown-candidate stream BEFORE clustering, human verification, and new-class adaptation",
+      "mechanism": "uncertain observation -> Evidence recovery -> remove Recoverable Known -> residual novelty -> Unknown candidate stream -> verified feedback -> new-class adaptation",
+      "status": "PLAUSIBLE_NOVELTY_PENDING_OPEN_WORLD_AND_CONTINUAL_VALIDATION",
+      "not_the_novelty": ["unknown_detection", "clustering", "human_confirmation", "incremental_update", "replay", "continual_learning", "buffer_purification_in_general"]
+    },
+    "SELF_EVOLUTION": {
+      "status": "PLANNED_CORE_SYSTEM_LOOP_PENDING_PURIFICATION_AND_CONTINUAL_VALIDATION",
+      "novelty_is_not_continual_learning_itself": true,
+      "prerequisite": "before full continual training, first test whether the Evidence Gate actually purifies the Unknown candidate stream (Unknown-Candidate Purification Gate; no continual model training)"
+    }
+  },
+  "secondary_analysis": {
+    "EVIDENCE_SPECIALIZATION_AUDIT": {
+      "purpose": "true-known-class x Evidence family x HELP/HARM/UNIQUE_HELP/NET_UTILITY; within-class heterogeneity",
+      "status": "EMPIRICAL_ANALYSIS_NOT_STANDALONE_NOVELTY"
+    }
+  },
+  "open_world_gate_design_revision": {
+    "status": "NOT_RUN",
+    "INDEPENDENT_NOVELTY_DETECTOR": "true_Unknown_truth_may_not_train_utility_selector_whole_class_rotations_evaluation_only",
+    "POLICY_CONDITIONED_NOVELTY_CALIBRATION": "REQUIRED_freeze_policy_first_same_frozen_pipeline_for_calibration_and_test",
+    "NON_CHEATING_PRE_ACQUISITION_ROUTER": "true_no_actual_evidence_no_gt_no_future_correctness_no_True_Unknown_status_no_actual_future_utility",
+    "EVIDENCE_SUBSET_ANALYSIS": {
+      "states": ["NONE", "T", "R", "TR"],
+      "measures": ["unique_recovery", "shared_recovery", "TR_only_recovery", "redundancy", "synergy"],
+      "rule": "do_not_assume_greedy_T_to_R_optimal"
+    },
+    "READ_ONLY_EVIDENCE_ACQUISITION_ASSUMPTION": "true_same_split_strictly_past_only_runtime_legally_available_no_causal_modification_of_target_traffic",
+    "metrics": [
+      "TRUE_UNKNOWN_ACQUISITION_RATE",
+      "TRUE_UNKNOWN_POST_ACQUISITION_SCORE_SHIFT",
+      "UNKNOWN_AUROC",
+      "UNKNOWN_AUPR",
+      "UNKNOWN_RECALL_AT_FIXED_KNOWN_FPR",
+      "KNOWN_MACRO_F1",
+      "FURK",
+      "EVIDENCE_RECOVERY_RATE",
+      "ACQUISITION_RATE_COST"
+    ],
+    "metric_guard": "ensure Known recovery does NOT pull True Unknown toward Known",
+    "baselines": [
+      "BASIC_DIRECT_NOVELTY",
+      "ALWAYS_FULL_EVIDENCE",
+      "RANDOM_COST_MATCHED_ACQUISITION",
+      "LOW_CONFIDENCE_COST_MATCHED_ACQUISITION",
+      "HIGH_ENTROPY_COST_MATCHED_ACQUISITION",
+      "SUPERVISED_UTILITY_ACQUISITION",
+      "ORACLE_ANALYSIS_ONLY"
+    ],
+    "difficulty_routing_rule": "utility routing MUST be compared against generic difficulty routing (LOW_CONFIDENCE / HIGH_ENTROPY) per RoeCi prior art",
+    "oracle_rule": "oracle using actual future outcomes must NEVER be described as deployable",
+    "ronec_comparator": "RoNeTC-style multi-view dynamic fusion as Related Work comparator",
+    "FURK_DECOMPOSITION": ["RECOVERABLE_KNOWN_FALSE_UNKNOWN", "RESIDUAL_KNOWN_FALSE_UNKNOWN"]
+  },
+  "continual_design_revision": {
+    "status": "NOT_EXECUTED",
+    "matched_systems": [
+      "A_DIRECT_UNKNOWN_BUFFER_same_continual_learner",
+      "B_EVIDENCE_GATED_UNKNOWN_BUFFER_same_continual_learner",
+      "C_ORACLE_CLEAN_UNKNOWN_BUFFER_same_continual_learner"
+    ],
+    "matched_elements": ["replay", "adaptation", "training_budget", "label_budget", "update_schedule"],
+    "metrics": [
+      "BUFFER_PURITY",
+      "RECOVERABLE_KNOWN_CONTAMINATION",
+      "TRUE_UNKNOWN_RETENTION",
+      "LABEL_QUERY_EFFICIENCY",
+      "NEW_CLASS_F1",
+      "OLD_CLASS_F1",
+      "ALL_CLASS_F1",
+      "FORGETTING_BWT",
+      "ADAPTATION_COUNT"
+    ],
+    "attribution_rule": "any gain must be attributable to Unknown-stream quality, not a different continual algorithm"
+  },
+  "RL_status": {
+    "RL_IS_NOT_CORE_NOVELTY": true,
+    "RL_OPTIONAL": "only if it improves quality-cost/open-world frontier over supervised utility selector + simple heuristics"
+  },
+  "MODEL_B_CONTINUOUS_UTILITY_STATUS": {
+    "status": "PROPOSED_NOT_FROZEN",
+    "candidate": "expected post-acquisition task-loss improvement - lambda x acquisition cost",
+    "rules": [
+      "Gate 1B HELP/NEUTRAL/HARM +1/0/-1 NOT retroactively changed",
+      "no Unknown-dependent training target until Open-World Gate establishes leakage-safe formulation",
+      "Teacher remains NOT_UTILITY_GT"
+    ]
+  },
+  "plan_document_policy": {
+    "frozen_untouched": [
+      "docs/research_plan/experiment_protocol_v1.md",
+      "docs/research_plan/model_b_evidence_openworld_design.md"
+    ],
+    "addendum_created": "docs/research_plan/literature_novelty_reassessment_v1.md",
+    "note": "literature reassessment, not a material protocol deviation; no new DEC row added"
+  },
+  "claim_safety_table": [
+    {"claim": "dynamic Evidence acquisition", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "instance-specific Evidence utility", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "typed/temporal Evidence acquisition", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "acquire before abstain/reject", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "uncertainty before rejection", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "adaptive computation before rejection", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "dynamic multi-view fusion", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "open-world traffic recognition", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "new-class discovery/clustering/human-confirmation/incremental-update", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "open-world continual traffic learning", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "buffer purification", "status": "PRIOR_ART_EXISTS"},
+    {"claim": "runtime observation acquisition before novelty handling (recoverability-conditioned false-Unknown handling in traffic)", "status": "PLAUSIBLE_NOVELTY_PENDING_FULL_REVIEW"},
+    {"claim": "evidence-gated removal of Recoverable Known before Unknown-candidate admission", "status": "PLAUSIBLE_NOVELTY_PENDING_FULL_REVIEW_AND_EXPERIMENT"},
+    {"claim": "FURK", "status": "PROPOSED_RECOVERABILITY_CONDITIONED_FALSE_UNKNOWN_DIAGNOSTIC_PENDING_TERMINOLOGY_REVIEW"}
+  ],
+  "safety_ledger": {
+    "OPEN_WORLD_GATE_STARTED": false,
+    "MODEL_B_TRAINING_STARTED": false,
+    "QWEN_API_CALLS": 0,
+    "DEEPSEEK_API_CALLS": 0,
+    "RL_TRAINING_STARTED": false,
+    "CONTINUAL_TRAINING_STARTED": false,
+    "COMMIT_CREATED": false,
+    "PUSHED": false,
+    "HISTORICAL_FORMAL_REPORTS_MODIFIED": false
+  }
+}

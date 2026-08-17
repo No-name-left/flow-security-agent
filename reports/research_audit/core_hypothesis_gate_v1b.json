@@ -1,0 +1,3517 @@
+{
+  "schema_version": "CORE_HYPOTHESIS_GATE_V1B_REPORT_V1",
+  "status": "COMPLETE_PASS",
+  "date": "2026-08-17",
+  "repository": "flow-security-agent",
+  "branch": "main",
+  "head": "",
+  "gate1_status": "YELLOW",
+  "gate1_status_changed": false,
+  "gate1b_prospective_followup": true,
+  "gate1_thresholds_unchanged": true,
+  "rescue_experiments": false,
+  "formal_seeds": [
+    20260817,
+    20260818,
+    20260819
+  ],
+  "oof_folds": 3,
+  "utility_oof_coverage": "100%",
+  "validation_per_seed": 56000,
+  "selector_family": "RandomForestRegressor",
+  "selector_config": {
+    "n_estimators": 200,
+    "max_depth": 12,
+    "min_samples_leaf": 20,
+    "max_features": "sqrt",
+    "n_jobs": -1,
+    "random_state": "formal seed"
+  },
+  "selector_provenance": "exactly one learned selector family (RandomForestRegressor), frozen before any Gate 1B result; config n_estimators=200, max_depth=12, min_samples_leaf=20, max_features='sqrt', n_jobs=-1, random_state=formal seed; no hyperparameter search, no family comparison.",
+  "selector_feature_names": [
+    "PROTOCOL",
+    "L7_PROTO",
+    "IN_BYTES",
+    "IN_PKTS",
+    "OUT_BYTES",
+    "OUT_PKTS",
+    "TCP_FLAGS",
+    "CLIENT_TCP_FLAGS",
+    "SERVER_TCP_FLAGS",
+    "FLOW_DURATION_MILLISECONDS",
+    "DURATION_IN",
+    "DURATION_OUT",
+    "MIN_TTL",
+    "MAX_TTL",
+    "LONGEST_FLOW_PKT",
+    "SHORTEST_FLOW_PKT",
+    "MIN_IP_PKT_LEN",
+    "MAX_IP_PKT_LEN",
+    "SRC_TO_DST_SECOND_BYTES",
+    "DST_TO_SRC_SECOND_BYTES",
+    "RETRANSMITTED_IN_BYTES",
+    "RETRANSMITTED_IN_PKTS",
+    "RETRANSMITTED_OUT_BYTES",
+    "RETRANSMITTED_OUT_PKTS",
+    "SRC_TO_DST_AVG_THROUGHPUT",
+    "DST_TO_SRC_AVG_THROUGHPUT",
+    "NUM_PKTS_UP_TO_128_BYTES",
+    "NUM_PKTS_128_TO_256_BYTES",
+    "NUM_PKTS_256_TO_512_BYTES",
+    "NUM_PKTS_512_TO_1024_BYTES",
+    "NUM_PKTS_1024_TO_1514_BYTES",
+    "TCP_WIN_MAX_IN",
+    "TCP_WIN_MAX_OUT",
+    "ICMP_TYPE",
+    "ICMP_IPV4_TYPE",
+    "DNS_QUERY_ID",
+    "DNS_QUERY_TYPE",
+    "DNS_TTL_ANSWER",
+    "FTP_COMMAND_RET_CODE",
+    "SRC_TO_DST_IAT_MIN",
+    "SRC_TO_DST_IAT_MAX",
+    "SRC_TO_DST_IAT_AVG",
+    "SRC_TO_DST_IAT_STDDEV",
+    "DST_TO_SRC_IAT_MIN",
+    "DST_TO_SRC_IAT_MAX",
+    "DST_TO_SRC_IAT_AVG",
+    "DST_TO_SRC_IAT_STDDEV",
+    "pred_class_onehot_Backdoor",
+    "pred_class_onehot_Benign",
+    "pred_class_onehot_Credential",
+    "pred_class_onehot_DDoS",
+    "pred_class_onehot_DoS",
+    "pred_class_onehot_Recon_Scanning",
+    "pred_class_onehot_Web_Injection",
+    "proba_B_Backdoor",
+    "proba_B_Benign",
+    "proba_B_Credential",
+    "proba_B_DDoS",
+    "proba_B_DoS",
+    "proba_B_Recon_Scanning",
+    "proba_B_Web_Injection",
+    "basic_max_prob",
+    "basic_margin",
+    "basic_entropy",
+    "evidence_availability_mask"
+  ],
+  "selector_leakage_audit": "PASS",
+  "basic_proba_provider": "REPRODUCED_FROZEN_BASIC_ESTIMATOR_DETERMINISTIC_VERIFIED_EXACT_PRED_MATCH",
+  "budgets": [
+    0.05,
+    0.1,
+    0.15,
+    0.2
+  ],
+  "primary_budget": 0.15,
+  "random_reps": 500,
+  "bootstrap_reps": 1000,
+  "per_seed": {
+    "20260817": {
+      "schema_version": "CORE_HYPOTHESIS_GATE_V1B_SEED_RESULT_V1",
+      "seed": 20260817,
+      "validation_n": 56000,
+      "selector_family": "RandomForestRegressor",
+      "selector_config": {
+        "n_estimators": 200,
+        "max_depth": 12,
+        "min_samples_leaf": 20,
+        "max_features": "sqrt",
+        "n_jobs": -1,
+        "random_state": "formal seed"
+      },
+      "selector_feature_names": [
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "pred_class_onehot_Backdoor",
+        "pred_class_onehot_Benign",
+        "pred_class_onehot_Credential",
+        "pred_class_onehot_DDoS",
+        "pred_class_onehot_DoS",
+        "pred_class_onehot_Recon_Scanning",
+        "pred_class_onehot_Web_Injection",
+        "proba_B_Backdoor",
+        "proba_B_Benign",
+        "proba_B_Credential",
+        "proba_B_DDoS",
+        "proba_B_DoS",
+        "proba_B_Recon_Scanning",
+        "proba_B_Web_Injection",
+        "basic_max_prob",
+        "basic_margin",
+        "basic_entropy",
+        "evidence_availability_mask"
+      ],
+      "selector_leakage_audit": "PASS",
+      "basic_proba_provider": "REPRODUCED_FROZEN_BASIC_ESTIMATOR_DETERMINISTIC_VERIFIED_EXACT_PRED_MATCH",
+      "budgets": [
+        0.05,
+        0.1,
+        0.15,
+        0.2
+      ],
+      "primary_budget": 0.15,
+      "diversity": {
+        "UNIQUE_T_HELP": {
+          "count": 101,
+          "rate": 0.0018035714285714285,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 49,
+              "rate": 0.000875
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 7,
+              "rate": 0.000125
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 4,
+              "rate": 7.142857142857143e-05
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 33,
+              "rate": 0.0005892857142857143
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 8,
+              "rate": 0.00014285714285714287
+            }
+          }
+        },
+        "UNIQUE_R_HELP": {
+          "count": 1160,
+          "rate": 0.020714285714285713,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 1117,
+              "rate": 0.01994642857142857
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 29,
+              "rate": 0.0005178571428571428
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 10,
+              "rate": 0.00017857142857142857
+            }
+          }
+        },
+        "SHARED_TR_HELP": {
+          "count": 1407,
+          "rate": 0.025125,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 536,
+              "rate": 0.009571428571428571
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 6,
+              "rate": 0.00010714285714285714
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 16,
+              "rate": 0.00028571428571428574
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 262,
+              "rate": 0.004678571428571429
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 29,
+              "rate": 0.0005178571428571428
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 557,
+              "rate": 0.009946428571428571
+            }
+          }
+        },
+        "FULL_ONLY_HELP": {
+          "count": 28,
+          "rate": 0.0005,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 19,
+              "rate": 0.0003392857142857143
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 4,
+              "rate": 7.142857142857143e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 3,
+              "rate": 5.357142857142857e-05
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            }
+          }
+        }
+      },
+      "families": {
+        "T": {
+          "condition": "BT",
+          "help_prevalence": 0.02692857142857143,
+          "harm_prevalence": 0.018732142857142857,
+          "global_net_utility_prevalence": 0.008196428571428573,
+          "help_auroc": 0.9099391989693666,
+          "help_aupr": 0.3011721129958271,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9332478299450206,
+                "micro_f1": 0.9336071428571429,
+                "balanced_accuracy": 0.9336071428571427,
+                "selected_n": 2800,
+                "help_captured": 873,
+                "help_precision_among_acquired": 0.3117857142857143,
+                "help_capture": 0.5789124668435013,
+                "harm_captured": 116,
+                "harm_rate_among_acquired": 0.041428571428571426,
+                "net_recovery": 0.013517857142857142
+              },
+              "confidence": {
+                "macro_f1": 0.9313439931313136,
+                "micro_f1": 0.931625,
+                "balanced_accuracy": 0.931625,
+                "selected_n": 2800,
+                "help_captured": 851,
+                "help_precision_among_acquired": 0.30392857142857144,
+                "help_capture": 0.5643236074270557,
+                "harm_captured": 205,
+                "harm_rate_among_acquired": 0.07321428571428572,
+                "net_recovery": 0.011535714285714286
+              },
+              "entropy": {
+                "macro_f1": 0.9310519366885698,
+                "micro_f1": 0.9313214285714285,
+                "balanced_accuracy": 0.9313214285714286,
+                "selected_n": 2800,
+                "help_captured": 843,
+                "help_precision_among_acquired": 0.30107142857142855,
+                "help_capture": 0.5590185676392573,
+                "harm_captured": 214,
+                "harm_rate_among_acquired": 0.07642857142857143,
+                "net_recovery": 0.011232142857142857
+              },
+              "oracle": {
+                "macro_f1": 0.946820477760325,
+                "micro_f1": 0.9470178571428571,
+                "balanced_accuracy": 0.9470178571428571,
+                "selected_n": 2800,
+                "help_captured": 1508,
+                "help_precision_among_acquired": 0.5385714285714286,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02692857142857143
+              },
+              "random_mean": {
+                "net_recovery": 0.00041735714285714287,
+                "net_recovery_ci95": [
+                  1.785714285714286e-05,
+                  0.0008129464285714282
+                ],
+                "macro_f1": 0.9199891149237741,
+                "macro_f1_ci95": [
+                  0.9195771438023574,
+                  0.920395893564054
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9365840710405083,
+                "micro_f1": 0.936875,
+                "balanced_accuracy": 0.9368749999999999,
+                "selected_n": 5600,
+                "help_captured": 1065,
+                "help_precision_among_acquired": 0.19017857142857142,
+                "help_capture": 0.7062334217506632,
+                "harm_captured": 125,
+                "harm_rate_among_acquired": 0.022321428571428572,
+                "net_recovery": 0.016785714285714286
+              },
+              "confidence": {
+                "macro_f1": 0.9326028941558032,
+                "micro_f1": 0.932875,
+                "balanced_accuracy": 0.932875,
+                "selected_n": 5600,
+                "help_captured": 938,
+                "help_precision_among_acquired": 0.1675,
+                "help_capture": 0.6220159151193634,
+                "harm_captured": 222,
+                "harm_rate_among_acquired": 0.03964285714285714,
+                "net_recovery": 0.012785714285714286
+              },
+              "entropy": {
+                "macro_f1": 0.9319668725603716,
+                "micro_f1": 0.9322321428571428,
+                "balanced_accuracy": 0.932232142857143,
+                "selected_n": 5600,
+                "help_captured": 910,
+                "help_precision_among_acquired": 0.1625,
+                "help_capture": 0.603448275862069,
+                "harm_captured": 230,
+                "harm_rate_among_acquired": 0.04107142857142857,
+                "net_recovery": 0.012142857142857143
+              },
+              "oracle": {
+                "macro_f1": 0.946827289114534,
+                "micro_f1": 0.9470178571428571,
+                "balanced_accuracy": 0.9470178571428571,
+                "selected_n": 5600,
+                "help_captured": 1508,
+                "help_precision_among_acquired": 0.2692857142857143,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02692857142857143
+              },
+              "random_mean": {
+                "net_recovery": 0.0008213928571428571,
+                "net_recovery_ci95": [
+                  0.00027633928571428574,
+                  0.001348660714285714
+                ],
+                "macro_f1": 0.9204163956963157,
+                "macro_f1_ci95": [
+                  0.9198660940291373,
+                  0.9209458032864299
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9404518385035242,
+                "micro_f1": 0.9406607142857143,
+                "balanced_accuracy": 0.9406607142857143,
+                "selected_n": 8400,
+                "help_captured": 1354,
+                "help_precision_among_acquired": 0.1611904761904762,
+                "help_capture": 0.8978779840848806,
+                "harm_captured": 202,
+                "harm_rate_among_acquired": 0.024047619047619047,
+                "net_recovery": 0.02057142857142857
+              },
+              "confidence": {
+                "macro_f1": 0.9352181914127725,
+                "micro_f1": 0.9354285714285714,
+                "balanced_accuracy": 0.9354285714285714,
+                "selected_n": 8400,
+                "help_captured": 1086,
+                "help_precision_among_acquired": 0.12928571428571428,
+                "help_capture": 0.7201591511936339,
+                "harm_captured": 227,
+                "harm_rate_among_acquired": 0.027023809523809523,
+                "net_recovery": 0.015339285714285715
+              },
+              "entropy": {
+                "macro_f1": 0.9352558462019661,
+                "micro_f1": 0.9354642857142857,
+                "balanced_accuracy": 0.9354642857142856,
+                "selected_n": 8400,
+                "help_captured": 1100,
+                "help_precision_among_acquired": 0.13095238095238096,
+                "help_capture": 0.7294429708222812,
+                "harm_captured": 239,
+                "harm_rate_among_acquired": 0.02845238095238095,
+                "net_recovery": 0.015375
+              },
+              "oracle": {
+                "macro_f1": 0.9468299798193341,
+                "micro_f1": 0.9470178571428571,
+                "balanced_accuracy": 0.9470178571428571,
+                "selected_n": 8400,
+                "help_captured": 1508,
+                "help_precision_among_acquired": 0.17952380952380953,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02692857142857143
+              },
+              "random_mean": {
+                "net_recovery": 0.001213142857142857,
+                "net_recovery_ci95": [
+                  0.0005620535714285714,
+                  0.0018308035714285711
+                ],
+                "macro_f1": 0.920829475194307,
+                "macro_f1_ci95": [
+                  0.9201676616771024,
+                  0.9214493388512944
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9406521427360942,
+                "micro_f1": 0.9408035714285714,
+                "balanced_accuracy": 0.9408035714285713,
+                "selected_n": 11200,
+                "help_captured": 1402,
+                "help_precision_among_acquired": 0.12517857142857142,
+                "help_capture": 0.9297082228116711,
+                "harm_captured": 242,
+                "harm_rate_among_acquired": 0.021607142857142856,
+                "net_recovery": 0.020714285714285713
+              },
+              "confidence": {
+                "macro_f1": 0.9384124491141247,
+                "micro_f1": 0.9385892857142857,
+                "balanced_accuracy": 0.9385892857142857,
+                "selected_n": 11200,
+                "help_captured": 1336,
+                "help_precision_among_acquired": 0.11928571428571429,
+                "help_capture": 0.8859416445623343,
+                "harm_captured": 300,
+                "harm_rate_among_acquired": 0.026785714285714284,
+                "net_recovery": 0.0185
+              },
+              "entropy": {
+                "macro_f1": 0.937534861386645,
+                "micro_f1": 0.9377142857142857,
+                "balanced_accuracy": 0.9377142857142858,
+                "selected_n": 11200,
+                "help_captured": 1284,
+                "help_precision_among_acquired": 0.11464285714285714,
+                "help_capture": 0.8514588859416445,
+                "harm_captured": 297,
+                "harm_rate_among_acquired": 0.02651785714285714,
+                "net_recovery": 0.017625
+              },
+              "oracle": {
+                "macro_f1": 0.9468342513533871,
+                "micro_f1": 0.9470178571428571,
+                "balanced_accuracy": 0.9470178571428571,
+                "selected_n": 11200,
+                "help_captured": 1508,
+                "help_precision_among_acquired": 0.13464285714285715,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02692857142857143
+              },
+              "random_mean": {
+                "net_recovery": 0.0016286785714285715,
+                "net_recovery_ci95": [
+                  0.001,
+                  0.002330803571428571
+                ],
+                "macro_f1": 0.9212643603519914,
+                "macro_f1_ci95": [
+                  0.9206325108072049,
+                  0.921967727300162
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.8978779840848806,
+            "help_precision_among_acquired": 0.1611904761904762,
+            "harm_captured": 202,
+            "net_recovery": 0.02057142857142857
+          },
+          "net_recovery_gain_vs_random_15": 0.019358285714285713,
+          "selector15_macro_f1": 0.9404518385035242,
+          "basic_macro_f1": 0.9195453843242216,
+          "delta_selective15_macro_f1": 0.02090645417930259,
+          "help_prevalence_ratio_aupr": 11.184110296927265
+        },
+        "R": {
+          "condition": "BR",
+          "help_prevalence": 0.045839285714285714,
+          "harm_prevalence": 0.060142857142857144,
+          "global_net_utility_prevalence": -0.01430357142857143,
+          "help_auroc": 0.9287314629286716,
+          "help_aupr": 0.3445690912568182,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9337253525674104,
+                "micro_f1": 0.9339821428571429,
+                "balanced_accuracy": 0.9339821428571428,
+                "selected_n": 2800,
+                "help_captured": 1002,
+                "help_precision_among_acquired": 0.3578571428571429,
+                "help_capture": 0.39033891702376317,
+                "harm_captured": 224,
+                "harm_rate_among_acquired": 0.08,
+                "net_recovery": 0.013892857142857143
+              },
+              "confidence": {
+                "macro_f1": 0.928271521635362,
+                "micro_f1": 0.9285357142857142,
+                "balanced_accuracy": 0.9285357142857142,
+                "selected_n": 2800,
+                "help_captured": 850,
+                "help_precision_among_acquired": 0.30357142857142855,
+                "help_capture": 0.33112582781456956,
+                "harm_captured": 377,
+                "harm_rate_among_acquired": 0.13464285714285715,
+                "net_recovery": 0.008446428571428572
+              },
+              "entropy": {
+                "macro_f1": 0.9288514153479543,
+                "micro_f1": 0.9290714285714285,
+                "balanced_accuracy": 0.9290714285714287,
+                "selected_n": 2800,
+                "help_captured": 841,
+                "help_precision_among_acquired": 0.3003571428571429,
+                "help_capture": 0.3276197896377094,
+                "harm_captured": 338,
+                "harm_rate_among_acquired": 0.12071428571428572,
+                "net_recovery": 0.008982142857142857
+              },
+              "oracle": {
+                "macro_f1": 0.965863712063113,
+                "micro_f1": 0.9659285714285715,
+                "balanced_accuracy": 0.9659285714285714,
+                "selected_n": 2800,
+                "help_captured": 2567,
+                "help_precision_among_acquired": 0.9167857142857143,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045839285714285714
+              },
+              "random_mean": {
+                "net_recovery": -0.0007158571428571429,
+                "net_recovery_ci95": [
+                  -0.0013035714285714287,
+                  -0.00020491071428571468
+                ],
+                "macro_f1": 0.9189396129707718,
+                "macro_f1_ci95": [
+                  0.9183581667674032,
+                  0.919465110184275
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9526454094224679,
+                "micro_f1": 0.9527857142857142,
+                "balanced_accuracy": 0.9527857142857142,
+                "selected_n": 5600,
+                "help_captured": 2312,
+                "help_precision_among_acquired": 0.41285714285714287,
+                "help_capture": 0.9006622516556292,
+                "harm_captured": 481,
+                "harm_rate_among_acquired": 0.08589285714285715,
+                "net_recovery": 0.03269642857142857
+              },
+              "confidence": {
+                "macro_f1": 0.9280174149815837,
+                "micro_f1": 0.9283214285714285,
+                "balanced_accuracy": 0.9283214285714286,
+                "selected_n": 5600,
+                "help_captured": 961,
+                "help_precision_among_acquired": 0.17160714285714285,
+                "help_capture": 0.374366965329178,
+                "harm_captured": 500,
+                "harm_rate_among_acquired": 0.08928571428571429,
+                "net_recovery": 0.008232142857142856
+              },
+              "entropy": {
+                "macro_f1": 0.92741266451792,
+                "micro_f1": 0.9276964285714285,
+                "balanced_accuracy": 0.9276964285714285,
+                "selected_n": 5600,
+                "help_captured": 933,
+                "help_precision_among_acquired": 0.16660714285714287,
+                "help_capture": 0.3634592910011687,
+                "harm_captured": 507,
+                "harm_rate_among_acquired": 0.09053571428571429,
+                "net_recovery": 0.0076071428571428575
+              },
+              "oracle": {
+                "macro_f1": 0.965869669210716,
+                "micro_f1": 0.9659285714285715,
+                "balanced_accuracy": 0.9659285714285714,
+                "selected_n": 5600,
+                "help_captured": 2567,
+                "help_precision_among_acquired": 0.45839285714285716,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045839285714285714
+              },
+              "random_mean": {
+                "net_recovery": -0.0014464285714285714,
+                "net_recovery_ci95": [
+                  -0.002225446428571428,
+                  -0.0007406250000000004
+                ],
+                "macro_f1": 0.9183002940465171,
+                "macro_f1_ci95": [
+                  0.9175211144274137,
+                  0.9190086760428263
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9355763164204701,
+                "micro_f1": 0.93625,
+                "balanced_accuracy": 0.93625,
+                "selected_n": 8400,
+                "help_captured": 2368,
+                "help_precision_among_acquired": 0.2819047619047619,
+                "help_capture": 0.9224776003116478,
+                "harm_captured": 1463,
+                "harm_rate_among_acquired": 0.17416666666666666,
+                "net_recovery": 0.016160714285714285
+              },
+              "confidence": {
+                "macro_f1": 0.9326201161575821,
+                "micro_f1": 0.9329642857142857,
+                "balanced_accuracy": 0.9329642857142858,
+                "selected_n": 8400,
+                "help_captured": 2011,
+                "help_precision_among_acquired": 0.2394047619047619,
+                "help_capture": 0.7834047526295286,
+                "harm_captured": 1290,
+                "harm_rate_among_acquired": 0.15357142857142858,
+                "net_recovery": 0.012875
+              },
+              "entropy": {
+                "macro_f1": 0.9388936145678415,
+                "micro_f1": 0.9390535714285714,
+                "balanced_accuracy": 0.9390535714285714,
+                "selected_n": 8400,
+                "help_captured": 2025,
+                "help_precision_among_acquired": 0.24107142857142858,
+                "help_capture": 0.7888585897935333,
+                "harm_captured": 963,
+                "harm_rate_among_acquired": 0.11464285714285714,
+                "net_recovery": 0.018964285714285715
+              },
+              "oracle": {
+                "macro_f1": 0.9658875280884549,
+                "micro_f1": 0.9659285714285715,
+                "balanced_accuracy": 0.9659285714285714,
+                "selected_n": 8400,
+                "help_captured": 2567,
+                "help_precision_among_acquired": 0.3055952380952381,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045839285714285714
+              },
+              "random_mean": {
+                "net_recovery": -0.002157464285714286,
+                "net_recovery_ci95": [
+                  -0.0030714285714285713,
+                  -0.0012049107142857146
+                ],
+                "macro_f1": 0.9176604573348353,
+                "macro_f1_ci95": [
+                  0.9167375808878074,
+                  0.9186213107757143
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9349634713723132,
+                "micro_f1": 0.9355892857142857,
+                "balanced_accuracy": 0.9355892857142857,
+                "selected_n": 11200,
+                "help_captured": 2426,
+                "help_precision_among_acquired": 0.21660714285714286,
+                "help_capture": 0.9450720685625243,
+                "harm_captured": 1558,
+                "harm_rate_among_acquired": 0.13910714285714285,
+                "net_recovery": 0.0155
+              },
+              "confidence": {
+                "macro_f1": 0.9322843542178462,
+                "micro_f1": 0.9329285714285714,
+                "balanced_accuracy": 0.9329285714285714,
+                "selected_n": 11200,
+                "help_captured": 2368,
+                "help_precision_among_acquired": 0.21142857142857144,
+                "help_capture": 0.9224776003116478,
+                "harm_captured": 1649,
+                "harm_rate_among_acquired": 0.14723214285714287,
+                "net_recovery": 0.012839285714285715
+              },
+              "entropy": {
+                "macro_f1": 0.9314851080208355,
+                "micro_f1": 0.932125,
+                "balanced_accuracy": 0.9321250000000001,
+                "selected_n": 11200,
+                "help_captured": 2318,
+                "help_precision_among_acquired": 0.2069642857142857,
+                "help_capture": 0.9029996104402026,
+                "harm_captured": 1644,
+                "harm_rate_among_acquired": 0.1467857142857143,
+                "net_recovery": 0.012035714285714285
+              },
+              "oracle": {
+                "macro_f1": 0.9658921885703738,
+                "micro_f1": 0.9659285714285715,
+                "balanced_accuracy": 0.9659285714285714,
+                "selected_n": 11200,
+                "help_captured": 2567,
+                "help_precision_among_acquired": 0.22919642857142858,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045839285714285714
+              },
+              "random_mean": {
+                "net_recovery": -0.0028619285714285713,
+                "net_recovery_ci95": [
+                  -0.003892857142857143,
+                  -0.00175
+                ],
+                "macro_f1": 0.9170053241967473,
+                "macro_f1_ci95": [
+                  0.9159727175755737,
+                  0.918126090414285
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.9224776003116478,
+            "help_precision_among_acquired": 0.2819047619047619,
+            "harm_captured": 1463,
+            "net_recovery": 0.016160714285714285
+          },
+          "net_recovery_gain_vs_random_15": 0.018318178571428572,
+          "selector15_macro_f1": 0.9355763164204701,
+          "basic_macro_f1": 0.9195453843242216,
+          "delta_selective15_macro_f1": 0.016030932096248507,
+          "help_prevalence_ratio_aupr": 7.516894861855014
+        },
+        "TR": {
+          "condition": "BTR",
+          "help_prevalence": 0.036875,
+          "harm_prevalence": 0.05805357142857143,
+          "global_net_utility_prevalence": -0.02117857142857143,
+          "help_auroc": 0.9164641099018166,
+          "help_aupr": 0.3136612665591298,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9321045606927532,
+                "micro_f1": 0.9323928571428571,
+                "balanced_accuracy": 0.9323928571428572,
+                "selected_n": 2800,
+                "help_captured": 920,
+                "help_precision_among_acquired": 0.32857142857142857,
+                "help_capture": 0.44552058111380144,
+                "harm_captured": 231,
+                "harm_rate_among_acquired": 0.0825,
+                "net_recovery": 0.01230357142857143
+              },
+              "confidence": {
+                "macro_f1": 0.9287657730135856,
+                "micro_f1": 0.929,
+                "balanced_accuracy": 0.929,
+                "selected_n": 2800,
+                "help_captured": 856,
+                "help_precision_among_acquired": 0.3057142857142857,
+                "help_capture": 0.4145278450363196,
+                "harm_captured": 357,
+                "harm_rate_among_acquired": 0.1275,
+                "net_recovery": 0.008910714285714286
+              },
+              "entropy": {
+                "macro_f1": 0.9276622576302237,
+                "micro_f1": 0.927875,
+                "balanced_accuracy": 0.927875,
+                "selected_n": 2800,
+                "help_captured": 848,
+                "help_precision_among_acquired": 0.3028571428571429,
+                "help_capture": 0.41065375302663437,
+                "harm_captured": 412,
+                "harm_rate_among_acquired": 0.14714285714285713,
+                "net_recovery": 0.007785714285714286
+              },
+              "oracle": {
+                "macro_f1": 0.9568789211145774,
+                "micro_f1": 0.9569642857142857,
+                "balanced_accuracy": 0.9569642857142856,
+                "selected_n": 2800,
+                "help_captured": 2065,
+                "help_precision_among_acquired": 0.7375,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.036875
+              },
+              "random_mean": {
+                "net_recovery": -0.0010493214285714285,
+                "net_recovery_ci95": [
+                  -0.0016700892857142858,
+                  -0.0005178571428571428
+                ],
+                "macro_f1": 0.9186076707667247,
+                "macro_f1_ci95": [
+                  0.9179884416242988,
+                  0.9191380341463102
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9425184136761862,
+                "micro_f1": 0.9426428571428571,
+                "balanced_accuracy": 0.9426428571428572,
+                "selected_n": 5600,
+                "help_captured": 1660,
+                "help_precision_among_acquired": 0.29642857142857143,
+                "help_capture": 0.8038740920096852,
+                "harm_captured": 397,
+                "harm_rate_among_acquired": 0.07089285714285715,
+                "net_recovery": 0.02255357142857143
+              },
+              "confidence": {
+                "macro_f1": 0.9292985213857791,
+                "micro_f1": 0.9295178571428572,
+                "balanced_accuracy": 0.9295178571428572,
+                "selected_n": 5600,
+                "help_captured": 941,
+                "help_precision_among_acquired": 0.1680357142857143,
+                "help_capture": 0.4556900726392252,
+                "harm_captured": 413,
+                "harm_rate_among_acquired": 0.07375,
+                "net_recovery": 0.009428571428571429
+              },
+              "entropy": {
+                "macro_f1": 0.9284034429258295,
+                "micro_f1": 0.9286071428571429,
+                "balanced_accuracy": 0.9286071428571427,
+                "selected_n": 5600,
+                "help_captured": 913,
+                "help_precision_among_acquired": 0.16303571428571428,
+                "help_capture": 0.44213075060532686,
+                "harm_captured": 436,
+                "harm_rate_among_acquired": 0.07785714285714286,
+                "net_recovery": 0.008517857142857143
+              },
+              "oracle": {
+                "macro_f1": 0.9568891467216492,
+                "micro_f1": 0.9569642857142857,
+                "balanced_accuracy": 0.9569642857142856,
+                "selected_n": 5600,
+                "help_captured": 2065,
+                "help_precision_among_acquired": 0.36875,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.036875
+              },
+              "random_mean": {
+                "net_recovery": -0.002121964285714285,
+                "net_recovery_ci95": [
+                  -0.0029379464285714287,
+                  -0.0014004464285714297
+                ],
+                "macro_f1": 0.9176382680437645,
+                "macro_f1_ci95": [
+                  0.9168318918913313,
+                  0.9183736588631005
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.935399619831399,
+                "micro_f1": 0.9356071428571429,
+                "balanced_accuracy": 0.935607142857143,
+                "selected_n": 8400,
+                "help_captured": 1880,
+                "help_precision_among_acquired": 0.22380952380952382,
+                "help_capture": 0.910411622276029,
+                "harm_captured": 1011,
+                "harm_rate_among_acquired": 0.12035714285714286,
+                "net_recovery": 0.015517857142857142
+              },
+              "confidence": {
+                "macro_f1": 0.934264952627389,
+                "micro_f1": 0.9343928571428571,
+                "balanced_accuracy": 0.9343928571428571,
+                "selected_n": 8400,
+                "help_captured": 1591,
+                "help_precision_among_acquired": 0.1894047619047619,
+                "help_capture": 0.7704600484261501,
+                "harm_captured": 790,
+                "harm_rate_among_acquired": 0.09404761904761905,
+                "net_recovery": 0.01430357142857143
+              },
+              "entropy": {
+                "macro_f1": 0.9382967863861665,
+                "micro_f1": 0.938375,
+                "balanced_accuracy": 0.938375,
+                "selected_n": 8400,
+                "help_captured": 1605,
+                "help_precision_among_acquired": 0.19107142857142856,
+                "help_capture": 0.7772397094430993,
+                "harm_captured": 581,
+                "harm_rate_among_acquired": 0.06916666666666667,
+                "net_recovery": 0.018285714285714287
+              },
+              "oracle": {
+                "macro_f1": 0.9568981110228327,
+                "micro_f1": 0.9569642857142857,
+                "balanced_accuracy": 0.9569642857142856,
+                "selected_n": 8400,
+                "help_captured": 2065,
+                "help_precision_among_acquired": 0.24583333333333332,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.036875
+              },
+              "random_mean": {
+                "net_recovery": -0.003189964285714286,
+                "net_recovery_ci95": [
+                  -0.004080803571428571,
+                  -0.002401339285714286
+                ],
+                "macro_f1": 0.9166622732724061,
+                "macro_f1_ci95": [
+                  0.9157609324898088,
+                  0.9174558127899379
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9353810896413826,
+                "micro_f1": 0.9355357142857142,
+                "balanced_accuracy": 0.9355357142857142,
+                "selected_n": 11200,
+                "help_captured": 1928,
+                "help_precision_among_acquired": 0.17214285714285715,
+                "help_capture": 0.9336561743341404,
+                "harm_captured": 1063,
+                "harm_rate_among_acquired": 0.09491071428571428,
+                "net_recovery": 0.015446428571428571
+              },
+              "confidence": {
+                "macro_f1": 0.93221661865184,
+                "micro_f1": 0.9324464285714286,
+                "balanced_accuracy": 0.9324464285714286,
+                "selected_n": 11200,
+                "help_captured": 1866,
+                "help_precision_among_acquired": 0.16660714285714287,
+                "help_capture": 0.9036319612590799,
+                "harm_captured": 1174,
+                "harm_rate_among_acquired": 0.10482142857142857,
+                "net_recovery": 0.012357142857142856
+              },
+              "entropy": {
+                "macro_f1": 0.9312792271132485,
+                "micro_f1": 0.9315,
+                "balanced_accuracy": 0.9314999999999999,
+                "selected_n": 11200,
+                "help_captured": 1818,
+                "help_precision_among_acquired": 0.16232142857142856,
+                "help_capture": 0.8803874092009685,
+                "harm_captured": 1179,
+                "harm_rate_among_acquired": 0.10526785714285715,
+                "net_recovery": 0.011410714285714286
+              },
+              "oracle": {
+                "macro_f1": 0.9569064224874355,
+                "micro_f1": 0.9569642857142857,
+                "balanced_accuracy": 0.9569642857142856,
+                "selected_n": 11200,
+                "help_captured": 2065,
+                "help_precision_among_acquired": 0.184375,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.036875
+              },
+              "random_mean": {
+                "net_recovery": -0.004236214285714287,
+                "net_recovery_ci95": [
+                  -0.0052772321428571425,
+                  -0.0032406250000000004
+                ],
+                "macro_f1": 0.9156968506210598,
+                "macro_f1_ci95": [
+                  0.9146668944558791,
+                  0.9166965696306749
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.910411622276029,
+            "help_precision_among_acquired": 0.22380952380952382,
+            "harm_captured": 1011,
+            "net_recovery": 0.015517857142857142
+          },
+          "net_recovery_gain_vs_random_15": 0.018707821428571428,
+          "selector15_macro_f1": 0.935399619831399,
+          "basic_macro_f1": 0.9195453843242216,
+          "delta_selective15_macro_f1": 0.01585423550717735,
+          "help_prevalence_ratio_aupr": 8.506068245671317
+        }
+      }
+    },
+    "20260818": {
+      "schema_version": "CORE_HYPOTHESIS_GATE_V1B_SEED_RESULT_V1",
+      "seed": 20260818,
+      "validation_n": 56000,
+      "selector_family": "RandomForestRegressor",
+      "selector_config": {
+        "n_estimators": 200,
+        "max_depth": 12,
+        "min_samples_leaf": 20,
+        "max_features": "sqrt",
+        "n_jobs": -1,
+        "random_state": "formal seed"
+      },
+      "selector_feature_names": [
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "pred_class_onehot_Backdoor",
+        "pred_class_onehot_Benign",
+        "pred_class_onehot_Credential",
+        "pred_class_onehot_DDoS",
+        "pred_class_onehot_DoS",
+        "pred_class_onehot_Recon_Scanning",
+        "pred_class_onehot_Web_Injection",
+        "proba_B_Backdoor",
+        "proba_B_Benign",
+        "proba_B_Credential",
+        "proba_B_DDoS",
+        "proba_B_DoS",
+        "proba_B_Recon_Scanning",
+        "proba_B_Web_Injection",
+        "basic_max_prob",
+        "basic_margin",
+        "basic_entropy",
+        "evidence_availability_mask"
+      ],
+      "selector_leakage_audit": "PASS",
+      "basic_proba_provider": "REPRODUCED_FROZEN_BASIC_ESTIMATOR_DETERMINISTIC_VERIFIED_EXACT_PRED_MATCH",
+      "budgets": [
+        0.05,
+        0.1,
+        0.15,
+        0.2
+      ],
+      "primary_budget": 0.15,
+      "diversity": {
+        "UNIQUE_T_HELP": {
+          "count": 71,
+          "rate": 0.0012678571428571428,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 31,
+              "rate": 0.0005535714285714286
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 4,
+              "rate": 7.142857142857143e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 8,
+              "rate": 0.00014285714285714287
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 22,
+              "rate": 0.0003928571428571429
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 5,
+              "rate": 8.928571428571429e-05
+            }
+          }
+        },
+        "UNIQUE_R_HELP": {
+          "count": 1027,
+          "rate": 0.018339285714285714,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 972,
+              "rate": 0.017357142857142856
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 5,
+              "rate": 8.928571428571429e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 37,
+              "rate": 0.0006607142857142857
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 10,
+              "rate": 0.00017857142857142857
+            }
+          }
+        },
+        "SHARED_TR_HELP": {
+          "count": 1508,
+          "rate": 0.02692857142857143,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 3,
+              "rate": 5.357142857142857e-05
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 667,
+              "rate": 0.011910714285714285
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 10,
+              "rate": 0.00017857142857142857
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 5,
+              "rate": 8.928571428571429e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 271,
+              "rate": 0.004839285714285714
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 31,
+              "rate": 0.0005535714285714286
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 521,
+              "rate": 0.009303571428571428
+            }
+          }
+        },
+        "FULL_ONLY_HELP": {
+          "count": 33,
+          "rate": 0.0005892857142857143,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 31,
+              "rate": 0.0005535714285714286
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            }
+          }
+        }
+      },
+      "families": {
+        "T": {
+          "condition": "BT",
+          "help_prevalence": 0.02819642857142857,
+          "harm_prevalence": 0.02239285714285714,
+          "global_net_utility_prevalence": 0.005803571428571429,
+          "help_auroc": 0.9214154444975868,
+          "help_aupr": 0.3521614665164453,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9350231421366989,
+                "micro_f1": 0.9354464285714286,
+                "balanced_accuracy": 0.9354464285714286,
+                "selected_n": 2800,
+                "help_captured": 932,
+                "help_precision_among_acquired": 0.33285714285714285,
+                "help_capture": 0.5902469917669411,
+                "harm_captured": 109,
+                "harm_rate_among_acquired": 0.03892857142857143,
+                "net_recovery": 0.014696428571428572
+              },
+              "confidence": {
+                "macro_f1": 0.9318958993426281,
+                "micro_f1": 0.932125,
+                "balanced_accuracy": 0.932125,
+                "selected_n": 2800,
+                "help_captured": 878,
+                "help_precision_among_acquired": 0.31357142857142856,
+                "help_capture": 0.5560481317289424,
+                "harm_captured": 241,
+                "harm_rate_among_acquired": 0.08607142857142858,
+                "net_recovery": 0.011375
+              },
+              "entropy": {
+                "macro_f1": 0.9316894434888692,
+                "micro_f1": 0.9319107142857143,
+                "balanced_accuracy": 0.9319107142857143,
+                "selected_n": 2800,
+                "help_captured": 888,
+                "help_precision_among_acquired": 0.3171428571428571,
+                "help_capture": 0.5623812539582014,
+                "harm_captured": 263,
+                "harm_rate_among_acquired": 0.09392857142857143,
+                "net_recovery": 0.011160714285714286
+              },
+              "oracle": {
+                "macro_f1": 0.948778317740665,
+                "micro_f1": 0.9489464285714285,
+                "balanced_accuracy": 0.9489464285714284,
+                "selected_n": 2800,
+                "help_captured": 1579,
+                "help_precision_among_acquired": 0.5639285714285714,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02819642857142857
+              },
+              "random_mean": {
+                "net_recovery": 0.000292,
+                "net_recovery_ci95": [
+                  -0.00011651785714285712,
+                  0.0007321428571428571
+                ],
+                "macro_f1": 0.9204557743287848,
+                "macro_f1_ci95": [
+                  0.9200426025058395,
+                  0.9208909269922999
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9374990407739111,
+                "micro_f1": 0.9378928571428572,
+                "balanced_accuracy": 0.9378928571428571,
+                "selected_n": 5600,
+                "help_captured": 1091,
+                "help_precision_among_acquired": 0.19482142857142856,
+                "help_capture": 0.6909436352121596,
+                "harm_captured": 131,
+                "harm_rate_among_acquired": 0.023392857142857142,
+                "net_recovery": 0.017142857142857144
+              },
+              "confidence": {
+                "macro_f1": 0.9323628608666537,
+                "micro_f1": 0.9325892857142857,
+                "balanced_accuracy": 0.9325892857142858,
+                "selected_n": 5600,
+                "help_captured": 955,
+                "help_precision_among_acquired": 0.1705357142857143,
+                "help_capture": 0.6048131728942369,
+                "harm_captured": 292,
+                "harm_rate_among_acquired": 0.052142857142857144,
+                "net_recovery": 0.011839285714285714
+              },
+              "entropy": {
+                "macro_f1": 0.9319616592148657,
+                "micro_f1": 0.9321785714285714,
+                "balanced_accuracy": 0.9321785714285714,
+                "selected_n": 5600,
+                "help_captured": 945,
+                "help_precision_among_acquired": 0.16875,
+                "help_capture": 0.5984800506649778,
+                "harm_captured": 305,
+                "harm_rate_among_acquired": 0.054464285714285715,
+                "net_recovery": 0.011428571428571429
+              },
+              "oracle": {
+                "macro_f1": 0.9487834626557905,
+                "micro_f1": 0.9489464285714285,
+                "balanced_accuracy": 0.9489464285714284,
+                "selected_n": 5600,
+                "help_captured": 1579,
+                "help_precision_among_acquired": 0.2819642857142857,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02819642857142857
+              },
+              "random_mean": {
+                "net_recovery": 0.0005772857142857143,
+                "net_recovery_ci95": [
+                  8.482142857142883e-06,
+                  0.0011607142857142858
+                ],
+                "macro_f1": 0.9207642477289302,
+                "macro_f1_ci95": [
+                  0.9201951145982527,
+                  0.9213652319452297
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9424672409816495,
+                "micro_f1": 0.9426607142857143,
+                "balanced_accuracy": 0.9426607142857142,
+                "selected_n": 8400,
+                "help_captured": 1421,
+                "help_precision_among_acquired": 0.16916666666666666,
+                "help_capture": 0.8999366687777074,
+                "harm_captured": 194,
+                "harm_rate_among_acquired": 0.023095238095238096,
+                "net_recovery": 0.021910714285714287
+              },
+              "confidence": {
+                "macro_f1": 0.937028187655142,
+                "micro_f1": 0.9371607142857142,
+                "balanced_accuracy": 0.9371607142857143,
+                "selected_n": 8400,
+                "help_captured": 1226,
+                "help_precision_among_acquired": 0.14595238095238094,
+                "help_capture": 0.7764407853071564,
+                "harm_captured": 307,
+                "harm_rate_among_acquired": 0.03654761904761905,
+                "net_recovery": 0.016410714285714285
+              },
+              "entropy": {
+                "macro_f1": 0.9373125073070955,
+                "micro_f1": 0.9374285714285714,
+                "balanced_accuracy": 0.9374285714285714,
+                "selected_n": 8400,
+                "help_captured": 1275,
+                "help_precision_among_acquired": 0.15178571428571427,
+                "help_capture": 0.8074730842305257,
+                "harm_captured": 341,
+                "harm_rate_among_acquired": 0.040595238095238094,
+                "net_recovery": 0.016678571428571428
+              },
+              "oracle": {
+                "macro_f1": 0.9487860990949111,
+                "micro_f1": 0.9489464285714285,
+                "balanced_accuracy": 0.9489464285714284,
+                "selected_n": 8400,
+                "help_captured": 1579,
+                "help_precision_among_acquired": 0.18797619047619046,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02819642857142857
+              },
+              "random_mean": {
+                "net_recovery": 0.0008695357142857143,
+                "net_recovery_ci95": [
+                  0.00022276785714285717,
+                  0.0015
+                ],
+                "macro_f1": 0.9210757124148329,
+                "macro_f1_ci95": [
+                  0.9204222118892996,
+                  0.9217303042834896
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9417740253508017,
+                "micro_f1": 0.9418928571428572,
+                "balanced_accuracy": 0.9418928571428572,
+                "selected_n": 11200,
+                "help_captured": 1482,
+                "help_precision_among_acquired": 0.13232142857142856,
+                "help_capture": 0.9385687143761875,
+                "harm_captured": 298,
+                "harm_rate_among_acquired": 0.026607142857142857,
+                "net_recovery": 0.021142857142857144
+              },
+              "confidence": {
+                "macro_f1": 0.9392543336009085,
+                "micro_f1": 0.9393392857142857,
+                "balanced_accuracy": 0.9393392857142856,
+                "selected_n": 11200,
+                "help_captured": 1433,
+                "help_precision_among_acquired": 0.12794642857142857,
+                "help_capture": 0.9075364154528183,
+                "harm_captured": 392,
+                "harm_rate_among_acquired": 0.035,
+                "net_recovery": 0.018589285714285714
+              },
+              "entropy": {
+                "macro_f1": 0.9388755827516838,
+                "micro_f1": 0.9389642857142857,
+                "balanced_accuracy": 0.9389642857142856,
+                "selected_n": 11200,
+                "help_captured": 1398,
+                "help_precision_among_acquired": 0.12482142857142857,
+                "help_capture": 0.8853704876504117,
+                "harm_captured": 378,
+                "harm_rate_among_acquired": 0.03375,
+                "net_recovery": 0.018214285714285714
+              },
+              "oracle": {
+                "macro_f1": 0.9487939323028206,
+                "micro_f1": 0.9489464285714285,
+                "balanced_accuracy": 0.9489464285714284,
+                "selected_n": 11200,
+                "help_captured": 1579,
+                "help_precision_among_acquired": 0.14098214285714286,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.02819642857142857
+              },
+              "random_mean": {
+                "net_recovery": 0.001157,
+                "net_recovery_ci95": [
+                  0.0004642857142857143,
+                  0.001929464285714285
+                ],
+                "macro_f1": 0.9213780529922667,
+                "macro_f1_ci95": [
+                  0.9206582780458333,
+                  0.9221654071707793
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.8999366687777074,
+            "help_precision_among_acquired": 0.16916666666666666,
+            "harm_captured": 194,
+            "net_recovery": 0.021910714285714287
+          },
+          "net_recovery_gain_vs_random_15": 0.021041178571428572,
+          "selector15_macro_f1": 0.9424672409816495,
+          "basic_macro_f1": 0.9201366769918254,
+          "delta_selective15_macro_f1": 0.022330563989824026,
+          "help_prevalence_ratio_aupr": 12.489577026549043
+        },
+        "R": {
+          "condition": "BR",
+          "help_prevalence": 0.045267857142857144,
+          "harm_prevalence": 0.05073214285714286,
+          "global_net_utility_prevalence": -0.005464285714285713,
+          "help_auroc": 0.905996940614987,
+          "help_aupr": 0.3354516929820097,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9341832956756477,
+                "micro_f1": 0.9345535714285714,
+                "balanced_accuracy": 0.9345535714285714,
+                "selected_n": 2800,
+                "help_captured": 959,
+                "help_precision_among_acquired": 0.3425,
+                "help_capture": 0.3783037475345168,
+                "harm_captured": 186,
+                "harm_rate_among_acquired": 0.06642857142857143,
+                "net_recovery": 0.013803571428571429
+              },
+              "confidence": {
+                "macro_f1": 0.9309010640111445,
+                "micro_f1": 0.9310892857142857,
+                "balanced_accuracy": 0.9310892857142858,
+                "selected_n": 2800,
+                "help_captured": 911,
+                "help_precision_among_acquired": 0.32535714285714284,
+                "help_capture": 0.35936883629191324,
+                "harm_captured": 332,
+                "harm_rate_among_acquired": 0.11857142857142858,
+                "net_recovery": 0.010339285714285714
+              },
+              "entropy": {
+                "macro_f1": 0.9310668533179326,
+                "micro_f1": 0.9312321428571428,
+                "balanced_accuracy": 0.931232142857143,
+                "selected_n": 2800,
+                "help_captured": 915,
+                "help_precision_among_acquired": 0.3267857142857143,
+                "help_capture": 0.3609467455621302,
+                "harm_captured": 328,
+                "harm_rate_among_acquired": 0.11714285714285715,
+                "net_recovery": 0.010482142857142857
+              },
+              "oracle": {
+                "macro_f1": 0.9659757322390826,
+                "micro_f1": 0.9660178571428572,
+                "balanced_accuracy": 0.966017857142857,
+                "selected_n": 2800,
+                "help_captured": 2535,
+                "help_precision_among_acquired": 0.9053571428571429,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045267857142857144
+              },
+              "random_mean": {
+                "net_recovery": -0.00028128571428571433,
+                "net_recovery_ci95": [
+                  -0.0008571428571428571,
+                  0.0002772321428571425
+                ],
+                "macro_f1": 0.9199708218159905,
+                "macro_f1_ci95": [
+                  0.9193939214142096,
+                  0.9205265434532424
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9368187216253323,
+                "micro_f1": 0.937125,
+                "balanced_accuracy": 0.937125,
+                "selected_n": 5600,
+                "help_captured": 1249,
+                "help_precision_among_acquired": 0.22303571428571428,
+                "help_capture": 0.49270216962524654,
+                "harm_captured": 332,
+                "harm_rate_among_acquired": 0.05928571428571429,
+                "net_recovery": 0.016375
+              },
+              "confidence": {
+                "macro_f1": 0.9305635614633349,
+                "micro_f1": 0.9307678571428571,
+                "balanced_accuracy": 0.9307678571428573,
+                "selected_n": 5600,
+                "help_captured": 1008,
+                "help_precision_among_acquired": 0.18,
+                "help_capture": 0.39763313609467454,
+                "harm_captured": 447,
+                "harm_rate_among_acquired": 0.07982142857142857,
+                "net_recovery": 0.010017857142857143
+              },
+              "entropy": {
+                "macro_f1": 0.9300191365740326,
+                "micro_f1": 0.9302142857142857,
+                "balanced_accuracy": 0.9302142857142858,
+                "selected_n": 5600,
+                "help_captured": 991,
+                "help_precision_among_acquired": 0.1769642857142857,
+                "help_capture": 0.3909270216962525,
+                "harm_captured": 461,
+                "harm_rate_among_acquired": 0.08232142857142857,
+                "net_recovery": 0.009464285714285715
+              },
+              "oracle": {
+                "macro_f1": 0.9659757322390826,
+                "micro_f1": 0.9660178571428572,
+                "balanced_accuracy": 0.966017857142857,
+                "selected_n": 5600,
+                "help_captured": 2535,
+                "help_precision_among_acquired": 0.45267857142857143,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045267857142857144
+              },
+              "random_mean": {
+                "net_recovery": -0.0005524642857142856,
+                "net_recovery_ci95": [
+                  -0.0013035714285714287,
+                  0.00020580357142857103
+                ],
+                "macro_f1": 0.9197995534144254,
+                "macro_f1_ci95": [
+                  0.9190465974201701,
+                  0.9205623550121333
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9536140776119922,
+                "micro_f1": 0.9536607142857143,
+                "balanced_accuracy": 0.9536607142857144,
+                "selected_n": 8400,
+                "help_captured": 2373,
+                "help_precision_among_acquired": 0.2825,
+                "help_capture": 0.936094674556213,
+                "harm_captured": 530,
+                "harm_rate_among_acquired": 0.0630952380952381,
+                "net_recovery": 0.032910714285714286
+              },
+              "confidence": {
+                "macro_f1": 0.9352344271645044,
+                "micro_f1": 0.9354821428571428,
+                "balanced_accuracy": 0.9354821428571428,
+                "selected_n": 8400,
+                "help_captured": 2072,
+                "help_precision_among_acquired": 0.24666666666666667,
+                "help_capture": 0.8173570019723866,
+                "harm_captured": 1247,
+                "harm_rate_among_acquired": 0.14845238095238095,
+                "net_recovery": 0.014732142857142857
+              },
+              "entropy": {
+                "macro_f1": 0.9451774803227124,
+                "micro_f1": 0.9451964285714286,
+                "balanced_accuracy": 0.9451964285714286,
+                "selected_n": 8400,
+                "help_captured": 2119,
+                "help_precision_among_acquired": 0.25226190476190474,
+                "help_capture": 0.8358974358974359,
+                "harm_captured": 750,
+                "harm_rate_among_acquired": 0.08928571428571429,
+                "net_recovery": 0.02444642857142857
+              },
+              "oracle": {
+                "macro_f1": 0.9659929426924186,
+                "micro_f1": 0.9660178571428572,
+                "balanced_accuracy": 0.966017857142857,
+                "selected_n": 8400,
+                "help_captured": 2535,
+                "help_precision_among_acquired": 0.30178571428571427,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045267857142857144
+              },
+              "random_mean": {
+                "net_recovery": -0.0008286785714285715,
+                "net_recovery_ci95": [
+                  -0.001652232142857143,
+                  8.928571428571429e-05
+                ],
+                "macro_f1": 0.919607160457558,
+                "macro_f1_ci95": [
+                  0.9187784169868312,
+                  0.9205279980109743
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9357564848434781,
+                "micro_f1": 0.9363035714285715,
+                "balanced_accuracy": 0.9363035714285715,
+                "selected_n": 11200,
+                "help_captured": 2425,
+                "help_precision_among_acquired": 0.21651785714285715,
+                "help_capture": 0.9566074950690335,
+                "harm_captured": 1554,
+                "harm_rate_among_acquired": 0.13875,
+                "net_recovery": 0.015553571428571429
+              },
+              "confidence": {
+                "macro_f1": 0.9322235405774555,
+                "micro_f1": 0.9327857142857143,
+                "balanced_accuracy": 0.9327857142857142,
+                "selected_n": 11200,
+                "help_captured": 2362,
+                "help_precision_among_acquired": 0.21089285714285713,
+                "help_capture": 0.9317554240631164,
+                "harm_captured": 1688,
+                "harm_rate_among_acquired": 0.15071428571428572,
+                "net_recovery": 0.012035714285714285
+              },
+              "entropy": {
+                "macro_f1": 0.9319522927873797,
+                "micro_f1": 0.9325,
+                "balanced_accuracy": 0.9325000000000001,
+                "selected_n": 11200,
+                "help_captured": 2333,
+                "help_precision_among_acquired": 0.20830357142857142,
+                "help_capture": 0.9203155818540434,
+                "harm_captured": 1675,
+                "harm_rate_among_acquired": 0.14955357142857142,
+                "net_recovery": 0.01175
+              },
+              "oracle": {
+                "macro_f1": 0.9660069414824891,
+                "micro_f1": 0.9660178571428572,
+                "balanced_accuracy": 0.966017857142857,
+                "selected_n": 11200,
+                "help_captured": 2535,
+                "help_precision_among_acquired": 0.22633928571428572,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.045267857142857144
+              },
+              "random_mean": {
+                "net_recovery": -0.0011084642857142858,
+                "net_recovery_ci95": [
+                  -0.002116517857142857,
+                  -7.99107142857147e-05
+                ],
+                "macro_f1": 0.9193942898086859,
+                "macro_f1_ci95": [
+                  0.9183946545104533,
+                  0.9204135061055263
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.936094674556213,
+            "help_precision_among_acquired": 0.2825,
+            "harm_captured": 530,
+            "net_recovery": 0.032910714285714286
+          },
+          "net_recovery_gain_vs_random_15": 0.03373939285714286,
+          "selector15_macro_f1": 0.9536140776119922,
+          "basic_macro_f1": 0.9201366769918254,
+          "delta_selective15_macro_f1": 0.0334774006201668,
+          "help_prevalence_ratio_aupr": 7.410372704928025
+        },
+        "TR": {
+          "condition": "BTR",
+          "help_prevalence": 0.03503571428571429,
+          "harm_prevalence": 0.05880357142857143,
+          "global_net_utility_prevalence": -0.02376785714285714,
+          "help_auroc": 0.9101756941230505,
+          "help_aupr": 0.32811165823427346,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9337045346771394,
+                "micro_f1": 0.9340357142857143,
+                "balanced_accuracy": 0.9340357142857142,
+                "selected_n": 2800,
+                "help_captured": 941,
+                "help_precision_among_acquired": 0.3360714285714286,
+                "help_capture": 0.4796126401630989,
+                "harm_captured": 197,
+                "harm_rate_among_acquired": 0.07035714285714285,
+                "net_recovery": 0.013285714285714286
+              },
+              "confidence": {
+                "macro_f1": 0.930424891985791,
+                "micro_f1": 0.9305535714285714,
+                "balanced_accuracy": 0.9305535714285715,
+                "selected_n": 2800,
+                "help_captured": 893,
+                "help_precision_among_acquired": 0.31892857142857145,
+                "help_capture": 0.4551478083588175,
+                "harm_captured": 344,
+                "harm_rate_among_acquired": 0.12285714285714286,
+                "net_recovery": 0.009803571428571429
+              },
+              "entropy": {
+                "macro_f1": 0.9298770263494458,
+                "micro_f1": 0.9299821428571429,
+                "balanced_accuracy": 0.9299821428571428,
+                "selected_n": 2800,
+                "help_captured": 902,
+                "help_precision_among_acquired": 0.3221428571428571,
+                "help_capture": 0.4597349643221203,
+                "harm_captured": 385,
+                "harm_rate_among_acquired": 0.1375,
+                "net_recovery": 0.009232142857142857
+              },
+              "oracle": {
+                "macro_f1": 0.9557086084544746,
+                "micro_f1": 0.9557857142857142,
+                "balanced_accuracy": 0.9557857142857143,
+                "selected_n": 2800,
+                "help_captured": 1962,
+                "help_precision_among_acquired": 0.7007142857142857,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.03503571428571429
+              },
+              "random_mean": {
+                "net_recovery": -0.0011962857142857142,
+                "net_recovery_ci95": [
+                  -0.00175,
+                  -0.0006513392857142861
+                ],
+                "macro_f1": 0.9190648505087938,
+                "macro_f1_ci95": [
+                  0.9185115720951461,
+                  0.9196108049360114
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9351097427056787,
+                "micro_f1": 0.9354107142857143,
+                "balanced_accuracy": 0.9354107142857142,
+                "selected_n": 5600,
+                "help_captured": 1038,
+                "help_precision_among_acquired": 0.18535714285714286,
+                "help_capture": 0.5290519877675841,
+                "harm_captured": 217,
+                "harm_rate_among_acquired": 0.03875,
+                "net_recovery": 0.014660714285714286
+              },
+              "confidence": {
+                "macro_f1": 0.9305583016914374,
+                "micro_f1": 0.9306607142857143,
+                "balanced_accuracy": 0.9306607142857144,
+                "selected_n": 5600,
+                "help_captured": 961,
+                "help_precision_among_acquired": 0.17160714285714285,
+                "help_capture": 0.48980632008154945,
+                "harm_captured": 406,
+                "harm_rate_among_acquired": 0.0725,
+                "net_recovery": 0.009910714285714285
+              },
+              "entropy": {
+                "macro_f1": 0.9299136132258736,
+                "micro_f1": 0.93,
+                "balanced_accuracy": 0.93,
+                "selected_n": 5600,
+                "help_captured": 953,
+                "help_precision_among_acquired": 0.17017857142857143,
+                "help_capture": 0.4857288481141692,
+                "harm_captured": 435,
+                "harm_rate_among_acquired": 0.07767857142857143,
+                "net_recovery": 0.00925
+              },
+              "oracle": {
+                "macro_f1": 0.9557135285505681,
+                "micro_f1": 0.9557857142857142,
+                "balanced_accuracy": 0.9557857142857143,
+                "selected_n": 5600,
+                "help_captured": 1962,
+                "help_precision_among_acquired": 0.35035714285714287,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.03503571428571429
+              },
+              "random_mean": {
+                "net_recovery": -0.002374821428571429,
+                "net_recovery_ci95": [
+                  -0.0031700892857142856,
+                  -0.0016598214285714293
+                ],
+                "macro_f1": 0.9180044745696612,
+                "macro_f1_ci95": [
+                  0.9172231072947463,
+                  0.918707252818862
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9463740284213503,
+                "micro_f1": 0.9462857142857143,
+                "balanced_accuracy": 0.9462857142857143,
+                "selected_n": 8400,
+                "help_captured": 1822,
+                "help_precision_among_acquired": 0.2169047619047619,
+                "help_capture": 0.928644240570846,
+                "harm_captured": 392,
+                "harm_rate_among_acquired": 0.04666666666666667,
+                "net_recovery": 0.025535714285714287
+              },
+              "confidence": {
+                "macro_f1": 0.935212723188619,
+                "micro_f1": 0.9352142857142857,
+                "balanced_accuracy": 0.9352142857142859,
+                "selected_n": 8400,
+                "help_captured": 1573,
+                "help_precision_among_acquired": 0.18726190476190477,
+                "help_capture": 0.8017329255861366,
+                "harm_captured": 763,
+                "harm_rate_among_acquired": 0.09083333333333334,
+                "net_recovery": 0.014464285714285714
+              },
+              "entropy": {
+                "macro_f1": 0.9405544414413216,
+                "micro_f1": 0.9405178571428572,
+                "balanced_accuracy": 0.9405178571428571,
+                "selected_n": 8400,
+                "help_captured": 1624,
+                "help_precision_among_acquired": 0.19333333333333333,
+                "help_capture": 0.8277268093781855,
+                "harm_captured": 517,
+                "harm_rate_among_acquired": 0.061547619047619045,
+                "net_recovery": 0.019767857142857143
+              },
+              "oracle": {
+                "macro_f1": 0.9557209722990349,
+                "micro_f1": 0.9557857142857142,
+                "balanced_accuracy": 0.9557857142857143,
+                "selected_n": 8400,
+                "help_captured": 1962,
+                "help_precision_among_acquired": 0.23357142857142857,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.03503571428571429
+              },
+              "random_mean": {
+                "net_recovery": -0.003552892857142857,
+                "net_recovery_ci95": [
+                  -0.004384375,
+                  -0.002677678571428572
+                ],
+                "macro_f1": 0.9169379696891169,
+                "macro_f1_ci95": [
+                  0.91611191272148,
+                  0.9178123073612069
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9363673850854655,
+                "micro_f1": 0.9363035714285715,
+                "balanced_accuracy": 0.9363035714285715,
+                "selected_n": 11200,
+                "help_captured": 1847,
+                "help_precision_among_acquired": 0.1649107142857143,
+                "help_capture": 0.9413863404689092,
+                "harm_captured": 976,
+                "harm_rate_among_acquired": 0.08714285714285715,
+                "net_recovery": 0.015553571428571429
+              },
+              "confidence": {
+                "macro_f1": 0.9322130095117526,
+                "micro_f1": 0.9322321428571428,
+                "balanced_accuracy": 0.932232142857143,
+                "selected_n": 11200,
+                "help_captured": 1799,
+                "help_precision_among_acquired": 0.160625,
+                "help_capture": 0.916921508664628,
+                "harm_captured": 1156,
+                "harm_rate_among_acquired": 0.10321428571428572,
+                "net_recovery": 0.011482142857142857
+              },
+              "entropy": {
+                "macro_f1": 0.9321424408094104,
+                "micro_f1": 0.9321607142857142,
+                "balanced_accuracy": 0.9321607142857143,
+                "selected_n": 11200,
+                "help_captured": 1769,
+                "help_precision_among_acquired": 0.15794642857142857,
+                "help_capture": 0.9016309887869521,
+                "harm_captured": 1130,
+                "harm_rate_among_acquired": 0.10089285714285715,
+                "net_recovery": 0.011410714285714286
+              },
+              "oracle": {
+                "macro_f1": 0.9557310363893136,
+                "micro_f1": 0.9557857142857142,
+                "balanced_accuracy": 0.9557857142857143,
+                "selected_n": 11200,
+                "help_captured": 1962,
+                "help_precision_among_acquired": 0.17517857142857143,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.03503571428571429
+              },
+              "random_mean": {
+                "net_recovery": -0.004746392857142857,
+                "net_recovery_ci95": [
+                  -0.005812946428571429,
+                  -0.0036964285714285714
+                ],
+                "macro_f1": 0.9158480220117212,
+                "macro_f1_ci95": [
+                  0.9148003142842451,
+                  0.916889435919677
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.928644240570846,
+            "help_precision_among_acquired": 0.2169047619047619,
+            "harm_captured": 392,
+            "net_recovery": 0.025535714285714287
+          },
+          "net_recovery_gain_vs_random_15": 0.029088607142857145,
+          "selector15_macro_f1": 0.9463740284213503,
+          "basic_macro_f1": 0.9201366769918254,
+          "delta_selective15_macro_f1": 0.02623735142952488,
+          "help_prevalence_ratio_aupr": 9.365062620346235
+        }
+      }
+    },
+    "20260819": {
+      "schema_version": "CORE_HYPOTHESIS_GATE_V1B_SEED_RESULT_V1",
+      "seed": 20260819,
+      "validation_n": 56000,
+      "selector_family": "RandomForestRegressor",
+      "selector_config": {
+        "n_estimators": 200,
+        "max_depth": 12,
+        "min_samples_leaf": 20,
+        "max_features": "sqrt",
+        "n_jobs": -1,
+        "random_state": "formal seed"
+      },
+      "selector_feature_names": [
+        "PROTOCOL",
+        "L7_PROTO",
+        "IN_BYTES",
+        "IN_PKTS",
+        "OUT_BYTES",
+        "OUT_PKTS",
+        "TCP_FLAGS",
+        "CLIENT_TCP_FLAGS",
+        "SERVER_TCP_FLAGS",
+        "FLOW_DURATION_MILLISECONDS",
+        "DURATION_IN",
+        "DURATION_OUT",
+        "MIN_TTL",
+        "MAX_TTL",
+        "LONGEST_FLOW_PKT",
+        "SHORTEST_FLOW_PKT",
+        "MIN_IP_PKT_LEN",
+        "MAX_IP_PKT_LEN",
+        "SRC_TO_DST_SECOND_BYTES",
+        "DST_TO_SRC_SECOND_BYTES",
+        "RETRANSMITTED_IN_BYTES",
+        "RETRANSMITTED_IN_PKTS",
+        "RETRANSMITTED_OUT_BYTES",
+        "RETRANSMITTED_OUT_PKTS",
+        "SRC_TO_DST_AVG_THROUGHPUT",
+        "DST_TO_SRC_AVG_THROUGHPUT",
+        "NUM_PKTS_UP_TO_128_BYTES",
+        "NUM_PKTS_128_TO_256_BYTES",
+        "NUM_PKTS_256_TO_512_BYTES",
+        "NUM_PKTS_512_TO_1024_BYTES",
+        "NUM_PKTS_1024_TO_1514_BYTES",
+        "TCP_WIN_MAX_IN",
+        "TCP_WIN_MAX_OUT",
+        "ICMP_TYPE",
+        "ICMP_IPV4_TYPE",
+        "DNS_QUERY_ID",
+        "DNS_QUERY_TYPE",
+        "DNS_TTL_ANSWER",
+        "FTP_COMMAND_RET_CODE",
+        "SRC_TO_DST_IAT_MIN",
+        "SRC_TO_DST_IAT_MAX",
+        "SRC_TO_DST_IAT_AVG",
+        "SRC_TO_DST_IAT_STDDEV",
+        "DST_TO_SRC_IAT_MIN",
+        "DST_TO_SRC_IAT_MAX",
+        "DST_TO_SRC_IAT_AVG",
+        "DST_TO_SRC_IAT_STDDEV",
+        "pred_class_onehot_Backdoor",
+        "pred_class_onehot_Benign",
+        "pred_class_onehot_Credential",
+        "pred_class_onehot_DDoS",
+        "pred_class_onehot_DoS",
+        "pred_class_onehot_Recon_Scanning",
+        "pred_class_onehot_Web_Injection",
+        "proba_B_Backdoor",
+        "proba_B_Benign",
+        "proba_B_Credential",
+        "proba_B_DDoS",
+        "proba_B_DoS",
+        "proba_B_Recon_Scanning",
+        "proba_B_Web_Injection",
+        "basic_max_prob",
+        "basic_margin",
+        "basic_entropy",
+        "evidence_availability_mask"
+      ],
+      "selector_leakage_audit": "PASS",
+      "basic_proba_provider": "REPRODUCED_FROZEN_BASIC_ESTIMATOR_DETERMINISTIC_VERIFIED_EXACT_PRED_MATCH",
+      "budgets": [
+        0.05,
+        0.1,
+        0.15,
+        0.2
+      ],
+      "primary_budget": 0.15,
+      "diversity": {
+        "UNIQUE_T_HELP": {
+          "count": 53,
+          "rate": 0.0009464285714285715,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 25,
+              "rate": 0.0004464285714285714
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 20,
+              "rate": 0.00035714285714285714
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 4,
+              "rate": 7.142857142857143e-05
+            }
+          }
+        },
+        "UNIQUE_R_HELP": {
+          "count": 1044,
+          "rate": 0.01864285714285714,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 989,
+              "rate": 0.017660714285714287
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 12,
+              "rate": 0.00021428571428571427
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 31,
+              "rate": 0.0005535714285714286
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 8,
+              "rate": 0.00014285714285714287
+            }
+          }
+        },
+        "SHARED_TR_HELP": {
+          "count": 1503,
+          "rate": 0.026839285714285715,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 651,
+              "rate": 0.011625
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 4,
+              "rate": 7.142857142857143e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 11,
+              "rate": 0.00019642857142857144
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 278,
+              "rate": 0.0049642857142857145
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 22,
+              "rate": 0.0003928571428571429
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 536,
+              "rate": 0.009571428571428571
+            }
+          }
+        },
+        "FULL_ONLY_HELP": {
+          "count": 31,
+          "rate": 0.0005535714285714286,
+          "per_class": {
+            "Backdoor": {
+              "n": 8000,
+              "count": 0,
+              "rate": 0.0
+            },
+            "Benign": {
+              "n": 8000,
+              "count": 15,
+              "rate": 0.00026785714285714287
+            },
+            "Credential": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "DDoS": {
+              "n": 8000,
+              "count": 8,
+              "rate": 0.00014285714285714287
+            },
+            "DoS": {
+              "n": 8000,
+              "count": 2,
+              "rate": 3.571428571428572e-05
+            },
+            "Recon_Scanning": {
+              "n": 8000,
+              "count": 3,
+              "rate": 5.357142857142857e-05
+            },
+            "Web_Injection": {
+              "n": 8000,
+              "count": 1,
+              "rate": 1.785714285714286e-05
+            }
+          }
+        }
+      },
+      "families": {
+        "T": {
+          "condition": "BT",
+          "help_prevalence": 0.027785714285714285,
+          "harm_prevalence": 0.021910714285714287,
+          "global_net_utility_prevalence": 0.005874999999999998,
+          "help_auroc": 0.9340169866766238,
+          "help_aupr": 0.3485313812818597,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9348082039413016,
+                "micro_f1": 0.9351071428571428,
+                "balanced_accuracy": 0.9351071428571428,
+                "selected_n": 2800,
+                "help_captured": 921,
+                "help_precision_among_acquired": 0.3289285714285714,
+                "help_capture": 0.5919023136246787,
+                "harm_captured": 136,
+                "harm_rate_among_acquired": 0.04857142857142857,
+                "net_recovery": 0.014017857142857143
+              },
+              "confidence": {
+                "macro_f1": 0.9314909697455546,
+                "micro_f1": 0.9317857142857143,
+                "balanced_accuracy": 0.9317857142857143,
+                "selected_n": 2800,
+                "help_captured": 851,
+                "help_precision_among_acquired": 0.30392857142857144,
+                "help_capture": 0.5469151670951157,
+                "harm_captured": 252,
+                "harm_rate_among_acquired": 0.09,
+                "net_recovery": 0.010696428571428572
+              },
+              "entropy": {
+                "macro_f1": 0.9305136779593409,
+                "micro_f1": 0.9308392857142858,
+                "balanced_accuracy": 0.9308392857142856,
+                "selected_n": 2800,
+                "help_captured": 794,
+                "help_precision_among_acquired": 0.2835714285714286,
+                "help_capture": 0.5102827763496144,
+                "harm_captured": 248,
+                "harm_rate_among_acquired": 0.08857142857142856,
+                "net_recovery": 0.00975
+              },
+              "oracle": {
+                "macro_f1": 0.9486657039489349,
+                "micro_f1": 0.948875,
+                "balanced_accuracy": 0.948875,
+                "selected_n": 2800,
+                "help_captured": 1556,
+                "help_precision_among_acquired": 0.5557142857142857,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.027785714285714285
+              },
+              "random_mean": {
+                "net_recovery": 0.00031835714285714285,
+                "net_recovery_ci95": [
+                  -8.928571428571429e-05,
+                  0.0006607142857142857
+                ],
+                "macro_f1": 0.9208539268603481,
+                "macro_f1_ci95": [
+                  0.9204362388400609,
+                  0.9211991069730985
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9418326500062151,
+                "micro_f1": 0.9419821428571429,
+                "balanced_accuracy": 0.9419821428571428,
+                "selected_n": 5600,
+                "help_captured": 1359,
+                "help_precision_among_acquired": 0.24267857142857144,
+                "help_capture": 0.8733933161953727,
+                "harm_captured": 189,
+                "harm_rate_among_acquired": 0.03375,
+                "net_recovery": 0.020892857142857144
+              },
+              "confidence": {
+                "macro_f1": 0.9321655637256814,
+                "micro_f1": 0.9324464285714286,
+                "balanced_accuracy": 0.9324464285714286,
+                "selected_n": 5600,
+                "help_captured": 923,
+                "help_precision_among_acquired": 0.16482142857142856,
+                "help_capture": 0.5931876606683805,
+                "harm_captured": 287,
+                "harm_rate_among_acquired": 0.05125,
+                "net_recovery": 0.011357142857142857
+              },
+              "entropy": {
+                "macro_f1": 0.9318315779249625,
+                "micro_f1": 0.9321071428571429,
+                "balanced_accuracy": 0.932107142857143,
+                "selected_n": 5600,
+                "help_captured": 929,
+                "help_precision_among_acquired": 0.16589285714285715,
+                "help_capture": 0.5970437017994858,
+                "harm_captured": 312,
+                "harm_rate_among_acquired": 0.055714285714285716,
+                "net_recovery": 0.011017857142857143
+              },
+              "oracle": {
+                "macro_f1": 0.9486516676597899,
+                "micro_f1": 0.948875,
+                "balanced_accuracy": 0.948875,
+                "selected_n": 5600,
+                "help_captured": 1556,
+                "help_precision_among_acquired": 0.27785714285714286,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.027785714285714285
+              },
+              "random_mean": {
+                "net_recovery": 0.0006219285714285713,
+                "net_recovery_ci95": [
+                  7.053571428571433e-05,
+                  0.0011700892857142854
+                ],
+                "macro_f1": 0.9211852411382557,
+                "macro_f1_ci95": [
+                  0.9206428870647697,
+                  0.9217415587508735
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9420254335467145,
+                "micro_f1": 0.9421607142857142,
+                "balanced_accuracy": 0.9421607142857144,
+                "selected_n": 8400,
+                "help_captured": 1413,
+                "help_precision_among_acquired": 0.1682142857142857,
+                "help_capture": 0.9080976863753213,
+                "harm_captured": 233,
+                "harm_rate_among_acquired": 0.02773809523809524,
+                "net_recovery": 0.02107142857142857
+              },
+              "confidence": {
+                "macro_f1": 0.936998359676058,
+                "micro_f1": 0.9371785714285714,
+                "balanced_accuracy": 0.9371785714285714,
+                "selected_n": 8400,
+                "help_captured": 1209,
+                "help_precision_among_acquired": 0.14392857142857143,
+                "help_capture": 0.7769922879177378,
+                "harm_captured": 308,
+                "harm_rate_among_acquired": 0.03666666666666667,
+                "net_recovery": 0.016089285714285716
+              },
+              "entropy": {
+                "macro_f1": 0.9368662947502918,
+                "micro_f1": 0.9370357142857143,
+                "balanced_accuracy": 0.9370357142857142,
+                "selected_n": 8400,
+                "help_captured": 1243,
+                "help_precision_among_acquired": 0.14797619047619048,
+                "help_capture": 0.7988431876606684,
+                "harm_captured": 350,
+                "harm_rate_among_acquired": 0.041666666666666664,
+                "net_recovery": 0.01594642857142857
+              },
+              "oracle": {
+                "macro_f1": 0.9486540991011921,
+                "micro_f1": 0.948875,
+                "balanced_accuracy": 0.948875,
+                "selected_n": 8400,
+                "help_captured": 1556,
+                "help_precision_among_acquired": 0.18523809523809523,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.027785714285714285
+              },
+              "random_mean": {
+                "net_recovery": 0.0009088928571428571,
+                "net_recovery_ci95": [
+                  0.0003120535714285714,
+                  0.0015535714285714285
+                ],
+                "macro_f1": 0.9214955334375838,
+                "macro_f1_ci95": [
+                  0.9208804454071848,
+                  0.9221394738275654
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9423880150599668,
+                "micro_f1": 0.9425,
+                "balanced_accuracy": 0.9425000000000001,
+                "selected_n": 11200,
+                "help_captured": 1473,
+                "help_precision_among_acquired": 0.13151785714285713,
+                "help_capture": 0.9466580976863753,
+                "harm_captured": 274,
+                "harm_rate_among_acquired": 0.024464285714285713,
+                "net_recovery": 0.021410714285714286
+              },
+              "confidence": {
+                "macro_f1": 0.9387419733547738,
+                "micro_f1": 0.9388928571428572,
+                "balanced_accuracy": 0.9388928571428572,
+                "selected_n": 11200,
+                "help_captured": 1373,
+                "help_precision_among_acquired": 0.12258928571428572,
+                "help_capture": 0.8823907455012854,
+                "harm_captured": 376,
+                "harm_rate_among_acquired": 0.03357142857142857,
+                "net_recovery": 0.01780357142857143
+              },
+              "entropy": {
+                "macro_f1": 0.9381143938549703,
+                "micro_f1": 0.9382678571428571,
+                "balanced_accuracy": 0.938267857142857,
+                "selected_n": 11200,
+                "help_captured": 1333,
+                "help_precision_among_acquired": 0.11901785714285715,
+                "help_capture": 0.8566838046272494,
+                "harm_captured": 371,
+                "harm_rate_among_acquired": 0.033125,
+                "net_recovery": 0.01717857142857143
+              },
+              "oracle": {
+                "macro_f1": 0.9486593429593756,
+                "micro_f1": 0.948875,
+                "balanced_accuracy": 0.948875,
+                "selected_n": 11200,
+                "help_captured": 1556,
+                "help_precision_among_acquired": 0.13892857142857143,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.027785714285714285
+              },
+              "random_mean": {
+                "net_recovery": 0.0012025714285714287,
+                "net_recovery_ci95": [
+                  0.0004464285714285714,
+                  0.0019116071428571422
+                ],
+                "macro_f1": 0.9218094460620418,
+                "macro_f1_ci95": [
+                  0.9210605980408723,
+                  0.922529743118367
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.9080976863753213,
+            "help_precision_among_acquired": 0.1682142857142857,
+            "harm_captured": 233,
+            "net_recovery": 0.02107142857142857
+          },
+          "net_recovery_gain_vs_random_15": 0.020162535714285713,
+          "selector15_macro_f1": 0.9420254335467145,
+          "basic_macro_f1": 0.9205039968009464,
+          "delta_selective15_macro_f1": 0.02152143674576812,
+          "help_prevalence_ratio_aupr": 12.543545855902405
+        },
+        "R": {
+          "condition": "BR",
+          "help_prevalence": 0.04548214285714286,
+          "harm_prevalence": 0.06098214285714286,
+          "global_net_utility_prevalence": -0.0155,
+          "help_auroc": 0.9232237904717192,
+          "help_aupr": 0.3484771952644602,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9345971679788961,
+                "micro_f1": 0.9350178571428571,
+                "balanced_accuracy": 0.9350178571428572,
+                "selected_n": 2800,
+                "help_captured": 859,
+                "help_precision_among_acquired": 0.3067857142857143,
+                "help_capture": 0.33725952100510403,
+                "harm_captured": 79,
+                "harm_rate_among_acquired": 0.028214285714285713,
+                "net_recovery": 0.013928571428571429
+              },
+              "confidence": {
+                "macro_f1": 0.9305083864145474,
+                "micro_f1": 0.93075,
+                "balanced_accuracy": 0.93075,
+                "selected_n": 2800,
+                "help_captured": 883,
+                "help_precision_among_acquired": 0.31535714285714284,
+                "help_capture": 0.34668237141735375,
+                "harm_captured": 342,
+                "harm_rate_among_acquired": 0.12214285714285714,
+                "net_recovery": 0.009660714285714286
+              },
+              "entropy": {
+                "macro_f1": 0.9297498804747919,
+                "micro_f1": 0.93,
+                "balanced_accuracy": 0.9299999999999998,
+                "selected_n": 2800,
+                "help_captured": 822,
+                "help_precision_among_acquired": 0.2935714285714286,
+                "help_capture": 0.32273262661955243,
+                "harm_captured": 323,
+                "harm_rate_among_acquired": 0.11535714285714285,
+                "net_recovery": 0.008910714285714286
+              },
+              "oracle": {
+                "macro_f1": 0.9665262979001231,
+                "micro_f1": 0.9665714285714285,
+                "balanced_accuracy": 0.9665714285714285,
+                "selected_n": 2800,
+                "help_captured": 2547,
+                "help_precision_among_acquired": 0.9096428571428572,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.04548214285714286
+              },
+              "random_mean": {
+                "net_recovery": -0.0007705714285714286,
+                "net_recovery_ci95": [
+                  -0.0014200892857142858,
+                  -0.00017857142857142857
+                ],
+                "macro_f1": 0.9198589303018974,
+                "macro_f1_ci95": [
+                  0.9192217365715777,
+                  0.9204468640836576
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9509020393074038,
+                "micro_f1": 0.9509464285714285,
+                "balanced_accuracy": 0.9509464285714285,
+                "selected_n": 5600,
+                "help_captured": 2161,
+                "help_precision_among_acquired": 0.38589285714285715,
+                "help_capture": 0.8484491558696505,
+                "harm_captured": 489,
+                "harm_rate_among_acquired": 0.08732142857142858,
+                "net_recovery": 0.029857142857142856
+              },
+              "confidence": {
+                "macro_f1": 0.9301267196671933,
+                "micro_f1": 0.9303928571428571,
+                "balanced_accuracy": 0.9303928571428572,
+                "selected_n": 5600,
+                "help_captured": 979,
+                "help_precision_among_acquired": 0.17482142857142857,
+                "help_capture": 0.38437377306635256,
+                "harm_captured": 458,
+                "harm_rate_among_acquired": 0.08178571428571428,
+                "net_recovery": 0.009303571428571428
+              },
+              "entropy": {
+                "macro_f1": 0.92915017832295,
+                "micro_f1": 0.9293928571428571,
+                "balanced_accuracy": 0.929392857142857,
+                "selected_n": 5600,
+                "help_captured": 959,
+                "help_precision_among_acquired": 0.17125,
+                "help_capture": 0.3765213977228111,
+                "harm_captured": 494,
+                "harm_rate_among_acquired": 0.08821428571428572,
+                "net_recovery": 0.00830357142857143
+              },
+              "oracle": {
+                "macro_f1": 0.9665274207322081,
+                "micro_f1": 0.9665714285714285,
+                "balanced_accuracy": 0.9665714285714285,
+                "selected_n": 5600,
+                "help_captured": 2547,
+                "help_precision_among_acquired": 0.4548214285714286,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.04548214285714286
+              },
+              "random_mean": {
+                "net_recovery": -0.001538392857142857,
+                "net_recovery_ci95": [
+                  -0.0023843749999999998,
+                  -0.0007406250000000004
+                ],
+                "macro_f1": 0.9191955001247594,
+                "macro_f1_ci95": [
+                  0.9183562588986416,
+                  0.920003176005672
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9400856642368617,
+                "micro_f1": 0.9403035714285715,
+                "balanced_accuracy": 0.9403035714285713,
+                "selected_n": 8400,
+                "help_captured": 2203,
+                "help_precision_among_acquired": 0.26226190476190475,
+                "help_capture": 0.8649391440910875,
+                "harm_captured": 1127,
+                "harm_rate_among_acquired": 0.13416666666666666,
+                "net_recovery": 0.019214285714285715
+              },
+              "confidence": {
+                "macro_f1": 0.9430249832529507,
+                "micro_f1": 0.9431071428571428,
+                "balanced_accuracy": 0.9431071428571428,
+                "selected_n": 8400,
+                "help_captured": 2031,
+                "help_precision_among_acquired": 0.2417857142857143,
+                "help_capture": 0.7974087161366313,
+                "harm_captured": 798,
+                "harm_rate_among_acquired": 0.095,
+                "net_recovery": 0.022017857142857145
+              },
+              "entropy": {
+                "macro_f1": 0.9476135311939764,
+                "micro_f1": 0.9476428571428571,
+                "balanced_accuracy": 0.9476428571428571,
+                "selected_n": 8400,
+                "help_captured": 2069,
+                "help_precision_among_acquired": 0.2463095238095238,
+                "help_capture": 0.81232822928936,
+                "harm_captured": 582,
+                "harm_rate_among_acquired": 0.06928571428571428,
+                "net_recovery": 0.02655357142857143
+              },
+              "oracle": {
+                "macro_f1": 0.9665347866505958,
+                "micro_f1": 0.9665714285714285,
+                "balanced_accuracy": 0.9665714285714285,
+                "selected_n": 8400,
+                "help_captured": 2547,
+                "help_precision_among_acquired": 0.3032142857142857,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.04548214285714286
+              },
+              "random_mean": {
+                "net_recovery": -0.0023284642857142857,
+                "net_recovery_ci95": [
+                  -0.0032950892857142857,
+                  -0.0014098214285714293
+                ],
+                "macro_f1": 0.9184870484878128,
+                "macro_f1_ci95": [
+                  0.9175341187660312,
+                  0.9194122551781528
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.9424712110993209,
+                "micro_f1": 0.9426785714285715,
+                "balanced_accuracy": 0.9426785714285714,
+                "selected_n": 11200,
+                "help_captured": 2410,
+                "help_precision_among_acquired": 0.21517857142857144,
+                "help_capture": 0.9462112288967413,
+                "harm_captured": 1201,
+                "harm_rate_among_acquired": 0.10723214285714286,
+                "net_recovery": 0.021589285714285714
+              },
+              "confidence": {
+                "macro_f1": 0.9384182899696378,
+                "micro_f1": 0.9387321428571429,
+                "balanced_accuracy": 0.9387321428571429,
+                "selected_n": 11200,
+                "help_captured": 2302,
+                "help_precision_among_acquired": 0.2055357142857143,
+                "help_capture": 0.9038084020416176,
+                "harm_captured": 1314,
+                "harm_rate_among_acquired": 0.11732142857142858,
+                "net_recovery": 0.017642857142857144
+              },
+              "entropy": {
+                "macro_f1": 0.9377365747839489,
+                "micro_f1": 0.9380357142857143,
+                "balanced_accuracy": 0.9380357142857143,
+                "selected_n": 11200,
+                "help_captured": 2261,
+                "help_precision_among_acquired": 0.201875,
+                "help_capture": 0.8877110325873577,
+                "harm_captured": 1312,
+                "harm_rate_among_acquired": 0.11714285714285715,
+                "net_recovery": 0.01694642857142857
+              },
+              "oracle": {
+                "macro_f1": 0.9665434337904938,
+                "micro_f1": 0.9665714285714285,
+                "balanced_accuracy": 0.9665714285714285,
+                "selected_n": 11200,
+                "help_captured": 2547,
+                "help_precision_among_acquired": 0.2274107142857143,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.04548214285714286
+              },
+              "random_mean": {
+                "net_recovery": -0.0031054285714285715,
+                "net_recovery_ci95": [
+                  -0.004116517857142857,
+                  -0.002052678571428572
+                ],
+                "macro_f1": 0.9177680963419163,
+                "macro_f1_ci95": [
+                  0.9167710641953997,
+                  0.9188073050333962
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.8649391440910875,
+            "help_precision_among_acquired": 0.26226190476190475,
+            "harm_captured": 1127,
+            "net_recovery": 0.019214285714285715
+          },
+          "net_recovery_gain_vs_random_15": 0.02154275,
+          "selector15_macro_f1": 0.9400856642368617,
+          "basic_macro_f1": 0.9205039968009464,
+          "delta_selective15_macro_f1": 0.019581667435915273,
+          "help_prevalence_ratio_aupr": 7.6618464604671255
+        },
+        "TR": {
+          "condition": "BTR",
+          "help_prevalence": 0.035946428571428574,
+          "harm_prevalence": 0.055214285714285716,
+          "global_net_utility_prevalence": -0.019267857142857142,
+          "help_auroc": 0.9258667826519772,
+          "help_aupr": 0.33897311203527924,
+          "budgets": {
+            "0.05": {
+              "k": 2800,
+              "selector": {
+                "macro_f1": 0.9339577047764224,
+                "micro_f1": 0.9341964285714286,
+                "balanced_accuracy": 0.9341964285714287,
+                "selected_n": 2800,
+                "help_captured": 978,
+                "help_precision_among_acquired": 0.3492857142857143,
+                "help_capture": 0.4858420268256334,
+                "harm_captured": 244,
+                "harm_rate_among_acquired": 0.08714285714285715,
+                "net_recovery": 0.013107142857142857
+              },
+              "confidence": {
+                "macro_f1": 0.9299926840717427,
+                "micro_f1": 0.9301964285714286,
+                "balanced_accuracy": 0.9301964285714286,
+                "selected_n": 2800,
+                "help_captured": 885,
+                "help_precision_among_acquired": 0.31607142857142856,
+                "help_capture": 0.4396423248882265,
+                "harm_captured": 375,
+                "harm_rate_among_acquired": 0.13392857142857142,
+                "net_recovery": 0.009107142857142857
+              },
+              "entropy": {
+                "macro_f1": 0.9284211026768833,
+                "micro_f1": 0.9286428571428571,
+                "balanced_accuracy": 0.9286428571428572,
+                "selected_n": 2800,
+                "help_captured": 828,
+                "help_precision_among_acquired": 0.2957142857142857,
+                "help_capture": 0.4113263785394933,
+                "harm_captured": 405,
+                "harm_rate_among_acquired": 0.14464285714285716,
+                "net_recovery": 0.007553571428571429
+              },
+              "oracle": {
+                "macro_f1": 0.9569434403060202,
+                "micro_f1": 0.9570357142857143,
+                "balanced_accuracy": 0.9570357142857142,
+                "selected_n": 2800,
+                "help_captured": 2013,
+                "help_precision_among_acquired": 0.7189285714285715,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.035946428571428574
+              },
+              "random_mean": {
+                "net_recovery": -0.0009329642857142857,
+                "net_recovery_ci95": [
+                  -0.0015,
+                  -0.0004013392857142861
+                ],
+                "macro_f1": 0.9196838608395564,
+                "macro_f1_ci95": [
+                  0.919125982637163,
+                  0.9202064028041648
+                ]
+              }
+            },
+            "0.1": {
+              "k": 5600,
+              "selector": {
+                "macro_f1": 0.9444240306170547,
+                "micro_f1": 0.9444464285714286,
+                "balanced_accuracy": 0.9444464285714285,
+                "selected_n": 5600,
+                "help_captured": 1764,
+                "help_precision_among_acquired": 0.315,
+                "help_capture": 0.8763040238450075,
+                "harm_captured": 456,
+                "harm_rate_among_acquired": 0.08142857142857143,
+                "net_recovery": 0.023357142857142858
+              },
+              "confidence": {
+                "macro_f1": 0.9298890420340064,
+                "micro_f1": 0.9300892857142857,
+                "balanced_accuracy": 0.9300892857142858,
+                "selected_n": 5600,
+                "help_captured": 956,
+                "help_precision_among_acquired": 0.1707142857142857,
+                "help_capture": 0.4749130650769995,
+                "harm_captured": 452,
+                "harm_rate_among_acquired": 0.08071428571428571,
+                "net_recovery": 0.009
+              },
+              "entropy": {
+                "macro_f1": 0.9292512632860098,
+                "micro_f1": 0.9294285714285714,
+                "balanced_accuracy": 0.9294285714285715,
+                "selected_n": 5600,
+                "help_captured": 962,
+                "help_precision_among_acquired": 0.1717857142857143,
+                "help_capture": 0.4778936910084451,
+                "harm_captured": 495,
+                "harm_rate_among_acquired": 0.08839285714285715,
+                "net_recovery": 0.008339285714285714
+              },
+              "oracle": {
+                "macro_f1": 0.9569446569562859,
+                "micro_f1": 0.9570357142857143,
+                "balanced_accuracy": 0.9570357142857142,
+                "selected_n": 5600,
+                "help_captured": 2013,
+                "help_precision_among_acquired": 0.35946428571428574,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.035946428571428574
+              },
+              "random_mean": {
+                "net_recovery": -0.0018883214285714287,
+                "net_recovery_ci95": [
+                  -0.002652232142857143,
+                  -0.0011513392857142861
+                ],
+                "macro_f1": 0.9188346128280255,
+                "macro_f1_ci95": [
+                  0.9180709755600375,
+                  0.9195676136089544
+                ]
+              }
+            },
+            "0.15": {
+              "k": 8400,
+              "selector": {
+                "macro_f1": 0.9366994584349969,
+                "micro_f1": 0.9367678571428572,
+                "balanced_accuracy": 0.9367678571428572,
+                "selected_n": 8400,
+                "help_captured": 1800,
+                "help_precision_among_acquired": 0.21428571428571427,
+                "help_capture": 0.8941877794336811,
+                "harm_captured": 922,
+                "harm_rate_among_acquired": 0.10976190476190475,
+                "net_recovery": 0.015678571428571427
+              },
+              "confidence": {
+                "macro_f1": 0.9386575109929863,
+                "micro_f1": 0.9387142857142857,
+                "balanced_accuracy": 0.9387142857142857,
+                "selected_n": 8400,
+                "help_captured": 1612,
+                "help_precision_among_acquired": 0.1919047619047619,
+                "help_capture": 0.8007948335817189,
+                "harm_captured": 625,
+                "harm_rate_among_acquired": 0.0744047619047619,
+                "net_recovery": 0.017625
+              },
+              "entropy": {
+                "macro_f1": 0.9405462928106944,
+                "micro_f1": 0.9405714285714286,
+                "balanced_accuracy": 0.9405714285714285,
+                "selected_n": 8400,
+                "help_captured": 1653,
+                "help_precision_among_acquired": 0.19678571428571429,
+                "help_capture": 0.8211624441132638,
+                "harm_captured": 562,
+                "harm_rate_among_acquired": 0.06690476190476191,
+                "net_recovery": 0.019482142857142858
+              },
+              "oracle": {
+                "macro_f1": 0.9569507098721628,
+                "micro_f1": 0.9570357142857143,
+                "balanced_accuracy": 0.9570357142857142,
+                "selected_n": 8400,
+                "help_captured": 2013,
+                "help_precision_among_acquired": 0.23964285714285713,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.035946428571428574
+              },
+              "random_mean": {
+                "net_recovery": -0.002866035714285714,
+                "net_recovery_ci95": [
+                  -0.0038129464285714286,
+                  -0.0019821428571428572
+                ],
+                "macro_f1": 0.917954955743085,
+                "macro_f1_ci95": [
+                  0.9170077995792076,
+                  0.9188309943156344
+                ]
+              }
+            },
+            "0.2": {
+              "k": 11200,
+              "selector": {
+                "macro_f1": 0.937106508964552,
+                "micro_f1": 0.937125,
+                "balanced_accuracy": 0.9371250000000001,
+                "selected_n": 11200,
+                "help_captured": 1915,
+                "help_precision_among_acquired": 0.17098214285714286,
+                "help_capture": 0.9513164431197219,
+                "harm_captured": 1017,
+                "harm_rate_among_acquired": 0.09080357142857143,
+                "net_recovery": 0.016035714285714285
+              },
+              "confidence": {
+                "macro_f1": 0.933015634203534,
+                "micro_f1": 0.933125,
+                "balanced_accuracy": 0.9331250000000001,
+                "selected_n": 11200,
+                "help_captured": 1818,
+                "help_precision_among_acquired": 0.16232142857142856,
+                "help_capture": 0.9031296572280179,
+                "harm_captured": 1144,
+                "harm_rate_among_acquired": 0.10214285714285715,
+                "net_recovery": 0.012035714285714285
+              },
+              "entropy": {
+                "macro_f1": 0.9323122919767419,
+                "micro_f1": 0.9324107142857143,
+                "balanced_accuracy": 0.9324107142857142,
+                "selected_n": 11200,
+                "help_captured": 1779,
+                "help_precision_among_acquired": 0.1588392857142857,
+                "help_capture": 0.8837555886736215,
+                "harm_captured": 1145,
+                "harm_rate_among_acquired": 0.10223214285714285,
+                "net_recovery": 0.01132142857142857
+              },
+              "oracle": {
+                "macro_f1": 0.956957675173449,
+                "micro_f1": 0.9570357142857143,
+                "balanced_accuracy": 0.9570357142857142,
+                "selected_n": 11200,
+                "help_captured": 2013,
+                "help_precision_among_acquired": 0.17973214285714287,
+                "help_capture": 1.0,
+                "harm_captured": 0,
+                "harm_rate_among_acquired": 0.0,
+                "net_recovery": 0.035946428571428574
+              },
+              "random_mean": {
+                "net_recovery": -0.00383425,
+                "net_recovery_ci95": [
+                  -0.004839285714285714,
+                  -0.0028035714285714287
+                ],
+                "macro_f1": 0.9170763646108281,
+                "macro_f1_ci95": [
+                  0.9160718715814553,
+                  0.9181068155745121
+                ]
+              }
+            }
+          },
+          "top15": {
+            "help_capture": 0.8941877794336811,
+            "help_precision_among_acquired": 0.21428571428571427,
+            "harm_captured": 922,
+            "net_recovery": 0.015678571428571427
+          },
+          "net_recovery_gain_vs_random_15": 0.01854460714285714,
+          "selector15_macro_f1": 0.9366994584349969,
+          "basic_macro_f1": 0.9205039968009464,
+          "delta_selective15_macro_f1": 0.0161954616340505,
+          "help_prevalence_ratio_aupr": 9.429952446088246
+        }
+      }
+    }
+  },
+  "selector_vs_random15_aggregate_bootstrap": {
+    "T": {
+      "mean": 0.020127184523809526,
+      "ci95": [
+        0.01385625,
+        0.02863125
+      ],
+      "reps": 1000,
+      "unit": "private activity group",
+      "paired": true
+    },
+    "R": {
+      "mean": 0.024798803571428572,
+      "ci95": [
+        -0.00011919642857142862,
+        0.05115386904761904
+      ],
+      "reps": 1000,
+      "unit": "private activity group",
+      "paired": true
+    },
+    "TR": {
+      "mean": 0.022282934523809524,
+      "ci95": [
+        0.004527678571428571,
+        0.04096428571428571
+      ],
+      "reps": 1000,
+      "unit": "private activity group",
+      "paired": true
+    }
+  },
+  "gate1_aggregate_bootstrap": {
+    "families": {
+      "T": {
+        "delta_macro_f1_mean": 0.005894840619642583,
+        "delta_macro_f1_ci95": [
+          -0.003534547371074395,
+          0.015783061963796564
+        ]
+      },
+      "R": {
+        "delta_macro_f1_mean": -0.013640829175277001,
+        "delta_macro_f1_ci95": [
+          -0.04282650896949661,
+          0.018456233210739175
+        ]
+      },
+      "TR": {
+        "delta_macro_f1_mean": -0.02155351164029701,
+        "delta_macro_f1_ci95": [
+          -0.039034705118392986,
+          -0.00015373844429124946
+        ]
+      }
+    },
+    "reps": 1000,
+    "unit": "private activity group",
+    "pooled_seeds": [
+      20260817,
+      20260818,
+      20260819
+    ],
+    "paired": true
+  },
+  "gate1_aggregate_bootstrap_completeness": "COMPUTED_OPTIONAL_CHECK",
+  "temporal_decision": {
+    "status": "PASS",
+    "severe_failure": false,
+    "n_pass": 7,
+    "criteria": {
+      "T1_mean_help_auroc": {
+        "value": 0.9217905433811925,
+        "threshold": 0.7,
+        "pass": true
+      },
+      "T2_mean_help_aupr": {
+        "value": 0.3339549869313774,
+        "threshold": 0.055273809523809524,
+        "pass": true
+      },
+      "T3_top15_help_capture_3of3": {
+        "values": [
+          0.8978779840848806,
+          0.8999366687777074,
+          0.9080976863753213
+        ],
+        "threshold": 0.3,
+        "pass": true
+      },
+      "T4_sel15_gt_rand15_3of3": {
+        "selector_values": [
+          0.02057142857142857,
+          0.021910714285714287,
+          0.02107142857142857
+        ],
+        "random_values": [
+          0.001213142857142857,
+          0.0008695357142857143,
+          0.0009088928571428571
+        ],
+        "pass": true
+      },
+      "T5_mean_gain_vs_random": {
+        "value": 0.02018733333333333,
+        "threshold": 0.002,
+        "pass": true
+      },
+      "T6_sel15_macro_gt_basic_3of3": {
+        "selector_macro": [
+          0.9404518385035242,
+          0.9424672409816495,
+          0.9420254335467145
+        ],
+        "basic_macro": [
+          0.9195453843242216,
+          0.9201366769918254,
+          0.9205039968009464
+        ],
+        "mean_delta": 0.021586151638298245,
+        "threshold": 0.002,
+        "pass": true
+      },
+      "T7_aggregate_ci_lower": {
+        "value": 0.01385625,
+        "pass": true
+      }
+    }
+  },
+  "relation_decision": {
+    "diversity_signal": true,
+    "unique_r_help_rate_by_seed": [
+      0.020714285714285713,
+      0.018339285714285714,
+      0.01864285714285714
+    ],
+    "criteria": {
+      "R1_mean_help_auroc": {
+        "value": 0.919317398005126,
+        "threshold": 0.7,
+        "pass": true
+      },
+      "R2_mean_top15_capture": {
+        "value": 0.9078371396529827,
+        "threshold": 0.3,
+        "pass": true
+      },
+      "R3_sel15_net_gt_0_2of3": {
+        "pass": true
+      },
+      "R4_sel15_gt_rand15_2of3": {
+        "pass": true
+      },
+      "R5_central_estimate_gt_0": {
+        "pass": true
+      }
+    },
+    "conditional_value": true
+  },
+  "tr_secondary": {
+    "mean_help_auroc": 0.9175021955589481,
+    "mean_top15_capture": 0.9110812140935187,
+    "mean_gain_vs_random_15": 0.02211367857142857,
+    "secondary_only": true
+  },
+  "evidence_diversity_status": "TEMPORAL_PLUS_RELATION_CONDITIONALLY_USEFUL",
+  "decision": "PASS",
+  "adaptive_evidence_acquisition_status": "SUPPORTED_FOR_NEXT_OPEN_WORLD_GATE",
+  "teacher_utility_alignment_status": "NOT_RUN_OUT_OF_SCOPE",
+  "final_test_modeling_contamination": false,
+  "deepseek_api_calls": 0,
+  "qwen_api_calls": 0,
+  "model_b_training_started": false,
+  "rl_training_started": false,
+  "continual_training_started": false
+}
