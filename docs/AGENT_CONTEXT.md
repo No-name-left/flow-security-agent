@@ -2,7 +2,7 @@
 
 STATE_SCHEMA=AGENT_CONTEXT_V1
 LAST_UPDATED=2026-08-17
-UPDATED_BY_TASK=OPEN_WORLD_RECOVERABILITY_GATE_V1
+UPDATED_BY_TASK=OPEN_WORLD_V1_FAILURE_ATTRIBUTION_AND_FURK_AUDIT
 
 This is the single short entry point every agent reads before substantive project
 work. It carries only the current state and operating rules. Historical detail
@@ -82,6 +82,13 @@ OPEN_WORLD_RECOVERABILITY_GATE=FAIL (2026-08-17; see open-world gate report;
   mean +0.235, CI [0.082, 0.290]; True Unknown AUROC/recall preserved;
   Known Macro-F1 +0.015; mechanism: post-acquisition MSP novelty scoring
   does not transfer classification recovery to novelty recovery)
+V1_FAILURE_ATTRIBUTION=COMPLETE (2026-08-17; diagnostic only, V1 FAIL
+  unchanged; FURK denominator audit PASS (identical across 6 policies per
+  rotation, row identity verified); dominant mechanisms F1 2/3, F2 3/3
+  (primary), F3 3/3, F4 2/3; True Unknown separation preserved 3/3;
+  V2_JUSTIFICATION=YES — novelty interface must explicitly model recovery
+  state rather than post-classification MSP alone; NO detector
+  recommendation; RL relevance PLAUSIBLE (analysis only, R3=2179 of 9483)
 UNKNOWN_CANDIDATE_PURIFICATION_GATE=NOT_RUN (B=FAIL -> STOP per B17)
 SELF_EVOLUTION_PURIFICATION_FOUNDATION=NOT_ESTABLISHED
 MODEL_B_STATUS=NOT_STARTED
@@ -154,11 +161,15 @@ addendum `docs/research_plan/literature_novelty_reassessment_v1.md`
 
 ```text
 CURRENT_AUTHORIZED_TASK=NONE_WAITING_RESEARCHER
-  (Open-World Recoverability Gate V1 completed 2026-08-17: FAIL;
-   waiting for researcher review of the failed gate + mainline reassessment)
+  (Failure-attribution diagnostic for Open-World Gate V1 completed
+   2026-08-17; waiting for researcher review of the failed gate,
+   the attribution, and the mainline reassessment)
 NEXT_PROPOSED_ACTION=REASSESS_RECOVERABILITY_CONDITIONED_OPEN_WORLD_MAINLINE
   (gate FAIL: novelty scoring under acquired Evidence must be addressed
-   before any re-test of acquisition value for open-world routing)
+   before any re-test of acquisition value for open-world routing;
+   attribution: novelty interface must explicitly model recovery state
+   rather than post-classification MSP alone — V2 protocol requires
+   researcher authorization)
 NEXT_ACTION_AUTHORIZED=false
 
 CURRENT_FORBIDDEN_NEXT_STEPS=
@@ -181,14 +192,49 @@ Gate 1 / Gate 1B conclusions unchanged. Reassessment of the
 recoverability-conditioned open-world mainline is the next proposed action —
 still NOT authorized.
 
+V1 failure attribution (2026-08-17, diagnostic only, V1 result unchanged):
+FURK denominator audit PASS — denominator identical across all 6 policies
+within each rotation, per-row identity verified (stored recoverable column
+== frozen-model-recomputed flag; digest/block row alignment); raw
+numerators match the frozen report exactly. Dominant mechanisms
+(>=2/3 rotations, raw counts, no tuning): F1 classification-utility target
+mismatch (2/3), F2 post-Evidence MSP misalignment (3/3, PRIMARY),
+F3 policy-conditioned calibration subgroup shift (3/3; CALIB Known POST
+P95 drops -0.029/-0.085/-0.041 while CALIB Recoverable P95 rises),
+F4 router selection failure (2/3). R3 recovered-but-rejected = 2179 pooled
+(23.0% of recoverable); recovery-conditional rejection 0.54 pooled.
+True Unknown separation preserved 3/3. V2_JUSTIFICATION=YES:
+PROSPECTIVE_V2_DESIGN_REQUIREMENT="novelty interface must explicitly model
+recovery state rather than post-classification MSP alone" (conceptual
+correction, definable without True Unknown GT, NO detector recommended).
+RL_SEQUENTIAL_DECISION_JUSTIFICATION=PLAUSIBLE (analysis only, no RL run).
+All diagnostic outputs remain UNCOMMITTED/UNPUSHED for researcher review.
+
 ## Latest formal result
 
 ```text
-LATEST_FORMAL_REPORT_JSON=reports/research_audit/open_world_recoverability_gate_v1.json
-LATEST_FORMAL_REPORT_MD=reports/research_audit/open_world_recoverability_gate_v1.md
-PREVIOUS_REPORT_JSON=reports/research_audit/core_hypothesis_gate_v1b.json
-PREVIOUS_REPORT_MD=reports/research_audit/core_hypothesis_gate_v1b.md
+LATEST_FORMAL_REPORT_JSON=reports/research_audit/open_world_gate_v1_failure_attribution.json
+LATEST_FORMAL_REPORT_MD=reports/research_audit/open_world_gate_v1_failure_attribution.md
+PREVIOUS_REPORT_JSON=reports/research_audit/open_world_recoverability_gate_v1.json
+PREVIOUS_REPORT_MD=reports/research_audit/open_world_recoverability_gate_v1.md
 ```
+
+Open-World Gate V1 failure attribution (2026-08-17, COMPLETE): FURK
+denominator audit PASS; numerators exactly match the frozen report
+(Credential 1220/2295 of 4598, Recon 895/1034 of 1398, Web 702/2043 of
+3487; rates 0.2653→0.4991 / 0.6402→0.7396 / 0.2013→0.5859). Dominant
+mechanisms F1 2/3, F2 3/3 (primary), F3 3/3, F4 2/3; F0=F5=F6=0.
+RBR/RCJ pooled 0.2298/0.5419 (A2=2179); R3=2179, R4=1992 (R3∩R4=278);
+HELP-novelty improve 0.446/0.531/0.406, worsen 0.516/0.428/0.547;
+Spearman 0.08–0.29. Thresholds P6−P0: −0.029/−0.085/−0.041; CALIB Known
+POST P95 shift −0.029/−0.085/−0.041 with CALIB Recoverable +0.011/+0.052/
+−0.004. True Unknown AUROC delta +0.014/+0.002/+0.014, separation
+PRESERVED 3/3. V2_JUSTIFICATION=YES (all 5 conditions; requirement:
+"novelty interface must explicitly model recovery state rather than
+post-classification MSP alone"; primary F2). RL=PLAUSIBLE (analysis only).
+No threshold created; Basic threshold never presented as an alternative;
+no detector recommended; no frozen report rewritten; safety counters all
+false/0; diagnostic outputs UNCOMMITTED/UNPUSHED.
 
 Open-World Recoverability Gate V1 (2026-08-17, FAIL): typed utility Evidence
 acquisition makes recoverable-Known false-Unknown rejection materially worse
@@ -259,6 +305,13 @@ reports/research_audit/open_world_recoverability_gate_v1.json (primary)
 reports/research_audit/open_world_recoverability_gate_v1.md   (explanatory context)
 ```
 
+For the V1 failure attribution and FURK audit (untracked, do not commit):
+
+```text
+reports/research_audit/open_world_gate_v1_failure_attribution.json (primary)
+reports/research_audit/open_world_gate_v1_failure_attribution.md   (explanatory context)
+```
+
 For novelty positioning and claim-safety (untracked, do not commit):
 
 ```text
@@ -289,17 +342,22 @@ change.
 ## Git/repository state
 
 ```text
-GIT_CHECKPOINT=917303a (Phase A checkpoint: fulltext novelty sync; pushed: no, blocked: no GitHub creds)
-WORKING_TREE_STATE=Open-World Recoverability Gate V1 complete (FAIL); results intentionally uncommitted
+GIT_CHECKPOINT=4fc7591 (Open-World Recoverability Gate V1 FAIL checkpoint;
+  pushed: no, blocked: no GitHub creds)
+WORKING_TREE_STATE=V1 failure attribution complete (diagnostic only);
+  diagnostic outputs intentionally uncommitted for researcher review
 GATE_1_CHECKPOINT_STATUS=COMMITTED (push blocked: no GitHub creds)
 GATE_1B_COMMIT_CREATED=false
 GATE_1B_PUSHED=false
 NOVELTY_AUDIT_COMMIT_CREATED=false
 NOVELTY_AUDIT_PUSHED=false
-OPEN_WORLD_GATE_COMMIT_CREATED=false
+OPEN_WORLD_GATE_COMMIT_CREATED=true (4fc7591, local only)
 OPEN_WORLD_GATE_PUSHED=false
+FAILURE_ATTRIBUTION_COMMIT_CREATED=false
+FAILURE_ATTRIBUTION_PUSHED=false
 ```
 
-(untracked: open-world gate tool + test + gate v1 report md/json + gate 1B
-tool + test + gate v1b report md/json + novelty audit report md/json +
-literature addendum; modified: this file, PROJECT_HANDOFF)
+(untracked: failure-attribution tool + test + attribution report md/json +
+open-world gate tool + test + gate v1 report md/json + gate 1B tool + test
++ gate v1b report md/json + novelty audit report md/json + literature
+addendum; modified: this file, PROJECT_HANDOFF)

@@ -198,6 +198,41 @@ OPTIONAL_IMITATION_INITIALIZATION=LIMITED_NOT_DEFAULT
 
 继续禁止：未经授权的Model B/Qwen运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed FINAL_TEST；未经明确授权的push。
 
+**V1 failure attribution（2026-08-17，diagnostic only，V1 FAIL不变）**：
+`OPEN_WORLD_V1_FAILURE_ATTRIBUTION_AND_FURK_AUDIT`完成。**FURK denominator
+audit PASS**——每个rotation内6个policy（P0/P2/P3/P4/P5/P6）denominator完全
+一致（Credential 1396/1569/1633、Recon 453/435/510、Web 1053/1200/1234），
+row identity按行验证（stored recoverable column == frozen-model重算flag，
+digest/block列row-aligned；9/9 cells的11项cross-verification全PASS）；
+raw numerator与frozen report完全一致（1220/2295、895/1034、702/2043；
+0.2653→0.4991、0.6402→0.7396、0.2013→0.5859）。**归因（raw counts，
+≥2/3 rotations，无调参）**：F1 classification-utility target mismatch
+(2/3，HELP novelty improve 0.446/0.531/0.406，worsen 0.516/0.428/0.547，
+Spearman 0.08–0.29)；**F2 post-Evidence MSP misalignment（3/3，PRIMARY，
+RBR 0.157/0.681/0.145、RCJ 0.394/0.734/0.568，R3=2179 pooled）**；F3
+policy-conditioned calibration subgroup shift（3/3，threshold −0.029/
+−0.085/−0.041；直接CALIB证据：CALIB Known POST P95 −0.029/−0.085/−0.041
+而CALIB Recoverable P95 +0.011/+0.052/−0.004）；F4 router selection
+failure（2/3，R1 share 0.60/0.07/0.75）。R2=0（定义性）；R3∩R4仅
+68/157/53——83–90%的recovered-but-rejected行post-Evidence MSP已高于
+DIRECT threshold本身（R4仅counterfactual，从未作为alternative method）。
+True Unknown separation PRESERVED 3/3（AUROC delta +0.014/+0.002/+0.014）。
+**V2_JUSTIFICATION=YES**（5条件全满足），PROSPECTIVE_V2_DESIGN_REQUIREMENT=
+“novelty interface must explicitly model recovery state rather than
+post-classification MSP alone”——概念性修正，非detector replacement，
+未推荐Energy/Mahalanobis/OpenMax/neural binary detector。
+RL_SEQUENTIAL_DECISION_JUSTIFICATION=PLAUSIBLE（analysis only，R3=2179/
+9483>0.15；未run RL，RL不required）。状态：
+C1_STATUS=V1_MECHANISM_FAILED_V2_PROSPECTIVE_JUSTIFIED；
+M1_STATUS=CLASSIFICATION_CONDITIONAL_UTILITY_SUPPORTED_ONLY；
+C2_STATUS=PAUSED_NOT_SUPPORTED_BY_V1；
+SELF_EVOLUTION_STATUS=PLANNED_BUT_NOT_AUTHORIZED_PENDING_OPEN_WORLD_FOUNDATION。
+V1 FAIL checkpoint commit=4fc7591（local only，push blocked: no GitHub
+creds）；全部diagnostic outputs（tool/test/report md/json/context更新）
+**未提交、未push**（等待researcher review）。详见
+[open_world_gate_v1_failure_attribution.md](../reports/research_audit/open_world_gate_v1_failure_attribution.md)
+（JSON：[open_world_gate_v1_failure_attribution.json](../reports/research_audit/open_world_gate_v1_failure_attribution.json)）。
+
 ### DO NOT REOPEN
 
 - NF3-ToN core source、artifact identity、七类taxonomy、source mapping；
