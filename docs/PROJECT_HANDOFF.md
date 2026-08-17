@@ -4,7 +4,7 @@
 >
 > 当前长期主线：`main`；本次文档冻结基于`a3379b290df99fd717248a7c86b9ecce2a047b11`，DEC-0025/0026/0027已接受。
 >
-> 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization与Experiment Protocol v1已冻结；bounded Evidence/open-world feasibility通过但有class-conditional limitations；pre-price Teacher cache v1（2,000/2,000 valid）与semantic reference v1（63/63 valid）已生成并冻结；Model B、continual与fast RL均未启动。
+> 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization与Experiment Protocol v1已冻结；bounded Evidence/open-world feasibility通过但有class-conditional limitations；pre-price Teacher cache v1（2,000/2,000 valid）与semantic reference v1（63/63 valid）已生成并冻结；Core Hypothesis Gate 1已完成，**状态YELLOW**（Temporal modest consistent positive；Relation always-on negative且conditional value unresolved；Full在frozen RF probe为negative）；Model B、continual与fast RL均未启动。
 
 ## 1. 权威链
 
@@ -150,6 +150,8 @@ LLM_LEVEL_RL=NOT_PLANNED_FOR_CORE
 ```text
 B0_MODEL_A_AND_FEASIBILITY=COMPLETE_PASS_WITH_LIMITATIONS
 B1_DATASET_V4_CONTRACT=FROZEN_PASS_SAMPLE_MANIFEST_READY
+CORE_HYPOTHESIS_GATE_1=YELLOW   (kill gate complete 2026-08-17, 3 seeds;
+  see reports/research_audit/core_hypothesis_gate_v1.md — not PASS, not FAIL)
 B2_MODEL_B_STATIC_FOUNDATION=NOT_STARTED
 B3_TYPED_EVIDENCE_UTILITY=NOT_STARTED
 B4_EVIDENCE_CONDITIONED_OPEN_WORLD=NOT_STARTED
@@ -173,6 +175,10 @@ TEACHER_CACHE_ARTIFACT_SHA256=e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e75
 SEMANTIC_REFERENCE_ARTIFACT_SHA256=9830704256bcfd05c6c3fae40ea8b055a2dbef63565a5f03c9894ce71009ad74
 NEXT_ACTION=PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES
 ```
+
+**Core Hypothesis Gate 1（2026-08-17，kill gate）**：`CORE_HYPOTHESIS_GATE_1=YELLOW`，不relabel为PASS。Temporal为modest consistent positive（3/3 seeds ΔMacro-F1 > 0，mean Δ≈+0.0065，net recovery≈+0.0066；意义明确的attack-class recovery：DoS、Web_Injection）；Relation在frozen RF probe下always-on为negative（mean recoverable≈0.0455但harm>recovery），存在非零recovery故conditional value unresolved；Temporal+Relation整体negative。先前24k pilot的强recoverability（~0.12）未以同等强度复现。全部数字见[core_hypothesis_gate_v1.md](../reports/research_audit/core_hypothesis_gate_v1.md)（JSON：[core_hypothesis_gate_v1.json](../reports/research_audit/core_hypothesis_gate_v1.json)）。
+
+Gate 1后下一proposed gate为**Conditional Evidence Utility Separability（CORE_HYPOTHESIS_GATE_1B）**：在获取Evidence前，仅凭runtime-visible Basic state预测HELP vs HARM，尤其Temporal conditional utility与Relation unique/conditional utility。该提议**尚未授权**（`NEXT_ACTION_AUTHORIZED=false`），Gate 1B、Model B、RL、open-world、continual均不得在未授权下启动。
 
 `teacher_cache_v1`的2,000条与semantic reference的63条response已于2026-08-17按冻结prompt生成完毕（2,000/2,000与63/63 schema-valid，0失败、0重试；token：input 4,528,644 / output 156,469）。生成工具与15个targeted tests已进入仓库；raw/normalized response与manifest保持Git-external。详见[teacher_cache_v1_generation_report.md](../reports/research_audit/teacher_cache_v1_generation_report.md)。旧Model A Teacher caches仍为`LEGACY_REFERENCE`，不能作为Model B GT或直接复用。
 

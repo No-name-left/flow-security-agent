@@ -18,6 +18,7 @@ These instructions apply to the entire repository.
 
 Before changing the project, inspect `git status --short` and preserve all user changes. Then read according to task meaning:
 
+0. Read `docs/AGENT_CONTEXT.md` first — the compact, agent-neutral current-state entry (authorization, gate status, read-on-demand policy). Do not treat this file (AGENTS.md) as project state; project state lives in `docs/AGENT_CONTEXT.md` plus the formal reports it points to.
 1. Read `README.md` for repository orientation.
 2. Read `docs/research_plan/research_plan_detailed.md` before any work that can affect research meaning, model/training, data roles, labels, splits, evaluation or paper conclusions.
 3. Read `docs/training/near_mainline_training_protocol_v1.md` before any training, checkpoint, pooling, LoRA, SFT, RLAIF/GRPO, Unknown, U_dev/U_final or novel-class work.

@@ -4,6 +4,15 @@ Flow Security Agent is a research framework for **evidence-conditioned open-worl
 
 > **New developer or Agent:** start with the [project handoff guide](docs/PROJECT_HANDOFF.md). It summarizes the current research Gate, completed assets, unresolved decisions, allowed next steps and working-tree safeguards.
 
+## For AI coding/research agents
+
+Current project state and operating constraints:
+
+- `docs/AGENT_CONTEXT.md` — the compact, agent-neutral current-state entry; read it before substantive project work.
+- `docs/PROJECT_HANDOFF.md` — detailed history, read on demand (see AGENT_CONTEXT for the read policy).
+
+Agents should read `docs/AGENT_CONTEXT.md` before substantive project work.
+
 ## Research direction
 
 ```text

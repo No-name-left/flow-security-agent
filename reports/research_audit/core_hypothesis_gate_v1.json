@@ -1,0 +1,869 @@
+{
+  "schema_version": "CORE_HYPOTHESIS_GATE_V1_REPORT_V1",
+  "status": "COMPLETE_YELLOW",
+  "date": "2026-08-17",
+  "repository": "flow-security-agent",
+  "branch": "main",
+  "head": "50fecfb",
+  "source_artifact_sha256": "53ec8f468a43ede9b1536fabc0390af2fa33ab4312b23ce4d864f186a4651f78",
+  "split_manifest_sha256": "faa5220beae65f06591e7ea399c59092985135b81860fcd2388f20cadaa7c095",
+  "master_split_modified": false,
+  "final_test_modeling_contamination": false,
+  "formal_seeds": [
+    20260817,
+    20260818,
+    20260819
+  ],
+  "estimator": "RandomForestClassifier",
+  "estimator_config": {
+    "n_estimators": 80,
+    "max_depth": 20,
+    "min_samples_leaf": 2,
+    "class_weight": "balanced_subsample",
+    "n_jobs": -1,
+    "random_state": "formal seed"
+  },
+  "estimator_provenance": "frozen NF3-ToN reference probe config from tools/finalize_dataset_v4_split.py (REFERENCE_TREES=80, max_depth=20, min_samples_leaf=2, balanced_subsample); n_jobs=-1 is a speed-only change, RF output is identical for a fixed seed.",
+  "feature_names": {
+    "basic": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "IN_PKTS",
+      "OUT_BYTES",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "CLIENT_TCP_FLAGS",
+      "SERVER_TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS",
+      "DURATION_IN",
+      "DURATION_OUT",
+      "MIN_TTL",
+      "MAX_TTL",
+      "LONGEST_FLOW_PKT",
+      "SHORTEST_FLOW_PKT",
+      "MIN_IP_PKT_LEN",
+      "MAX_IP_PKT_LEN",
+      "SRC_TO_DST_SECOND_BYTES",
+      "DST_TO_SRC_SECOND_BYTES",
+      "RETRANSMITTED_IN_BYTES",
+      "RETRANSMITTED_IN_PKTS",
+      "RETRANSMITTED_OUT_BYTES",
+      "RETRANSMITTED_OUT_PKTS",
+      "SRC_TO_DST_AVG_THROUGHPUT",
+      "DST_TO_SRC_AVG_THROUGHPUT",
+      "NUM_PKTS_UP_TO_128_BYTES",
+      "NUM_PKTS_128_TO_256_BYTES",
+      "NUM_PKTS_256_TO_512_BYTES",
+      "NUM_PKTS_512_TO_1024_BYTES",
+      "NUM_PKTS_1024_TO_1514_BYTES",
+      "TCP_WIN_MAX_IN",
+      "TCP_WIN_MAX_OUT",
+      "ICMP_TYPE",
+      "ICMP_IPV4_TYPE",
+      "DNS_QUERY_ID",
+      "DNS_QUERY_TYPE",
+      "DNS_TTL_ANSWER",
+      "FTP_COMMAND_RET_CODE",
+      "SRC_TO_DST_IAT_MIN",
+      "SRC_TO_DST_IAT_MAX",
+      "SRC_TO_DST_IAT_AVG",
+      "SRC_TO_DST_IAT_STDDEV",
+      "DST_TO_SRC_IAT_MIN",
+      "DST_TO_SRC_IAT_MAX",
+      "DST_TO_SRC_IAT_AVG",
+      "DST_TO_SRC_IAT_STDDEV"
+    ],
+    "temporal": [
+      "source_flow_count_10s",
+      "source_flow_rate_10s",
+      "source_packet_rate_10s",
+      "source_byte_rate_10s",
+      "destination_flow_count_10s",
+      "source_flow_count_60s",
+      "source_flow_rate_60s",
+      "source_packet_rate_60s",
+      "source_byte_rate_60s",
+      "destination_flow_count_60s",
+      "source_flow_count_300s",
+      "source_flow_rate_300s",
+      "source_packet_rate_300s",
+      "source_byte_rate_300s",
+      "destination_flow_count_300s",
+      "same_source_last_seen_gap_ms"
+    ],
+    "relation": [
+      "source_unique_destination_count_10s",
+      "source_unique_destination_port_count_10s",
+      "source_same_destination_port_count_10s",
+      "source_destination_pair_count_10s",
+      "destination_unique_source_count_10s",
+      "source_unique_neighbor_count_10s",
+      "source_unique_destination_count_60s",
+      "source_unique_destination_port_count_60s",
+      "source_same_destination_port_count_60s",
+      "source_destination_pair_count_60s",
+      "destination_unique_source_count_60s",
+      "source_unique_neighbor_count_60s",
+      "source_unique_destination_count_300s",
+      "source_unique_destination_port_count_300s",
+      "source_same_destination_port_count_300s",
+      "source_destination_pair_count_300s",
+      "destination_unique_source_count_300s",
+      "source_unique_neighbor_count_300s"
+    ]
+  },
+  "forbidden_feature_audit": "PASS",
+  "evidence_strict_past_only": true,
+  "evidence_history_rule": "WITHIN_SPLIT_STRICT_END_BEFORE_TARGET_START_V1; full split history retained (never deduplicated); FINAL_TEST rows excluded from modeling arrays",
+  "duplicate_rule": {
+    "group_key": "canonical_row_digest",
+    "representative": "earliest flow_start_ms, tie-break min source_row_index",
+    "verified_groups": 480040,
+    "verified_copies": 1816137,
+    "label_conflicts": 0
+  },
+  "per_seed": {
+    "20260817": {
+      "macro_f1": {
+        "B": 0.9195453843242216,
+        "BT": 0.9277555010811273,
+        "BR": 0.9019606491525207,
+        "BTR": 0.8974465728572312
+      },
+      "balanced_accuracy": {
+        "B": 0.9200892857142857,
+        "BT": 0.9282857142857145,
+        "BR": 0.9057857142857143,
+        "BTR": 0.8989107142857142
+      },
+      "deltas": {
+        "T": 0.008210116756905639,
+        "R": -0.017584735171700894,
+        "TR": -0.022098811466990442
+      },
+      "recoverable": {
+        "T": 0.02692857142857143,
+        "R": 0.045839285714285714,
+        "TR": 0.036875
+      },
+      "harm": {
+        "T": 0.018732142857142857,
+        "R": 0.060142857142857144,
+        "TR": 0.05805357142857143
+      },
+      "net": {
+        "T": 0.008196428571428573,
+        "R": -0.01430357142857143,
+        "TR": -0.02117857142857143
+      },
+      "per_class_recoverable_T": {
+        "Backdoor": {
+          "n": 8000,
+          "recoverable_known_n": 1,
+          "recoverable_known_rate": 0.000125,
+          "harm_rate": 0.00025,
+          "net_recovery_rate": -0.000125
+        },
+        "Benign": {
+          "n": 8000,
+          "recoverable_known_n": 585,
+          "recoverable_known_rate": 0.073125,
+          "harm_rate": 0.007375,
+          "net_recovery_rate": 0.06575
+        },
+        "Credential": {
+          "n": 8000,
+          "recoverable_known_n": 6,
+          "recoverable_known_rate": 0.00075,
+          "harm_rate": 0.0015,
+          "net_recovery_rate": -0.00075
+        },
+        "DDoS": {
+          "n": 8000,
+          "recoverable_known_n": 23,
+          "recoverable_known_rate": 0.002875,
+          "harm_rate": 0.004375,
+          "net_recovery_rate": -0.0015000000000000005
+        },
+        "DoS": {
+          "n": 8000,
+          "recoverable_known_n": 266,
+          "recoverable_known_rate": 0.03325,
+          "harm_rate": 0.000375,
+          "net_recovery_rate": 0.032875
+        },
+        "Recon_Scanning": {
+          "n": 8000,
+          "recoverable_known_n": 62,
+          "recoverable_known_rate": 0.00775,
+          "harm_rate": 0.1075,
+          "net_recovery_rate": -0.09975
+        },
+        "Web_Injection": {
+          "n": 8000,
+          "recoverable_known_n": 565,
+          "recoverable_known_rate": 0.070625,
+          "harm_rate": 0.00975,
+          "net_recovery_rate": 0.06087499999999999
+        }
+      },
+      "bootstrap": {
+        "T": {
+          "condition": "BT",
+          "delta_macro_f1_mean": 0.007738809705582255,
+          "delta_macro_f1_ci95": [
+            -0.00014033338783757393,
+            0.01522197020371822
+          ],
+          "recoverable_rate_mean": 0.026981092495142286,
+          "recoverable_rate_ci95": [
+            0.02062998549455649,
+            0.03390611822838211
+          ],
+          "harm_rate_mean": 0.018743393854283093,
+          "harm_rate_ci95": [
+            0.014615895577254446,
+            0.023649807089279596
+          ],
+          "net_recovery_mean": 0.008237698640859197,
+          "net_recovery_ci95": [
+            0.0007512004791915963,
+            0.01573033991680826
+          ]
+        },
+        "R": {
+          "condition": "BR",
+          "delta_macro_f1_mean": -0.016556397449811622,
+          "delta_macro_f1_ci95": [
+            -0.048203685591582085,
+            0.017648736720259853
+          ],
+          "recoverable_rate_mean": 0.04596374906774011,
+          "recoverable_rate_ci95": [
+            0.028328271180100405,
+            0.06863997227201955
+          ],
+          "harm_rate_mean": 0.05995840879379384,
+          "harm_rate_ci95": [
+            0.03663985858496593,
+            0.09781979904707352
+          ],
+          "net_recovery_mean": -0.013994659726053732,
+          "net_recovery_ci95": [
+            -0.0597629424996827,
+            0.02442499007014095
+          ]
+        },
+        "TR": {
+          "condition": "BTR",
+          "delta_macro_f1_mean": -0.022168802220501136,
+          "delta_macro_f1_ci95": [
+            -0.03978777434452577,
+            0.0006533701546532931
+          ],
+          "recoverable_rate_mean": 0.03700500430194202,
+          "recoverable_rate_ci95": [
+            0.024320858431612843,
+            0.055750837877217366
+          ],
+          "harm_rate_mean": 0.05801678454672967,
+          "harm_rate_ci95": [
+            0.04172096398982798,
+            0.08097953028251013
+          ],
+          "net_recovery_mean": -0.021011780244787646,
+          "net_recovery_ci95": [
+            -0.049442264738923394,
+            0.006124002105841842
+          ]
+        }
+      }
+    },
+    "20260818": {
+      "macro_f1": {
+        "B": 0.9201366769918254,
+        "BT": 0.9256881329374693,
+        "BR": 0.9131300628818647,
+        "BTR": 0.8966417487455806
+      },
+      "balanced_accuracy": {
+        "B": 0.92075,
+        "BT": 0.9265535714285714,
+        "BR": 0.9152857142857143,
+        "BTR": 0.8969821428571428
+      },
+      "deltas": {
+        "T": 0.0055514559456438795,
+        "R": -0.007006614109960729,
+        "TR": -0.023494928246244884
+      },
+      "recoverable": {
+        "T": 0.02819642857142857,
+        "R": 0.045267857142857144,
+        "TR": 0.03503571428571429
+      },
+      "harm": {
+        "T": 0.02239285714285714,
+        "R": 0.05073214285714286,
+        "TR": 0.05880357142857143
+      },
+      "net": {
+        "T": 0.005803571428571429,
+        "R": -0.005464285714285713,
+        "TR": -0.02376785714285714
+      },
+      "per_class_recoverable_T": {
+        "Backdoor": {
+          "n": 8000,
+          "recoverable_known_n": 4,
+          "recoverable_known_rate": 0.0005,
+          "harm_rate": 0.0,
+          "net_recovery_rate": 0.0005
+        },
+        "Benign": {
+          "n": 8000,
+          "recoverable_known_n": 698,
+          "recoverable_known_rate": 0.08725,
+          "harm_rate": 0.00925,
+          "net_recovery_rate": 0.078
+        },
+        "Credential": {
+          "n": 8000,
+          "recoverable_known_n": 10,
+          "recoverable_known_rate": 0.00125,
+          "harm_rate": 0.003625,
+          "net_recovery_rate": -0.0023750000000000004
+        },
+        "DDoS": {
+          "n": 8000,
+          "recoverable_known_n": 9,
+          "recoverable_known_rate": 0.001125,
+          "harm_rate": 0.007375,
+          "net_recovery_rate": -0.0062499999999999995
+        },
+        "DoS": {
+          "n": 8000,
+          "recoverable_known_n": 279,
+          "recoverable_known_rate": 0.034875,
+          "harm_rate": 0.002125,
+          "net_recovery_rate": 0.03275
+        },
+        "Recon_Scanning": {
+          "n": 8000,
+          "recoverable_known_n": 53,
+          "recoverable_known_rate": 0.006625,
+          "harm_rate": 0.127375,
+          "net_recovery_rate": -0.12074999999999998
+        },
+        "Web_Injection": {
+          "n": 8000,
+          "recoverable_known_n": 526,
+          "recoverable_known_rate": 0.06575,
+          "harm_rate": 0.007,
+          "net_recovery_rate": 0.058750000000000004
+        }
+      },
+      "bootstrap": {
+        "T": {
+          "condition": "BT",
+          "delta_macro_f1_mean": 0.004759098315004964,
+          "delta_macro_f1_ci95": [
+            -0.006140516344183919,
+            0.015994355149301673
+          ],
+          "recoverable_rate_mean": 0.027988703094310275,
+          "recoverable_rate_ci95": [
+            0.020222288536347964,
+            0.03854803430949219
+          ],
+          "harm_rate_mean": 0.022341642314569164,
+          "harm_rate_ci95": [
+            0.017438630075383866,
+            0.028380549750416612
+          ],
+          "net_recovery_mean": 0.005647060779741112,
+          "net_recovery_ci95": [
+            -0.0037300890946453174,
+            0.01697743963024577
+          ]
+        },
+        "R": {
+          "condition": "BR",
+          "delta_macro_f1_mean": -0.0056447459179567875,
+          "delta_macro_f1_ci95": [
+            -0.04140287448422527,
+            0.027726532323500204
+          ],
+          "recoverable_rate_mean": 0.04492308794718907,
+          "recoverable_rate_ci95": [
+            0.027251251668006193,
+            0.06726473600184199
+          ],
+          "harm_rate_mean": 0.049977780271348624,
+          "harm_rate_ci95": [
+            0.02738349023097239,
+            0.09043591603431693
+          ],
+          "net_recovery_mean": -0.005054692324159556,
+          "net_recovery_ci95": [
+            -0.0543123328228688,
+            0.031220946176866115
+          ]
+        },
+        "TR": {
+          "condition": "BTR",
+          "delta_macro_f1_mean": -0.023496590073912756,
+          "delta_macro_f1_ci95": [
+            -0.04073885221040898,
+            -0.0014918990353605588
+          ],
+          "recoverable_rate_mean": 0.03477445726394735,
+          "recoverable_rate_ci95": [
+            0.022507879601746533,
+            0.05212380663893412
+          ],
+          "harm_rate_mean": 0.05816237891997039,
+          "harm_rate_ci95": [
+            0.04321886647738823,
+            0.07747174912220806
+          ],
+          "net_recovery_mean": -0.023387921656023027,
+          "net_recovery_ci95": [
+            -0.04988951042045046,
+            0.0030925874070692116
+          ]
+        }
+      }
+    },
+    "20260819": {
+      "macro_f1": {
+        "B": 0.9205039968009464,
+        "BT": 0.9262253299430111,
+        "BR": 0.9013533238185673,
+        "BTR": 0.9010436621959778
+      },
+      "balanced_accuracy": {
+        "B": 0.9210892857142857,
+        "BT": 0.9269642857142858,
+        "BR": 0.9055892857142858,
+        "BTR": 0.9018214285714284
+      },
+      "deltas": {
+        "T": 0.0057213331420646885,
+        "R": -0.019150672982379158,
+        "TR": -0.019460334604968654
+      },
+      "recoverable": {
+        "T": 0.027785714285714285,
+        "R": 0.04548214285714286,
+        "TR": 0.035946428571428574
+      },
+      "harm": {
+        "T": 0.021910714285714287,
+        "R": 0.06098214285714286,
+        "TR": 0.055214285714285716
+      },
+      "net": {
+        "T": 0.005874999999999998,
+        "R": -0.0155,
+        "TR": -0.019267857142857142
+      },
+      "per_class_recoverable_T": {
+        "Backdoor": {
+          "n": 8000,
+          "recoverable_known_n": 2,
+          "recoverable_known_rate": 0.00025,
+          "harm_rate": 0.0005,
+          "net_recovery_rate": -0.00025
+        },
+        "Benign": {
+          "n": 8000,
+          "recoverable_known_n": 676,
+          "recoverable_known_rate": 0.0845,
+          "harm_rate": 0.007125,
+          "net_recovery_rate": 0.077375
+        },
+        "Credential": {
+          "n": 8000,
+          "recoverable_known_n": 4,
+          "recoverable_known_rate": 0.0005,
+          "harm_rate": 0.00175,
+          "net_recovery_rate": -0.00125
+        },
+        "DDoS": {
+          "n": 8000,
+          "recoverable_known_n": 13,
+          "recoverable_known_rate": 0.001625,
+          "harm_rate": 0.005,
+          "net_recovery_rate": -0.0033750000000000004
+        },
+        "DoS": {
+          "n": 8000,
+          "recoverable_known_n": 279,
+          "recoverable_known_rate": 0.034875,
+          "harm_rate": 0.000125,
+          "net_recovery_rate": 0.03475
+        },
+        "Recon_Scanning": {
+          "n": 8000,
+          "recoverable_known_n": 42,
+          "recoverable_known_rate": 0.00525,
+          "harm_rate": 0.131125,
+          "net_recovery_rate": -0.125875
+        },
+        "Web_Injection": {
+          "n": 8000,
+          "recoverable_known_n": 540,
+          "recoverable_known_rate": 0.0675,
+          "harm_rate": 0.00775,
+          "net_recovery_rate": 0.059750000000000004
+        }
+      },
+      "bootstrap": {
+        "T": {
+          "condition": "BT",
+          "delta_macro_f1_mean": 0.005353300266036866,
+          "delta_macro_f1_ci95": [
+            -0.005441288565829044,
+            0.01574326800652161
+          ],
+          "recoverable_rate_mean": 0.027877213016548524,
+          "recoverable_rate_ci95": [
+            0.019680317683848415,
+            0.037874959662982856
+          ],
+          "harm_rate_mean": 0.021774107692322346,
+          "harm_rate_ci95": [
+            0.01667011400953691,
+            0.02841793658511354
+          ],
+          "net_recovery_mean": 0.006103105324226175,
+          "net_recovery_ci95": [
+            -0.0036567135656352338,
+            0.017153665619909615
+          ]
+        },
+        "R": {
+          "condition": "BR",
+          "delta_macro_f1_mean": -0.01918636087479502,
+          "delta_macro_f1_ci95": [
+            -0.043134358123136374,
+            0.008531999124047797
+          ],
+          "recoverable_rate_mean": 0.04559072283444523,
+          "recoverable_rate_ci95": [
+            0.027865405289838097,
+            0.06863832278123266
+          ],
+          "harm_rate_mean": 0.06098394673165492,
+          "harm_rate_ci95": [
+            0.0434885354965646,
+            0.08815461235629951
+          ],
+          "net_recovery_mean": -0.015393223897209698,
+          "net_recovery_ci95": [
+            -0.051762257870998356,
+            0.017736926387963953
+          ]
+        },
+        "TR": {
+          "condition": "BTR",
+          "delta_macro_f1_mean": -0.019463148111037783,
+          "delta_macro_f1_ci95": [
+            -0.0369867442926635,
+            0.0013270822808214367
+          ],
+          "recoverable_rate_mean": 0.03607763074557671,
+          "recoverable_rate_ci95": [
+            0.023204039931434092,
+            0.05527959032976537
+          ],
+          "harm_rate_mean": 0.05517918495381522,
+          "harm_rate_ci95": [
+            0.040858122235733714,
+            0.07625712963503303
+          ],
+          "net_recovery_mean": -0.019101554208238513,
+          "net_recovery_ci95": [
+            -0.04556848062538362,
+            0.005606428241214911
+          ]
+        }
+      }
+    }
+  },
+  "candidates": {
+    "T": {
+      "family": "T",
+      "delta_by_seed": [
+        0.008210116756905639,
+        0.0055514559456438795,
+        0.0057213331420646885
+      ],
+      "mean_delta": 0.006494301948204735,
+      "positive_in_all_seeds": true,
+      "mean_recoverable_rate": 0.027636904761904762,
+      "recoverable_by_seed": [
+        0.02692857142857143,
+        0.02819642857142857,
+        0.027785714285714285
+      ],
+      "mean_harm_rate": 0.02101190476190476,
+      "mean_net_recovery": 0.006625,
+      "attack_classes_meaningful": [
+        "DoS",
+        "Web_Injection"
+      ],
+      "bootstrap_mean_delta": 0.005950402762208029,
+      "min_seed_bootstrap_ci_lower": -0.006140516344183919,
+      "criterion_1": true,
+      "criterion_2": true,
+      "criterion_3": false,
+      "criterion_4": true,
+      "criterion_5": false,
+      "criterion_6": true,
+      "all_criteria": false
+    },
+    "R": {
+      "family": "R",
+      "delta_by_seed": [
+        -0.017584735171700894,
+        -0.007006614109960729,
+        -0.019150672982379158
+      ],
+      "mean_delta": -0.014580674088013593,
+      "positive_in_all_seeds": false,
+      "mean_recoverable_rate": 0.045529761904761906,
+      "recoverable_by_seed": [
+        0.045839285714285714,
+        0.045267857142857144,
+        0.04548214285714286
+      ],
+      "mean_harm_rate": 0.057285714285714294,
+      "mean_net_recovery": -0.01175595238095238,
+      "attack_classes_meaningful": [
+        "DoS",
+        "Web_Injection"
+      ],
+      "bootstrap_mean_delta": -0.013795834747521144,
+      "min_seed_bootstrap_ci_lower": -0.048203685591582085,
+      "criterion_1": false,
+      "criterion_2": false,
+      "criterion_3": false,
+      "criterion_4": true,
+      "criterion_5": false,
+      "criterion_6": false,
+      "all_criteria": false
+    },
+    "TR": {
+      "family": "TR",
+      "delta_by_seed": [
+        -0.022098811466990442,
+        -0.023494928246244884,
+        -0.019460334604968654
+      ],
+      "mean_delta": -0.021684691439401327,
+      "positive_in_all_seeds": false,
+      "mean_recoverable_rate": 0.03595238095238095,
+      "recoverable_by_seed": [
+        0.036875,
+        0.03503571428571429,
+        0.035946428571428574
+      ],
+      "mean_harm_rate": 0.05735714285714286,
+      "mean_net_recovery": -0.021404761904761902,
+      "attack_classes_meaningful": [
+        "DoS",
+        "Web_Injection"
+      ],
+      "bootstrap_mean_delta": -0.021709513468483894,
+      "min_seed_bootstrap_ci_lower": -0.04073885221040898,
+      "criterion_1": false,
+      "criterion_2": false,
+      "criterion_3": false,
+      "criterion_4": true,
+      "criterion_5": false,
+      "criterion_6": false,
+      "all_criteria": false
+    }
+  },
+  "decision": "YELLOW",
+  "core_evidence_family": "NONE",
+  "which_criteria_failed": {
+    "T": {
+      "criterion_1": true,
+      "criterion_2": true,
+      "criterion_3": false,
+      "criterion_4": true,
+      "criterion_5": false,
+      "criterion_6": true
+    },
+    "R": {
+      "criterion_1": false,
+      "criterion_2": false,
+      "criterion_3": false,
+      "criterion_4": true,
+      "criterion_5": false,
+      "criterion_6": false
+    },
+    "TR": {
+      "criterion_1": false,
+      "criterion_2": false,
+      "criterion_3": false,
+      "criterion_4": true,
+      "criterion_5": false,
+      "criterion_6": false
+    }
+  },
+  "gate0_summary": {
+    "schema_version": "DUPLICATE_AWARE_CORE_GATE_VIEW_V1",
+    "duplicate_group_key": "canonical_row_digest (frozen exact-duplicate semantics, verified)",
+    "representative_rule": "earliest flow_start_ms, tie-break minimum source_row_index",
+    "history_rule": "FULL split history retained (never deduplicated); WITHIN_SPLIT_STRICT_END_BEFORE_TARGET_START_V1",
+    "expected_duplicate_groups": 480040,
+    "expected_duplicate_copies": 1816137,
+    "label_conflicts": 0,
+    "pools": {
+      "TRAIN": {
+        "duplicate_aware_n": 18113916,
+        "raw_eligible_n": 19858267,
+        "per_class": {
+          "Backdoor": 70212,
+          "Benign": 10696558,
+          "Credential": 1115241,
+          "DDoS": 2869509,
+          "DoS": 142207,
+          "Recon_Scanning": 1011613,
+          "Web_Injection": 2208576
+        }
+      },
+      "VALIDATION": {
+        "duplicate_aware_n": 3775311,
+        "raw_eligible_n": 3809983,
+        "per_class": {
+          "Backdoor": 14940,
+          "Benign": 2208898,
+          "Credential": 187479,
+          "DDoS": 685774,
+          "DoS": 33432,
+          "Recon_Scanning": 174421,
+          "Web_Injection": 470367
+        }
+      }
+    },
+    "seed_777001": {
+      "targets_n": 21000,
+      "per_partition_class": {
+        "0|Backdoor": 2000,
+        "0|Benign": 2000,
+        "0|Credential": 2000,
+        "0|DDoS": 2000,
+        "0|DoS": 2000,
+        "0|Recon_Scanning": 2000,
+        "0|Web_Injection": 2000,
+        "1|Backdoor": 1000,
+        "1|Benign": 1000,
+        "1|Credential": 1000,
+        "1|DDoS": 1000,
+        "1|DoS": 1000,
+        "1|Recon_Scanning": 1000,
+        "1|Web_Injection": 1000
+      },
+      "smoke": true
+    },
+    "seed_20260817": {
+      "targets_n": 231000,
+      "per_partition_class": {
+        "0|Backdoor": 25000,
+        "0|Benign": 25000,
+        "0|Credential": 25000,
+        "0|DDoS": 25000,
+        "0|DoS": 25000,
+        "0|Recon_Scanning": 25000,
+        "0|Web_Injection": 25000,
+        "1|Backdoor": 8000,
+        "1|Benign": 8000,
+        "1|Credential": 8000,
+        "1|DDoS": 8000,
+        "1|DoS": 8000,
+        "1|Recon_Scanning": 8000,
+        "1|Web_Injection": 8000
+      },
+      "smoke": false
+    },
+    "seed_20260818": {
+      "targets_n": 231000,
+      "per_partition_class": {
+        "0|Backdoor": 25000,
+        "0|Benign": 25000,
+        "0|Credential": 25000,
+        "0|DDoS": 25000,
+        "0|DoS": 25000,
+        "0|Recon_Scanning": 25000,
+        "0|Web_Injection": 25000,
+        "1|Backdoor": 8000,
+        "1|Benign": 8000,
+        "1|Credential": 8000,
+        "1|DDoS": 8000,
+        "1|DoS": 8000,
+        "1|Recon_Scanning": 8000,
+        "1|Web_Injection": 8000
+      },
+      "smoke": false
+    },
+    "seed_20260819": {
+      "targets_n": 231000,
+      "per_partition_class": {
+        "0|Backdoor": 25000,
+        "0|Benign": 25000,
+        "0|Credential": 25000,
+        "0|DDoS": 25000,
+        "0|DoS": 25000,
+        "0|Recon_Scanning": 25000,
+        "0|Web_Injection": 25000,
+        "1|Backdoor": 8000,
+        "1|Benign": 8000,
+        "1|Credential": 8000,
+        "1|DDoS": 8000,
+        "1|DoS": 8000,
+        "1|Recon_Scanning": 8000,
+        "1|Web_Injection": 8000
+      },
+      "smoke": false
+    }
+  },
+  "prior_pilot_reference": {
+    "OOF_BASIC_MACRO_F1": 0.9241027728324086,
+    "OOF_FULL_MACRO_F1": 0.9542507313534688,
+    "RECOVERABLE_KNOWN_RATE": 0.11995833333333333,
+    "UTILITY_PREDICTION_AUROC": 0.9559201214445113,
+    "DIRECT_FURK": 0.3062080536912752,
+    "EVIDENCE_CONDITIONED_FURK": 0.24161073825503357
+  },
+  "artifacts": {
+    "basic_features": "core_gate_basic_features_v1.parquet sha256 6c79423c4cf9369d\u2026",
+    "duplicate_aware_target_manifest": "duplicate_aware_target_manifest_v1.parquet sha256 4bfc3b0dc8d44d79\u2026",
+    "seed_20260817": {
+      "targets": "e294799e683ce7cb\u2026",
+      "history": "5713138e0dafce2b\u2026",
+      "predictions": "9f75b156456c2691\u2026"
+    },
+    "seed_20260818": {
+      "targets": "47b4af209a82078c\u2026",
+      "history": "2b5d40700f9dec3d\u2026",
+      "predictions": "325c18ad68eb4a60\u2026"
+    },
+    "seed_20260819": {
+      "targets": "b65d45ea3ef71fdf",
+      "history": "f365aeb875ef432b",
+      "predictions": "b6929d66853427e3"
+    }
+  },
+  "deepseek_api_calls": 0,
+  "qwen_api_calls": 0,
+  "gpu_training_started": false,
+  "model_b_training_started": false,
+  "rl_training_started": false,
+  "continual_training_started": false
+}
