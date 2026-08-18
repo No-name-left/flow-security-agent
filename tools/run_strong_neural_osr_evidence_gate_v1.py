@@ -960,7 +960,8 @@ def aggregate_bc(cells: dict[str, dict[str, Any]]) -> dict[str, Any]:
 
 
 def aggregate_decisions(cells: dict[str, dict[str, Any]],
-                        run_root: Path) -> dict[str, Any]:
+                        run_root: Path,
+                        owg_root: Path = None) -> dict[str, Any]:
     rot = {r: [c for c in cells.values() if c["rotation"] == r]
            for r in ROTATIONS}
 
@@ -1062,19 +1063,31 @@ def aggregate_decisions(cells: dict[str, dict[str, Any]],
                   "d3": {"auroc_loss": auroc_loss, "pass": bool(d3_ok)},
                   "d4": {"recall_loss": recall_loss, "pass": bool(d4_ok)}}
 
-    # --- Router headroom (stored P6 predictions, frozen) ---
+    # --- Router headroom (stored P6 predictions, frozen, read-only) ---
+    # Computed directly from the frozen eval parquet columns; no training.
     recovery_rot = {}
-    for r in ROTATIONS:
-        vals = []
-        for c in rot[r]:
-            ev = c["ev_split_role"] == 1
-            rec = c["ev_recoverable"][ev]
-            preds = c["ev_pred_p6"][ev]
-            labels = c["ev_labels"][ev]
-            if rec.any():
-                vals.append(float((rec & (preds == labels)).sum() /
-                                  rec.sum()))
-        recovery_rot[r] = float(np.mean(vals))
+    if owg_root is not None:
+        for r in ROTATIONS:
+            vals = []
+            for seed in FORMAL_SEEDS:
+                table = pq.read_table(
+                    owg_root / f"owg_v1_seed_{seed}_rotation_{r}_eval.parquet")
+                role = table["split_role"].to_numpy(zero_copy_only=False)
+                unk = table["is_unknown"].to_numpy(
+                    zero_copy_only=False).astype(bool)
+                rec = table["recoverable"].to_numpy(
+                    zero_copy_only=False).astype(bool)
+                preds = np.array(table["pred_P6_UTILITY_TYPED"].to_pylist(),
+                                 dtype=object)
+                labels = np.array(table["canonical_label"].to_pylist(),
+                                  dtype=object)
+                ev = (role == 1) & (~unk)
+                rec_ev = rec[ev]
+                if rec_ev.any():
+                    vals.append(float((rec_ev &
+                                       (preds[ev] == labels[ev])).sum() /
+                                      rec_ev.sum()))
+            recovery_rot[r] = float(np.mean(vals))
     headroom = sum(1 for r in ROTATIONS
                    if recovery_rot[r] <= ROUTER_HEADROOM_RECOVERY_RATE_MAX
                    ) >= ROUTER_HEADROOM_ROTATIONS_MIN
@@ -1467,7 +1480,8 @@ def run_formal(args) -> int:
             cell_outputs[key] = json.loads(
                 (run_root / "cells" / f"{key}.json").read_text(
                     encoding="utf-8"))
-        aggregate = aggregate_decisions(cell_outputs, run_root)
+        aggregate = aggregate_decisions(cell_outputs, run_root,
+                                        Path(args.owg_root))
         if aggregate["decision"] == "NO_GO_CURRENT_EVIDENCE_CONTRACT" and \
                 aggregate["adequacy"]["pass"]:
             safeguards = run_conditional_safeguards(args, run_root)
