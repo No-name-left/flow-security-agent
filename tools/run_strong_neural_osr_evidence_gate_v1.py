@@ -126,15 +126,15 @@ EDL_KL_LAMBDA = 0.1
 TRAIN_POOL_N = 150000
 TRAIN_EARLY_STOP_FRAC = 0.10
 TRAIN_SPLIT_COUNTS = {
-    "20260817_Credential": (134682, 15318),
-    "20260817_Recon_Scanning": (134796, 15204),
-    "20260817_Web_Injection": (134000, 16000),
-    "20260818_Credential": (134856, 15144),
-    "20260818_Recon_Scanning": (134722, 15278),
-    "20260818_Web_Injection": (134849, 15151),
-    "20260819_Credential": (134550, 15450),
-    "20260819_Recon_Scanning": (134767, 15233),
-    "20260819_Web_Injection": (134812, 15188),
+    "20260817_Credential": (134716, 15284),
+    "20260817_Recon_Scanning": (134872, 15128),
+    "20260817_Web_Injection": (134015, 15985),
+    "20260818_Credential": (134872, 15128),
+    "20260818_Recon_Scanning": (134725, 15275),
+    "20260818_Web_Injection": (134874, 15126),
+    "20260819_Credential": (134551, 15449),
+    "20260819_Recon_Scanning": (134771, 15229),
+    "20260819_Web_Injection": (134813, 15187),
 }
 
 CALIB_KNOWN_FALSE_UNKNOWN_RATE = 0.05

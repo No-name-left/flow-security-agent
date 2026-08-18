@@ -14,6 +14,9 @@
     "RECOVERY_SIGNAL_CHARACTERIZATION_GATE_V2": "COMPLETE (CASE D, RECOVERY_SIGNAL_INCONCLUSIVE)",
     "V1_PRIMARY_MECHANISM": "F2_POST_EVIDENCE_MSP_MISALIGNMENT"
   },
+  "revision_notes": {
+    "2026-08-18_counts_fix": "PRE-EVALUATION recording bugfix: trainsplit_counts_per_cell were first computed by a throwaway script whose np.isin on object byte arrays silently mis-matched rows; the runner's own pre-training cross-check (TRAIN_SPLIT_MISMATCH guard) caught the discrepancy BEFORE any training or formal metric. The split RULE is unchanged; only the recorded per-cell counts were corrected with the runner's exact split function. No formal evaluation metric was computed before this fix."
+  },
   "researcher_corrections_pre_freeze": {
     "train_population": "complete frozen eligible Known TRAIN pool, 6 classes x 25000 = 150000 rows per (rotation, seed); replaces infeasible 200000 target",
     "cross_seed_supplementation": false,
@@ -44,15 +47,15 @@
     "TRAIN_POOL": "partition_code==0 AND canonical_label in rotation known classes; 6 x 25000 = 150000 rows per cell; complete population, no sampling",
     "TRAIN_SPLIT_RULE": "within each class, order activity groups by SHA256(seed_hex || rotation_utf8 || group_digest_bytes) ascending; assign a group to EARLY_STOP while the class cumulative EARLY_STOP row count (before the group) < round(0.10 * class_total); all remaining rows to FIT; no group crosses roles; no RNG",
     "trainsplit_counts_per_cell": {
-      "20260817_Credential": {"fit": 134682, "early_stop": 15318},
-      "20260817_Recon_Scanning": {"fit": 134796, "early_stop": 15204},
-      "20260817_Web_Injection": {"fit": 134000, "early_stop": 16000},
-      "20260818_Credential": {"fit": 134856, "early_stop": 15144},
-      "20260818_Recon_Scanning": {"fit": 134722, "early_stop": 15278},
-      "20260818_Web_Injection": {"fit": 134849, "early_stop": 15151},
-      "20260819_Credential": {"fit": 134550, "early_stop": 15450},
-      "20260819_Recon_Scanning": {"fit": 134767, "early_stop": 15233},
-      "20260819_Web_Injection": {"fit": 134812, "early_stop": 15188}
+      "20260817_Credential": {"fit": 134716, "early_stop": 15284},
+      "20260817_Recon_Scanning": {"fit": 134872, "early_stop": 15128},
+      "20260817_Web_Injection": {"fit": 134015, "early_stop": 15985},
+      "20260818_Credential": {"fit": 134872, "early_stop": 15128},
+      "20260818_Recon_Scanning": {"fit": 134725, "early_stop": 15275},
+      "20260818_Web_Injection": {"fit": 134874, "early_stop": 15126},
+      "20260819_Credential": {"fit": 134551, "early_stop": 15449},
+      "20260819_Recon_Scanning": {"fit": 134771, "early_stop": 15229},
+      "20260819_Web_Injection": {"fit": 134813, "early_stop": 15187}
     },
     "VAL_CALIB_KNOWN": "split_role==0 AND is_unknown==0 in the frozen eval parquet (calibration)",
     "VAL_GATE_EVAL": "split_role==1 (outer True Unknown exposed ONLY for final evaluation metrics)",
