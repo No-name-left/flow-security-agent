@@ -800,6 +800,30 @@ def aggregate_v2(cells: dict[str, dict[str, Any]], run_root: Path,
                    "ratio_ok_all": bool(ratio_ok_all),
                    "ci": list(s_ci)}
 
+    # --- Router headroom (stored P6 predictions, frozen result JSONs) ---
+    recovery_rot = {}
+    for r in ROTATIONS:
+        vals = []
+        for c in rot[r]:
+            frozen = json.loads(
+                (owg_root / f"owg_v1_seed_{c['seed']}_rotation_{r}"
+                           f"_result.json").read_text(encoding="utf-8"))
+            vals.append(float(frozen["policies"]["P6_UTILITY_TYPED"][
+                "evidence_recovery_rate"]))
+        recovery_rot[r] = float(np.mean(vals))
+    headroom = sum(1 for r in ROTATIONS
+                   if recovery_rot[r] <= ROUTER_HEADROOM_RECOVERY_RATE_MAX
+                   ) >= ROUTER_HEADROOM_ROTATIONS_MIN
+
+    decision = _decide_v2(adequacy["pass"], recovery["pass"],
+                          specificity["pass"], deployable["pass"],
+                          headroom)
+    return {"adequacy": adequacy, "recovery": recovery,
+            "specificity": specificity, "deployable": deployable,
+            "headroom": {"p6_recovery_rate": recovery_rot,
+                         "material": bool(headroom)},
+            "decision": decision}
+
 
 def _specificity_ci(run_root: Path) -> tuple[float, float, float]:
     """Pooled paired group-atomic bootstrap CI of the RK-vs-TU gain gap;
@@ -834,30 +858,6 @@ def _specificity_ci(run_root: Path) -> tuple[float, float, float]:
     reps = np.array(reps)
     return (float(reps.mean()), float(np.percentile(reps, 2.5)),
             float(np.percentile(reps, 97.5)))
-
-    # --- Router headroom (stored P6 predictions, frozen result JSONs) ---
-    recovery_rot = {}
-    for r in ROTATIONS:
-        vals = []
-        for c in rot[r]:
-            frozen = json.loads(
-                (owg_root / f"owg_v1_seed_{c['seed']}_rotation_{r}"
-                           f"_result.json").read_text(encoding="utf-8"))
-            vals.append(float(frozen["policies"]["P6_UTILITY_TYPED"][
-                "evidence_recovery_rate"]))
-        recovery_rot[r] = float(np.mean(vals))
-    headroom = sum(1 for r in ROTATIONS
-                   if recovery_rot[r] <= ROUTER_HEADROOM_RECOVERY_RATE_MAX
-                   ) >= ROUTER_HEADROOM_ROTATIONS_MIN
-
-    decision = _decide_v2(adequacy["pass"], recovery["pass"],
-                          specificity["pass"], deployable["pass"],
-                          headroom)
-    return {"adequacy": adequacy, "recovery": recovery,
-            "specificity": specificity, "deployable": deployable,
-            "headroom": {"p6_recovery_rate": recovery_rot,
-                         "material": bool(headroom)},
-            "decision": decision}
 
 
 def _furk_paired_ci_v2(run_root: Path) -> tuple[float, float, float]:
