@@ -1,0 +1,106 @@
+{
+  "schema_version": "EVIDENCE_PROCESSING_METHOD_DEPENDENCE_DIAGNOSTIC_V1_PREREGISTRATION_V1",
+  "date": "2026-08-18",
+  "task": "EVIDENCE_PROCESSING_METHOD_DEPENDENCE_DIAGNOSTIC_V1",
+  "protocol_status": "FROZEN_BEFORE_EVALUATION",
+  "protocol_path": "docs/research_plan/evidence_processing_method_dependence_diagnostic_v1_protocol.md",
+  "protocol_sha256": "91b8f7db1f0c754ae479f40690b10366835811df75072287942667af1a30e277",
+  "predecessor_immutable": {
+    "STRONG_HYBRID_OSR_EVIDENCE_GATE_V2": "METHOD_DEPENDENT_REVIEW (validated; not reopened)",
+    "V2_EVIDENCE_SCIENTIFIC_STATUS": "METHOD_DEPENDENT_PENDING_RESEARCHER_REVIEW"
+  },
+  "purpose": "causal/mechanistic decomposition of the V2 Mahalanobis-FAIL / EDL-PASS specificity contradiction into generic Evidence-presence/distribution bias, representation/processing effects, and final readout effects. NOT detector selection.",
+  "frozen_populations": {
+    "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "seed": 20260817,
+    "evidence_states": ["B", "BT", "BR", "BTR"],
+    "legal_states": ["BT", "BR", "BTR"],
+    "rk_rows": "frozen eval parquet recoverable==1 AND is_unknown==0 (Credential 2688 / Recon_Scanning 1005 / Web_Injection 1874)",
+    "tu_rows": "frozen eval parquet is_unknown==1 (8000 per rotation)",
+    "geometry_fit_population": "TRAIN FIT Known rows (early==0; Known-only)",
+    "edl_train_population": "same frozen TRAIN pool, FIT/EARLY_STOP split, Known-only",
+    "final_test": "FORBIDDEN",
+    "evidence_contract": "strict-past, frozen V1/V2 transforms (safe_basic, log1p(clip(x,0)))"
+  },
+  "determinism": {
+    "PYTHONHASHSEED": "0",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "numpy_generators_only": true,
+    "torch_manual_seed_per_cell": true,
+    "dataloader_workers": 0
+  },
+  "rng_offsets": {
+    "b_edl_retrain": 200,
+    "same_repr_edl_head": 300,
+    "shuffled_permutation": 400,
+    "bootstrap": 500,
+    "rng_base": 171000,
+    "bootstrap_rng_base": 162000
+  },
+  "conditions": {
+    "REAL": "true legal T/R Evidence, deployed masks",
+    "NULL_PRESENT": "availability mask present, Evidence block = all-zero neutral vector in the frozen log1p transform space",
+    "SHUFFLED": "deterministic permutation of T/R blocks within rotation/seed/eval population/block type; RK and TU shuffled separately; masks unchanged; offline mechanism control only"
+  },
+  "metrics": {
+    "gain": "score_B - score_s (novelty scores, higher = more novel; positive = moved toward Known)",
+    "best_legal": "max over BT/BR/BTR per row",
+    "rk_mean_gain": "mean over RK rows",
+    "tu_mean_gain": "mean over TU rows",
+    "specificity_gap": "rk_mean_gain - tu_mean_gain",
+    "fraction_positive": "frac rows with gain > 0",
+    "per_type": "legal states BT/BR/BTR reported separately",
+    "effect_ratios": "NULL_TO_REAL and SHUFFLED_TO_REAL for RK and TU (signed, pooled, denominator REAL)",
+    "bootstrap": "1000 rotation-stratified sample replicates, seeded, 2.5/97.5 percentile 95% CIs"
+  },
+  "identity_checks": {
+    "real_reproduces_validation": "REAL-condition Mahalanobis gains must reproduce the persisted V2 validation same_sample_comparison values within 1e-6",
+    "edl_sanity": "alpha >= 1 everywhere; loss decreases over steps (V1 section 12)",
+    "shuffled_preserves_marginals": "shuffled block mean/std equal original within 1e-9",
+    "null_present_masks": "mask channels present (1), blocks all-zero"
+  },
+  "same_representation_test": {
+    "representation": "frozen primary weights (model.pt, central seed)",
+    "readout_a": "frozen Mahalanobis readout on h",
+    "readout_b": "one fixed Dirichlet head trained on frozen h only; exact V2 EDL semantics (Type-II ML + fixed KL 0.1, AdamW 3e-4/1e-4, 20 epochs, patience 3, Known-only fit/calib); trunk fully frozen; no tuning",
+    "valid": "V1 EDL sanity checks pass; else STOP_NEEDS_REVIEW for this subtest",
+    "contradiction_reproduced_rule": "Mahalanobis gap negative AND EDL-head gap positive on same h in >= 2/3 rotations (3/3 = broadly)"
+  },
+  "reverse_crosscheck": {
+    "status": "AVAILABLE (frozen EDL trunk_forward is the natural penultimate representation; no redesign)",
+    "procedure": "retrain B_EDL with exact frozen V2 recipe (seed 20260817); fit per-state Mahalanobis geometry on its TRAIN FIT Known h_EDL; compute gains/gaps on same RK/TU rows"
+  },
+  "edl_mechanism_diagnostics": {
+    "quantities": ["total evidence S = sum(alpha) (= Dirichlet strength)", "uncertainty u = K/S (K=6)", "top expected prob p_top = max(alpha)/S (= top-class evidence concentration by Dirichlet identity)", "second-largest expected prob p_2nd", "top-1 identity argmax(alpha)", "top-1 stability pre/post"],
+    "states": ["B (before)", "per-row best-legal state (after)"],
+    "comparison": "RK vs True Unknown, per rotation and pooled, deltas after - before"
+  },
+  "interpretation": {
+    "rule_order": ["READOUT_DOMINANT", "REPRESENTATION_OR_PROCESSING_DOMINANT", "GENERIC_EVIDENCE_PRESENCE_BIAS", "GENERIC_EVIDENCE_DISTRIBUTION_BIAS", "RECOVERY_SPECIFIC_CONTENT_SIGNAL", "MIXED_OR_UNRESOLVED"],
+    "readout_dominant_support": "same frozen h shows Mahalanobis-negative / EDL-positive specificity contradiction in >= 2/3 rotations",
+    "presence_bias_support": "pooled NULL_TO_REAL ratio >= 0.5 (RK or TU) with CI lower >= 0.3",
+    "distribution_bias_support": "pooled SHUFFLED_TO_REAL ratio >= 0.5 (RK or TU) with CI lower >= 0.3",
+    "content_signal_support": "REAL gap > NULL gap AND REAL gap > SHUFFLED gap (pooled), paired CI lower > 0 on both differences",
+    "representation_dominant_support": "rule 1 fails and Mahalanobis-on-EDL-representation flips/materially changes the primary gap (CI-separated)",
+    "consequence_rule": "if only that EDL is a generally stronger detector is shown (no fixed-representation contradiction, no content signal), state that the recovery-aware novelty innovation hypothesis is weakened",
+    "v2_decision_not_reopened": true
+  },
+  "hard_boundaries": {
+    "no_new_detector": true,
+    "no_detector_tuning": true,
+    "no_model_b": true,
+    "no_rl": true,
+    "no_continual": true,
+    "no_final_test": true,
+    "no_router_retrain": true,
+    "no_evidence_contract_change": true,
+    "no_v1_v2_modification": true,
+    "no_push": true
+  },
+  "outputs": {
+    "run_root": "processed/dataset_v4_nf3_ton_v1/evidence_processing_method_dependence_diagnostic_v1/",
+    "report_json": "reports/research_audit/evidence_processing_method_dependence_diagnostic_v1.json",
+    "report_md": "reports/research_audit/evidence_processing_method_dependence_diagnostic_v1.md"
+  }
+}
