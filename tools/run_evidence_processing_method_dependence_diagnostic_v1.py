@@ -178,7 +178,11 @@ def maha_scores_from(state_embs: dict[str, np.ndarray],
     scores = {}
     for s in states:
         geo = fit_osr_geometry(train_embs[s], train_labels, known)
-        scores[s] = mahalanobis_min_distance(state_embs[s], geo)
+        # float64 promotion: the persisted V2 audit scores are float64
+        # (astype at save time); gains must subtract in float64 to match
+        # the audit's same_sample values bit-for-bit (bugfix 2026-08-18).
+        scores[s] = mahalanobis_min_distance(state_embs[s], geo).astype(
+            np.float64)
     return scores
 
 
@@ -305,7 +309,8 @@ def edl_alpha_and_novelty(edl, features, indices, states
     alpha_all, nov_all = {}, {}
     for s in states:
         alpha, _ = encoder_forward(edl, features, s, indices, use_edl=True)
-        S = alpha.sum(axis=-1)
+        alpha = alpha.astype(np.float64)  # float64 (same convention as the
+        S = alpha.sum(axis=-1)            # persisted float64 audit scores)
         nov_all[s] = 1.0 - alpha.max(axis=-1) / S
         alpha_all[s] = alpha
     return alpha_all, nov_all
@@ -364,6 +369,8 @@ def bootstrap_pooled(gains: dict[str, dict[str, dict[str, np.ndarray]]],
                                        float(np.percentile(g, 97.5))]}
     out["real_minus_control_gap"] = {}
     for ctrl in ("NULL", "SHUFFLED"):
+        if ctrl not in conds:
+            continue
         d = gaps["REAL"] - gaps[ctrl]
         out["real_minus_control_gap"][ctrl] = {
             "mean": float(d.mean()),
@@ -404,6 +411,8 @@ def main() -> int:
         model.load_state_dict(torch.load(
             V2RUN / "cells" / cell_key(CENTRAL_SEED, rot) / "model.pt",
             map_location="cpu"))
+        model.eval()  # frozen-repr contract: identical to the validated
+                      # primary_replay convention (dropout off)
         primaries[rot] = model
 
     per_rotation: dict[str, Any] = {}
