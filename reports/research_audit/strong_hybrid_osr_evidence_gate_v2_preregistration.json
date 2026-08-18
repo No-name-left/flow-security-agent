@@ -1,0 +1,171 @@
+{
+  "schema_version": "STRONG_HYBRID_OSR_EVIDENCE_GATE_V2_PREREGISTRATION_V1",
+  "date": "2026-08-18",
+  "task": "STRONG_HYBRID_OSR_EVIDENCE_RECOVERABILITY_GATE_V2",
+  "protocol_status": "FROZEN_BEFORE_EVALUATION",
+  "protocol_path": "docs/research_plan/strong_hybrid_osr_evidence_gate_v2_protocol.md",
+  "protocol_sha256": "50b1d7181d57bfa01008f2fb794d889ad34d302acaeb2050ae1db93cc79be5a7",
+  "predecessor_immutable": {
+    "STRONG_NEURAL_OSR_EVIDENCE_GATE_V1": "GATE_INVALID_OSR_INADEQUATE",
+    "V1_EVIDENCE_SCIENTIFIC_STATUS": "NOT_JUDGED"
+  },
+  "motivation": {
+    "v1_neural_known_head_lagged_frozen_rf": "9/9 cells",
+    "v1_failing_cells_plateaued": true,
+    "v1_a2_a3_a4_passed": true,
+    "design": "HYBRID: frozen RF family for Known-class prediction; V1 neural typed-block representation + Mahalanobis geometry for novelty; Evidence question isolated from the weaker neural closed-set classifier",
+    "forbidden_approaches": ["more epochs alone", "SupCon weight tuning", "multiple neural architectures", "detector shopping"]
+  },
+  "hybrid_system": {
+    "HYBRID_CLASS": "frozen RF family prediction for the observation state",
+    "HYBRID_NOVELTY": "neural Mahalanobis novelty score (V1 architecture; per-state class means + one tied pooled LedoitWolf covariance fitted on OSR_TRAIN_FIT Known embeddings; min Mahalanobis distance to any Known class mean; higher = more novel)",
+    "rf_component": "exact frozen stored outputs: D0 uses stored pred_P0_BASIC_DIRECT; D1 uses stored pred_P6_UTILITY_TYPED; offline state-s oracle uses the frozen models pickle (read-only inference) cross-verified against stored outputs before use; no RF retraining or tuning",
+    "neural_component": "identical V1 training semantics: 150,000-row TRAIN pool, V1 group-safe 90/10 FIT/EARLY_STOP split with V1 preregistered per-cell counts, frozen features/transforms, multi-state exposure, CE + 0.10*SupCon (linear head = TRAINING AUXILIARY ONLY), AdamW lr=3e-4 wd=1e-4, batch 1024, seed, max 20 epochs, patience-3 Known-only early stopping"
+  },
+  "frozen_populations": {
+    "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "seeds": [20260817, 20260818, 20260819],
+    "evidence_states": ["B", "BT", "BR", "BTR"],
+    "train_pool": "150000 Known rows per cell (6 x 25000)",
+    "cross_seed_supplementation": false,
+    "new_data_materialization": false,
+    "val_calib_known": "split_role==0 AND is_unknown==0 (calibration)",
+    "val_gate_eval": "split_role==1 (evaluation; True Unknown exposed ONLY for final metrics)",
+    "recoverable_identity": "frozen V1 stored recoverable column (authoritative)",
+    "p6_router": "frozen stored P6 actions/preds; never retrained",
+    "final_test": "forbidden",
+    "true_unknown_exclusion": "representation training, normalization, early stopping, geometry fitting, calibration, model selection"
+  },
+  "determinism": {
+    "python_hash_seed": "fixed at launch",
+    "numpy_generators_only": true,
+    "torch_manual_seed": "per cell",
+    "torch_cuda_manual_seed_all": "per cell",
+    "cudnn_deterministic": true,
+    "cudnn_benchmark": false,
+    "dataloader_workers": 0,
+    "state_exposure_schedule": "deterministic cell_rng (V1-frozen)",
+    "recorded_in_run_manifest": true,
+    "persisted_per_cell": ["trained weights", "embeddings", "predictions", "thresholds", "per-cell metrics", "training curves"]
+  },
+  "adequacy": {
+    "HYBRID_OSR_ADEQUACY_PASS_iff": "H1 AND H2 AND H3 AND H4",
+    "h1_rf_reproduction": "Known Macro-F1 from frozen stored P0/P6 predictions on VAL_GATE_EVAL Known must reproduce the frozen V1 result JSON per-cell values within tolerance; also exact per-row stored-output reproduction from frozen models (0 mismatches)",
+    "h1_tolerance": 0.001,
+    "h1_failure": "GATE_INVALID_IMPLEMENTATION",
+    "h2_pooled_delta": -0.02,
+    "h2_rotation_floor": -0.05,
+    "h2_metric": "neural Basic Unknown AUROC vs frozen RF Basic AUROC (stored P0 scores)",
+    "h3_pooled_delta": -0.03,
+    "h3_rotation_floor": -0.05,
+    "h3_metrics": ["Unknown Recall@5% Known FUR", "Unknown AUPR"],
+    "h4_pooled_mean_min": 0.01,
+    "h4_positive_rotations_min": 2,
+    "h4_ci_lower_min": -0.02,
+    "h4_metric": "pooled paired bootstrap mean (Mahalanobis AUROC - same-encoder Deep MSP AUROC)",
+    "h2_h4_failure": "GATE_INVALID_OSR_INADEQUATE; Evidence NOT_JUDGED"
+  },
+  "deployable": {
+    "arms": ["D0_BASIC (RF Basic pred + neural Basic Mahalanobis)", "D1_P6_SELECTIVE (exact frozen P6; RF pred + neural Mahalanobis from the acquired state)", "D2_ALWAYS_FULL (descriptive)", "D3_RANDOM_COST_MATCHED (descriptive)"],
+    "calibration": "policy-conditioned, Known-only, 5% Known false-Unknown rate, tie semantics rejected = score >= threshold; True Unknown never calibrates",
+    "d1_pooled_furk_delta_max": -0.02,
+    "d1_improve_rotations_min": 2,
+    "d1_rotation_worst": 0.02,
+    "d2": "pooled paired group/temporal-block bootstrap 95% CI upper bound of (FURK(D1)-FURK(D0)) < 0",
+    "d3_auroc_pooled_loss_max": 0.01,
+    "d3_auroc_rotation_loss_max": 0.03,
+    "d4_recall_pooled_loss_max": 0.03,
+    "d4_recall_rotation_loss_max": 0.05,
+    "d5_f1_pooled_loss_max": 0.01,
+    "d5_f1_rotation_loss_max": 0.02,
+    "metrics": ["FURK", "Recoverable-Known accepted-and-correct rate", "Known Macro-F1", "Known false-Unknown rate", "Unknown AUROC", "Unknown AUPR", "Unknown Recall@5% Known FUR", "Evidence acquisition rate/cost", "True Unknown acquisition rate"]
+  },
+  "recovery": {
+    "definition": "for frozen Recoverable Known and legal state s: RECOVERED(s) = RF_s prediction correct AND neural-Mahal(s) accepted (below Known-only 5%-FUR threshold fitted for state s on VAL_CALIB Known); best-legal = max over legal states (GT-guided oracle, analysis-only, NEVER deployed)",
+    "r1_pooled_rate_min": 0.6,
+    "r2_rotation_rate_min": 0.55,
+    "r2_rotations_min": 2,
+    "ci_requirement": "pooled paired group/temporal-block bootstrap 95% CI lower bound of (best-legal rate - Basic accept-correct rate) > 0",
+    "pass_iff": "r1 AND r2 AND ci"
+  },
+  "specificity": {
+    "true_unknown_stress": "most Known-ward legal Evidence state = max over legal states of Known-ward gain (KNOWNNESS(Basic) - KNOWNNESS(s)); KNOWNNESS = min Mahalanobis distance",
+    "c1": "pooled mean gap (RK best-legal gain - TU most-Known-ward gain) > 0 with bootstrap 95% CI lower bound > 0",
+    "c2": "pooled median gap > 0",
+    "c3_ratio_bound": "pooled mean TU gain <= 0.50 x pooled mean RK gain (when RK gain > 0)",
+    "c4": ">= 2/3 rotations mean gap > 0",
+    "pass_iff": "c1 AND c2 AND c3 AND c4"
+  },
+  "decision": {
+    "GO": "adequacy PASS + recovery PASS + specificity PASS + deployable PASS",
+    "GO_SIGNAL_EXISTS_ROUTER_LIMITED": "adequacy + recovery + specificity PASS, deployable FAIL, material frozen-router headroom (frozen P6 Evidence Recovery Rate <= 0.85 in >= 2/3 rotations, from frozen V1 result JSONs)",
+    "router_headroom_recovery_rate_max": 0.85,
+    "router_headroom_rotations_min": 2,
+    "GATE_INVALID_IMPLEMENTATION": "H1 fails materially",
+    "GATE_INVALID_OSR_INADEQUATE": "H2-H4 fail; Evidence NOT_JUDGED",
+    "NO_GO_CURRENT_EVIDENCE_CONTRACT": "adequacy PASS AND (recovery FAIL OR specificity FAIL) AND safeguards do not contradict",
+    "METHOD_DEPENDENT_REVIEW": "remaining combinations and every safeguard contradiction"
+  },
+  "conditional_no_go_safeguards": {
+    "trigger": "ONLY if a valid primary result would otherwise produce NO_GO",
+    "A_RAW_CONCAT": "raw normalized concat encoding, central seed 20260817, all three rotations (V1 recipe)",
+    "B_EDL": "fixed Dirichlet/evidential uncertainty confirmation (V1-frozen EDL recipe: identical trunk, Dirichlet head alpha = softplus(z)+1, Type-II ML loss + fixed KL lambda=0.1, AdamW 3e-4/1e-4, 20 epochs, patience 3, Known-only; belief score 1 - max(alpha/S)), central seed 20260817, all three rotations",
+    "scope": "re-evaluate ONLY the recovery/specificity offline analyses",
+    "contradiction_rule": "materially contradictory strong positive (safeguard's own PASS criteria met on the failed criterion) -> METHOD_DEPENDENT_REVIEW instead of NO-GO",
+    "no_further_methods": true
+  },
+  "statistical_rules": {
+    "bootstrap_reps_min": 1000,
+    "bootstrap_unit": "private activity group",
+    "temporal_block_aware": true,
+    "paired_by_construction": true,
+    "pooled": "9 cells (3 rotations x 3 seeds)",
+    "report": ["per-seed", "per-rotation", "pooled", "effect sizes", "95% CI", "raw counts"],
+    "significance_alone_never_decides": true
+  },
+  "claim_boundary": {
+    "scope": "determines whether the CURRENT strict-past T/R Evidence contract has sufficient open-world recoverability value under a strong-hybrid OSR to justify expensive Model-B development",
+    "no_go_meaning": "a project research decision, not a proof that no model could use Evidence",
+    "invalid_meaning": "says nothing about Evidence"
+  },
+  "execution_lock": {
+    "freeze_before_metrics": true,
+    "evaluation_allowed_only_after_preregistration_commit": true,
+    "after_first_formal_metric": "only pure implementation bugfixes with unchanged scientific semantics, logged; scientific change -> STOP_NEEDS_REVIEW",
+    "git_external_run_dir": "processed/dataset_v4_nf3_ton_v1/strong_hybrid_osr_evidence_gate_v2/",
+    "v1_artifacts_untouched": true,
+    "result_artifacts_uncommitted_until_researcher_validation": true
+  },
+  "hard_boundaries": {
+    "FINAL_TEST": "forbidden",
+    "QWEN_MODEL_B": false,
+    "DEEPSEEK_RESEARCH_CALLS": false,
+    "RL": false,
+    "CONTINUAL_LEARNING": false,
+    "ROUTER_RETRAINING": false,
+    "EVIDENCE_CONTRACT_CHANGES": false,
+    "ADDITIONAL_DETECTOR_SEARCH": false,
+    "POST_RESULT_TUNING": false
+  },
+  "safety_ledger": {
+    "FINAL_TEST_MODELING_CONTAMINATION": false,
+    "TRUE_UNKNOWN_USED_FOR_REPRESENTATION_TRAINING": false,
+    "TRUE_UNKNOWN_USED_FOR_NORMALIZATION": false,
+    "TRUE_UNKNOWN_USED_FOR_EARLY_STOPPING": false,
+    "TRUE_UNKNOWN_USED_FOR_GEOMETRY_FITTING": false,
+    "TRUE_UNKNOWN_USED_FOR_THRESHOLD_CALIBRATION": false,
+    "TRUE_UNKNOWN_USED_FOR_MODEL_SELECTION": false,
+    "ROUTER_RETRAINED": false,
+    "RF_RETRAINED_OR_TUNED": false,
+    "EVIDENCE_CONTRACT_CHANGED": false,
+    "DETECTOR_SHOPPING": false,
+    "POST_RESULT_TUNING": false,
+    "QWEN_OR_MODEL_B_STARTED": false,
+    "RL_TRAINING_STARTED": false,
+    "CONTINUAL_TRAINING_STARTED": false
+  },
+  "git_policy": {
+    "authorized_commit": "preregistration/implementation commit before evaluation",
+    "after_evaluation": "DO NOT COMMIT result reports; DO NOT PUSH; leave for researcher review"
+  }
+}
