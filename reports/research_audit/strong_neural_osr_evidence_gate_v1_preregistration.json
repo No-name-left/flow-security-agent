@@ -1,0 +1,231 @@
+{
+  "schema_version": "STRONG_NEURAL_OSR_EVIDENCE_GATE_V1_PREREGISTRATION_V1",
+  "date": "2026-08-18",
+  "task": "STRONG_NEURAL_OSR_EVIDENCE_RECOVERABILITY_GATE_V1",
+  "authorization": "DEC-0028",
+  "protocol_status": "FROZEN_BEFORE_EVALUATION",
+  "protocol_path": "docs/research_plan/strong_neural_osr_evidence_gate_v1_protocol.md",
+  "protocol_sha256": "0ebf5c8c3af20eedb07800f97db3627e16e35c895ed5420fc2fe3d2e8d18dc7c",
+  "frozen_historical": {
+    "CORE_HYPOTHESIS_GATE_1": "YELLOW",
+    "CORE_HYPOTHESIS_GATE_1B": "PASS",
+    "OPEN_WORLD_RECOVERABILITY_GATE_V1": "FAIL",
+    "OPEN_WORLD_V1_FAILURE_ATTRIBUTION": "COMPLETE",
+    "RECOVERY_SIGNAL_CHARACTERIZATION_GATE_V2": "COMPLETE (CASE D, RECOVERY_SIGNAL_INCONCLUSIVE)",
+    "V1_PRIMARY_MECHANISM": "F2_POST_EVIDENCE_MSP_MISALIGNMENT"
+  },
+  "researcher_corrections_pre_freeze": {
+    "train_population": "complete frozen eligible Known TRAIN pool, 6 classes x 25000 = 150000 rows per (rotation, seed); replaces infeasible 200000 target",
+    "cross_seed_supplementation": false,
+    "replacement_sampling": false,
+    "additional_train_materialization": false,
+    "frozen_target_artifacts_changed": false,
+    "evidence_potential_strengthened": true,
+    "confirmatory_detector_family": "DIRICHLET_EVIDENTIAL_EDL (fixed)",
+    "osr_adequacy_a1_a4_unchanged": true
+  },
+  "scientific_questions": {
+    "A_OSR_ADEQUACY": "is the dedicated neural OSR sufficiently credible to judge Evidence? FAIL -> GATE_INVALID_OSR_INADEQUATE, Evidence may NOT be declared failed",
+    "B_EVIDENCE_INFORMATION_POTENTIAL": "offline oracle mechanism analysis: can at least one legal T/R/TR Evidence state recover frozen Recoverable Known in open-set representation space?",
+    "C_EVIDENCE_SPECIFICITY": "does Evidence move Recoverable Known toward Known regions more than it moves True Unknown toward Known regions?",
+    "D_DEPLOYABLE_VALUE": "with the exact frozen P6 Utility Typed router, does selective Evidence improve open-world performance relative to the SAME strong OSR using Basic only?"
+  },
+  "seeds": [20260817, 20260818, 20260819],
+  "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+  "evidence_states": ["B", "BT", "BR", "BTR"],
+  "frozen_inputs": {
+    "eval_parquet": "open_world_recoverability_gate_v1/owg_v1_seed_<s>_rotation_<r>_eval.parquet (56000 rows; split_role 0=CALIB 1=EVAL; stored per-policy action/score/pred/rejected for P0/P1/P3/P4/P5/P6/P7)",
+    "models_pickle": "open_world_recoverability_gate_v1/models/owg_v1_seed_<s>_rotation_<r>_models.pkl (frozen B/BT/BR/BTR classifiers, T/R/TR utility selectors)",
+    "gate1_root": "core_gate_v1/ (core_gate_basic_features_v1.parquet 47 basic fields; gate_seed_<s>_history.parquet 34 history fields; gate_seed_<s>_targets.parquet)",
+    "recoverable_definition": "frozen V1: Basic prediction wrong AND at least one legal Evidence state among BT/BR/BTR predicts correctly (stored recoverable column authoritative; no recomputation may replace it)",
+    "residual_hard_definition": "Basic wrong AND BT wrong AND BR wrong AND BTR wrong (stored residual_hard column)"
+  },
+  "populations": {
+    "TRAIN_POOL": "partition_code==0 AND canonical_label in rotation known classes; 6 x 25000 = 150000 rows per cell; complete population, no sampling",
+    "TRAIN_SPLIT_RULE": "within each class, order activity groups by SHA256(seed_hex || rotation_utf8 || group_digest_bytes) ascending; assign a group to EARLY_STOP while the class cumulative EARLY_STOP row count (before the group) < round(0.10 * class_total); all remaining rows to FIT; no group crosses roles; no RNG",
+    "trainsplit_counts_per_cell": {
+      "20260817_Credential": {"fit": 134682, "early_stop": 15318},
+      "20260817_Recon_Scanning": {"fit": 134796, "early_stop": 15204},
+      "20260817_Web_Injection": {"fit": 134000, "early_stop": 16000},
+      "20260818_Credential": {"fit": 134856, "early_stop": 15144},
+      "20260818_Recon_Scanning": {"fit": 134722, "early_stop": 15278},
+      "20260818_Web_Injection": {"fit": 134849, "early_stop": 15151},
+      "20260819_Credential": {"fit": 134550, "early_stop": 15450},
+      "20260819_Recon_Scanning": {"fit": 134767, "early_stop": 15233},
+      "20260819_Web_Injection": {"fit": 134812, "early_stop": 15188}
+    },
+    "VAL_CALIB_KNOWN": "split_role==0 AND is_unknown==0 in the frozen eval parquet (calibration)",
+    "VAL_GATE_EVAL": "split_role==1 (outer True Unknown exposed ONLY for final evaluation metrics)",
+    "true_unknown_exclusion": "no True Unknown in representation training, normalization, early stopping, prototype/covariance fitting, threshold calibration, model/hyperparameter selection",
+    "final_test": "excluded entirely"
+  },
+  "encoder": {
+    "block_encoder": ["Linear(input_dim,128)", "LayerNorm", "GELU", "Dropout(0.10)", "Linear(128,64)", "GELU"],
+    "block_input_dims": {"Basic": 47, "Temporal": 16, "Relation": 18},
+    "fusion": "[z_B, mT*z_T, mR*z_R, mT, mR] -> Linear(386,256) -> LayerNorm -> GELU -> Dropout(0.10) -> Linear(256,128)",
+    "embedding_dim": 128,
+    "known_head": "Linear(128,6)",
+    "shared_parameters": "one encoder handles B/BT/BR/BTR; training exposes all four legal states (uniform state sampling per row per epoch, deterministic)",
+    "loss": "CrossEntropy + 0.10 * SupervisedContrastiveLoss (temperature 0.10, batch contrastive, labels=Known class)",
+    "optimizer": "AdamW lr=3e-4 weight_decay=1e-4",
+    "max_epochs": 20,
+    "early_stopping": "Known-only, patience=3, monitor validation CrossEntropy on OSR_TRAIN_EARLY_STOP",
+    "no_post_result_tuning": true
+  },
+  "osr": {
+    "class_means": "per class, per Evidence state, fitted on OSR_TRAIN_FIT Known embeddings of that state",
+    "covariance": "ONE tied pooled LedoitWolf covariance shared by all classes, fitted per Evidence state on OSR_TRAIN_FIT Known embeddings",
+    "primary_score": "minimum Mahalanobis distance to any Known class mean; higher = more novel",
+    "no_k_plus_1": true,
+    "diagnostic_deep_msp": "1 - max softmax of the same encoder Known head on the relevant Evidence state; fixed diagnostic, never selected over Mahalanobis after results",
+    "historical_baseline": "frozen RF Basic MSP (stored P0 scores/preds from the frozen eval parquet; read-only)"
+  },
+  "calibration": {
+    "policy_conditioned": true,
+    "known_only": true,
+    "target": "5% Known false-Unknown rate (95th percentile of Known post-policy scores)",
+    "tie_semantics": "rejected = score >= threshold (frozen V1)",
+    "policies": ["D0_BASIC", "D1_P6_SELECTIVE", "D2_ALWAYS_FULL", "D3_RANDOM_COST_MATCHED"],
+    "d0_threshold_never_reused": true,
+    "true_unknown_never_calibrates": true
+  },
+  "frozen_p6": {
+    "name": "P6_UTILITY_TYPED",
+    "eligible": "max(u_T, u_R, u_TR) > 0",
+    "order": "max utility descending, tie ascending target order",
+    "ideal_family": "argmax, tie-break priority T, R, TR",
+    "fallback": "cheapest affordable family with positive predicted utility in priority order T then R, else NONE",
+    "costs": {"NONE": 0, "T": 1, "R": 1, "TR": 2},
+    "budget": "0.15 * N_targets, applied separately to calibration and evaluation populations",
+    "action_model_map": {"NONE": "B", "T": "BT", "R": "BR", "TR": "BTR"},
+    "stored_columns_authoritative": true,
+    "recompute_cross_verify": "deterministic recomputation from frozen selectors/models, cross-verified against stored action/score/pred columns BEFORE any metric",
+    "router_retrained": false
+  },
+  "osr_adequacy": {
+    "evaluated": "Basic-state encoder on VAL_GATE_EVAL",
+    "A1_known_macro_f1": {"per_rotation": 0.90, "pooled_minus_rf_basic_pooled": -0.01},
+    "A2_unknown_auroc": {"pooled_minus_rf_basic_pooled": -0.02, "per_rotation_floor": -0.05},
+    "A3_unknown_recall_5fur": {"pooled_minus_rf_basic_pooled": -0.03, "per_rotation_floor": -0.05},
+    "A4_dedicated_value_over_deep_msp": {"pooled_mean_delta_auroc_min": 0.010, "positive_rotations_min": "2/3", "pooled_ci_lower_bound_min": -0.02},
+    "pass_iff": "A1 AND A2 AND A3 AND A4",
+    "fail_decision": "GATE_INVALID_OSR_INADEQUATE; Evidence may NOT be declared failed"
+  },
+  "evidence_information_potential": {
+    "geometry": "per legal state s: d_true(s)=Mahalanobis distance to true class mean; d_near_wrong(s)=min distance to any OTHER Known class mean; geometry_margin(s)=d_near_wrong(s)-d_true(s)",
+    "best_legal_oracle": "argmax over {BT,BR,BTR} of geometry_margin(s); GT-guided; NEVER a deployable policy",
+    "margin_gain": "margin(best_legal) - margin(Basic)",
+    "standardization": "per cell by Basic-state margin SD over the 150000-row TRAIN pool",
+    "B1_pooled": {"rate_min": 0.60, "standardized_effect_min": 0.20, "ci_lower_bound_min": 0.0},
+    "B2_cross_rotation": {"rate_min": 0.55, "rate_rotations_min": "2/3", "true_class_distance_improve_rotations_min": "2/3"},
+    "pass_iff": "B1 AND B2",
+    "thresholds_never_weakened_after_evaluation": true
+  },
+  "evidence_specificity": {
+    "knowness": "minimum Mahalanobis distance to any Known class (lower = more Known-ward)",
+    "knownward_gain": "KNOWNNESS(Basic) - KNOWNNESS(s)",
+    "recoverable_known_gain": "max over {BT,BR,BTR}",
+    "true_unknown_gain": "max over {BT,BR,BTR} (most Known-ward legal state; conservative stress test)",
+    "C1": "pooled mean gap > 0, paired group/temporal-block bootstrap 95% CI lower bound > 0",
+    "C2": "pooled median gap > 0",
+    "C3_ratio_bound": "pooled mean TU most-Known-ward gain <= 0.50 x pooled mean RK best-legal gain (applies only when RK gain > 0)",
+    "C4_cross_rotation": ">= 2/3 rotations mean gap > 0",
+    "pass_iff": "C1 AND C2 AND C3 AND C4"
+  },
+  "deployable_comparison": {
+    "arms": ["D0_BASIC", "D1_P6_SELECTIVE (frozen P6, never retrained)", "D2_ALWAYS_FULL (descriptive)", "D3_RANDOM_COST_MATCHED (descriptive)"],
+    "metrics": ["FURK", "FURK_raw_numerator", "FURK_raw_denominator", "Known_Macro_F1", "Known_false_unknown_rate", "Unknown_AUROC", "Unknown_AUPR", "Unknown_Recall_at_5pct_Known_FUR", "Evidence_acquisition_rate", "Evidence_cost", "True_Unknown_acquisition_rate"],
+    "D1_furk": {"pooled_delta_max": -0.02, "improve_rotations_min": "2/3", "no_rotation_worse_than": 0.02},
+    "D2_furk_ci": "pooled paired bootstrap 95% CI upper bound of (FURK(D1)-FURK(D0)) < 0",
+    "D3_auroc_loss": {"pooled_mean_max": 0.01, "rotation_max": 0.03},
+    "D4_recall_loss": {"pooled_mean_max": 0.03, "rotation_max": 0.05},
+    "pass_iff": "D1 AND D2 AND D3 AND D4"
+  },
+  "decision_matrix": {
+    "GO": "adequacy PASS + potential PASS + specificity PASS + deployable PASS",
+    "GO_SIGNAL_EXISTS_ROUTER_LIMITED": "adequacy PASS + potential PASS + specificity PASS + deployable FAIL + material frozen-router headroom (frozen P6 Evidence Recovery Rate <= 0.85 in >= 2/3 rotations from stored predictions)",
+    "GATE_INVALID_OSR_INADEQUATE": "adequacy FAIL; Evidence may NOT be declared failed",
+    "NO_GO_CURRENT_EVIDENCE_CONTRACT": "adequacy PASS AND (potential FAIL OR specificity FAIL) AND safeguards do not contradict; requires substantially more evidence than failure of the primary detector alone",
+    "METHOD_DEPENDENT_REVIEW": "all remaining combinations and every safeguard contradiction"
+  },
+  "conditional_no_go_safeguards": {
+    "trigger": "ONLY if OSR_ADEQUACY=PASS and the primary result would otherwise justify NO_GO_CURRENT_EVIDENCE_CONTRACT",
+    "safeguard_A": "raw normalized concat encoding (concat Basic/Temporal/Relation raw features + mask indicators, per-block standardization fitted on TRAIN Known only, same MLP recipe and training config), central seed 20260817 only, all three rotations",
+    "safeguard_B": {
+      "name": "DIRICHLET_EVIDENTIAL_EDL_CONFIRMATION",
+      "scope": "central seed 20260817 only, all three rotations",
+      "trunk": "identical typed-block masked-fusion encoders and fusion",
+      "head": "Dirichlet head: evidence e = softplus(Linear(128,6)) + 1; alpha = e (>= 1 by construction)",
+      "loss": "Type II Maximum Likelihood L = sum_k y_k (psi(S) - psi(alpha_k)), S = sum_k alpha_k; plus FIXED KL term to uniform Dirichlet, constant lambda = 0.1, no annealing, alpha_tilde = y + (1-y)*alpha",
+      "optimizer": "AdamW lr=3e-4 weight_decay=1e-4",
+      "max_epochs": 20,
+      "early_stopping": "Known-only patience=3 on the same EARLY_STOP slice (validation EDL loss)",
+      "training_data": "same TRAIN rule as primary; Known-only; True Unknown never in fitting or calibration",
+      "score": "1 - max_k(alpha_k/S) (top-class belief mass; higher = more novel); S recorded descriptively",
+      "calibration": "Known-only 5% false-Unknown, policy-conditioned",
+      "analyses": "re-evaluate Questions B and C: margin gain -> belief gain (belief(state)-belief(Basic)); true-class Mahalanobis distance -> true-class belief; same thresholds as sections 8/9",
+      "sanity_tests": ["alpha >= 1 on synthetic forward", "training loss decreases over a few synthetic steps", "belief score separates synthetic inliers from outliers", "no Unknown row in fit set"],
+      "sanity_fail_status": "CONFIRMATORY_EDL_STATUS=IMPLEMENTATION_INVALID (safeguard skipped, does not block the gate; NO-GO decision then rests on safeguard A and primary analyses)",
+      "no_tuning_beyond_recipe": true,
+      "no_replacement_detector": true
+    },
+    "scope_of_safeguards": "re-evaluate ONLY Questions B and C offline analyses; NOT a method-picking pool",
+    "contradiction_rule": "a materially contradictory strong positive on the failed criterion (safeguard's own PASS criteria met) -> METHOD_DEPENDENT_REVIEW instead of NO-GO",
+    "no_further_methods": true
+  },
+  "statistical_rules": {
+    "bootstrap_reps_min": 1000,
+    "bootstrap_unit": "private activity group",
+    "temporal_block_aware": true,
+    "paired_by_construction": true,
+    "pooled": "9 cells (3 rotations x 3 seeds)",
+    "report": ["per-seed", "per-rotation", "pooled", "effect sizes", "95% CI", "raw counts"],
+    "significance_alone_never_decides": true
+  },
+  "claim_boundary": {
+    "gate_scope": "determines whether the CURRENT strict-past T/R Evidence contract has sufficient open-world recoverability value to justify expensive Model-B development",
+    "no_go_meaning": "a project research decision, NOT a mathematical proof that no possible model could ever use Evidence",
+    "invalid_meaning": "says nothing about Evidence; only that the chosen OSR is not adequate to judge it"
+  },
+  "execution_lock": {
+    "protocol_frozen_before_evaluation": true,
+    "evaluation_allowed_only_after_preregistration_commit": true,
+    "after_first_formal_metric": "only pure implementation bugfixes with unchanged scientific semantics, logged; scientific change -> STOP_NEEDS_REVIEW",
+    "git_external_run_dir": "processed/dataset_v4_nf3_ton_v1/strong_neural_osr_evidence_gate_v1/",
+    "result_artifacts_uncommitted_until_researcher_validation": true
+  },
+  "runner_contract": {
+    "deterministic": true,
+    "restartable": true,
+    "cell_statuses": ["PENDING", "RUNNING", "COMPLETE", "FAILED"],
+    "completed_cells_skipped": true,
+    "status_persisted_git_external": true,
+    "trainsplit_cross_check": "reproduce recorded per-cell counts BEFORE training; mismatch -> STOP_NEEDS_REVIEW",
+    "runner_may_execute_conditional_safeguards": true,
+    "runner_may_not_redesign_experiment": true
+  },
+  "safety_ledger": {
+    "FINAL_TEST_MODELING_CONTAMINATION": false,
+    "TRUE_UNKNOWN_USED_FOR_REPRESENTATION_TRAINING": false,
+    "TRUE_UNKNOWN_USED_FOR_NORMALIZATION": false,
+    "TRUE_UNKNOWN_USED_FOR_EARLY_STOPPING": false,
+    "TRUE_UNKNOWN_USED_FOR_PROTOTYPE_OR_COVARIANCE_FITTING": false,
+    "TRUE_UNKNOWN_USED_FOR_THRESHOLD_CALIBRATION": false,
+    "TRUE_UNKNOWN_USED_FOR_MODEL_SELECTION": false,
+    "ROUTER_RETRAINED": false,
+    "EVIDENCE_CONTRACT_CHANGED": false,
+    "DETECTOR_SHOPPING": false,
+    "POST_RESULT_TUNING": false,
+    "QWEN_OR_MODEL_B_STARTED": false,
+    "RL_TRAINING_STARTED": false,
+    "CONTINUAL_TRAINING_STARTED": false,
+    "UNKNOWN_CANDIDATE_PURIFICATION_STARTED": false,
+    "CROSS_SEED_SUPPLEMENTATION": false,
+    "REPLACEMENT_SAMPLING": false,
+    "ADDITIONAL_TRAIN_MATERIALIZATION": false
+  },
+  "git_policy": {
+    "authorized_commit": "preregistration/implementation commit before evaluation",
+    "after_evaluation": "DO NOT COMMIT result reports; DO NOT PUSH; leave for researcher review"
+  }
+}
