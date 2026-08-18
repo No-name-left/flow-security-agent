@@ -647,7 +647,9 @@ def run_cell(seed: int, rotation: str, v1_root: Path, gate1_root: Path,
         rej = scores[method] >= thr
         rej_ev = rej[ev_kn]
         recovered = preds_ev[method] == labels_ev
-        split = recovered_split(ev_rec_kn, recovered, rej_ev)
+        # ev_rec_kn is a full-table boolean mask; index it to the EVAL-Known
+        # positions (same length as recovered / rej_ev).
+        split = recovered_split(ev_rec_kn[ev_kn], recovered, rej_ev)
         denom = furk_denominator
         a1a2 = split["A1_RECOVERED_AND_ACCEPTED"] + split[
             "A2_RECOVERED_BUT_REJECTED"]

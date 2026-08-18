@@ -147,4 +147,4 @@ PHASE_B6_B7_CONTINUAL=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
 EXPERIMENT_PROTOCOL_V1=FROZEN_DESIGN_NOT_RUN
 ```
 
-pre-price Teacher cache v1（2,000）与semantic reference v1（63）已于2026-08-17在researcher显式授权下生成完毕并冻结（`TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID`、`SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID`，详见[teacher_cache_v1_generation_report.md](../../reports/research_audit/teacher_cache_v1_generation_report.md)）。下一动作是`PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`；Model-B low-cost design Gates已解除B1前置阻塞但尚未启动，正式Model-B训练、continual与RL仍未授权。
+pre-price Teacher cache v1（2,000）与semantic reference v1（63）已于2026-08-17在researcher显式授权下生成完毕并冻结（`TEACHER_CACHE_STATUS=FROZEN_COMPLETE_2000_VALID`、`SEMANTIC_REFERENCE_STATUS=FROZEN_COMPLETE_63_VALID`，详见[teacher_cache_v1_generation_report.md](../../reports/research_audit/teacher_cache_v1_generation_report.md)）。下一动作（DEC-0028，2026-08-18）是起草/评审预注册的Strong Neural OSR Evidence Gate协议（pre-Model-B基线）；历史条目`PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`已被取代、不得执行；Model-B low-cost design Gates尚未启动，正式Model-B训练、continual与RL仍未授权。

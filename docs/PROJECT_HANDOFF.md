@@ -1,8 +1,10 @@
 # Flow Security Agent 项目交接指南
 
-> 最近核验：2026-08-17。
+> 最近核验：2026-08-18（instruction hygiene与DEC-0028定点更新）。
 >
-> 当前长期主线：`main`；本次文档冻结基于`a3379b290df99fd717248a7c86b9ecce2a047b11`，DEC-0025/0026/0027已接受。
+> **阅读方式：本文档是按需历史/上下文阅读（on-demand），不是Agent默认bootstrap。** 默认入口是[AGENT_CONTEXT.md](AGENT_CONTEXT.md)；当前授权、禁止项与git checkpoint以AGENT_CONTEXT为准。本文不复制Gate的详细指标（见`reports/research_audit/` formal JSON/MD）。
+>
+> 当前长期主线：`main`；本次文档冻结基于`a3379b290df99fd717248a7c86b9ecce2a047b11`，DEC-0025/0026/0027已接受；2026-08-18新增DEC-0028。
 >
 > 当前状态：Model A训练/评估完成；NF3-ToN Dataset-v4 B1 formalization与Experiment Protocol v1已冻结；bounded Evidence/open-world feasibility通过但有class-conditional limitations；pre-price Teacher cache v1（2,000/2,000 valid）与semantic reference v1（63/63 valid）已生成并冻结；Core Hypothesis Gate 1已完成，**状态YELLOW**（Temporal modest consistent positive；Relation always-on negative且conditional value unresolved；Full在frozen RF probe为negative）；Model B、continual与fast RL均未启动。
 
@@ -159,6 +161,7 @@ B5_FAST_AGENT_POLICY_RL=PLANNED_PENDING_FORMAL_GATE_NOT_STARTED
 B6_CONTINUAL_BASELINES=LITERATURE_SUPPORTED_IMPLEMENTATION_PENDING
 B7_EVIDENCE_GATED_CONTINUAL=NOT_STARTED
 B8_PLUS_CONDITIONAL_EXTENSIONS=NOT_STARTED
+STRONG_NEURAL_OSR_EVIDENCE_GATE=DEC_0028_AUTHORIZED_PROTOCOL_DRAFTING_ONLY
 ```
 
 B2前必须保留fresh-vs-Model-A warm-start、Qwen-vs-small；B3必须保留Basic/Temporal/Relation/combined与second-seed/bootstrap；B4必须比较Direct novelty、Always acquire Full和Utility-conditioned。
@@ -173,7 +176,10 @@ TEACHER_CACHE_MODEL=deepseek-v4-flash
 TEACHER_CACHE_PROMPT_SHA256=dd86d4acac26c6ae7f89806c9511752f62a3c5ad1365498dc9bba8163cf87096
 TEACHER_CACHE_ARTIFACT_SHA256=e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e759931ab2b64a964
 SEMANTIC_REFERENCE_ARTIFACT_SHA256=9830704256bcfd05c6c3fae40ea8b055a2dbef63565a5f03c9894ce71009ad74
-NEXT_ACTION=PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES
+NEXT_ACTION=STRONG_NEURAL_OSR_PROTOCOL_DRAFT_AND_REVIEW
+  (DEC-0028, 2026-08-18; 历史条目
+   `PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`
+   为V2前旧状态，已被DEC-0028取代、不得执行——Model B仍未授权)
 ```
 
 **Core Hypothesis Gate 1（2026-08-17，kill gate）**：`CORE_HYPOTHESIS_GATE_1=YELLOW`，不relabel为PASS。Temporal为modest consistent positive（3/3 seeds ΔMacro-F1 > 0，mean Δ≈+0.0065，net recovery≈+0.0066；意义明确的attack-class recovery：DoS、Web_Injection）；Relation在frozen RF probe下always-on为negative（mean recoverable≈0.0455但harm>recovery），存在非零recovery故conditional value unresolved；Temporal+Relation整体negative。先前24k pilot的强recoverability（~0.12）未以同等强度复现。全部数字见[core_hypothesis_gate_v1.md](../reports/research_audit/core_hypothesis_gate_v1.md)（JSON：[core_hypothesis_gate_v1.json](../reports/research_audit/core_hypothesis_gate_v1.json)）。
@@ -196,7 +202,7 @@ OPTIONAL_IMITATION_INITIALIZATION=LIMITED_NOT_DEFAULT
 
 这2,000条不是“完整四动作imitation dataset”；Teacher仍不是classification/utility/Unknown/continual GT或RL reward GT。
 
-继续禁止：未经授权的Model B/Qwen运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed FINAL_TEST；未经明确授权的push。
+继续禁止：未经授权的Model B/Qwen运行、正式训练、continual实现、RL、数据下载、raw PCAP处理、修改Model A checkpoint、self-training、打开sealed FINAL_TEST；未经明确授权的push；任何V2 probe/阈值/协议层面的rescue或shopping；Strong Neural OSR仅限协议起草/评审，任何评估须先冻结预注册commit（DEC-0028）。
 
 **V1 failure attribution（2026-08-17，diagnostic only，V1 FAIL不变）**：
 `OPEN_WORLD_V1_FAILURE_ATTRIBUTION_AND_FURK_AUDIT`完成。**FURK denominator
@@ -232,6 +238,53 @@ creds）；全部diagnostic outputs（tool/test/report md/json/context更新）
 **未提交、未push**（等待researcher review）。详见
 [open_world_gate_v1_failure_attribution.md](../reports/research_audit/open_world_gate_v1_failure_attribution.md)
 （JSON：[open_world_gate_v1_failure_attribution.json](../reports/research_audit/open_world_gate_v1_failure_attribution.json)）。
+
+**Recovery-Signal Characterization and Open-World Transfer Gate V2
+（2026-08-17，preregistered kill gate；结果未提交、未push）**：
+`RECOVERY_SIGNAL_CHARACTERIZATION_AND_OPEN_WORLD_TRANSFER_GATE_V2`按冻结
+protocol执行完毕（preregistration commit `22c92c7`，protocol sha256
+`b1d01629215470ba425c52f76dc5547c8bf4cb8e810a1ebcad30a853be2a5b7b`；
+60/40 group-atomic SHA256 split of VAL_CALIB Known，stratum=(class,block)，
+无RNG；POST_ONLY 7-dim vs TRAJECTORY 19-dim；capacity ladder
+L=LR(scaled, C=1.0, l2, lbfgs, balanced) / N=RF(300, depth10, leaf20,
+sqrt, balanced_subsample, seed)；ACCEPT_TARGET=post-Evidence Known预测
+==真实label；calibration=5% Known FUR on V2_PROBE_CALIB，V1 tie语义；
+bootstrap=1000 reps group-atomic paired，pooled over 9 cells）。**结果**：
+信号——LINEAR NOT_ESTABLISHED（mean ΔAUROC +0.0009，CI [−0.0031,
++0.0041]；per-rotation −0.0029/+0.0058/+0.0031）、NONLINEAR
+NOT_ESTABLISHED（mean +0.0002，CI [−0.0048, +0.0045]；
+−0.0028/+0.0053/−0.0005）、**RECOVERY_TRAJECTORY_SIGNAL=WEAK**（linear
+2/3 rotations为正但pooled CI lower ≤ 0且mean < +0.01）。**Transfer**：
+OPEN_WORLD_TRAJECTORY_TRANSFER=NOT_ESTABLISHED——T2/T3/T4 PASS（RCJ
+reduction mean 0.154，CI [−0.235, −0.028]；Unknown AUROC/recall未损失vs
+N_POST），T1 FAIL（Web_Injection FURK +0.021 > 0.02，mean −0.045仍达标但
+“no rotation worsens >0.02”不满足）、T5 FAIL（FURK_N_TRAJ−N_POST CI
+upper +0.037 > 0）。**End-to-end**：END_TO_END_OPEN_WORLD_GAIN=
+NOT_ESTABLISHED（E1–E4全FAIL：N_TRAJ pooled FURK 0.500 vs B0 0.292；
+Unknown AUROC −0.020、recall −0.130 vs B0）。**CASE D**：
+C1_STATUS=RECOVERY_SIGNAL_INCONCLUSIVE；NEXT_PROPOSED_ACTION=
+RESEARCHER_REASSESS_COST_BENEFIT_BEFORE_MODEL_B。Accept-target
+classification utility高（AUROC 0.914–0.921、AUPRC 0.994）但open-world
+utility不跟随（FURK 0.50、RCJ 0.24）——myopic分类utility≠final open-world
+utility继续成立，RL_SEQUENTIAL_DECISION_JUSTIFICATION=PLAUSIBLE（analysis
+only），RL_REQUIRED=false。FURK denominator identity PASS（9483 pooled，
+9 cells内6 methods全一致；per-cell 1396/453/1053/1569/435/1200/1633/
+510/1234与V1 attribution一致）。Section 32（frozen V1 outputs）：
+Spearman T/R/TR 0.134/0.203/0.235（CI全部>0，weak alignment）；
+HELP improve 0.458/0.571/0.446、worsen 0.501/0.380/0.509（HELP内部
+utility与novelty utility不一致，worsen≈improve）。Headroom diagnostics
+（analysis only，非gate）：ROUTER_RECOVERY_HEADROOM 0.605/0.073/0.746、
+INTERFACE_HEADROOM_PROXY 0.376/0.683/0.526。全部V2 artifacts在
+Git-external `processed/dataset_v4_nf3_ton_v1/recovery_signal_characterization_gate_v2/`
+（cells/features/probes/BUGFIX_LOG）；report md/json与context更新已于
+2026-08-18 researcher review后进入本地checkpoint commit
+（`V2_RESULT_COMMITTED=true`，仍未push）。
+V2为CASE D（WEAK signal），**不构成Model B/RL/continual授权**；任何
+Model B、novelty interface、purification工作均须researcher决策。
+详见[recovery_signal_characterization_gate_v2.md](../reports/research_audit/recovery_signal_characterization_gate_v2.md)
+（JSON：[recovery_signal_characterization_gate_v2.json](../reports/research_audit/recovery_signal_characterization_gate_v2.json)）。
+
+**Strong Neural OSR授权（2026-08-18，DEC-0028，research decision only，无实验）**：V2 CASE D后researcher决定下一方法学步骤为**Strong Neural OSR Evidence Gate**——专用open-set representation（strong neural OSR）的预注册pre-Model-B基线。理由：V1/V2只测试了廉价output-level novelty接口（MSP变体），未评估专用open-set representation；瓶颈证据F2_POST_EVIDENCE_MSP_MISALIGNMENT（3/3）与V2 headroom diagnostics（analysis-only）指向novelty接口而非routing。约束：**无detector shopping；不授权Qwen/Model B；不授权RL/continual/purification；FINAL_TEST保持sealed；必须先起草协议并经researcher review，在任何评估指标计算前冻结frozen protocol+preregistration commit（沿用V2模式）；结果在researcher review前不提交不推送。** 当前仅授权协议起草/评审。范围说明：V2 protocol的“neural novelty detector NOT AUTHORIZED”条目是V2任务范围限制，不是永久项目禁令——任何未来novelty方法（含Strong Neural OSR）都须经各自授权的预注册协议。详见[research_plan_detailed.md](research_plan/research_plan_detailed.md) Decision Log DEC-0028。
 
 ### DO NOT REOPEN
 

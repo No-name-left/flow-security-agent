@@ -4,7 +4,9 @@ These instructions apply to the entire repository.
 
 ## Current frozen project state
 
-- Authority order is: `docs/research_plan/research_plan_detailed.md` and DEC-0025/0026/0027 (highest research meaning) → `docs/research_plan/experiment_protocol_v1.md` for formal experiment/isolation/statistical rules → current Model B/Dataset-v4 design documents → `docs/research_plan/dataset_v4_b1_runtime_contract.md` and `dataset_v4_split_protocol.md` for the B1 engineering/data boundaries → `docs/PROJECT_HANDOFF.md` for current implementation state. `docs/training/near_mainline_training_protocol_v1.md` and `docs/design/agent_architecture_provisional.md` retain Model A lineage/implementation contracts but cannot override DEC-0025/0026/0027. `docs/SERVER_MIGRATION.md` is legacy Model A recovery guidance, not a Model B runbook.
+Live gate status, authorization, forbidden next steps and the git checkpoint are perishable and live in `docs/AGENT_CONTEXT.md`; this section records only durable frozen decisions and must not duplicate per-gate state.
+
+- Authority order is: `docs/research_plan/research_plan_detailed.md` and DEC-0025/0026/0027/0028 (highest research meaning) → `docs/research_plan/experiment_protocol_v1.md` for formal experiment/isolation/statistical rules → current Model B/Dataset-v4 design documents → `docs/research_plan/dataset_v4_b1_runtime_contract.md` and `dataset_v4_split_protocol.md` for the B1 engineering/data boundaries → `docs/PROJECT_HANDOFF.md` for current implementation state. `docs/training/near_mainline_training_protocol_v1.md` and `docs/design/agent_architecture_provisional.md` retain Model A lineage/implementation contracts but cannot override DEC-0025/0026/0027. `docs/SERVER_MIGRATION.md` is legacy Model A recovery guidance, not a Model B runbook.
 - The current method core is Evidence-Conditioned Open-World Traffic Recognition: NF3-ToN Basic → optional typed Temporal/Relation acquisition → Known re-evaluation → independent novelty detection after the Evidence gate → verified-feedback continual evolution. Unknown is not K+1 and `ENTER_NOVELTY_DETECTION` is not a prediction of Unknown.
 - Model B operational Evidence utility comes only from OOF/cross-fitted empirical predictive improvement and cost. Model A Teacher `evidence_sufficient`, `missing_evidence`, and `primary_gap` are legacy reference fields and must not control Model B runtime or become utility GT.
 - Dataset-v4 core is the frozen official NF3-ToN-IoT CSV artifact. Edge-IIoTset Model A is a legacy controlled-domain baseline and optional replay source; other NF3 sources are secondary domain-stress/replication candidates. Do not reopen dataset search or merge sources without an authorized Decision.
@@ -16,15 +18,20 @@ These instructions apply to the entire repository.
 
 ## Required project context
 
-Before changing the project, inspect `git status --short` and preserve all user changes. Then read according to task meaning:
+Before changing the project, inspect `git status --short` and preserve all user changes.
 
-0. Read `docs/AGENT_CONTEXT.md` first — the compact, agent-neutral current-state entry (authorization, gate status, read-on-demand policy). Do not treat this file (AGENTS.md) as project state; project state lives in `docs/AGENT_CONTEXT.md` plus the formal reports it points to.
-1. Read `README.md` for repository orientation.
-2. Read `docs/research_plan/research_plan_detailed.md` before any work that can affect research meaning, model/training, data roles, labels, splits, evaluation or paper conclusions.
-3. Read `docs/training/near_mainline_training_protocol_v1.md` before any training, checkpoint, pooling, LoRA, SFT, RLAIF/GRPO, Unknown, U_dev/U_final or novel-class work.
-4. Read `docs/design/agent_architecture_provisional.md` before any Runtime, Supervisor, Evidence Tool, Application/Payload, RAG or Memory work. It cannot override the canonical plan or training protocol.
-5. Read `docs/PROJECT_HANDOFF.md` after the authorities above to learn actual implementation state, current branch/stop point and the next allowed phase. Handoff never overrides research or execution authorities.
-6. Read the specific audit/manifest named by the handoff for the component being changed.
+The default bootstrap is exactly two files: this file → `docs/AGENT_CONTEXT.md`.
+
+- Read `docs/AGENT_CONTEXT.md` first — the compact, agent-neutral current-state register (authorization, gate status, git checkpoint, read-on-demand index). Do not treat this file (AGENTS.md) as project state; project state lives in `docs/AGENT_CONTEXT.md` plus the formal reports it points to.
+
+Everything else is read on demand, only when the task scope requires it:
+
+- `docs/research_plan/research_plan_detailed.md` — only for work that can affect research meaning, model/training, data roles, labels, splits, evaluation or paper conclusions.
+- `docs/training/near_mainline_training_protocol_v1.md` — only for Model A lineage / training, checkpoint, pooling, LoRA, SFT, U_dev/U_final work.
+- `docs/design/agent_architecture_provisional.md` — only for Runtime, Supervisor, Evidence Tool, Application/Payload, RAG or Memory work. It cannot override the canonical plan or training protocol.
+- `docs/PROJECT_HANDOFF.md` — on-demand historical/context reading: implementation history, branch/stop point, environment and entry points. Handoff never overrides research or execution authorities.
+- `README.md` — human orientation only; not part of the per-task agent path.
+- Historical gate reports, manifests and audit bundles — only the specific artifact named by the task or by the AGENT_CONTEXT read-on-demand index.
 
 For Chinese Markdown on Windows PowerShell, use `Get-Content -Encoding UTF8`.
 
