@@ -193,6 +193,22 @@ def canonical_json(value: Any) -> str:
                       separators=(",", ":"), allow_nan=False)
 
 
+def find_nonfinite(value: Any, path: str = "") -> list[str]:
+    """Recursively locate NaN/Inf floats (diagnostic before JSON write)."""
+    hits: list[str] = []
+    if isinstance(value, float):
+        if not np.isfinite(value):
+            hits.append(path)
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            hits.extend(find_nonfinite(item, f"{path}.{key}" if path
+                                       else str(key)))
+    elif isinstance(value, (list, tuple)):
+        for i, item in enumerate(value):
+            hits.extend(find_nonfinite(item, f"{path}[{i}]"))
+    return hits
+
+
 # ---------------------------------------------------------------------------
 # Deterministic group-safe 90/10 TRAIN split (preregistered rule)
 # ---------------------------------------------------------------------------
@@ -575,9 +591,13 @@ def assemble_cell(seed: int, rotation: str, owg_root: Path,
     ev_rows = eval_table["source_row_index"].to_numpy(zero_copy_only=False)
     ev_labels = np.array(eval_table["canonical_label"].to_pylist(),
                          dtype=object)
-    ev_is_unknown = eval_table["is_unknown"].to_numpy(zero_copy_only=False)
+    # NOTE: parquet int8 columns must be cast to bool explicitly; ~int8 is
+    # bitwise NOT and an int8 mask would trigger numpy integer fancy-indexing.
+    ev_is_unknown = eval_table["is_unknown"].to_numpy(
+        zero_copy_only=False).astype(bool)
     ev_split_role = eval_table["split_role"].to_numpy(zero_copy_only=False)
-    ev_recoverable = eval_table["recoverable"].to_numpy(zero_copy_only=False)
+    ev_recoverable = eval_table["recoverable"].to_numpy(
+        zero_copy_only=False).astype(bool)
     ev_groups = np.array(
         [bytes(v) for v in eval_table["activity_group_digest"].to_pylist()],
         dtype=object)
@@ -1424,6 +1444,10 @@ def run_formal(args) -> int:
             with open(log_path, "a", encoding="utf-8") as log:
                 try:
                     cell_out = run_cell(args, seed, rotation)
+                    hits = find_nonfinite(cell_out)
+                    if hits:
+                        raise ValueError(
+                            f"non-finite metrics in cell output: {hits[:10]}")
                     (run_root / "cells" / f"{key}.json").write_text(
                         canonical_json(cell_out), encoding="utf-8")
                     status["cells"][key] = "COMPLETE"

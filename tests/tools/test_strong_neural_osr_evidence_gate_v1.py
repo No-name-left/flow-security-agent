@@ -342,6 +342,25 @@ def test_status_persistence_roundtrip(tmp_path):
     assert loaded["cells"]["20260817_Credential"] == "COMPLETE"
 
 
+def test_int8_mask_pitfall_guarded():
+    """Regression: parquet int8 columns must become bool masks. With int8,
+    numpy interprets `arr[int8_mask]` as integer fancy-indexing (rows 0/1)
+    instead of boolean masking, silently computing metrics on wrong rows."""
+    unk = np.zeros(56, dtype=np.int8)
+    unk[50:] = 1
+    role = np.zeros(56, dtype=np.int8)
+    role[30:] = 1
+    # The frozen pipeline must cast to bool; verify the mask semantics the
+    # runner relies on (logical NOT, boolean indexing).
+    unk_b = unk.astype(bool)
+    ev_known = (role == 1) & (~unk_b)
+    assert ev_known.dtype == bool
+    assert int(ev_known.sum()) == 20  # 30 eval rows, 10 of them unknown
+    rec = np.zeros(56, dtype=bool)
+    rec[40] = True
+    assert int(rec[ev_known].sum()) == 1
+
+
 def test_decision_matrix_logic():
     assert v1._decide(False, True, True, True, True) == \
         "GATE_INVALID_OSR_INADEQUATE"
