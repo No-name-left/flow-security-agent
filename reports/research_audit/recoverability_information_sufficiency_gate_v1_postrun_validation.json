@@ -1,0 +1,109 @@
+{
+  "task": "RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1",
+  "phase": "POSTRUN_VALIDATION",
+  "date": "2026-08-20",
+  "validation_status": "PASS",
+  "protocol_sha256": {
+    "frozen": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "recomputed_from_file": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "preregistration": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "aggregate_json": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "run_manifest_json": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "run_state_json": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "match": true
+  },
+  "run_state": {
+    "status": "COMPLETE",
+    "mode": "formal",
+    "outcome": "REPRESENTATION_BOTTLENECK_SUPPORTED",
+    "matches_aggregate": true,
+    "execution_lock_match": true
+  },
+  "artifact_counts": {
+    "probe_A_scores_npz": 18,
+    "probe_A_metrics_json": 18,
+    "probe_B_scores_npz": 9,
+    "probe_B_metrics_json": 9,
+    "bootstrap_jsons": 9,
+    "mlp_epoch_logs": 9,
+    "bootstrap_replicates_each": 1000,
+    "mlp_epochs_each": 20,
+    "valid": true
+  },
+  "probe_metrics_structure_spotcheck": {
+    "file": "formal/probe_A/Credential/RF/RAW/metrics.json",
+    "conditions": ["BASIC", "NULL", "REAL", "SHUFFLED"],
+    "fields_present": ["auroc", "aupr", "recall_at_5fur", "threshold"],
+    "valid": true
+  },
+  "rederived_tree_inputs": {
+    "source": "persisted bootstrap jsons, independent reimplementation of protocol 10.1-10.3 and 11",
+    "n_A_RAW": 3,
+    "n_A_STATE_TRANSITION": 1,
+    "n_B_RAW": 0,
+    "n_sb_A_RAW": 3,
+    "S_A_RAW": ["RF", "LR", "MLP"],
+    "rotOK_A_RAW": true,
+    "rotOK_B_RAW": false,
+    "rotOK_sb_A_RAW": true,
+    "shortcut_B": true,
+    "shortcut_C": true,
+    "shortcut_D": false,
+    "tree_inputs": {
+      "nA": 3, "rotA": true, "bottleneck": true,
+      "nB": 0, "rotB": false, "B": true, "C": true, "D": false
+    }
+  },
+  "retention": {
+    "rule": "protocol 10.3: ret_b(f) = inc_b(A,ST,f)/inc_b(A,RAW,f), ret_s(f) = inc_s(A,ST,f)/inc_s(A,RAW,f); BOTTLENECK iff min(median_f ret_b, median_f ret_s) < 0.5",
+    "per_family": {
+      "RF": {"ret_b": 0.33573884103082385, "ret_s": 0.3585029565427503},
+      "LR": {"ret_b": 0.020151104788550783, "ret_s": 0.025914670476114336},
+      "MLP": {"ret_b": 0.007932081307173374, "ret_s": 0.08269103319179566}
+    },
+    "median_ret_b": 0.020151104788550783,
+    "median_ret_s": 0.08269103319179566,
+    "min_median": 0.020151104788550783,
+    "threshold": 0.5,
+    "bottleneck_rederived": true
+  },
+  "final_outcome": {
+    "inline_tree_from_protocol_text": "REPRESENTATION_BOTTLENECK_SUPPORTED",
+    "frozen_decision_tool": "REPRESENTATION_BOTTLENECK_SUPPORTED",
+    "aggregate_json": "REPRESENTATION_BOTTLENECK_SUPPORTED",
+    "match": true
+  },
+  "aggregate_comparison": {
+    "n_A_RAW": true, "n_A_ST": true, "n_B_RAW": true, "n_sb_A_RAW": true,
+    "S_A_RAW": true, "rotOK_A_RAW": true, "rotOK_B_RAW": true,
+    "rotOK_sb_A_RAW": true, "shortcut_B": true, "shortcut_C": true,
+    "shortcut_D": true, "tree_inputs": true, "retention_bottleneck": true,
+    "median_ret_b_point": true, "median_ret_s_point": true,
+    "per_family_ret_points": true,
+    "all_match": true
+  },
+  "s6_fix_commit_check": {
+    "commit": "121f13af1e2a9af648610ee9a81353bfe5c3632f",
+    "files_changed": ["tools/run_recoverability_information_sufficiency_gate_v1.py"],
+    "insertions": 4,
+    "deletions": 3,
+    "changes": [
+      "S6 retention call site now passes {\"RAW\": boot[PA_RAW], \"ST\": boot[PA_ST]} (view-keyed) to retention(), matching the function contract and protocol 10.3 semantics ret(f) = inc(ST,f)/inc(RAW,f)",
+      "S5 log/marker label corrected from 27 keys to 9 keys (27 is the fit count; 9 bootstrap keys were always written)"
+    ],
+    "no_protocol_change": true,
+    "no_threshold_or_rule_change": true,
+    "no_metric_formula_change": true,
+    "implementation_only": true
+  },
+  "boundaries": {
+    "FINAL_TEST_USED": false,
+    "MODELS_RETRAINED": false,
+    "PROTOCOL_CHANGED": false,
+    "RESULT_COMMITTED": false,
+    "RESULT_PUSHED": false
+  },
+  "next_action": "RESEARCHER_REVIEW",
+  "next_action_authorized": false,
+  "failures": []
+}

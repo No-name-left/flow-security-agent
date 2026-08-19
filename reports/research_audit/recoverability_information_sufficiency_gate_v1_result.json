@@ -1,0 +1,89 @@
+{
+  "task": "RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1",
+  "phase": "FORMAL_RESULT",
+  "date": "2026-08-20",
+  "status": "COMPLETE",
+  "postrun_validation": "PASS",
+  "outcome": "REPRESENTATION_BOTTLENECK_SUPPORTED",
+  "protocol_sha256": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+  "preregistration_commit": "28e70536905240e468fe24b73364cc81ce8a8219",
+  "runner_fix_commits": [
+    "a771eb607a6837470e48d03da6073258a4090587",
+    "121f13af1e2a9af648610ee9a81353bfe5c3632f"
+  ],
+  "head_commit_at_s6": "a771eb607a6837470e48d03da6073258a4090587",
+  "tree_inputs": {
+    "nA": 3, "rotA": true, "bottleneck": true,
+    "nB": 0, "rotB": false, "B": true, "C": true, "D": false
+  },
+  "consistency": {
+    "n_A_RAW": 3,
+    "n_A_STATE_TRANSITION": 1,
+    "n_B_RAW": 0,
+    "n_sb_A_RAW": 3,
+    "S_A_RAW": ["RF", "LR", "MLP"],
+    "S_A_STATE_TRANSITION": ["RF"],
+    "rotOK_A_RAW": true,
+    "rotOK_B_RAW": false,
+    "rotOK_sb_A_RAW": true,
+    "shortcut_B": true,
+    "shortcut_C": true,
+    "shortcut_D": false
+  },
+  "retention": {
+    "rule": "protocol 10.3: ret_b(f) = inc_b(A,ST,f)/inc_b(A,RAW,f), ret_s(f) = inc_s(A,ST,f)/inc_s(A,RAW,f); BOTTLENECK iff min(median ret_b, median ret_s) < 0.5",
+    "per_family": {
+      "RF": {"ret_b": 0.33573884103082385, "ret_s": 0.3585029565427503},
+      "LR": {"ret_b": 0.020151104788550783, "ret_s": 0.025914670476114336},
+      "MLP": {"ret_b": 0.007932081307173374, "ret_s": 0.08269103319179566}
+    },
+    "median_ret_b": 0.020151104788550783,
+    "median_ret_s": 0.08269103319179566,
+    "bottleneck": true
+  },
+  "pooled_auroc_context": {
+    "RAW": {
+      "REAL": {"RF": 0.600, "LR": 0.737, "MLP": 0.674},
+      "SHUFFLED": {"RF": 0.537, "LR": 0.592, "MLP": 0.622},
+      "BASIC": {"RF": 0.210, "LR": 0.410, "MLP": 0.435},
+      "NULL": {"RF": 0.311, "LR": 0.526, "MLP": 0.485}
+    },
+    "STATE_TRANSITION": {
+      "REAL": {"RF": 0.912, "LR": 0.961, "MLP": 0.969},
+      "SHUFFLED": {"RF": 0.889, "LR": 0.958, "MLP": 0.965},
+      "BASIC": {"RF": 0.781, "LR": 0.955, "MLP": 0.967},
+      "NULL": {"RF": 0.799, "LR": 0.956, "MLP": 0.968}
+    },
+    "note": "STATE_TRANSITION absolute AUROC is high while incremental REAL-over-BASIC / REAL-over-SHUFFLED signal is lost — exactly the pattern the frozen protocol warns must NOT be read as Evidence sufficiency"
+  },
+  "bootstrap": {
+    "reps": 1000,
+    "draws_dropped": {"Credential": 0, "Recon_Scanning": 0, "Web_Injection": 0}
+  },
+  "interpretation": {
+    "target_specific_signal_exists_in_legal_RAW": true,
+    "state_abstraction_retains_target_specific_signal": false,
+    "known_only_open_world_transfer": "NOT_ESTABLISHED (n_B_RAW=0)",
+    "generic_evidence_signal": "EXISTS (SHUFFLED-over-BASIC material 3/3, rotOK_sb true)",
+    "conclusion": "target-specific information exists in legal RAW Evidence, while the current STATE_TRANSITION abstraction loses most of it; Known-only open-world transfer remains unsolved"
+  },
+  "boundaries": {
+    "FINAL_TEST_USED": false,
+    "MODELS_RETRAINED": false,
+    "PROTOCOL_CHANGED": false,
+    "RESULT_COMMITTED": false,
+    "RESULT_PUSHED": false
+  },
+  "artifacts": {
+    "run_root": "processed/dataset_v4_nf3_ton_v1/recoverability_information_sufficiency_gate_v1",
+    "aggregate": "formal/aggregate.json",
+    "run_manifest": "formal/run_manifest.json",
+    "run_state": "run_state.json",
+    "bootstrap": "formal/bootstrap/ (9 json)",
+    "probe_A": "formal/probe_A/ (18 fits)",
+    "probe_B": "formal/probe_B/ (9 fits)",
+    "mlp_epochs": "formal/mlp_epochs/ (9 logs)"
+  },
+  "next_action": "RESEARCHER_MODEL_B_PROTOCOL_REVIEW",
+  "next_action_authorized": false
+}

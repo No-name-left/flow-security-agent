@@ -1,8 +1,8 @@
 # Agent Context
 
 STATE_SCHEMA=AGENT_CONTEXT_V1
-LAST_UPDATED=2026-08-18
-UPDATED_BY_TASK=INSTRUCTION_HYGIENE_AND_STRONG_OSR_AUTHORIZATION_V1
+LAST_UPDATED=2026-08-20
+UPDATED_BY_TASK=FINALIZE_INFORMATION_GATE_AND_DESIGN_MODEL_B_REPRESENTATION_V1
 
 This is the single short entry point every agent reads before substantive project
 work. It carries only the current state and operating rules. Historical detail
@@ -141,6 +141,23 @@ V2_RL_REQUIRED=false
 V2_RESULT_COMMITTED=true (2026-08-18 researcher-review checkpoint commit,
   local only)
 V2_RESULT_PUSHED=false
+
+RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1=COMPLETE (2026-08-20;
+  preregistered commit 28e7053, frozen protocol sha256
+  bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce;
+  post-run validation PASS 2026-08-20)
+INFOSUFF_OUTCOME=REPRESENTATION_BOTTLENECK_SUPPORTED
+INFOSUFF_TREE_INPUTS= nA=3 rotA=true bottleneck=true nB=0 rotB=false
+  B=true C=true D=false
+INFOSUFF_N_A_RAW=3 (S=[RF,LR,MLP]) / N_A_ST=1 (S=[RF]) / N_B_RAW=0
+INFOSUFF_ROTOK= A_RAW true / B_RAW false / sb_A_RAW true
+INFOSUFF_RETENTION= median ret_b 0.020151 / ret_s 0.082691 (min < 0.5 -> bottleneck)
+INFOSUFF_INTERPRETATION= target-specific info EXISTS in legal RAW Evidence
+  (REAL > BASIC and REAL > SHUFFLED, cross-rotation consistent); generic
+  Evidence signal EXISTS (SHUFFLED > BASIC 3/3); STATE_TRANSITION abstraction
+  loses most of it; Known-only open-world transfer UNSOLVED (n_B_RAW=0)
+MODEL_B_DESIGN_JUSTIFIED=true   (bottleneck outcome is the justification)
+MODEL_B_TRAINING_STARTED=false  (draft protocol only, in researcher review)
 ```
 
 ## Novelty positioning (literature audit 2026-08-17, revision 1)
@@ -206,21 +223,23 @@ addendum `docs/research_plan/literature_novelty_reassessment_v1.md`
 ## Current authorization
 
 ```text
-CURRENT_AUTHORIZED_TASK=STRONG_NEURAL_OSR_PROTOCOL_DRAFT_AND_REVIEW
-  (DEC-0028, 2026-08-18: draft the preregistered Strong Neural OSR
-   Evidence Gate protocol and submit it for researcher review. No
-   evaluation may run until the frozen protocol + preregistration are
-   committed before any evaluation metric. This supersedes the V2
-   waiting state: V2 CASE D = RECOVERY_SIGNAL_INCONCLUSIVE, and the
-   researcher decided the next methodological step is a dedicated
-   open-set representation baseline, not Model B.)
-NEXT_PROPOSED_ACTION=DRAFT_STRONG_NEURAL_OSR_EVIDENCE_GATE_PROTOCOL
-NEXT_ACTION_AUTHORIZED=true   (protocol drafting/review only)
+CURRENT_AUTHORIZED_TASK=MODEL_B_PROTOCOL_DRAFT_REVIEW
+  (2026-08-20: draft
+   docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md
+   and submit it for researcher review. DRAFT ONLY — not preregistered,
+   not frozen, no training. DEC-0028 (Strong Neural OSR baseline protocol
+   draft) remains the pending pre-Model-B baseline prerequisite; Model B
+   does not supersede it.)
+NEXT_PROPOSED_ACTION=RESEARCHER_MODEL_B_PROTOCOL_REVIEW
+NEXT_ACTION_AUTHORIZED=false   (draft delivered; any training or
+  preregistration needs explicit researcher authorization)
 
 CURRENT_FORBIDDEN_NEXT_STEPS=
-  ANY_MODEL_B_OR_RL_WORK
-  ANY_QWEN_TRAINING
+  ANY_MODEL_B_TRAINING_OR_EVALUATION_BEFORE_FROZEN_PREREGISTRATION
+  ANY_QWEN_TRAINING_OR_WEIGHT_MODIFICATION
+  ANY_RL_OR_RLAIF_WORK
   ANY_CONTINUAL_OR_PURIFICATION_WORK
+  ANY_INFORMATION_GATE_RE_RUN_OR_RESULT_MODIFICATION
   ANY_STRONG_NEURAL_OSR_EVALUATION_BEFORE_PREREGISTRATION
   ANY_OPEN_WORLD_GATE_RE_RUN_OR_RESCUE
   ANY_V2_RE_RUN_OR_V2_RESCUE_OR_PROBE_SHOPPING
@@ -266,6 +285,41 @@ Artifacts: processed/dataset_v4_nf3_ton_v1/evidence_processing_method_dependence
 Reports: reports/research_audit/evidence_processing_method_dependence_diagnostic_v1.{json,md}
 ```
 
+## Recoverability Information Sufficiency Gate V1 + Model B design (2026-08-20)
+
+```text
+RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1=COMPLETE
+  (preregistered commit 28e7053; frozen protocol sha256
+   bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce;
+   formal run COMPLETE; post-run validation PASS 2026-08-20)
+OUTCOME=REPRESENTATION_BOTTLENECK_SUPPORTED
+TREE_INPUTS= nA=3 rotA=true bottleneck=true nB=0 rotB=false
+  B=true C=true D=false
+N_A_RAW=3 (S=[RF,LR,MLP])  N_A_STATE_TRANSITION=1 (S=[RF])
+N_B_RAW=0  N_SB_A_RAW=3  ROTOK_A_RAW=true  ROTOK_B_RAW=false
+  ROTOK_SB_A_RAW=true
+RETENTION= RF b 0.3357/s 0.3585 | LR b 0.0202/s 0.0259 | MLP b 0.0079/s 0.0827
+  median ret_b 0.020151 / ret_s 0.082691 -> min < 0.5 -> BOTTLENECK
+INTERPRETATION= target-specific information EXISTS in legal RAW Evidence
+  (REAL materially > BASIC and > SHUFFLED, cross-rotation consistent);
+  generic Evidence-distribution signal EXISTS (SHUFFLED > BASIC 3/3,
+  rotOK_sb true); STATE_TRANSITION abstraction loses most target-specific
+  signal (ST absolute AUROC high 0.91-0.97 but incremental REAL increments
+  near zero — high absolute AUROC is NOT Evidence sufficiency per protocol);
+  Known-only open-world transfer UNSOLVED (n_B_RAW=0)
+MODEL_B_DESIGN_JUSTIFIED=true   MODEL_B_TRAINING_STARTED=false
+MODEL_B_DRAFT=docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md
+  (DRAFT ONLY, not preregistered, not frozen, in researcher review;
+   do NOT train from it)
+RESULT_COMMITTED=true (2026-08-20 checkpoint commit, local only)
+RESULT_PUSHED=false
+Artifacts: processed/dataset_v4_nf3_ton_v1/recoverability_information_sufficiency_gate_v1/
+  (formal/aggregate.json, formal/run_manifest.json, bootstrap/ 9x1000,
+   probe_A/ 18, probe_B/ 9, mlp_epochs/ 9)
+Reports: reports/research_audit/recoverability_information_sufficiency_gate_v1.{json,md}
+  + _postrun_validation.{json,md}
+```
+
 Gate outcome summaries (conclusions unchanged; full metrics in the formal
 report pairs under `reports/research_audit/`):
 
@@ -285,10 +339,10 @@ report pairs under `reports/research_audit/`):
 ## Latest formal result
 
 ```text
-LATEST_FORMAL_REPORT_JSON=reports/research_audit/recovery_signal_characterization_gate_v2.json
-LATEST_FORMAL_REPORT_MD=reports/research_audit/recovery_signal_characterization_gate_v2.md
-PREVIOUS_REPORT_JSON=reports/research_audit/open_world_gate_v1_failure_attribution.json
-PREVIOUS_REPORT_MD=reports/research_audit/open_world_gate_v1_failure_attribution.md
+LATEST_FORMAL_REPORT_JSON=reports/research_audit/recoverability_information_sufficiency_gate_v1.json
+LATEST_FORMAL_REPORT_MD=reports/research_audit/recoverability_information_sufficiency_gate_v1.md
+PREVIOUS_REPORT_JSON=reports/research_audit/recovery_signal_characterization_gate_v2.json
+PREVIOUS_REPORT_MD=reports/research_audit/recovery_signal_characterization_gate_v2.md
 ```
 
 One-line interpretations (all unchanged from the frozen reports; full
@@ -310,6 +364,12 @@ metrics and narratives live in the JSON/MD pairs named above):
 - V2 = CASE D (RECOVERY_SIGNAL_INCONCLUSIVE): weak trajectory signal;
   transfer/e2e NOT_ESTABLISHED; headroom diagnostics analysis-only;
   frozen V1 results unchanged; results UNCOMMITTED/UNPUSHED by design.
+- Information Sufficiency Gate V1 (2026-08-20) = REPRESENTATION_BOTTLENECK_SUPPORTED:
+  target-specific Evidence information exists in legal RAW (REAL > BASIC and
+  REAL > SHUFFLED 3/3, rotation-consistent) but the STATE_TRANSITION
+  abstraction retains only ~2-8% of it (median ret_b 0.020 / ret_s 0.083);
+  generic SHUFFLED-over-BASIC signal exists (3/3); Known-only open-world
+  transfer unsolved (n_B_RAW=0). Model B design justified; training NOT started.
 
 ## Read on demand
 
@@ -358,6 +418,20 @@ docs/research_plan/recovery_signal_characterization_v2_protocol.md              
 processed/dataset_v4_nf3_ton_v1/recovery_signal_characterization_gate_v2/        (cells/features/probes)
 ```
 
+For the Recoverability Information Sufficiency Gate V1 (formal result +
+post-run validation; committed in the 2026-08-20 checkpoint, local only,
+not pushed) and the Model B draft:
+
+```text
+reports/research_audit/recoverability_information_sufficiency_gate_v1.json (primary)
+reports/research_audit/recoverability_information_sufficiency_gate_v1.md   (explanatory context)
+reports/research_audit/recoverability_information_sufficiency_gate_v1_postrun_validation.{json,md}
+reports/research_audit/recoverability_information_sufficiency_gate_v1_preregistration.json (preregistration, tracked)
+docs/research_plan/recoverability_information_sufficiency_gate_v1_protocol.md             (frozen protocol)
+docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md                   (Model B DRAFT, not frozen)
+processed/dataset_v4_nf3_ton_v1/recoverability_information_sufficiency_gate_v1/           (formal artifacts)
+```
+
 For novelty positioning and claim-safety (tracked):
 
 ```text
@@ -388,12 +462,14 @@ change.
 ## Git/repository state
 
 ```text
-GIT_CHECKPOINT=2026-08-18 hygiene + V2 result checkpoint commit (local
-  only; pushed: no, blocked: no GitHub creds; run `git rev-parse HEAD` —
-  never trust this)
-WORKING_TREE_STATE=clean after the 2026-08-18 checkpoint commit (V2 gate
-  results, instruction hygiene, DEC-0028, and the documented V2 runtime
-  bugfix all committed; push remains blocked: no GitHub creds)
+GIT_CHECKPOINT=2026-08-20 Information Gate finalize checkpoint commit
+  (frozen Information Gate result + post-run validation + AGENT_CONTEXT +
+  Model B draft protocol; local only; pushed: no, blocked: no GitHub creds;
+  run `git rev-parse HEAD` — never trust this)
+WORKING_TREE_STATE=only the intended checkpoint files are committed
+  (2026-08-20); earlier untracked audit reports (evidence_processing,
+  strong_hybrid_osr, strong_neural_osr diagnostics, diagnose/validate
+  scratch tools) remain untracked by design; push blocked: no GitHub creds
 GATE_1_CHECKPOINT_STATUS=COMMITTED (0cb49e3; push blocked: no GitHub creds)
 GATE_1B_COMMIT_CREATED=true (917303a, local only)
 GATE_1B_PUSHED=false
@@ -407,4 +483,8 @@ V2_PREREGISTRATION_COMMIT_CREATED=true (22c92c7, local only)
 V2_PREREGISTRATION_PUSHED=false
 V2_RESULT_COMMITTED=true (2026-08-18 checkpoint, local only)
 V2_RESULT_PUSHED=false
+INFOSUFF_RESULT_COMMITTED=true (2026-08-20 checkpoint, local only)
+INFOSUFF_RESULT_PUSHED=false
+MODEL_B_DRAFT_COMMITTED=true (2026-08-20 checkpoint, local only, DRAFT)
+MODEL_B_DRAFT_PUSHED=false
 ```
