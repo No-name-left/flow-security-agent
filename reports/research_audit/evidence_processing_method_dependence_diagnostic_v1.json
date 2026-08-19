@@ -1,0 +1,173 @@
+{
+  "schema_version": "EVIDENCE_PROCESSING_METHOD_DEPENDENCE_DIAGNOSTIC_V1_REPORT_V1",
+  "date": "2026-08-18",
+  "task": "EVIDENCE_PROCESSING_METHOD_DEPENDENCE_DIAGNOSTIC_V1",
+  "run_status": "COMPLETE",
+  "purpose": "causal/mechanistic decomposition of the V2 Mahalanobis-FAIL / EDL-PASS specificity contradiction into (1) generic Evidence-presence/distribution bias, (2) representation/Evidence-processing effects, (3) final novelty-readout effects. NOT detector selection; V2 decision METHOD_DEPENDENT_REVIEW NOT reopened.",
+  "protocol_identity": {
+    "protocol_path": "docs/research_plan/evidence_processing_method_dependence_diagnostic_v1_protocol.md",
+    "protocol_status": "FROZEN_BEFORE_EVALUATION",
+    "protocol_sha256": "91b8f7db1f0c754ae479f40690b10366835811df75072287942667af1a30e277",
+    "preregistration_sha256_matches": true,
+    "tool_sha256_matches": true,
+    "protocol_hash_match": true,
+    "preregistration_commit_sha": "fd3f4b7",
+    "tool_bugfix_commit_sha": "30bff93",
+    "central_seed": 20260817,
+    "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "run_root": "processed/dataset_v4_nf3_ton_v1/evidence_processing_method_dependence_diagnostic_v1/"
+  },
+  "identity_checks": {
+    "real_reproduces_validation": {
+      "rule": "REAL-condition Mahalanobis best-legal gains == persisted V2 validation same_sample values within 1e-6 (all 3 rotations x RK/TU)",
+      "passed": true,
+      "max_abs_mean_diff": 3.4e-6,
+      "note": "after float64 promotion the recomputed means match the persisted float64 npz-derived audit values to <1e-8; the residual 3.4e-6 was float32-vs-float64 subtraction noise eliminated by the logged bugfix"
+    },
+    "edl_sanity": {
+      "rule": "alpha >= 1 everywhere; loss decreases over training steps (per rotation, same-repr head)",
+      "passed": true,
+      "alpha_min": 1.0,
+      "loss_trajectories": {"Credential": [1.2845, 0.6251], "Recon_Scanning": [1.1776, 0.4443], "Web_Injection": [1.1694, 0.4905]}
+    },
+    "shuffled_preserves_marginals": {"rule": "shuffled T/R block mean/std == original within 1e-9, RK and TU separately", "passed": true},
+    "null_present_masks": {"rule": "NULL-PRESENT T/R blocks all-zero; availability masks present as in state", "passed": true}
+  },
+  "bugfix_log": [
+    {"id": 1, "when": "post-commit, pre-evaluation", "what": "frozen primaries were not set to model.eval() before forward passes (dropout active corrupts the frozen representation); fixed to match the validated primary_replay convention exactly (model.eval() after load)", "scientific_semantics_unchanged": true},
+    {"id": 2, "when": "post-commit, pre-evaluation", "what": "Mahalanobis scores and EDL alpha were float32 (torch output); promoted to float64 before gain subtraction to match the persisted float64 audit convention (validated npz saves astype(float64))", "scientific_semantics_unchanged": true},
+    {"id": 3, "when": "post-commit, pre-evaluation", "what": "bootstrap_pooled real_minus_control_gap loop lacked the missing-condition guard used for single-condition bootstraps (same-repr / reverse); added guard", "scientific_semantics_unchanged": true}
+  ],
+  "chain_audit": {
+    "conclusion": "the two chains differ exhaustively in (1) final readout function (Mahalanobis min-distance geometry vs Dirichlet belief), (2) training objective (CE + 0.10*SupCon vs Type-II ML + KL lambda=0.1), (3) therefore the representation h differs. Everything upstream (features, transforms, block stacks, masks, architecture, exposure schedule) is identical. The contradiction is therefore NOT a priori a pure readout effect; the diagnostic isolates the three factors empirically."
+  },
+  "condition_controls": {
+    "definition": {
+      "REAL": "true legal T/R Evidence, deployed masks (identity check vs V2 validation)",
+      "NULL_PRESENT": "availability mask present; T/R Evidence block = all-zero neutral vector in the frozen log1p transform space",
+      "SHUFFLED": "deterministic permutation of T/R blocks within rotation/seed/eval population/block type; RK and TU shuffled separately; offline mechanism control only (not a deployable policy)"
+    },
+    "per_rotation": {
+      "Credential": {
+        "REAL": {"rk_gain_mean": 89.6065, "un_gain_mean": 135.7351, "gap": -46.1286, "rk_frac_pos": 0.961, "un_frac_pos": 0.999, "per_type_rk": {"BT": 75.046, "BR": 67.178, "BTR": 77.27}, "per_type_un": {"BT": 114.991, "BR": 125.044, "BTR": 120.269}},
+        "NULL_PRESENT": {"rk_gain_mean": -25.2149, "un_gain_mean": -14.0797, "gap": -11.1352, "rk_frac_pos": 0.329, "un_frac_pos": 0.444, "per_type_rk": {"BT": -59.298, "BR": -41.368, "BTR": -75.04}, "per_type_un": {"BT": -26.053, "BR": -48.387, "BTR": -55.514}},
+        "SHUFFLED": {"rk_gain_mean": 69.6332, "un_gain_mean": 138.0751, "gap": -68.4419, "rk_frac_pos": 0.818, "un_frac_pos": 1.0, "per_type_rk": {"BT": 32.909, "BR": 41.386, "BTR": 30.187}, "per_type_un": {"BT": 116.385, "BR": 119.086, "BTR": 112.755}}
+      },
+      "Recon_Scanning": {
+        "REAL": {"rk_gain_mean": 31.3185, "un_gain_mean": 140.1771, "gap": -108.8586, "rk_frac_pos": 0.685, "un_frac_pos": 0.936, "per_type_rk": {"BT": 14.047, "BR": -2.329, "BTR": 3.168}, "per_type_un": {"BT": 112.755, "BR": 130.09, "BTR": 127.726}},
+        "NULL_PRESENT": {"rk_gain_mean": -51.3025, "un_gain_mean": -40.5718, "gap": -10.7307, "rk_frac_pos": 0.015, "un_frac_pos": 0.029, "per_type_rk": {"BT": -87.174, "BR": -52.228, "BTR": -123.447}, "per_type_un": {"BT": -69.763, "BR": -45.018, "BTR": -79.738}},
+        "SHUFFLED": {"rk_gain_mean": 35.4096, "un_gain_mean": 151.1191, "gap": -115.7095, "rk_frac_pos": 0.756, "un_frac_pos": 0.992, "per_type_rk": {"BT": 11.07, "BR": -8.099, "BTR": -38.045}, "per_type_un": {"BT": 109.596, "BR": 128.113, "BTR": 134.977}}
+      },
+      "Web_Injection": {
+        "REAL": {"rk_gain_mean": 68.9052, "un_gain_mean": 98.9527, "gap": -30.0476, "rk_frac_pos": 0.993, "un_frac_pos": 0.834, "per_type_rk": {"BT": 54.357, "BR": 52.434, "BTR": 54.586}, "per_type_un": {"BT": 68.797, "BR": 70.134, "BTR": 82.898}},
+        "NULL_PRESENT": {"rk_gain_mean": -55.4361, "un_gain_mean": -12.4872, "gap": -42.9489, "rk_frac_pos": 0.094, "un_frac_pos": 0.434, "per_type_rk": {"BT": -108.741, "BR": -55.902, "BTR": -139.952}, "per_type_un": {"BT": -104.627, "BR": -12.942, "BTR": -116.568}},
+        "SHUFFLED": {"rk_gain_mean": 72.475, "un_gain_mean": 97.7116, "gap": -25.2366, "rk_frac_pos": 0.976, "un_frac_pos": 0.835, "per_type_rk": {"BT": 49.316, "BR": 49.7, "BTR": 52.833}, "per_type_un": {"BT": 67.713, "BR": 65.293, "BTR": 79.401}}
+      }
+    },
+    "pooled_bootstrap": {
+      "method": "1000 rotation-stratified sample replicates, seeded (162000+500), paired within condition/population; 2.5/97.5 percentile 95% CIs; pooled = sample-pooled over the RK (5567) / TU (24000) rows of the three rotations",
+      "REAL_RK": {"mean": 72.123432, "ci95": [70.4725, 73.9112]},
+      "REAL_TU": {"mean": 143.902661, "ci95": [142.0917, 145.7422]},
+      "NULL_RK": {"mean": -40.081108, "ci95": [-41.3436, -38.8095]},
+      "NULL_TU": {"mean": -19.836303, "ci95": [-21.2666, -18.3949]},
+      "SHUFFLED_RK": {"mean": 64.428423, "ci95": [62.6649, 66.2459]},
+      "SHUFFLED_TU": {"mean": 146.070768, "ci95": [144.1109, 147.9526]},
+      "NULL_TO_REAL_RK": {"mean": -0.555847, "ci95": [-0.5822, -0.5312]},
+      "NULL_TO_REAL_TU": {"mean": -0.137852, "ci95": [-0.1483, -0.1274]},
+      "SHUFFLED_TO_REAL_RK": {"mean": 0.893319, "ci95": [0.8773, 0.9095]},
+      "SHUFFLED_TO_REAL_TU": {"mean": 1.01507, "ci95": [1.0089, 1.0215]},
+      "REAL_gap": {"mean": -71.779229, "ci95": [-74.1365, -69.3522]},
+      "NULL_gap": {"mean": -20.244805, "ci95": [-22.1329, -18.3757]},
+      "SHUFFLED_gap": {"mean": -81.642346, "ci95": [-84.2149, -78.9951]},
+      "real_minus_control_gap": {
+        "NULL": {"mean": -51.534424, "ci95": [-54.563, -48.8319]},
+        "SHUFFLED": {"mean": 9.863117, "ci95": [8.3647, 11.3543]}
+      }
+    },
+    "key_question": {
+      "generic_presence_shift": "NULL-PRESENT produces NEGATIVE gains for both RK and TU (pooled -40.1 / -19.8): adding an empty Evidence block moves samples AWAY from Known in Mahalanobis distance. Mask presence alone does NOT reproduce any of the REAL Knownward movement (ratios -0.556 / -0.138).",
+      "generic_distribution_shift": "SHUFFLED reproduces 89.3% (CI [87.7, 91.0]) of the REAL RK movement and 101.5% (CI [100.9, 102.2]) of the REAL TU movement: unrelated Evidence produces essentially all of the generic Knownward magnitude.",
+      "specificity_structure": "The REAL specificity gap (-71.78) is LESS negative (better RK/TU separation) than the SHUFFLED gap (-81.64): paired REAL - SHUFFLED = +9.86, CI [8.36, 11.35]. A modest content-specific component exists; the NULL comparison does not support the full content-signal rule (REAL - NULL = -51.5, CI negative) because NULL-PRESENT reverses direction."
+    }
+  },
+  "same_representation_test": {
+    "design": "same frozen primary representation h (persisted model.pt, central seed); readout A = frozen Mahalanobis per-state geometry; readout B = one fixed Dirichlet head trained on frozen h only (trunk fully frozen + eval mode; exact V2 EDL semantics: Type-II ML + KL 0.1, AdamW 3e-4/1e-4, 20-epoch cap, patience 3, Known-only FIT/EARLY_STOP/calibration; rng offset 300; seed 20260817). No representation update, no tuning.",
+    "per_rotation": {
+      "Credential": {"maha_gap": -46.1286, "edl_head_gap": 0.0757, "contradiction_reproduced": true},
+      "Recon_Scanning": {"maha_gap": -108.8586, "edl_head_gap": 0.0716, "contradiction_reproduced": true},
+      "Web_Injection": {"maha_gap": -30.0476, "edl_head_gap": 0.1483, "contradiction_reproduced": true}
+    },
+    "contradiction_by_rotation": "3/3",
+    "pooled_edl_head_gap": {"mean": 0.0606, "ci95": [0.0562, 0.0645]},
+    "n_unknown_in_calib_audit": {"Credential": 4426, "Recon_Scanning": 3404, "Web_Injection": 4078},
+    "conclusion": "with representation AND Evidence processing held exactly fixed, the Mahalanobis-negative / EDL-positive specificity contradiction survives in all three rotations (rule 1 support: READOUT_DOMINANT)."
+  },
+  "reverse_crosscheck": {
+    "design": "B_EDL retrained with the exact frozen V2 recipe (seed 20260817, rng offset 200, identical to the validation replay); frozen EDL trunk representation h_EDL; per-state Mahalanobis geometry fitted on h_EDL TRAIN FIT Known rows; gains/gaps on the same RK/TU rows. No encoder retraining, no redesign.",
+    "per_rotation": {"Credential": -37.1007, "Recon_Scanning": -63.9477, "Web_Injection": -26.9283},
+    "pooled": {"mean": -58.861303, "ci95": [-64.7586, -53.3217]},
+    "conclusion": "the Mahalanobis gap remains negative in all three rotations on the EDL-trained representation; the sign pattern follows the READOUT, not the representation (the magnitude shrinks from -71.78 to -58.86, so representation choice matters quantitatively, not sign-wise). Rule 2 (REPRESENTATION_OR_PROCESSING_DOMINANT) NOT supported."
+  },
+  "edl_mechanism_diagnostics": {
+    "design": "retrained B_EDL chain; per row at state B vs the row's own best-legal state; deltas after - before. S = sum(alpha) (Dirichlet strength), u = K/S (K=6), p_top = max(alpha)/S, p_2nd, top-1 identity stability.",
+    "per_rotation": {
+      "Credential": {
+        "RK": {"dS": 41.332, "du": -0.1416, "dp_top": 0.23681, "dp_2nd": -0.14147, "S_b_mean": 25.36, "S_s_mean": 66.69, "p_top_b_mean": 0.6541, "p_top_s_mean": 0.8909, "stability": 0.629},
+        "TU": {"dS": 18.002, "du": -0.0806, "dp_top": 0.07343, "dp_2nd": -0.02133, "S_b_mean": 70.11, "S_s_mean": 88.11, "p_top_b_mean": 0.7517, "p_top_s_mean": 0.8251, "stability": 0.728}
+      },
+      "Recon_Scanning": {
+        "RK": {"dS": 83.509, "du": -0.2157, "dp_top": 0.28099, "dp_2nd": -0.13668, "S_b_mean": 24.14, "S_s_mean": 107.65, "p_top_b_mean": 0.6282, "p_top_s_mean": 0.9092, "stability": 0.304},
+        "TU": {"dS": 217.455, "du": -0.103, "dp_top": 0.08385, "dp_2nd": -0.01543, "S_b_mean": 84.73, "S_s_mean": 302.19, "p_top_b_mean": 0.892, "p_top_s_mean": 0.9758, "stability": 0.912}
+      },
+      "Web_Injection": {
+        "RK": {"dS": 36.387, "du": -0.1409, "dp_top": 0.19816, "dp_2nd": -0.10262, "S_b_mean": 25.23, "S_s_mean": 61.62, "p_top_b_mean": 0.6791, "p_top_s_mean": 0.8772, "stability": 0.672},
+        "TU": {"dS": -8.479, "du": 0.0063, "dp_top": -0.02577, "dp_2nd": 0.02077, "S_b_mean": 68.01, "S_s_mean": 59.53, "p_top_b_mean": 0.8307, "p_top_s_mean": 0.805, "stability": 0.67}
+      }
+    },
+    "conclusion": "For RK, Evidence concentrates belief: total Evidence S rises (dS +41/+84/+36) and top-class concentration rises (dp_top +0.24/+0.28/+0.20) with uncertainty falling (du -0.14/-0.22/-0.14) — the EDL PASS structure is an Evidence-induced concentration on a single Known class. For TU the effects are smaller or absent (Cred +0.07, Web -0.03) EXCEPT Recon TU (dS +217, dp_top +0.08, stability 0.91), where TU also accumulates Evidence and stays stably confident. Top-1 identity stability is materially lower for RK on Recon (0.304), i.e., RK rows jump between classes under Evidence."
+  },
+  "interpretation": {
+    "rules_fired": ["READOUT_DOMINANT", "GENERIC_EVIDENCE_DISTRIBUTION_BIAS"],
+    "primary": "READOUT_DOMINANT_PRIMARY",
+    "support": {
+      "READOUT_DOMINANT": "same frozen h shows Mahalanobis gap negative AND EDL-head gap positive in 3/3 rotations (pooled EDL-head gap +0.0606, CI [0.0562, 0.0645]); representation and Evidence processing held exactly fixed",
+      "GENERIC_EVIDENCE_DISTRIBUTION_BIAS": "pooled SHUFFLED_TO_REAL_RK = 0.893 (CI [0.877, 0.910]), SHUFFLED_TO_REAL_TU = 1.015 (CI [1.009, 1.022]); unrelated Evidence reproduces >= 89% of the REAL Knownward magnitude",
+      "GENERIC_EVIDENCE_PRESENCE_BIAS": "NOT supported: NULL_TO_REAL ratios are negative (-0.556 / -0.138); mask presence alone moves samples away from Known",
+      "RECOVERY_SPECIFIC_CONTENT_SIGNAL": "PARTIAL, not supported: REAL separates RK from TU better than SHUFFLED (paired +9.86, CI [8.36, 11.35]) but the NULL comparison fails (REAL - NULL = -51.5, CI negative)",
+      "REPRESENTATION_OR_PROCESSING_DOMINANT": "NOT supported: Mahalanobis on the EDL-trained representation stays negative 3/3 (pooled -58.86, CI [-64.76, -53.32])"
+    },
+    "consequence_rule_statement": "The preregistered consequence ('if only that EDL is a generally stronger detector... the recovery-aware novelty innovation hypothesis is weakened') does NOT apply: the fixed-representation contradiction IS reproduced (rule 1), so EDL's PASS is a readout-level phenomenon on identical representations, not a generally-stronger-detector artifact. However, the distribution control shows ~90-100% of the REAL Knownward movement is reproduced by unrelated Evidence, so the generic movement is dominated by distribution-level shift; only a modest content-specific separation component (REAL vs SHUFFLED +9.9) is attributable to target-matched content. The recovery-aware hypothesis is neither confirmed nor weakened at the representation level; it is unresolved at the readout level.",
+    "v2_decision_not_reopened": true
+  },
+  "hard_boundaries_respected": {
+    "no_new_detector": true,
+    "no_detector_tuning": true,
+    "no_model_b": true,
+    "no_rl": true,
+    "no_continual": true,
+    "no_final_test": true,
+    "no_router_retrain": true,
+    "no_evidence_contract_change": true,
+    "no_v1_v2_modification": true,
+    "no_push": true,
+    "controls_not_deployable": true
+  },
+  "acceptance": {
+    "PREREGISTRATION_COMMIT_SHA": "fd3f4b7",
+    "PROTOCOL_HASH_MATCH": "YES",
+    "DIAGNOSTIC_STATUS": "COMPLETE",
+    "IDENTITY_CHECKS": "PASS",
+    "SAME_REPRESENTATION_CONTRADICTION": "3/3",
+    "PRIMARY_INTERPRETATION": "READOUT_DOMINANT (secondary: GENERIC_EVIDENCE_DISTRIBUTION_BIAS)",
+    "REVERSE_CROSSCHECK": "COMPLETED (Mahalanobis gap negative 3/3 on EDL-trained representation)",
+    "NULL_PRESENT_REPRODUCES_REAL_MOVEMENT": "FALSE (ratios -0.556 / -0.138)",
+    "SHUFFLED_REPRODUCES_REAL_MOVEMENT": "TRUE (ratios 0.893 / 1.015)",
+    "CONTENT_SPECIFIC_SEPARATION": "PARTIAL (REAL vs SHUFFLED +9.86 CI>0; REAL vs NULL fails)",
+    "EDL_GENERALLY_STRONGER_ALONE": "FALSE (fixed-representation contradiction reproduced; consequence rule not triggered)",
+    "V2_DECISION_NOT_REOPENED": "YES",
+    "RESULT_COMMITTED": false,
+    "RESULT_PUSHED": false,
+    "NEXT_PROPOSED_ACTION": "RESEARCHER_REVIEW_OF_CAUSAL_DECOMPOSITION",
+    "NEXT_ACTION_AUTHORIZED": false
+  }
+}

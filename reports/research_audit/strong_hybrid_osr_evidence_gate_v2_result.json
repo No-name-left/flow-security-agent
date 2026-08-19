@@ -1,0 +1,94 @@
+{
+  "schema_version": "STRONG_HYBRID_OSR_EVIDENCE_GATE_V2_RESULT_V1",
+  "date": "2026-08-18",
+  "task": "STRONG_HYBRID_OSR_EVIDENCE_RECOVERABILITY_GATE_V2",
+  "protocol_sha256": "50b1d7181d57bfa01008f2fb794d889ad34d302acaeb2050ae1db93cc79be5a7",
+  "preregistration_commit": "22bf1f7",
+  "runner_commit": "4e9005b",
+  "predecessor_immutable": {
+    "STRONG_NEURAL_OSR_EVIDENCE_GATE_V1": "GATE_INVALID_OSR_INADEQUATE",
+    "V1_EVIDENCE_SCIENTIFIC_STATUS": "NOT_JUDGED"
+  },
+  "run_completeness": {
+    "all_9_cells_complete": true,
+    "run_dir": "processed/dataset_v4_nf3_ton_v1/strong_hybrid_osr_evidence_gate_v2/",
+    "determinism_settings_recorded": true
+  },
+  "adequacy": {
+    "HYBRID_OSR_ADEQUACY": true,
+    "h1": {"pass": true, "max_f1_abs_diff_vs_frozen_result_jsons": 0.0, "rf_p0_mismatch": 0, "rf_p6_mismatch": 0},
+    "h2": {"pass": true, "neural_auroc": {"Credential": 0.7375, "Recon_Scanning": 0.7505, "Web_Injection": 0.8116}, "rf_auroc": {"Credential": 0.6979, "Recon_Scanning": 0.4381, "Web_Injection": 0.7716}},
+    "h3": {"pass": true, "neural_recall_5fur": {"Credential": 0.1714, "Recon_Scanning": 0.0227, "Web_Injection": 0.2975}, "rf_recall_5fur": {"Credential": 0.1827, "Recon_Scanning": 0.009, "Web_Injection": 0.233}, "neural_aupr": {"Credential": 0.3202, "Recon_Scanning": 0.3438, "Web_Injection": 0.4137}, "rf_aupr": {"Credential": 0.2849, "Recon_Scanning": 0.1769, "Web_Injection": 0.3945}},
+    "h4": {"pass": true, "maha_minus_msp_auroc": {"Credential": 0.0805, "Recon_Scanning": 0.1938, "Web_Injection": 0.1151}, "pooled": 0.1242, "ci95": [0.0883, 0.1542]}
+  },
+  "deployable": {
+    "DEPLOYABLE_EVIDENCE_GAIN": false,
+    "furk_basic": {"Credential": 0.056, "Recon_Scanning": 0.0894, "Web_Injection": 0.0324, "pooled": 0.0593},
+    "furk_p6": {"Credential": 0.0472, "Recon_Scanning": 0.0999, "Web_Injection": 0.0234, "pooled": 0.0569},
+    "furk_p6_minus_basic_ci": [-0.0037, -0.0154, 0.0067],
+    "d1": {"pass": false, "furk_delta": {"Credential": -0.0088, "Recon_Scanning": 0.0106, "Web_Injection": -0.0091}},
+    "d2": {"pass": false, "ci_upper_bound": 0.0067},
+    "d3": {"pass": true, "auroc_loss": {"Credential": 0.0072, "Recon_Scanning": -0.0014, "Web_Injection": -0.0035}},
+    "d4": {"pass": true, "recall_loss": {"Credential": 0.0433, "Recon_Scanning": -0.0567, "Web_Injection": 0.0284}},
+    "d5": {"pass": true, "known_macro_f1_loss": {"Credential": -0.0224, "Recon_Scanning": -0.0151, "Web_Injection": -0.0085}},
+    "recoverable_known_accept_correct_rate_basic": {"Credential": 0.0, "Recon_Scanning": 0.0, "Web_Injection": 0.0},
+    "recoverable_known_accept_correct_rate_p6": {"Credential": 0.3946, "Recon_Scanning": 0.8531, "Web_Injection": 0.2542},
+    "unknown_auroc_basic": {"Credential": 0.7375, "Recon_Scanning": 0.7505, "Web_Injection": 0.8116},
+    "unknown_auroc_p6": {"Credential": 0.7304, "Recon_Scanning": 0.752, "Web_Injection": 0.8151},
+    "unknown_aupr_basic": {"Credential": 0.3202, "Recon_Scanning": 0.3438, "Web_Injection": 0.4137},
+    "unknown_aupr_p6": {"Credential": 0.2922, "Recon_Scanning": 0.3544, "Web_Injection": 0.4015},
+    "unknown_recall_5fur_basic": {"Credential": 0.1714, "Recon_Scanning": 0.0227, "Web_Injection": 0.2975},
+    "unknown_recall_5fur_p6": {"Credential": 0.1282, "Recon_Scanning": 0.0794, "Web_Injection": 0.2691},
+    "known_macro_f1_basic": {"Credential": 0.9063, "Recon_Scanning": 0.9712, "Web_Injection": 0.9246},
+    "known_macro_f1_p6": {"Credential": 0.9287, "Recon_Scanning": 0.9863, "Web_Injection": 0.9331}
+  },
+  "recovery": {
+    "EVIDENCE_RECOVERY_SIGNAL": true,
+    "basic_accept_correct_rate": {"Credential": 0.0, "Recon_Scanning": 0.0, "Web_Injection": 0.0},
+    "best_legal_accept_correct_rate": {"Credential": 0.9498, "Recon_Scanning": 0.9368, "Web_Injection": 0.966},
+    "delta_ci": [0.9496, 0.9416, 0.957]
+  },
+  "specificity": {
+    "EVIDENCE_SPECIFICITY": false,
+    "gap_rot": {"Credential": -41.6484, "Recon_Scanning": -97.116, "Web_Injection": -28.2845},
+    "median_gap_pool": -65.0212,
+    "ci": [-54.1619, -61.6106, -45.9175],
+    "ratio_ok_all": false,
+    "mechanism_reading": "under the Mahalanobis geometry, legal Evidence moves True Unknown toward Known regions MORE than it moves Recoverable Known (all three rotations negative); the conservative True-Unknown stress test fails"
+  },
+  "router_headroom": {
+    "material": true,
+    "frozen_p6_recovery_rate": {"Credential": 0.3946, "Recon_Scanning": 0.9269, "Web_Injection": 0.2542}
+  },
+  "conditional_safeguards": {
+    "ran": true,
+    "trigger": "primary would otherwise produce NO_GO (specificity FAIL) with adequacy PASS",
+    "A_RAW_CONCAT": {"recovery_pass": true, "specificity_pass": false},
+    "B_EDL": {"recovery_pass": true, "specificity_pass": true, "status": "RUN"},
+    "contradiction": true
+  },
+  "final_gate_decision": "METHOD_DEPENDENT_REVIEW",
+  "decision_rationale": "adequacy PASS + recovery PASS + specificity FAIL (primary Mahalanobis) -> NO_GO path -> safeguards triggered -> EDL safeguard contradicts the specificity failure (its own specificity PASS criteria met) -> per preregistered contradiction rule: METHOD_DEPENDENT_REVIEW",
+  "evidence_scientific_status": "METHOD_DEPENDENT_PENDING_RESEARCHER_REVIEW (Evidence verdict is not finalized: the recovery signal is strong and deployable FURK is far below V1 levels, but the Mahalanobis specificity failure is contradicted by the preregistered EDL confirmation)",
+  "safety_ledger": {
+    "FINAL_TEST_MODELING_CONTAMINATION": false,
+    "TRUE_UNKNOWN_USED_FOR_REPRESENTATION_TRAINING": false,
+    "TRUE_UNKNOWN_USED_FOR_NORMALIZATION": false,
+    "TRUE_UNKNOWN_USED_FOR_EARLY_STOPPING": false,
+    "TRUE_UNKNOWN_USED_FOR_GEOMETRY_FITTING": false,
+    "TRUE_UNKNOWN_USED_FOR_THRESHOLD_CALIBRATION": false,
+    "TRUE_UNKNOWN_USED_FOR_MODEL_SELECTION": false,
+    "ROUTER_RETRAINED": false,
+    "RF_RETRAINED_OR_TUNED": false,
+    "EVIDENCE_CONTRACT_CHANGED": false,
+    "DETECTOR_SHOPPING": false,
+    "POST_RESULT_TUNING": false,
+    "QWEN_OR_MODEL_B_STARTED": false,
+    "RL_TRAINING_STARTED": false,
+    "CONTINUAL_TRAINING_STARTED": false
+  },
+  "result_committed": false,
+  "result_pushed": false,
+  "next_proposed_action": "RESEARCHER_POST_RUN_VALIDATION",
+  "next_action_authorized": false
+}

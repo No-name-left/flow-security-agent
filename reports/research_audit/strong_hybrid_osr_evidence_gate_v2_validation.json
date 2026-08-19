@@ -1,0 +1,204 @@
+{
+  "schema_version": "STRONG_HYBRID_OSR_EVIDENCE_GATE_V2_VALIDATION_V1",
+  "date": "2026-08-18",
+  "task": "STRONG_HYBRID_OSR_EVIDENCE_RECOVERABILITY_GATE_V2",
+  "validation_status": "COMPLETE",
+  "validation_artifact_root": "processed/dataset_v4_nf3_ton_v1/strong_hybrid_osr_evidence_gate_v2/validation_v2/",
+  "validation_mode": "READ_ONLY_FINALIZATION_OF_PERSISTED_AUDIT",
+  "no_rerun": true,
+  "no_retrain_for_selection": true,
+  "protocol_identity": {
+    "protocol_path": "docs/research_plan/strong_hybrid_osr_evidence_gate_v2_protocol.md",
+    "protocol_sha256_recomputed": "50b1d7181d57bfa01008f2fb794d889ad34d302acaeb2050ae1db93cc79be5a7",
+    "preregistration_sha256_recorded": "50b1d7181d57bfa01008f2fb794d889ad34d302acaeb2050ae1db93cc79be5a7",
+    "run_manifest_sha256": "50b1d7181d57bfa01008f2fb794d889ad34d302acaeb2050ae1db93cc79be5a7",
+    "protocol_hash_match": true,
+    "preregistration_match": true,
+    "preregistration_commit_sha": "22bf1f7",
+    "executed_runner_commit": "4e9005b"
+  },
+  "pre_evaluation_bugfix": {
+    "4e9005b": {
+      "claim": "fix aggregate return in strong hybrid gate v2 (pre-evaluation; documented V2 runtime bugfix)",
+      "pre_first_persisted_aggregate": true,
+      "scientific_semantics_unchanged": true,
+      "verdict": "VALID",
+      "evidence": "all 9 cell outputs re-derived by the validation audit directly from the frozen stored rows/bc_rows/weights reproduce the recorded per-cell results; the relaunch skipped all completed cells and produced DECISION=METHOD_DEPENDENT_REVIEW; validation_stdout.log contains zero errors"
+    }
+  },
+  "run_completeness": {
+    "run_state": "COMPLETE",
+    "all_9_cells_complete": true,
+    "cells": {
+      "20260817_Credential": "COMPLETE",
+      "20260817_Recon_Scanning": "COMPLETE",
+      "20260817_Web_Injection": "COMPLETE",
+      "20260818_Credential": "COMPLETE",
+      "20260818_Recon_Scanning": "COMPLETE",
+      "20260818_Web_Injection": "COMPLETE",
+      "20260819_Credential": "COMPLETE",
+      "20260819_Recon_Scanning": "COMPLETE",
+      "20260819_Web_Injection": "COMPLETE"
+    },
+    "eval_rows_per_cell": 56000,
+    "true_unknown_per_rotation_eval": 8000,
+    "determinism_recorded": {
+      "PYTHONHASHSEED": "0",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "dataloader_workers": 0,
+      "numpy_generators_only": true,
+      "torch_cuda_manual_seed_all": true,
+      "torch_manual_seed_per_cell": true
+    },
+    "validation_stdout_clean": true,
+    "final_test_used": false,
+    "router_retrained": false,
+    "evidence_contract_changed": false
+  },
+  "primary_rederivation": {
+    "h1_independent": {
+      "pass": true,
+      "p0_mismatch": 0,
+      "p6_mismatch": 0,
+      "method": "frozen RF models reloaded from OWG pkl; P0/P6 predictions recomputed and compared row-by-row with stored ev_pred_p0/ev_pred_p6 on the central-seed cell",
+      "frozen_p0_f1": 0.9196498870621301,
+      "frozen_p6_f1": 0.9391331052408232
+    },
+    "h2": {
+      "pass": true,
+      "rule": "pooled neural Basic Unknown AUROC >= frozen RF Basic pooled - 0.02 AND every rotation within -0.05 floor",
+      "neural": {"Credential": 0.7375415393491315, "Recon_Scanning": 0.7505481083296187, "Web_Injection": 0.8115904229206704},
+      "rf": {"Credential": 0.697913598120108, "Recon_Scanning": 0.43806255766392205, "Web_Injection": 0.7716144129176095},
+      "pooled_neural": 0.76656,
+      "pooled_rf": 0.63586
+    },
+    "h3": {
+      "pass": true,
+      "rule": "pooled Recall@5%FUR AND pooled AUPR >= frozen RF pooled - 0.03 AND every rotation within -0.05 floor",
+      "neural_recall": {"Credential": 0.17143652977485044, "Recon_Scanning": 0.02273308465989012, "Web_Injection": 0.2975468840262539},
+      "rf_recall": {"Credential": 0.1826688395617239, "Recon_Scanning": 0.00898455762613639, "Web_Injection": 0.23300448056185988},
+      "neural_aupr": {"Credential": 0.3202180042019634, "Recon_Scanning": 0.34381946258536306, "Web_Injection": 0.4137482202877307},
+      "rf_aupr": {"Credential": 0.28494009054234554, "Recon_Scanning": 0.17692822234675024, "Web_Injection": 0.39454442177556787},
+      "pooled_recall_neural": 0.16391,
+      "pooled_recall_rf": 0.14155,
+      "pooled_aupr_neural": 0.35926,
+      "pooled_aupr_rf": 0.28547
+    },
+    "h4": {
+      "pass": true,
+      "rule": "pooled paired bootstrap (Mahalanobis - same-encoder Deep MSP) Unknown AUROC >= +0.01, positive >= 2/3 rotations, CI lower > -0.02",
+      "delta_rot": {"Credential": 0.08051552789717346, "Recon_Scanning": 0.1938064810834852, "Web_Injection": 0.11514893990472568},
+      "pooled_mean": 0.12419525887759086,
+      "ci95": [0.08831175819897645, 0.1542330786549513],
+      "positive_rotations": "3/3"
+    },
+    "hybrid_osr_adequacy": "PASS",
+    "deployable_rederived": {
+      "per_cell": {
+        "20260817_Credential": {"furk0": 0.04011461318051576, "furk1": 0.03796561604584527, "f1_0": 0.9196498870621301, "f1_1": 0.9391331052408232, "auroc0": 0.7488007691200937, "auroc1": 0.7314871294668696, "recall0": 0.19753777280358142, "recall1": 0.16060436485730273},
+        "20260817_Recon_Scanning": {"furk0": 0.07947019867549669, "furk1": 0.11920529801324503, "f1_0": 0.9707388259667776, "f1_1": 0.9867156110058598, "auroc0": 0.7761507926494073, "auroc1": 0.7759153428458149, "recall0": 0.02589208006962576, "recall1": 0.02132288946910357},
+        "20260817_Web_Injection": {"furk0": 0.02849002849002849, "furk1": 0.022792022792022793, "f1_0": 0.9379424198576425, "f1_1": 0.9477673022867067, "auroc0": 0.8075731128956718, "auroc1": 0.8098303922072132, "recall0": 0.1871494135645079, "recall1": 0.18332483426823049},
+        "20260818_Credential": {"furk0": 0.09305289993626514, "furk1": 0.08221797323135756, "f1_0": 0.8887461053454299, "f1_1": 0.90204503014098, "auroc0": 0.7125330502486793, "auroc1": 0.7021814637726731, "recall0": 0.1871199557766722, "recall1": 0.08402432283029299},
+        "20260818_Recon_Scanning": {"furk0": 0.14942528735632185, "furk1": 0.10804597701149425, "f1_0": 0.9728794570851856, "f1_1": 0.9856580135229619, "auroc0": 0.750597926981498, "auroc1": 0.7414889927879302, "recall0": 0.03213983648153369, "recall1": 0.2077812235692134},
+        "20260818_Web_Injection": {"furk0": 0.056666666666666664, "furk1": 0.03916666666666667, "f1_0": 0.9047582041570488, "f1_1": 0.9083367881822938, "auroc0": 0.8336327995085281, "auroc1": 0.8327839583283179, "recall0": 0.38178147867776935, "recall1": 0.34216502649507946},
+        "20260819_Credential": {"furk0": 0.03490508266993264, "furk1": 0.021432945499081445, "f1_0": 0.9106185278470788, "f1_1": 0.9449094137439332, "auroc0": 0.7512907986786217, "auroc1": 0.7574008294437976, "recall0": 0.12965186074429771, "recall1": 0.1398559423769508},
+        "20260819_Recon_Scanning": {"furk0": 0.0392156862745098, "furk1": 0.07254901960784314, "f1_0": 0.9699278768990313, "f1_1": 0.9865767616688238, "auroc0": 0.7248956053579506, "auroc1": 0.7385123525870816, "recall0": 0.01016733742851091, "recall1": 0.00910823977970769},
+        "20260819_Web_Injection": {"furk0": 0.012155591572123177, "furk1": 0.008103727714748784, "f1_0": 0.9309658298482684, "f1_1": 0.9430500175731081, "auroc0": 0.7935653563578111, "auroc1": 0.8027431921265455, "recall0": 0.3237097598364844, "recall1": 0.2818088911599387}
+      },
+      "furk_p6_minus_basic_ci": [-0.003705235818415102, -0.015357927841707253, 0.006743515233497467],
+      "furk_delta_rot": {"Credential": -0.00881868700347642, "Recon_Scanning": 0.010563040775418045, "Web_Injection": -0.009083289851793363},
+      "furk_ci_done": true,
+      "deployable_evidence_gain": false,
+      "verdict": "matches recorded result report (D1 FAIL on Recon +0.0106; D2 FAIL CI upper +0.0067 > 0; D3/D4/D5 PASS)"
+    },
+    "recovery_rederived": {
+      "per_cell": {
+        "20260817_Credential": {"basic": 0.0, "best": 0.9557291666666666, "rk_gain_mean": 89.60648682287761, "tu_gain_mean": 135.73512605571747},
+        "20260817_Recon_Scanning": {"basic": 0.0, "best": 0.9432835820895522, "rk_gain_mean": 31.31847660956691, "tu_gain_mean": 140.17709421348573},
+        "20260817_Web_Injection": {"basic": 0.0, "best": 0.964247598719317, "rk_gain_mean": 68.90515267403683, "tu_gain_mean": 98.95271797084808},
+        "20260818_Credential": {"basic": 0.0, "best": 0.9541391371939371, "rk_gain_mean": 74.56016620587062, "tu_gain_mean": 108.38939211511612},
+        "20260818_Recon_Scanning": {"basic": 0.0, "best": 0.9246646026831785, "rk_gain_mean": 47.966747650052, "tu_gain_mean": 153.9758962817192},
+        "20260818_Web_Injection": {"basic": 0.0, "best": 0.9652025099828865, "rk_gain_mean": 67.89790691108072, "tu_gain_mean": 113.7314892873764},
+        "20260819_Credential": {"basic": 0.0, "best": 0.9395542123158293, "rk_gain_mean": 79.44803940038389, "tu_gain_mean": 124.43546006727219},
+        "20260819_Recon_Scanning": {"basic": 0.0, "best": 0.9425051334702259, "rk_gain_mean": 53.695529170104855, "tu_gain_mean": 130.17579559183122},
+        "20260819_Web_Injection": {"basic": 0.0, "best": 0.968682505399568, "rk_gain_mean": 92.6218900680542, "tu_gain_mean": 101.59418749856948}
+      },
+      "best_legal_rate_rot": {"Credential": 0.9498075053921443, "Recon_Scanning": 0.9368177727476521, "Web_Injection": 0.9660442047005905},
+      "pooled_best_legal": 0.9508898276134623,
+      "delta_ci": [0.9496485014574687, 0.9416084169883674, 0.9570446581185165],
+      "evidence_recovery_signal": true
+    },
+    "specificity_rederived": {
+      "primary_mahalanobis_specificity": false,
+      "gap_rot": {"Credential": -41.64842732747396, "Recon_Scanning": -97.1160176595052, "Web_Injection": -28.28448486328125},
+      "pooled_mean_gap": -54.161887761373436,
+      "ci95": [-61.61062515247404, -45.917506984137155],
+      "median_gap_pool": -65.02117750379774,
+      "ratio_ok_all": false,
+      "n_negative_rotations": "3/3"
+    }
+  },
+  "safeguard_replay": {
+    "scope": "diagnostic replay on central seed 20260817, all three rotations, exact frozen recipe; per-sample scores persisted (safeguards/*.npz); recorded aggregate flags reproduced",
+    "recorded_flags_reproduced": true,
+    "A_RAW_CONCAT": {
+      "recovery_pass": true,
+      "specificity_pass": false,
+      "per_rotation": {
+        "Credential": {"mean_rk_gain": 71.5996322631836, "mean_tu_gain": 92.07906341552734, "mean_gap": -20.47943115234375, "ratio_ok": false, "n_unknown": 8000},
+        "Recon_Scanning": {"mean_rk_gain": 36.727542877197266, "mean_tu_gain": 81.46465301513672, "mean_gap": -44.73711013793945, "ratio_ok": false, "n_unknown": 8000},
+        "Web_Injection": {"mean_rk_gain": 55.78860092163086, "mean_tu_gain": 135.46527099609375, "mean_gap": -79.67666625976562, "ratio_ok": false, "n_unknown": 8000}
+      },
+      "verdict": "reproduces the recorded aggregate flag: recovery PASS, specificity FAIL 3/3"
+    },
+    "B_EDL": {
+      "recovery_pass": true,
+      "specificity_pass": true,
+      "per_rotation": {
+        "Credential": {"mean_rk_gain": 0.24408851563930511, "mean_tu_gain": 0.0895426943898201, "mean_gap": 0.15454581379890442, "ratio_ok": true, "n_unknown": 8000},
+        "Recon_Scanning": {"mean_rk_gain": 0.2901064455509186, "mean_tu_gain": 0.07796192914247513, "mean_gap": 0.21214452385902405, "ratio_ok": true, "n_unknown": 8000},
+        "Web_Injection": {"mean_rk_gain": 0.2005482017993927, "mean_tu_gain": -0.028727281838655472, "mean_gap": 0.22927547991275787, "ratio_ok": true, "n_unknown": 8000}
+      },
+      "verdict": "reproduces the recorded aggregate flag: recovery PASS, specificity PASS 3/3"
+    },
+    "contradiction": true
+  },
+  "edl_audit": {
+    "implementation_valid": true,
+    "evidence": "EDLHeadEncoder (identical trunk, Dirichlet head, alpha = softplus(z)+1 >= 1 by construction); edl_loss = Type-II ML + fixed KL lambda = 0.1; AdamW lr 3e-4 / weight decay 1e-4; MAX_EPOCHS 20; EARLY_STOP_PATIENCE 3; belief = max(alpha)/S; novelty score = 1 - belief (higher = more novel); all verified in the frozen runner code and consistent with the preregistered B_EDL recipe",
+    "known_only_fit": true,
+    "known_only_fit_evidence": "EDL trained with the frozen train pools (TRAIN FIT/EARLY_STOP = partition-0 Known rows only), epoch logs persisted (B_*_epochs.jsonl: 20-epoch cap, patience-3 early stop, lr 3e-4)",
+    "known_only_calibration": true,
+    "known_only_calibration_evidence": "per-state thresholds = 95th percentile over (split_role==0 & ~is_unknown) rows only (explicit exclusion mask); diagnostic: 4,426 / 3,404 / 4,078 True-Unknown rows present inside the split_role==0 partition (Credential / Recon / Web) are excluded by the mask, matching the primary run's validated Known-only calibration convention",
+    "score_direction_valid": true,
+    "score_direction_evidence": "novelty = 1 - max(alpha/S); per-state gains = s_B - s_s, positive = moved toward Known; replay B gains are positive for Recoverable Known in all rotations and the gap rk_gain - tu_gain is positive 3/3, consistent with the recorded specificity PASS",
+    "population_match": true,
+    "population_match_evidence": "central seed 20260817, all three rotations, 56,000 eval rows per rotation incl. 8,000 True Unknown; same eval populations as the primary Mahalanobis interface"
+  },
+  "same_sample_contradiction": {
+    "scope": "central-seed cells, per-sample same-rows comparison of the primary Mahalanobis interface vs the replayed EDL interface",
+    "per_rotation": {
+      "Credential": {"rk_n": 2688, "un_n": 8000, "maha_gap": -46.12863927637963, "edl_gap": 0.15454581378400326, "rk_direction_disagreement_frac": 0.08147321428571429, "un_direction_disagreement_frac": 0.088875},
+      "Recon_Scanning": {"rk_n": 1005, "un_n": 8000, "maha_gap": -108.85861762983882, "edl_gap": 0.2121445139100154, "rk_direction_disagreement_frac": 0.3194029850746269, "un_direction_disagreement_frac": 0.038375},
+      "Web_Injection": {"rk_n": 1874, "un_n": 8000, "maha_gap": -30.047565294186867, "edl_gap": 0.22927548220378358, "rk_direction_disagreement_frac": 0.0864461045891142, "un_direction_disagreement_frac": 0.447}
+    },
+    "contradiction_reproduced": true,
+    "contradiction_by_rotation": "3/3",
+    "contradiction_broad_or_concentrated": "broad at aggregate level (mean gap sign flips in every rotation: Mahalanobis negative 3/3, EDL positive 3/3); per-sample direction disagreement varies by rotation/class (RK 8.1% / 31.9% / 8.6%; UN 8.9% / 3.8% / 44.7%), so the interfaces also diverge per-sample on a material minority",
+    "mechanism_reading": "under Mahalanobis geometry the most-Known-ward legal Evidence state moves True Unknown toward Known more than Recoverable Known (3/3 negative gaps); under the EDL belief interface the same legal Evidence moves Recoverable Known toward Known more than True Unknown (3/3 positive gaps) on the same rows"
+  },
+  "decision_validation": {
+    "recorded_decision": "METHOD_DEPENDENT_REVIEW",
+    "validated": true,
+    "decision_matrix_application": "adequacy PASS (H1-H4) + recovery PASS + deployable FAIL + primary Mahalanobis specificity FAIL -> preregistered NO_GO path -> conditional safeguards triggered -> A_RAW_CONCAT specificity FAIL, B_EDL specificity PASS (materially contradictory strong positive) -> preregistered contradiction rule -> METHOD_DEPENDENT_REVIEW",
+    "not_reinterpreted": true,
+    "note": "METHOD_DEPENDENT_REVIEW is reported as recorded; it is not relabeled into PASS or FAIL"
+  },
+  "evidence_scientific_status": "METHOD_DEPENDENT_PENDING_RESEARCHER_REVIEW",
+  "evidence_scientific_status_note": "as recorded by the result report: the recovery signal is strong and the hybrid OSR is adequate, but specificity depends on the novelty representation (Mahalanobis geometry fails, EDL belief passes) and the deployable P6 FURK gain is small and statistically unsupported",
+  "result_committed": false,
+  "result_pushed": false,
+  "next_proposed_action": "RESEARCHER_REVIEW_OF_METHOD_DEPENDENCE",
+  "next_action_authorized": false
+}

@@ -21,6 +21,45 @@ Traffic Evidence
 
 这对应三个互相依赖但可独立评测的层：Evidence-conditioned recognition、OOF utility-grounded acquisition、Evidence-gated continual evolution。
 
+## 1.1 三种机制 / 时间尺度（2026-08-20 review 同步）
+
+整个长期方向保留“open-world continually learning / self-evolving
+malicious traffic Agent”框架，但明确区分三种机制/时间尺度：
+
+```text
+A. REPRESENTATION / OBSERVATION ADAPTATION（当前 Model B V1 领地）
+   - runtime typed Evidence（Basic/Temporal/Relation）
+   - Recoverable Known vs residual novelty
+   - target-specific recovery correspondence
+   - generic Evidence-distribution-induced Knownness 不得与 recovery 混淆
+
+B. POLICY EVOLUTION（未来、有 Gate）
+   - RL policy：Evidence acquisition / stopping / novelty admission
+   - 可能的 discovery/verification routing
+   - RL 是决策组件，不是对全部 supervised/clustering 组件的通用替代
+
+C. KNOWLEDGE / CLASS EVOLUTION（未来、有 Gate）
+   - residual Unknown buffer -> clustering -> trusted/human verification
+   - new-class registration -> supervised adaptation -> old-class replay
+   - safety/release gate
+```
+
+### 长期 self-evolution 候选机制（LONG-TERM / CANDIDATE，未证实）
+
+verified novel-class outcomes 未来可为过去的
+recovery/acquisition/novelty-admission 轨迹提供 delayed feedback：
+
+```text
+pi_0 -> pi_1 -> pi_2 -> ...
+```
+
+未来评测必须检验“后续 evolution round 是否提升 FUTURE unseen classes
+的性能”，而不只是已注册类。这是 LONG-TERM / CANDIDATE 方向；不得声称已
+证实，也不得声称 generic open-set recognition、Unknown clustering、
+class-incremental learning、active feature acquisition、RL 或 continual
+learning 的新颖性（见 literature_novelty_reassessment_v1.md）。本文不
+授权任何 RL / continual / self-evolution 实验。
+
 ## 2. Status registry
 
 ### CONFIRMED

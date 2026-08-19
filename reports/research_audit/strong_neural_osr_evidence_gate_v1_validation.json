@@ -1,0 +1,79 @@
+{
+  "schema_version": "STRONG_NEURAL_OSR_EVIDENCE_GATE_V1_VALIDATION_V1",
+  "date": "2026-08-18",
+  "protocol_sha256": "0ebf5c8c3af20eedb07800f97db3627e16e35c895ed5420fc2fe3d2e8d18dc7c",
+  "protocol_hash_match": true,
+  "preregistration_match": true,
+  "preregistration_commit_sha": "62995a4",
+  "executed_runner_commit": "0fd06ca",
+  "pre_evaluation_bugfixes": {
+    "f23607a": {"claim": "train split recorded counts bookkeeping fix", "pre_first_formal_metric": true, "scientific_semantics_unchanged": true, "verdict": "VALID"},
+    "3d4df57": {"claim": "int8 mask implementation fix", "pre_first_persisted_metric": true, "scientific_semantics_unchanged": true, "verdict": "VALID"},
+    "0fd06ca": {"claim": "aggregate headroom source implementation fix", "pre_first_persisted_aggregate": true, "scientific_semantics_unchanged": true, "verdict": "VALID"}
+  },
+  "run_completeness": {
+    "all_9_cells_complete": true,
+    "eval_rows_per_cell": 56000,
+    "train_pool_rows_per_cell": 150000,
+    "final_test_used": false,
+    "true_unknown_training_leakage": false,
+    "true_unknown_calibration_leakage": false,
+    "router_retrained": false,
+    "evidence_contract_changed": false,
+    "frozen_recoverable_known_identity_pass": true
+  },
+  "independent_rederivation": {
+    "checks_per_cell": ["rf_macro_f1", "rf_auroc", "rf_recall_at_5fur", "threshold_d0", "threshold_d1", "d0_auroc", "d0_aupr", "d0_recall_at_5fur", "furk_d0", "furk_d1", "furk_denominator", "maha_d0_consistency"],
+    "cells_all_match_within_1e-9": true,
+    "limitation": "trained encoder weights were not persisted; Basic Known Macro-F1 and Deep-MSP AUROC could not be recomputed from raw model outputs and were validated via internal consistency plus aggregate-arithmetic reproduction"
+  },
+  "adequacy_recomputed": {
+    "A1_known_macro_f1_by_rotation": {"Credential": 0.8766, "Recon_Scanning": 0.9459, "Web_Injection": 0.912},
+    "A1_known_macro_f1_pooled": 0.9115,
+    "A1_frozen_rule": "per-rotation >= 0.90 AND pooled >= frozen RF Basic pooled - 0.01 (frozen protocol section 7, sha-pinned)",
+    "A1_frozen_rf_pooled": 0.934,
+    "A1": false,
+    "A2": true,
+    "A3": true,
+    "A4": true,
+    "OSR_ADEQUACY": false,
+    "launch_note_a1_ambiguity_resolved": "frozen protocol A1 pooled delta = -0.01; -0.02 belongs to A2; A1 fails under either reading (pooled 0.9115 < 0.9140 at -0.02 too, and Credential 0.8766 < 0.90 rotation floor), so the ambiguity cannot affect the decision"
+  },
+  "a1_failure_characterization": {
+    "per_cell_macro_f1": {
+      "20260817_Credential": 0.8798, "20260817_Recon_Scanning": 0.9445, "20260817_Web_Injection": 0.9244,
+      "20260818_Credential": 0.8639, "20260818_Recon_Scanning": 0.9472, "20260818_Web_Injection": 0.8888,
+      "20260819_Credential": 0.8861, "20260819_Recon_Scanning": 0.9461, "20260819_Web_Injection": 0.9227
+    },
+    "per_cell_train_epochs_run": {
+      "20260817_Credential": 10, "20260817_Recon_Scanning": 20, "20260817_Web_Injection": 18,
+      "20260818_Credential": 20, "20260818_Recon_Scanning": 20, "20260818_Web_Injection": 20,
+      "20260819_Credential": 20, "20260819_Recon_Scanning": 20, "20260819_Web_Injection": 20
+    },
+    "frozen_rf_basic_macro_f1_per_cell": {
+      "20260817_Credential": 0.9196, "20260817_Recon_Scanning": 0.9707, "20260817_Web_Injection": 0.9379,
+      "20260818_Credential": 0.8887, "20260818_Recon_Scanning": 0.9729, "20260818_Web_Injection": 0.9048,
+      "20260819_Credential": 0.9106, "20260819_Recon_Scanning": 0.9699, "20260819_Web_Injection": 0.931
+    },
+    "concentration": "Credential rotation (all 3 seeds < 0.90); Web_Injection seed 20260818 also < 0.90",
+    "vs_frozen_rf": "strong OSR lags frozen RF Basic Macro-F1 in 9/9 cells (gap 0.008-0.040)",
+    "frozen_rf_weak_classes_credential": {"Benign": [0.7914, 0.7315, 0.766], "Recon_Scanning": [0.8696, 0.7296, 0.8454]},
+    "strong_osr_per_class_f1": "NOT_RE-DERIVABLE (encoder per-row predictions not persisted)",
+    "early_stop_behavior": "8/9 cells hit the 20-epoch cap; 1/9 early-stopped at epoch 10",
+    "train_vs_eval_gap": "NOT_COMPUTABLE (train-side metrics not persisted)",
+    "underfitting_evidence": "consistent with slow convergence within the frozen budget; validation-loss trajectory not saved, so no stronger claim",
+    "representation_classification_mismatch": "A4 positive in 3/3 rotations (+0.062/+0.194/+0.115) while A1 fails: embedding separates Known/Unknown better than the Known head classifies; descriptive only"
+  },
+  "evidence_scientific_status": "NOT_JUDGED (GATE_INVALID_OSR_INADEQUATE: adequacy FAIL; Evidence may NOT be declared failed per frozen protocol section 7)",
+  "computed_not_decision_bearing": {
+    "potential_pass": true,
+    "specificity_pass": false,
+    "deployable_pass": false,
+    "router_headroom_material": true
+  },
+  "final_gate_decision_validated": "GATE_INVALID_OSR_INADEQUATE (correct application of the frozen decision matrix)",
+  "result_committed": false,
+  "result_pushed": false,
+  "next_proposed_action": "RESEARCHER_REVIEW_AFTER_VALIDATION",
+  "next_action_authorized": false
+}

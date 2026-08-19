@@ -16,6 +16,17 @@ Evidence-Conditioned Open-World Traffic Recognition
 + Evidence-Gated Continual Evolution
 ```
 
+长期框架保留“open-world continually learning / self-evolving malicious
+traffic Agent”，并区分三种机制/时间尺度（2026-08-20 review 同步，详见
+[open_world_continual_agent_design.md](open_world_continual_agent_design.md)
+§1.1）：A. REPRESENTATION / OBSERVATION ADAPTATION（当前 Model B V1 领地，
+runtime typed Evidence + target-specific recovery correspondence）；
+B. POLICY EVOLUTION（未来 RL acquisition/stopping/novelty-admission policy，
+决策组件而非通用替代）；C. KNOWLEDGE / CLASS EVOLUTION（Unknown buffer →
+clustering → verified feedback → 新类注册 → supervised adaptation + replay）。
+长期候选 self-evolution（pi_0 → pi_1 → pi_2 → ...，verified novel-class
+outcome 提供 delayed feedback）保持 LONG-TERM / CANDIDATE，未证实，未授权。
+
 Model A已经冻结为single-domain controlled baseline和optional replay source；其closed-set分类成功，但LM Evidence-State branch对目标用途失败。NF3-ToN官方final processed artifact已通过reconciliation/schema/label Gate，24,000条pilot确认存在recoverable Known、可预测的Evidence utility和aggregate Evidence-conditioned open-world收益。
 
 Dataset-v4 B1 formalization和formal experiment design现已完成；没有启动Model B、DeepSeek、continual、RL、下载或raw reprocessing。

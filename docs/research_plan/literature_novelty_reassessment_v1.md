@@ -151,14 +151,32 @@ experiment will finally validate the teacher-required self-evolution loop.
 RONETC_FULL_TEXT_REVIEW=COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW
 ROECI_FULL_TEXT_REVIEW=COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW
 GCLC_FULL_TEXT_REVIEW=COMPLETE_EXTERNAL_RESEARCHER_WORKFLOW
-ACO_ICML_2024_FULL_METHOD_REVIEW=PENDING   (MEDIUM_HIGH)
-ACCESS_LIMITED_CRITICAL_PAPERS=1
+ACO_ICML_2024_FULL_METHOD_REVIEW=COMPLETE_AT_SCOPE_AND_OBJECTIVE_LEVEL
+  (2026-08-20, PMLR 235 abstract + arXiv record 2302.13960; see note below)
+ACCESS_LIMITED_CRITICAL_PAPERS=1  (ACO PDF-internal scoring-rule detail
+  remains access-limited; residual recorded, not invented)
 ```
 
 ACO does NOT block the next empirical gate (its main threat is generic
 non-greedy AFA novelty, already excluded from our claim). It MUST still be
 reviewed before final first/novelty claims. Do not invent method details
 for any access-limited paper.
+
+ACO method review (2026-08-20, revision task
+REVISE_MODEL_B_RECOVERY_AWARE_REPRESENTATION_V1_PROTOCOL): AFA framed as an
+MDP — state = currently observed feature values; action = acquire a feature
+or terminate with a prediction; reward = negative prediction loss or
+negative acquisition cost; objective extends to general decision-making;
+non-greedy, jointly-informative SET acquisition via a nonparametric,
+acquisition-conditioned oracle (bypasses deep-RL training difficulties).
+No open-world / novelty / OOD content. Confirms: generic non-greedy AFA is
+prior art (already excluded from our claim); ACO is an acquisition-POLICY
+method and does not treat representation learning of target-specific
+recovery correspondence, nor its separation from generic
+Evidence-distribution-induced Knownness, nor open-world transfer. The
+candidate boundary is unaffected. Residual: the oracle's intra-set scoring
+rule and value-guarantee details were not read at PDF level (access
+limited) — final first/novelty claims still require researcher sign-off.
 
 ## 6. Open items carried into the next gate design
 
