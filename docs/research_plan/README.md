@@ -1,7 +1,7 @@
 # docs/research_plan — Canonical Navigation Index
 
 > LAST_UPDATED=2026-08-20
-> UPDATED_BY_TASK=PREPARE_MODEL_B_V1_FOR_FORMAL_LAUNCH_BUT_DO_NOT_LAUNCH
+> UPDATED_BY_TASK=CREATE_GROUP_MEETING_PROJECT_OVERVIEW_AND_INVESTIGATE_GITHUB_ERROR
 >
 > This README is the canonical index for the research-plan directory. It
 > classifies every document by lifecycle stage so that normal Agent startup
@@ -78,6 +78,7 @@ index; those remain LONG-TERM / CANDIDATE.
 | COMPLETED_FROZEN_PROTOCOL | `recoverability_information_sufficiency_gate_v1_protocol.md`, `recovery_signal_characterization_v2_protocol.md`, `strong_hybrid_osr_evidence_gate_v2_protocol.md`, `strong_neural_osr_evidence_gate_v1_protocol.md`, `evidence_processing_method_dependence_diagnostic_v1_protocol.md` |
 | LEGACY_SUPERSEDED | `model_b_evidence_openworld_design.md` (DEC-0025 design source; operative design now the Model B V1 protocol), `multi_dataset_v4_design.md` (frozen core dataset; multi-source only secondary candidates, re-opening needs a Decision) |
 | REFERENCE | `literature_novelty_reassessment_v1.md` (active novelty addendum), `research_plan_brief.md` (human-oriented brief), `task_definition_v2.md` (original task spec) |
+| REPORTING_REFERENCE | `group_meeting_project_overview_2026-08-20.md` (advisor-facing project overview; STATUS=REPORTING_REFERENCE, SCIENTIFIC_AUTHORITY=false — NOT a protocol or authority) |
 
 ## 3. Per-file index
 
@@ -99,6 +100,7 @@ index; those remain LONG-TERM / CANDIDATE.
 | [multi_dataset_v4_design.md](multi_dataset_v4_design.md) | LEGACY_SUPERSEDED | multi-dataset design; core dataset frozen to NF3-ToN-IoT; secondary sources need a Decision |
 | [literature_novelty_reassessment_v1.md](literature_novelty_reassessment_v1.md) | REFERENCE | active novelty / claim-safety addendum (non-frozen, supersedes nothing); register in `reports/research_audit/related_work_novelty_reassessment_v1.{md,json}` |
 | [research_plan_brief.md](research_plan_brief.md) | REFERENCE | human-oriented brief (points to detailed plan) |
+| [group_meeting_project_overview_2026-08-20.md](group_meeting_project_overview_2026-08-20.md) | REPORTING_REFERENCE | advisor/group-meeting overview (Chinese, 2026-08-20); communicates current plan + validated results; no scientific authority, not a protocol |
 | [task_definition_v2.md](task_definition_v2.md) | REFERENCE | original task definition v2 (historical) |
 
 ## 4. What to read for each task category
