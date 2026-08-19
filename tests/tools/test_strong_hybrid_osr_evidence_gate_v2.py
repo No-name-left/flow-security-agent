@@ -24,9 +24,9 @@ TOOLS = Path(__file__).resolve().parents[2] / "tools"
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(TOOLS))
 
-import run_strong_hybrid_osr_evidence_gate_v2 as v2  # noqa: E402
-
 torch = pytest.importorskip("torch")
+
+import run_strong_hybrid_osr_evidence_gate_v2 as v2  # noqa: E402
 
 
 def _load_preregistration() -> dict:

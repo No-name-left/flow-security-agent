@@ -21,6 +21,7 @@ data = [
 ]
 test = [
   "pytest>=8.0.0",
+  "scikit-learn>=1.4.0",
 ]
 training = [
   "accelerate>=1.10,<2",
