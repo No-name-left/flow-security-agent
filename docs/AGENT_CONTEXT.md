@@ -230,6 +230,42 @@ CURRENT_FORBIDDEN_NEXT_STEPS=
   FINAL_TEST_UNSEALING
 ```
 
+## Evidence Processing / Method Dependence Diagnostic V1 (2026-08-18)
+
+```text
+EVIDENCE_PROCESSING_METHOD_DEPENDENCE_DIAGNOSTIC_V1=COMPLETE
+PREREGISTRATION_COMMIT_SHA=fd3f4b7   (protocol+preregistration+tool, local only)
+TOOL_BUGFIX_COMMIT_SHA=30bff93       (3 logged implementation fixes, semantics unchanged)
+PROTOCOL_HASH_MATCH=YES              (91b8f7db… = preregistration = tool)
+IDENTITY_CHECKS=PASS                 (REAL reproduces V2 audit within 1e-6 3/3;
+                                      EDL alpha>=1, loss decreases; SHUFFLED marginals preserved;
+                                      NULL blocks zeroed)
+SAME_REPRESENTATION_CONTRADICTION=3/3
+  (same frozen h: Mahalanobis gap -46.13/-108.86/-30.05 vs EDL-head gap
+   +0.076/+0.072/+0.148 -> the V2 contradiction survives with representation
+   AND Evidence processing held fixed)
+PRIMARY_INTERPRETATION=READOUT_DOMINANT
+  (secondary GENERIC_EVIDENCE_DISTRIBUTION_BIAS: SHUFFLED_TO_REAL
+   RK 0.893 CI[0.877,0.910], TU 1.015 CI[1.009,1.022])
+REVERSE_CROSSCHECK=COMPLETED
+  (Mahalanobis on EDL-trained frozen trunk: gap negative 3/3,
+   pooled -58.86 CI[-64.76,-53.32] -> sign follows the READOUT)
+NULL_PRESENT_REPRODUCES_REAL_MOVEMENT=FALSE (ratios -0.556/-0.138)
+CONTENT_SPECIFIC_SEPARATION=PARTIAL (REAL vs SHUFFLED +9.86 CI>0; REAL vs NULL fails)
+EDL_GENERALLY_STRONGER_ALONE=FALSE
+  (fixed-representation contradiction reproduced -> the preregistered
+   consequence rule is NOT triggered; recovery-aware novelty hypothesis
+   neither confirmed nor weakened at the representation level)
+V2_DECISION_NOT_REOPENED=YES         (METHOD_DEPENDENT_REVIEW unchanged)
+RESULT_COMMITTED=false               (report pair untracked)
+RESULT_PUSHED=false
+NEXT_PROPOSED_ACTION=RESEARCHER_REVIEW_OF_CAUSAL_DECOMPOSITION
+NEXT_ACTION_AUTHORIZED=false         (proposal only, not authorization)
+Artifacts: processed/dataset_v4_nf3_ton_v1/evidence_processing_method_dependence_diagnostic_v1/
+  (aggregate.json, run_manifest.json, per-rotation npz, same-repr + B_EDL epoch logs)
+Reports: reports/research_audit/evidence_processing_method_dependence_diagnostic_v1.{json,md}
+```
+
 Gate outcome summaries (conclusions unchanged; full metrics in the formal
 report pairs under `reports/research_audit/`):
 

@@ -51,6 +51,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import pyarrow.parquet as pq
 import torch  # noqa: F401 (torch seed used inside fits)
 
 TOOLS = Path(__file__).resolve().parent
@@ -95,6 +96,7 @@ from run_strong_neural_osr_evidence_gate_v1 import (  # noqa: E402
     cell_key,
     cell_rng,
     class_codes,
+    group_codes,
 )
 from verify_recoverability_gate_decision_tree import decision  # noqa: E402
 
@@ -222,12 +224,21 @@ def aupr_fast(y: np.ndarray, scores: np.ndarray) -> float:
     n1 = int(y.sum())
     if n1 == 0:
         return float("nan")
+    # Tie-collapsed AP: threshold = each DISTINCT score value, with
+    # precision/recall measured at the LAST row of the tie group. This is
+    # exactly sklearn's average_precision_score (the convention every prior
+    # gate in the program uses); per-row processing would measure precision
+    # at interior points of tie groups and diverge (up to ~3e-2 with the
+    # smoke RF's coarse probabilities).
     order = np.argsort(-scores, kind="mergesort")
     ys = y[order].astype(np.float64)
     tp = np.cumsum(ys)
     fp = np.cumsum(1.0 - ys)
-    prec = tp / (tp + fp)
-    rec = tp / n1
+    ss = scores[order]
+    ends = np.concatenate((np.flatnonzero(np.diff(ss) != 0),
+                           [len(y) - 1]))
+    prec = tp[ends] / (tp[ends] + fp[ends])
+    rec = tp[ends] / n1
     recall_diff = np.diff(np.concatenate(([0.0], rec)))
     return float(np.dot(prec, recall_diff))
 
@@ -503,13 +514,18 @@ def probe_fit_and_score(probe: str, fold_rot: str, family: str, view: str,
         thr = float(np.quantile(thr_scores, 1.0 - CALIB_FALSE_UNKNOWN_RATE))
         auroc_sk = float(roc_auc_score(y_test, scores))
         auroc_f = auroc_fast(y_test, scores)
-        if abs(auroc_sk - auroc_f) > 1e-9:
+        # Crosscheck tolerance is fp-noise headroom, NOT a scientific
+        # threshold (materiality floor is +0.02 AUROC). Two implementations
+        # of the same statistic agree to ~1e-9 on smoke subsets and ~1e-7 at
+        # formal scale; a real definitional divergence (e.g. the AUPR
+        # tie-handling bug, ~3e-2) is orders of magnitude larger.
+        if abs(auroc_sk - auroc_f) > 1e-6:
             raise SystemExit(f"AUROC_CROSSCHECK_FAIL probe={probe} "
                              f"fold={fold_rot} family={family} view={view} "
                              f"cond={cond} sk={auroc_sk} fast={auroc_f}")
         aupr_sk = float(average_precision_score(y_test, scores))
         aupr_f = aupr_fast(y_test, scores)
-        if abs(aupr_sk - aupr_f) > 1e-9:
+        if abs(aupr_sk - aupr_f) > 1e-6:
             raise SystemExit(f"AUPR_CROSSCHECK_FAIL probe={probe} "
                              f"fold={fold_rot} family={family} view={view} "
                              f"cond={cond} sk={aupr_sk} fast={aupr_f}")
@@ -868,13 +884,22 @@ def p6_reproduction(cells: dict[str, Any], pkls: dict[str, Any],
     for rot in ROTATIONS:
         cell = cells[rot]
         rf_b = pkls[rot]["models"]["B"]
+        # OWG selector features use the OWG known-class order
+        # (owg.known_classes_for, lexicographic) — NOT the V2 cell order
+        # (cell["known"]). The frozen selectors were trained with the OWG
+        # order; the attribution-verified reproduction
+        # (run_open_world_gate_v1_failure_attribution.py, TYPED_ACTIONS_MATCH
+        # PASS on record) builds them the same way. The V2 cell tuple
+        # swaps Benign/Backdoor and would shift the aligned proba and
+        # one-hot columns -> wrong utilities -> wrong actions.
+        known_owg = owg.known_classes_for(rot)
         proba_b = owg.align_rotation_proba(
             rf_b.predict_proba(cell["features_ev"]["B"]),
-            rf_b.classes_, cell["known"])
+            rf_b.classes_, known_owg)
         pred_b = rf_b.predict(cell["features_ev"]["B"])
         avail = np.ones(len(cell["ev_labels"]))
         sel_feats, names = owg.rotation_selector_features(
-            basic_val, pred_b, proba_b, avail, cell["known"])
+            basic_val, pred_b, proba_b, avail, known_owg)
         if owg.selector_leakage_audit(names) != "PASS":
             raise SystemExit(f"SELECTOR_LEAKAGE_AUDIT_FAIL rotation={rot}")
         u_t = pkls[rot]["selectors"]["T"].predict(sel_feats)
@@ -923,9 +948,11 @@ def furk_rederivation(scores_by_state: dict[str, np.ndarray], cell: dict,
     thr = float(np.quantile(score_d1[calib_known],
                             1.0 - CALIB_FALSE_UNKNOWN_RATE))
     ek = (role == 1) & (~unk)
-    rec_ek = cell["ev_recoverable"].astype(bool) & ek
-    furk = float((score_d1[ek] >= thr)[rec_ek].mean()) if rec_ek.sum() else 0.0
-    return {"furk": furk, "n_recoverable_known_eval": int(rec_ek.sum()),
+    rec_rel = cell["ev_recoverable"].astype(bool)[ek]
+    furk = float((score_d1[ek] >= thr)[rec_rel].mean()) \
+        if rec_rel.sum() else 0.0
+    return {"furk": furk,
+            "n_recoverable_known_eval": int(rec_rel.sum()),
             "threshold": thr}
 
 
@@ -950,6 +977,9 @@ def main() -> int:
                            "train_max": 30_000 if args.smoke else None}
     RUN.mkdir(parents=True, exist_ok=True)
     cfg["out"].mkdir(parents=True, exist_ok=True)
+    for sub in ("b_edl_retrain", "edl", "features", "bootstrap"):
+        (cfg["out"] / sub).mkdir(parents=True, exist_ok=True)
+    (RUN / "stages").mkdir(parents=True, exist_ok=True)
     write_run_state("RUNNING", mode)
     try:
         run_gate(cfg, mode)
@@ -996,6 +1026,13 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                 for rot in ROTATIONS}
     safes = {rot: dict(np.load(V2VAL / "safeguards" / f"B_{rot}_scores.npz"))
              for rot in ROTATIONS}
+    # assemble_cell does not carry the eval-row IDs; attach them from the
+    # frozen eval parquet (row-identity checks + probe-B train features)
+    for rot in ROTATIONS:
+        tbl = pq.read_table(
+            OWG / f"owg_v1_seed_{CENTRAL_SEED}_rotation_{rot}_eval.parquet")
+        cells[rot]["ev_rows"] = tbl["source_row_index"].to_numpy(
+            zero_copy_only=False)
     targets = load_targets(GATE1, CENTRAL_SEED)
     train_mask = targets["partition_code"] == PARTITION_TRAIN
     train_rows = targets["source_row_index"][train_mask]
@@ -1028,6 +1065,15 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
         cell = cells[rot]
         labels_n = class_codes(cell, cell["train_labels"])
         fit_idx = np.flatnonzero(~cell["early"])
+        # B_EDL replay identity: the EDL init is drawn from the global torch
+        # RNG state at CONSTRUCTION time. The V2 validation process
+        # constructed each EDL from the post-manual_seed(seed) state (its A
+        # replay's internal manual_seed reset the global RNG; training makes
+        # no torch-RNG draws). Reproduce that exact state here, or the
+        # replayed head diverges from the frozen safeguards at ~1e-2 and
+        # the identity check fails. Verified: 0.0 diffs on all 4 states.
+        torch.manual_seed(CENTRAL_SEED)
+        torch.cuda.manual_seed_all(CENTRAL_SEED)
         edl = EDLHeadEncoder(StrongOSREncoder())
         edl_rng = cell_rng(CENTRAL_SEED, rot, RNG_BASE + EDL_RETRAIN_RNG_OFFSET)
         logp = cfg["out"] / "b_edl_retrain" / f"{rot}_epochs.jsonl"
@@ -1155,7 +1201,7 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                 model = pkls[rot]["models"][s]
                 rf_proba_c[s] = owg.align_rotation_proba(
                     model.predict_proba(feats[s]), model.classes_, cell["known"])
-            _, alpha_c = diag.edl_alpha_and_novelty(
+            alpha_c, _ = diag.edl_alpha_and_novelty(
                 edl_head, feats, np.arange(n), EVIDENCE_STATES)
             if cond == "REAL":
                 maha_post = {s: maha_npz[rot][f"s_{s}"].astype(np.float64)
@@ -1200,12 +1246,16 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                                                 train_rows_all)
         feats_tr_all = build_feature_matrices(basic_tr, hist_tr, hnames)
         rf_b = pkls[rot]["models"]["B"]
+        # OWG known-class order for OWG selector features (see
+        # p6_reproduction; the frozen selectors were trained with
+        # owg.known_classes_for, not the V2 cell tuple).
+        known_owg = owg.known_classes_for(rot)
         proba_b = owg.align_rotation_proba(
-            rf_b.predict_proba(feats_tr_all["B"]), rf_b.classes_, cell["known"])
+            rf_b.predict_proba(feats_tr_all["B"]), rf_b.classes_, known_owg)
         pred_b = rf_b.predict(feats_tr_all["B"])
         sel_feats, names = owg.rotation_selector_features(
             basic_tr, pred_b, proba_b, np.ones(len(train_rows_all)),
-            cell["known"])
+            known_owg)
         if owg.selector_leakage_audit(names) != "PASS":
             raise SystemExit(f"SELECTOR_LEAKAGE_AUDIT_FAIL rotation={rot}")
         u_t = pkls[rot]["selectors"]["T"].predict(sel_feats)
@@ -1270,8 +1320,8 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                     test_mask = np.zeros_like(test_mask)
                     test_mask[keep] = True
                 if cfg["dev_max"] is not None:       # smoke subset
-                    X_fit, y_fit = X_fit[:cfg["dev_max"]],
-                    y_fit[:cfg["dev_max"]]
+                    X_fit = X_fit[:cfg["dev_max"]]
+                    y_fit = y_fit[:cfg["dev_max"]]
                 y_test = unk[test_mask].astype(np.int64)
                 X_test = {cond: cond_c[fold_rot][f"{prefix}_{cond}"][test_mask]
                           for cond in CONDITIONS}
@@ -1289,7 +1339,8 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                         d / "scores.npz",
                         **{f"s_{cond}": fit_out["scores"][cond]
                            for cond in CONDITIONS},
-                        y=y_test, groups=cell["ev_groups"][test_mask],
+                        y=y_test,
+                        groups=group_codes(cell["ev_groups"][test_mask]),
                         allow_pickle=False)
                     fit_out.pop("scores")
                     (d / "metrics.json").write_text(
@@ -1338,7 +1389,8 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                     d / "scores.npz",
                     **{f"s_{cond}": fit_out["scores"][cond]
                        for cond in CONDITIONS},
-                    y=y_test, groups=cell["ev_groups"][test_mask],
+                    y=y_test,
+                    groups=group_codes(cell["ev_groups"][test_mask]),
                     allow_pickle=False)
                 fit_out.pop("scores")
                 (d / "metrics.json").write_text(
