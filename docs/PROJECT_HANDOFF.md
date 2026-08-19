@@ -176,10 +176,18 @@ TEACHER_CACHE_MODEL=deepseek-v4-flash
 TEACHER_CACHE_PROMPT_SHA256=dd86d4acac26c6ae7f89806c9511752f62a3c5ad1365498dc9bba8163cf87096
 TEACHER_CACHE_ARTIFACT_SHA256=e2bc5599a98419cca723cf9b8a3f542e17a2afdfd720256e759931ab2b64a964
 SEMANTIC_REFERENCE_ARTIFACT_SHA256=9830704256bcfd05c6c3fae40ea8b055a2dbef63565a5f03c9894ce71009ad74
-NEXT_ACTION=STRONG_NEURAL_OSR_PROTOCOL_DRAFT_AND_REVIEW
-  (DEC-0028, 2026-08-18; 历史条目
-   `PREPARE_DUPLICATE_AWARE_DATA_VIEWS_AND_START_MODEL_B_LOW_COST_GATES`
-   为V2前旧状态，已被DEC-0028取代、不得执行——Model B仍未授权)
+NEXT_ACTION=SEPARATE_FORMAL_MODEL_B_LAUNCH_TASK
+  (2026-08-20: Model B V1协议已FROZEN并preregistered——
+   protocol sha256 3479f1a5eb…、serializer sha256 95d159fab5…、
+   preregistration reports/research_audit/model_b_recovery_aware_representation_v1_preregistration.json、
+   formal runner tools/run_model_b_recovery_aware_representation_v1.py
+   （仅通过允许的检查：syntax/import/static/dry-run/synthetic smoke，无任何formal fit）。
+   MODEL_B_V1_READY_TO_LAUNCH=true；MODEL_B_FORMAL_TRAINING_STARTED=false。
+   Formal训练/launch命令必须由新的独立研究任务显式授权——
+   NEXT_ACTION_AUTHORIZED=false，本pre-launch任务禁止执行launch命令、
+   禁止任何formal Qwen fit、probe、bootstrap、FINAL_TEST。
+   历史条目 `STRONG_NEURAL_OSR_PROTOCOL_DRAFT_AND_REVIEW`（DEC-0028,
+   2026-08-18）仍为pending pre-Model-B baseline前提，由未来任务处理)
 ```
 
 **Core Hypothesis Gate 1（2026-08-17，kill gate）**：`CORE_HYPOTHESIS_GATE_1=YELLOW`，不relabel为PASS。Temporal为modest consistent positive（3/3 seeds ΔMacro-F1 > 0，mean Δ≈+0.0065，net recovery≈+0.0066；意义明确的attack-class recovery：DoS、Web_Injection）；Relation在frozen RF probe下always-on为negative（mean recoverable≈0.0455但harm>recovery），存在非零recovery故conditional value unresolved；Temporal+Relation整体negative。先前24k pilot的强recoverability（~0.12）未以同等强度复现。全部数字见[core_hypothesis_gate_v1.md](../reports/research_audit/core_hypothesis_gate_v1.md)（JSON：[core_hypothesis_gate_v1.json](../reports/research_audit/core_hypothesis_gate_v1.json)）。

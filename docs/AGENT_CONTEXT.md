@@ -2,7 +2,7 @@
 
 STATE_SCHEMA=AGENT_CONTEXT_V1
 LAST_UPDATED=2026-08-20
-UPDATED_BY_TASK=FINALIZE_INFORMATION_GATE_AND_DESIGN_MODEL_B_REPRESENTATION_V1
+UPDATED_BY_TASK=PREPARE_MODEL_B_V1_FOR_FORMAL_LAUNCH_BUT_DO_NOT_LAUNCH
 
 This is the single short entry point every agent reads before substantive project
 work. It carries only the current state and operating rules. Historical detail
@@ -157,7 +157,8 @@ INFOSUFF_INTERPRETATION= target-specific info EXISTS in legal RAW Evidence
   Evidence signal EXISTS (SHUFFLED > BASIC 3/3); STATE_TRANSITION abstraction
   loses most of it; Known-only open-world transfer UNSOLVED (n_B_RAW=0)
 MODEL_B_DESIGN_JUSTIFIED=true   (bottleneck outcome is the justification)
-MODEL_B_TRAINING_STARTED=false  (draft protocol only, in researcher review)
+MODEL_B_TRAINING_STARTED=false  (V1 protocol FROZEN + preregistered 2026-08-20;
+  READY_TO_LAUNCH=true; formal launch is a SEPARATE future task, NOT started)
 ```
 
 ## Novelty positioning (literature audit 2026-08-17, revision 1)
@@ -223,20 +224,25 @@ addendum `docs/research_plan/literature_novelty_reassessment_v1.md`
 ## Current authorization
 
 ```text
-CURRENT_AUTHORIZED_TASK=MODEL_B_PROTOCOL_DRAFT_REVIEW
-  (2026-08-20: draft
-   docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md
-   and submit it for researcher review. DRAFT ONLY — not preregistered,
-   not frozen, no training. DEC-0028 (Strong Neural OSR baseline protocol
-   draft) remains the pending pre-Model-B baseline prerequisite; Model B
-   does not supersede it.)
-NEXT_PROPOSED_ACTION=RESEARCHER_MODEL_B_PROTOCOL_REVIEW
-NEXT_ACTION_AUTHORIZED=false   (draft delivered; any training or
-  preregistration needs explicit researcher authorization)
+CURRENT_AUTHORIZED_TASK=MODEL_B_V1_PRE_LAUNCH_PREPARATION
+  (2026-08-20 COMPLETE: protocol frozen + preregistered; formal runner
+   implemented and checked with allowed checks only (syntax, import,
+   static validation, dry-run, synthetic smoke — no formal fit, no
+   scientific metric); project audit; commits/push. NO formal training,
+   NO launch, NO FINAL_TEST.)
+NEXT_PROPOSED_ACTION=SEPARATE_FORMAL_MODEL_B_LAUNCH_TASK
+NEXT_ACTION_AUTHORIZED=false   (formal training / launch execution requires
+  a NEW explicit researcher-authorized task; this pre-launch task must NOT
+  start it)
 
 CURRENT_FORBIDDEN_NEXT_STEPS=
-  ANY_MODEL_B_TRAINING_OR_EVALUATION_BEFORE_FROZEN_PREREGISTRATION
-  ANY_QWEN_TRAINING_OR_WEIGHT_MODIFICATION
+  ANY_MODEL_B_FORMAL_TRAINING_OR_LAUNCH_COMMAND_EXECUTION
+  ANY_MODEL_B_FORMAL_METRIC_VIEWING_OR_PROBE_OR_BOOTSTRAP_OR_AGGREGATE
+  ANY_FINAL_TEST
+  ANY_POST_FREEZE_PROTOCOL_TUNING_OR_RESCUE (no hyperparameter rescue
+    after metrics, no extra epochs after viewing results)
+  ANY_QWEN_TRAINING_OR_WEIGHT_MODIFICATION (outside the frozen Model B
+    runner under a SEPARATE authorized launch task)
   ANY_RL_OR_RLAIF_WORK
   ANY_CONTINUAL_OR_PURIFICATION_WORK
   ANY_INFORMATION_GATE_RE_RUN_OR_RESULT_MODIFICATION
@@ -308,9 +314,9 @@ INTERPRETATION= target-specific information EXISTS in legal RAW Evidence
   near zero — high absolute AUROC is NOT Evidence sufficiency per protocol);
   Known-only open-world transfer UNSOLVED (n_B_RAW=0)
 MODEL_B_DESIGN_JUSTIFIED=true   MODEL_B_TRAINING_STARTED=false
-MODEL_B_DRAFT=docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md
-  (DRAFT ONLY, not preregistered, not frozen, in researcher review;
-   do NOT train from it)
+MODEL_B_V1_READY_TO_LAUNCH=true   (2026-08-20 pre-launch preparation COMPLETE;
+  protocol FROZEN + preregistered; see Model B V1 section below)
+MODEL_B_FORMAL_TRAINING_STARTED=false
 RESULT_COMMITTED=true (2026-08-20 checkpoint commit, local only)
 RESULT_PUSHED=false
 Artifacts: processed/dataset_v4_nf3_ton_v1/recoverability_information_sufficiency_gate_v1/
@@ -318,6 +324,29 @@ Artifacts: processed/dataset_v4_nf3_ton_v1/recoverability_information_sufficienc
    probe_A/ 18, probe_B/ 9, mlp_epochs/ 9)
 Reports: reports/research_audit/recoverability_information_sufficiency_gate_v1.{json,md}
   + _postrun_validation.{json,md}
+```
+
+## Model B V1 — frozen preregistration (2026-08-20)
+
+```text
+MODEL_B_V1_STATUS=FROZEN_DESIGN_NOT_RUN   (preregistered; formal training NOT started)
+MODEL_B_V1_READY_TO_LAUNCH=true
+MODEL_B_FORMAL_TRAINING_STARTED=false
+MODEL_B_FORMAL_SCIENTIFIC_METRICS_VIEWED=false
+MODEL_B_FINAL_TEST_USED=false
+MODEL_B_PROTOCOL=docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md
+MODEL_B_PROTOCOL_SHA256=3479f1a5eb1027452a5dea9152ebf4a82a55b27572905fbfa84097431f665576
+MODEL_B_SERIALIZER=tools/model_b_input_serializer_v1.py
+MODEL_B_SERIALIZER_SHA256=95d159fab5a3c73943fb25153a771d0d8c9d5aab8435642dbd22922036218e6f
+MODEL_B_PREREGISTRATION=reports/research_audit/model_b_recovery_aware_representation_v1_preregistration.json
+MODEL_B_PREREG_COMMIT=f63fcb2
+MODEL_B_RUNNER=tools/run_model_b_recovery_aware_representation_v1.py
+  (formal runner; checks completed: syntax/import/static/dry-run/synthetic
+  smoke only; NO formal fit, NO scientific metric computed)
+MODEL_B_LAUNCH_COMMAND=PYTHONHASHSEED=0 python tools/run_model_b_recovery_aware_representation_v1.py --all --resume
+  (recorded only — MUST NOT be executed by the pre-launch task)
+FORMAL_LAUNCH_REQUIRES=SEPARATE_FORMAL_MODEL_B_LAUNCH_TASK (explicit
+  researcher authorization; NEXT_ACTION_AUTHORIZED=false until then)
 ```
 
 Gate outcome summaries (conclusions unchanged; full metrics in the formal
@@ -339,8 +368,8 @@ report pairs under `reports/research_audit/`):
 ## Latest formal result
 
 ```text
-LATEST_FORMAL_REPORT_JSON=reports/research_audit/recoverability_information_sufficiency_gate_v1.json
-LATEST_FORMAL_REPORT_MD=reports/research_audit/recoverability_information_sufficiency_gate_v1.md
+LATEST_FORMAL_REPORT_JSON=reports/research_audit/recoverability_information_sufficiency_gate_v1_result.json
+LATEST_FORMAL_REPORT_MD=reports/research_audit/recoverability_information_sufficiency_gate_v1_result.md
 PREVIOUS_REPORT_JSON=reports/research_audit/recovery_signal_characterization_gate_v2.json
 PREVIOUS_REPORT_MD=reports/research_audit/recovery_signal_characterization_gate_v2.md
 ```
@@ -419,17 +448,18 @@ processed/dataset_v4_nf3_ton_v1/recovery_signal_characterization_gate_v2/       
 ```
 
 For the Recoverability Information Sufficiency Gate V1 (formal result +
-post-run validation; committed in the 2026-08-20 checkpoint, local only,
-not pushed) and the Model B draft:
+post-run validation) and the Model B V1 frozen preregistration:
 
 ```text
-reports/research_audit/recoverability_information_sufficiency_gate_v1.json (primary)
-reports/research_audit/recoverability_information_sufficiency_gate_v1.md   (explanatory context)
+reports/research_audit/recoverability_information_sufficiency_gate_v1_result.json (primary)
+reports/research_audit/recoverability_information_sufficiency_gate_v1_result.md   (explanatory context)
 reports/research_audit/recoverability_information_sufficiency_gate_v1_postrun_validation.{json,md}
 reports/research_audit/recoverability_information_sufficiency_gate_v1_preregistration.json (preregistration, tracked)
 docs/research_plan/recoverability_information_sufficiency_gate_v1_protocol.md             (frozen protocol)
-docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md                   (Model B DRAFT, not frozen)
+docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md                   (Model B V1, FROZEN_DESIGN_NOT_RUN)
+reports/research_audit/model_b_recovery_aware_representation_v1_preregistration.json      (Model B preregistration)
 processed/dataset_v4_nf3_ton_v1/recoverability_information_sufficiency_gate_v1/           (formal artifacts)
+processed/dataset_v4_nf3_ton_v1/model_b_recovery_aware_representation_v1/                (Model B RUN dir; identity only, no fits)
 ```
 
 For novelty positioning and claim-safety (tracked):
@@ -462,29 +492,24 @@ change.
 ## Git/repository state
 
 ```text
-GIT_CHECKPOINT=2026-08-20 Information Gate finalize checkpoint commit
-  (frozen Information Gate result + post-run validation + AGENT_CONTEXT +
-  Model B draft protocol; local only; pushed: no, blocked: no GitHub creds;
+GIT_CHECKPOINT=2026-08-20 Model B V1 pre-launch checkpoint
+  (governance 1ea351a; preregistration f63fcb2; runner 6ef4a38;
+  AGENT_CONTEXT sync (this commit, see git log); linear on main, no history
+  rewrite, no force push; local only; push attempted 2026-08-20 and
+  BLOCKED: no GitHub credentials in this environment (https remote,
+  no token, no credential helper, no SSH key, no gh CLI);
   run `git rev-parse HEAD` — never trust this)
-WORKING_TREE_STATE=only the intended checkpoint files are committed
-  (2026-08-20); earlier untracked audit reports (evidence_processing,
-  strong_hybrid_osr, strong_neural_osr diagnostics, diagnose/validate
-  scratch tools) remain untracked by design; push blocked: no GitHub creds
-GATE_1_CHECKPOINT_STATUS=COMMITTED (0cb49e3; push blocked: no GitHub creds)
-GATE_1B_COMMIT_CREATED=true (917303a, local only)
-GATE_1B_PUSHED=false
-NOVELTY_AUDIT_COMMIT_CREATED=true (917303a, local only)
-NOVELTY_AUDIT_PUSHED=false
-OPEN_WORLD_GATE_COMMIT_CREATED=true (4fc7591, local only)
-OPEN_WORLD_GATE_PUSHED=false
-FAILURE_ATTRIBUTION_COMMIT_CREATED=true (7604736, local only)
-FAILURE_ATTRIBUTION_PUSHED=false
-V2_PREREGISTRATION_COMMIT_CREATED=true (22c92c7, local only)
-V2_PREREGISTRATION_PUSHED=false
-V2_RESULT_COMMITTED=true (2026-08-18 checkpoint, local only)
-V2_RESULT_PUSHED=false
-INFOSUFF_RESULT_COMMITTED=true (2026-08-20 checkpoint, local only)
-INFOSUFF_RESULT_PUSHED=false
-MODEL_B_DRAFT_COMMITTED=true (2026-08-20 checkpoint, local only, DRAFT)
-MODEL_B_DRAFT_PUSHED=false
+WORKING_TREE_STATE=clean after the pre-launch checkpoint commits
+  (all intended files committed; no weights/checkpoints/credentials/
+  secrets/logs tracked; raw traffic + dataset archives + model weights
+  stay Git-external by design)
+PREVIOUS_COMMITS_STILL_UNPUSHED=true (all prior local-only commits
+  remain unpushed for the same credential blocker: 0cb49e3, 917303a,
+  4fc7591, 7604736, 22c92c7, fd3f4b7, 30bff93, 28e7053, b2b5077, ...)
+MODEL_B_GOVERNANCE_COMMIT=1ea351a (local only)
+MODEL_B_PREREG_COMMIT=f63fcb2 (local only)
+MODEL_B_RUNNER_COMMIT=6ef4a38 (local only)
+MODEL_B_AGENT_CONTEXT_COMMIT=this commit (see git log; local only)
+MODEL_B_PUSH_STATUS=BLOCKED_NO_CREDENTIALS (not pushed; verify with
+  `git rev-parse HEAD` and `git status -sb`)
 ```
