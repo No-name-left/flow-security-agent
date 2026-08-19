@@ -1,0 +1,139 @@
+{
+  "schema_version": "RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1_PREREGISTRATION_V1",
+  "date": "2026-08-19",
+  "task": "RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1",
+  "protocol_status": "FROZEN_BEFORE_EVALUATION",
+  "protocol_path": "docs/research_plan/recoverability_information_sufficiency_gate_v1_protocol.md",
+  "protocol_sha256": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+  "predecessor_immutable": {
+    "STRONG_HYBRID_OSR_EVIDENCE_GATE_V2": "METHOD_DEPENDENT_REVIEW (validated; not reopened)",
+    "V2_EVIDENCE_SCIENTIFIC_STATUS": "METHOD_DEPENDENT_PENDING_RESEARCHER_REVIEW",
+    "METHOD_DEPENDENCE_DIAGNOSTIC_V1": "READOUT_DOMINANT (secondary GENERIC_EVIDENCE_DISTRIBUTION_BIAS; complete, not reopened)"
+  },
+  "purpose": "separate information insufficiency in the legal B/T/R observables from representation/Evidence-processing limitation and from open-world learning/transfer limitation, for Evidence-conditioned open-world recovery. Diagnostic only; no deployable method; no new detector.",
+  "primary_metric": "pooled AUROC of RK-vs-TU scoring (TU positive); every scientific claim decided on pooled AUROC increments",
+  "supporting_metrics": ["AUPR (TU positive)", "Recall@5% FUR"],
+  "materiality_floor": {
+    "auroc_increment": 0.02,
+    "rule": "point estimate >= +0.02 AND 95% bootstrap CI lower > 0 (pooled family level)",
+    "applies_to": ["REAL - BASIC", "REAL - SHUFFLED", "SHUFFLED - BASIC (shortcut rule)"],
+    "per_rotation": "material direction = point estimate >= +0.02 only; per-rotation CI lower NOT required; per-rotation CIs used only for the reverse-effect check (CI upper < 0 = clear reverse)",
+    "rationale": "preregistered project feasibility threshold, not a universal statistical standard"
+  },
+  "frozen_populations": {
+    "rotations": ["Credential", "Recon_Scanning", "Web_Injection"],
+    "seed": 20260817,
+    "master_split": "gate_seed_20260817_targets.parquet (175,000 TRAIN / 56,000 VALIDATION; group-atomic, 0 straddling groups)",
+    "train_partition": 175000,
+    "train_pool_per_rotation": 135000,
+    "role0_rows": "group-atomic VAL_CALIB (per-rotation 29,931-31,435 rows)",
+    "role1_rows": "group-atomic VAL_GATE_EVAL (per-rotation 24,565-26,069 rows)",
+    "rk_rows": "frozen recoverable==1 AND is_unknown==0 (Basic-wrong acquired Known recovered by a legal Evidence state)",
+    "tu_rows": "frozen rotation is_unknown mask (8,000 per rotation)",
+    "evidence_states": ["B", "BT", "BR", "BTR"],
+    "legal_states": ["BT", "BR", "BTR"],
+    "final_test": "FORBIDDEN",
+    "evidence_contract": "strict-past, frozen V1/V2 transforms (safe_basic, log1p(clip(x,0)))"
+  },
+  "views": {
+    "RAW_LEGAL": "83 dims: basic 47 + T block 16 + R block 18 + availability masks m_t/m_r (state-presence)",
+    "STATE_TRANSITION": "26 dims: RF pre/post (p_top, margin, argmax) + deltas + stability; EDL pre/post (S, p_top, p_2nd, argmax) + deltas; Mahalanobis pre/post/delta; evidence-type one-hot (T, R, TR)",
+    "probe_assignment": "Probe A runs both views; Probe B runs RAW_LEGAL only"
+  },
+  "controls": {
+    "REAL": "acquired-state features as stored/frozen",
+    "BASIC": "state-B features (T/R neutral, masks 0); STATE_TRANSITION post=pre (deltas 0, stability 1, flags 0)",
+    "SHUFFLED": "T/R blocks permuted within (RK, TU) separately; rng cell_rng(20260817, rot, 171000+400); STATE_TRANSITION recomputed from frozen components",
+    "NULL_PRESENT": "T/R blocks zeroed, masks present (=1 for acquired types)"
+  },
+  "probes": {
+    "A": {
+      "name": "DIAGNOSTIC_SEPARABILITY",
+      "deployable": false,
+      "supervision": "RK-vs-TU labels (TU positive) from frozen rotation masks on role-0 rows",
+      "fold_target_C": "dev = role-0 rows of rotations A+B (per-rotation labels and frozen chains); test = role-1 rows of rotation C",
+      "interpretation": "supports the Evidence hypothesis ONLY through incremental target-matched REAL Evidence beyond BASIC AND SHUFFLED; high BASIC-only AUROC does not support Evidence sufficiency; diagnostic TU supervision never reused for deployable methods"
+    },
+    "B": {
+      "name": "KNOWN_ONLY_TRANSFER",
+      "target_exact": "Y_correct_post = 1 iff frozen post-Evidence Known prediction (frozen RF at acquired state) equals the Known ground-truth class",
+      "training": "all 175,000 TRAIN-partition rows with rotation-C-conditioned features (acquired states from frozen rotation-C selectors + typed_policy_actions, budget floor(0.15 x 175,000)=26,250 over the full TRAIN partition)",
+      "tu_use": "TU never used for fitting or threshold selection",
+      "threshold": "per fold, 95th percentile of probe score over rotation-C role-0 Known rows",
+      "evaluation": "primary recovery evaluation = frozen RK (Basic-wrong) vs held-out TU separately; overall Known correctness reported as diagnostic only"
+    }
+  },
+  "model_families": {
+    "RF": "RandomForestClassifier(n_estimators=80, max_depth=20, min_samples_leaf=2, class_weight=balanced_subsample, n_jobs=-1, random_state=20260817)",
+    "LR": "L2 logistic regression C=1.0, lbfgs, max_iter=1000, standardized on fit rows only",
+    "MLP": "fixed 2-layer (input->64 ReLU->1), AdamW 3e-4 / wd 1e-4, batch 1024, max 20 epochs, early stop patience 3 on deterministic 90/10 split, torch.manual_seed(20260817), standardized as LR",
+    "no_search": true,
+    "fits": "probe A 18 (3 families x 2 views x 3 folds) + probe B 9 (3 families x 1 view x 3 folds) = 27"
+  },
+  "consistency_rules": {
+    "family_materiality": "mat(P,v,f) iff pooled REAL-BASIC >= +0.02 AND CI lower > 0 AND pooled REAL-SHUFFLED >= +0.02 AND CI lower > 0",
+    "strong_family_support": "n(P,v) >= 2 of 3 families",
+    "single_family_support": "n(P,v) == 1 => MIXED_OR_UNRESOLVED",
+    "rotation_consistency": "rotOK(P,v): >=2/3 rotations with median-across-families per-rotation REAL-BASIC >= +0.02 AND REAL-SHUFFLED >= +0.02 (point estimates), AND no rotation with median CI upper < 0 on either comparison (clear reverse)",
+    "shortcut": "GENERIC_EVIDENCE_SHORTCUT_DOMINANT iff A (n(A,RAW)=0) AND B (SHUFFLED-BASIC >= +0.02 with pooled CI lower > 0 in >=2/3 families) AND C (rotOK_sb on SHUFFLED-BASIC) AND D (REAL not materially over SHUFFLED)",
+    "retention": "BOTTLENECK iff min(median ret_b, median ret_s) < 0.5, ret(f)=inc(ST,f)/inc(RAW,f) for f in S(A,RAW); point-estimate decision; bootstrap uncertainty reported as reporting-only"
+  },
+  "decision_tree": {
+    "verification": "tools/verify_recoverability_gate_decision_tree.py (synthetic-only dry-run)",
+    "dry_run": "1,024 hypothetical metric combinations; exactly one outcome each; all six outcomes reachable; 0 violations; no absolute-AUROC condition",
+    "step1": "n(A,RAW)=0 -> GENERIC_EVIDENCE_SHORTCUT_DOMINANT if shortcut criterion else INFORMATION_SUFFICIENCY_NOT_ESTABLISHED; n(A,RAW)=1 -> MIXED_OR_UNRESOLVED; n(A,RAW)>=2 -> step2",
+    "step2": "not rotOK(A,RAW) -> MIXED_OR_UNRESOLVED; else step3",
+    "step3": "BOTTLENECK -> REPRESENTATION_BOTTLENECK_SUPPORTED; else step4",
+    "step4": "n(B,RAW)=1 -> MIXED_OR_UNRESOLVED; n(B,RAW)=0 -> INFORMATION_EXISTS_BUT_OPEN_WORLD_TRANSFER_WEAK; n(B,RAW)>=2 and not rotOK(B,RAW) -> MIXED_OR_UNRESOLVED; else INFORMATION_SIGNAL_SUPPORTED",
+    "outcomes": [
+      "GENERIC_EVIDENCE_SHORTCUT_DOMINANT",
+      "INFORMATION_SUFFICIENCY_NOT_ESTABLISHED",
+      "MIXED_OR_UNRESOLVED",
+      "REPRESENTATION_BOTTLENECK_SUPPORTED",
+      "INFORMATION_EXISTS_BUT_OPEN_WORLD_TRANSFER_WEAK",
+      "INFORMATION_SIGNAL_SUPPORTED"
+    ],
+    "no_absolute_auroc": "no absolute-AUROC threshold determines any Evidence claim"
+  },
+  "bootstrap": {
+    "reps": 1000,
+    "rng": "np.random.default_rng(162600)",
+    "percentiles": [2.5, 97.5],
+    "construction": "rotation-stratified group-atomic (sample groups with replacement within each fold's test rows; per-rotation CIs restricted to that rotation's test rows)",
+    "class_coverage_guard": "AUROC replicates require >=2 RK and >=2 TU rows per rotation; redraw (seeded) otherwise",
+    "retention_uncertainty": "reporting-only 2.5/97.5 percentiles of per-replicate retention ratios (per family and median), with dropped-replicate counts"
+  },
+  "determinism": {
+    "PYTHONHASHSEED": "0",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "numpy_generators_only": true,
+    "torch_manual_seed_per_cell": true,
+    "dataloader_workers": 0
+  },
+  "rng_offsets": {
+    "shuffled_permutation": 400,
+    "b_edl_retrain": 200,
+    "bootstrap": 162600,
+    "rng_base": 171000
+  },
+  "identity_checks": [
+    "underlying-row zero overlap AND group zero overlap on all probe-A dev/test and probe-B train/threshold/test boundaries",
+    "P6 eval-row action reproduction = 0 mismatches vs stored action_P6_UTILITY_TYPED",
+    "B_EDL replay novelty identity vs validation_v2/safeguards/B_{rot}_scores.npz",
+    "Mahalanobis REAL identity vs validation_v2/primary_replay/{rot}_maha.npz",
+    "frozen P6 FURK re-derivation vs strong_hybrid_osr_evidence_gate_v2_validation.json",
+    "SHUFFLED marginal preservation (mean/std within 1e-9, RK and TU separately)",
+    "NULL_PRESENT zero-block check"
+  ],
+  "hard_boundaries": [
+    "NO FINAL_TEST",
+    "no protocol change after metrics",
+    "no added models, no best-model selection, no tuning on held-out rotations",
+    "no P6 retrain",
+    "no Recovery-Aware Novelty Interface V1",
+    "no Qwen / Model B / RL / RLAIF / continual learning",
+    "no modification of prior scientific results",
+    "no push"
+  ]
+}
