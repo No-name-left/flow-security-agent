@@ -1430,8 +1430,8 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
                         json.dumps(boot, indent=1, default=str),
                         encoding="utf-8")
                     print(f"[S5] bootstrap {key} complete", flush=True)
-        mark_stage(mode, "s5_bootstrap", {"keys": 27})
-        print("[S5] bootstrap complete (27 keys)", flush=True)
+        mark_stage(mode, "s5_bootstrap", {"keys": 9})
+        print("[S5] bootstrap complete (9 keys)", flush=True)
 
     # --- S6: consistency rules, retention, decision tree, aggregate ---
     if not stage_done(mode, "s6_aggregate"):
@@ -1473,7 +1473,8 @@ def run_gate(cfg: dict[str, Any], mode: str) -> None:
         # retention over S(A,RAW)
         passing = [f for f in FAMILIES
                    if material(fams_a_raw[f])]
-        ret = retention(boot["PA_RAW"], passing) if passing else {
+        ret = retention({"RAW": boot["PA_RAW"], "ST": boot["PA_ST"]},
+                        passing) if passing else {
             "families": {}, "median_over_families": {}, "bottleneck": None,
             "note": "S(A,RAW) empty -> retention not computed"}
         bot = bool(ret.get("bottleneck")) if passing else False
