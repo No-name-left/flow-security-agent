@@ -1,0 +1,44 @@
+{
+  "task": "MODEL_B_RECOVERY_AWARE_REPRESENTATION_V1_PREREGISTRATION",
+  "status": "FROZEN_DESIGN_NOT_RUN",
+  "date": "2026-08-20",
+  "freeze_task": "PREPARE_MODEL_B_V1_FOR_FORMAL_LAUNCH_BUT_DO_NOT_LAUNCH",
+  "protocol": "docs/research_plan/model_b_recovery_aware_representation_v1_protocol.md",
+  "protocol_sha256": "3479f1a5eb1027452a5dea9152ebf4a82a55b27572905fbfa84097431f665576",
+  "serializer": "tools/model_b_input_serializer_v1.py",
+  "serializer_sha256": "95d159fab5a3c73943fb25153a771d0d8c9d5aab8435642dbd22922036218e6f",
+  "preregistration_commit": "see docs/AGENT_CONTEXT.md MODEL_B_PREREG_COMMIT (recorded at commit time)",
+  "grounding_gate": {
+    "task": "RECOVERABILITY_INFORMATION_SUFFICIENCY_GATE_V1",
+    "outcome": "REPRESENTATION_BOTTLENECK_SUPPORTED",
+    "protocol_sha256": "bd614f046447ac3ed604de96da0e3aa2bcf9d4afc41fd4061d5c355a366ee1ce",
+    "median_ret_b": 0.020151104788550783,
+    "median_ret_s": 0.08269103319179566,
+    "n_A_RAW": 3,
+    "n_B_RAW": 0
+  },
+  "frozen_scientific_contract": {
+    "primary_backbone": "Qwen3.5-9B local, frozen base weights",
+    "lora": "r=16 alpha=32 dropout=0.05 bias=none; targets q/k/v/o_proj (8), gate/up/down_proj (32), in_proj_qkv/out_proj (24)",
+    "interaction": "one readout; h_t/h_e = last-decoder-layer content-token mean-pool; u=W_u h_t, v=W_v h_e (4096->256); s=cosine(u,v) [score change: dot product replaced by cosine BEFORE freeze]; e=concat(u,v) in R^512",
+    "heads": "exactly two: K-way raw-logit classification head (K=6) + correspondence score (L_CORR only); no EDL head, no novelty head",
+    "objective": "L = L_CE + L_CORR, lambda_corr=1.0; L_CORR=softplus(-(s_real - s_matched_shuffled)); no margin/temperature/contrastive",
+    "matched_shuffled": "MATCHED_SHUFFLED_TRAIN: Known TRAIN only, same class, same availability state, different activity group, different row, no bit-identical serialization; one deterministic negative per positive; COARSE_BUCKET_MATCHING=OMIT; Unknown never a negative",
+    "eval_shuffled": "UNRESTRICTED_SHUFFLED_EVAL: evaluation-only, distinct name in code/artifacts/reports",
+    "training": "full rotation Known-TRAIN population (Credential 27009 / Recon_Scanning 28031 / Web_Injection 27357), 2 fixed epochs, batch 2 + accum 4, AdamW lr=1e-4 wd=0.01 warmup 100, bf16, grad checkpointing, seed 20260817+100*r_index, fixed terminal epoch, no early stopping, no Unknown-based selection",
+    "fits": "3 rotations x {QWEN_CE_ONLY, QWEN_CE_PLUS_CORR} = 6 Qwen fits + 3 non-Qwen baseline fits",
+    "retention_gate": "MODEL_B_RET_B >= 0.50 AND MODEL_B_RET_S >= 0.50 (median over S(A,RAW)); >=2/3 rotations on both comparisons, no reversed rotation; STOP_NEEDS_REVIEW if threshold mathematically inappropriate",
+    "transfer_gate": "pooled REAL-over-BASIC AUROC increment (secondary REAL-over-UNRESTRICTED_SHUFFLED_EVAL), point >= +0.02 AND CI lower > 0, >=2/3 families material on both, rotation consistency >=2/3 no reversed; Unknown eval-only",
+    "baseline_d": "6-layer transformer encoder hidden 512 8 heads GELU, char-level frozen tokenizer, same text contract, e in R^256, same two heads/objective/recipe, ~19M params, no search"
+  },
+  "hard_boundaries": [
+    "MODEL_B_V1_STATUS=FROZEN_DESIGN_NOT_RUN",
+    "no formal training before SEPARATE_FORMAL_MODEL_B_LAUNCH_TASK",
+    "no FINAL_TEST",
+    "no Unknown in fitting/threshold/checkpoint/loss-weighting/early-stopping",
+    "no RL / RLAIF / continual / self-evolution",
+    "no post-metric protocol change",
+    "no modification of prior gate results"
+  ],
+  "runtime_estimate": "~215-225 h GPU wall on single RTX 4090 (corrected 2026-08-20 before freeze): 6 Qwen fits ~165 h (27.5 h/fit, measured 1801 ms per batch-2 pair micro-batch incl. in-batch matched-negative forwards, 2 epochs x ~27.5k pairs = ~55k micro-batches) + baseline fits ~7 h + export ~35-45 h (role-0 Known x 3 conditions + role-1 test x 3 conditions + dev probe-A rows, ~120k rows per fit x 9 fits, eval batch 16) + probes ~10 h + bootstrap/aggregate ~2 h. Earlier ~83 h draft estimate omitted the negative forwards; corrected before any formal metric."
+}
